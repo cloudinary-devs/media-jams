@@ -1,11 +1,11 @@
 {
-  "name": "mediajams",
+  "name": "media-jams-stuidio",
   "private": true,
   "version": "1.0.0",
   "description": "",
   "main": "package.json",
-  "author": "Jesse Tomchak <jesse@thisdot.co>",
-  "license": "UNLICENSED",
+  "author": "MediaDevelopers",
+  "license": "ISC",
   "scripts": {
     "start": "sanity start",
     "test": "sanity check",
@@ -29,8 +29,5 @@
   "devDependencies": {
     "@sanity/cli": "^1.150.1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:mediadevelopers/media-jams.git"
-  }
+  "repository": "https://github.com/mediadevelopers/media-jams"
 }

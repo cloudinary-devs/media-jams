@@ -24,14 +24,6 @@ export default {
       to: { type: 'author' },
     },
     {
-      name: 'mainImage',
-      title: 'Main image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    },
-    {
       name: 'categories',
       title: 'Categories',
       type: 'array',
@@ -53,7 +45,6 @@ export default {
     select: {
       title: 'title',
       author: 'author.name',
-      media: 'mainImage',
     },
     prepare(selection) {
       const { author } = selection;

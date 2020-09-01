@@ -9,6 +9,7 @@
     "build": "next build",
     "dev": "next",
     "start": "next start",
+    "studio": "cd studio && npm start",
     "format": "yarn format:index && yarn format:pages && yarn format:src",
     "format:index": "prettier --write \"*.{js,json,md}\"",
     "format:pages": "prettier --write \"pages/**/*.js\"",
