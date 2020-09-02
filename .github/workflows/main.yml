@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+    branches: [master, development]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v1.4.2
+        with:
+          node-version: 12.x
+      - name: Install dependencies
+        run: |
+          yarn
+          cd ./studio
+          yarn
+      - name: Deploy Sanity
+        run: |
+          set -e
+          # Put your environment variables here. Don't forget
+          # to create secrets for them on GitHub:
+          # https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
+          # Make sure to add a secret for SANITY_AUTH_TOKEN
+          SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}" yarn deploy
+          SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}" yarn deploy:gql --playground

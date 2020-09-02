@@ -32,10 +32,18 @@ export default {
       type: 'boolean',
     },
     {
+      name: 'codeSandbox',
+      title: 'CodeSandbox URL',
+      type: 'url',
+    },
+    {
       name: 'tags',
       title: 'Tags',
       type: 'array',
       of: [{ type: 'reference', to: { type: 'tag' } }],
+      options: {
+        layout: 'tags',
+      },
     },
     {
       name: 'publishedAt',
