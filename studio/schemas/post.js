@@ -1,3 +1,6 @@
+/**
+ * Defines a Media Jam
+ */
 export default {
   name: 'post',
   title: 'Post',
@@ -24,10 +27,15 @@ export default {
       to: { type: 'author' },
     },
     {
-      name: 'categories',
-      title: 'Categories',
+      name: 'featured',
+      title: 'Featured',
+      type: 'boolean',
+    },
+    {
+      name: 'tags',
+      title: 'Tags',
       type: 'array',
-      of: [{ type: 'reference', to: { type: 'category' } }],
+      of: [{ type: 'reference', to: { type: 'tag' } }],
     },
     {
       name: 'publishedAt',
