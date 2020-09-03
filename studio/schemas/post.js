@@ -46,6 +46,15 @@ export default {
       },
     },
     {
+      name: 'categories',
+      title: 'Categories',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'category' } }],
+      options: {
+        layout: 'categories',
+      },
+    },
+    {
       name: 'publishedAt',
       title: 'Published at',
       type: 'datetime',
