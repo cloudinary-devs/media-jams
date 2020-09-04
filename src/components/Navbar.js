@@ -40,15 +40,15 @@ export default function Navbar() {
     >
       <Flex flexDirection="row" justifyContent="center" alignItems="center">
         <Image src={url} boxSize={30} alt="Navbar logo" />
-        <Text pl={3}>Domitrius Clark</Text>
+        <Text pl={3}>POC Media Jams</Text>
       </Flex>
       <Box>
         <ThemeTogglebutton />
         <NavLink ml={4} href="/">
           Home
         </NavLink>
-        <NavLink ml={4} href="/blog">
-          Blog
+        <NavLink ml={4} href="/post">
+          Media Jams
         </NavLink>
       </Box>
     </Flex>

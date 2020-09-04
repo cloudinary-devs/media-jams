@@ -12,11 +12,7 @@ import { useEffect } from 'react';
 
 export function Chakra({ children, cookies = '', evaluateThemeLazily }) {
   return (
-    <ChakraProvider
-      resetCSS
-      theme={theme}
-      storageManager={cookieStorageManager(cookies)}
-    >
+    <ChakraProvider resetCSS theme={theme}>
       <SEO
         title="Nextjs + MDX Starter pack"
         description="This is an opinionated way to handle MDX from multiple sources in a Next project with some help styling from ChakraUI"
