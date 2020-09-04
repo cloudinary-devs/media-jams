@@ -47,7 +47,7 @@ export default function Navbar() {
         <NavLink ml={4} href="/">
           Home
         </NavLink>
-        <NavLink ml={4} href="/post">
+        <NavLink ml={4} href="/blog">
           Media Jams
         </NavLink>
       </Box>

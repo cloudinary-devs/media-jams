@@ -61,9 +61,9 @@ export const getStaticProps = async ({ params: { slug } }) => {
   const { title, body } = await sanity.fetch(singlePostQuery, {
     slug: slug,
   });
-  const bodyMarkdown = toMarkdown(body);
+  // const bodyMarkdown = toMarkdown(body);
 
-  const mdx = await renderToString(bodyMarkdown, components, null);
+  const mdx = await renderToString(body, components, null);
   return {
     props: {
       post: {
