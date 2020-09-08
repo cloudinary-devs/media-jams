@@ -34,10 +34,8 @@ export default function Post({ post }) {
 
   return (
     <Chakra evaluateThemeLazily>
-      <div>
-        <h1>{post.title}</h1>
-        {content}
-      </div>
+      <h1>{post.title}</h1>
+      {content}
     </Chakra>
   );
 }

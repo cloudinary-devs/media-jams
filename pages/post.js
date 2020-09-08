@@ -12,23 +12,22 @@ const sanity = sanityClient({
   useCdn: true,
 });
 
-const query = `*[_type == "post"] {
+const queryPostWithTags = `*[_type == "post"] {
   _id,
   title,
   "slug": slug.current,
-  author-> {
-  name
-	},
+	"tags": tags[]->title,
+  "author": author->name,
 	_updatedAt,
 body
 }
 `;
 
 export default function Post({ allPosts }) {
-  const [filteredBlogs, setFilteredBlogs] = React.useState(allPosts);
+  const [filteredPosts, setFilteredPosts] = React.useState(allPosts);
 
   const handleFilter = (data) => {
-    setFilteredBlogs(data);
+    setFilteredPosts(data);
   };
 
   return (
@@ -36,10 +35,10 @@ export default function Post({ allPosts }) {
       <Box pb={3}>
         {/* Content Area + Input + Tag filter */}
         <Stack spacing={[4, 8, 12]} justify="center" alignItems="center">
-          <Search blogs={allPosts} handleFilter={handleFilter} />
+          <Search posts={allPosts} handleFilter={handleFilter} />
           <Stack spacing={[2, 6, 12]}>
-            {filteredBlogs?.map((blog) => (
-              <ContentBox key={blog.slug} blog={blog} />
+            {filteredPosts?.map((post) => (
+              <ContentBox key={post.slug} post={post} />
             ))}
           </Stack>
         </Stack>
@@ -50,9 +49,7 @@ export default function Post({ allPosts }) {
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async () => {
-  const allPosts = await sanity.fetch(query);
-  // const bodyMarkdown = toMarkdown(body);
-
+  const allPosts = await sanity.fetch(queryPostWithTags);
   return {
     props: {
       allPosts,
