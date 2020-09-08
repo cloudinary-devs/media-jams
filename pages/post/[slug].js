@@ -30,7 +30,7 @@ body
 `;
 
 export default function Post({ post }) {
-  const content = hydrate(post.content, components);
+  const content = hydrate(post.content, { components });
 
   return (
     <Chakra evaluateThemeLazily>
@@ -61,7 +61,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
   });
   // const bodyMarkdown = toMarkdown(body);
 
-  const mdx = await renderToString(body, components, null);
+  const mdx = await renderToString(body, { components }, null);
   return {
     props: {
       post: {
