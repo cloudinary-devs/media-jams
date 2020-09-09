@@ -18,7 +18,7 @@ const fuseOptions = {
   keys: ['title', 'tags'],
 };
 
-export default function Search({ posts, handleFilter }) {
+export default function Search({ posts, tagList, handleFilter }) {
   const [searchValue, setSearchValue] = useState('');
   const [searchTags, setSearchTags] = useState([]);
   const fuse = new Fuse(posts, fuseOptions);
@@ -65,7 +65,7 @@ export default function Search({ posts, handleFilter }) {
       spacing={[6, 8, 10]}
     >
       <Flex justify="space-around">
-        <TagList tags={TAG_LIST} value={searchTags} onChange={setSearchTags} />
+        <TagList tags={tagList} value={searchTags} onChange={setSearchTags} />
       </Flex>
       <Input value={searchValue} onChange={onChange} />
     </Stack>
