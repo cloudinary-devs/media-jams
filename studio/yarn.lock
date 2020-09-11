@@ -18,7 +18,7 @@
     invariant "^2.2.4"
     semver "^5.5.0"
 
-"@babel/core@^7.7.4":
+"@babel/core@^7.11.6", "@babel/core@^7.7.4":
   version "7.11.6"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.11.6.tgz#3a9455dc7387ff1bac45770650bc13ba04a15651"
   integrity sha512-Wpcv03AGnmkgm6uS6k8iwhIwTrcP0m17TL1n1sy7qD0qelDu4XNeW0dN0mHfa+Gei211yDaLoEe/VlbXQzM4Bg==
@@ -1027,7 +1027,7 @@
   resolved "https://registry.yarnpkg.com/@rexxars/eventsource-polyfill/-/eventsource-polyfill-1.0.0.tgz#ab46f2f44da23aedd6f51f13d92a194a5367525b"
   integrity sha512-YnrybIoM9WFqmeK1D8p/gutqjJnmXCVFWAU3ucka9M7Dzpen3f2Dy4KsC6k1wDHrCtHQuUHHwZovh3i5UPDaZw==
 
-"@sanity/base@1.150.7", "@sanity/base@^1.150.5":
+"@sanity/base@1.150.7", "@sanity/base@^1.147.0":
   version "1.150.7"
   resolved "https://registry.yarnpkg.com/@sanity/base/-/base-1.150.7.tgz#64b529f19f0d3aad8dc17e45b1409574c57ee8b2"
   integrity sha512-GkVwP/g8G65g/fDvCgcRo1M606ztHGl6pA2mqb1vmz6vi31M+DKwW0keT1jNUQsu0bVGEZo/ePYu5+MsdR+QdQ==
