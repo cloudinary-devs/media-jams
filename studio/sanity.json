@@ -17,15 +17,29 @@
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [
     {
+      "name": "part:@sanity/desk-tool/structure",
+      "path": "app/structure"
+    },
+    {
+      "implements": "part:@sanity/base/document-actions/resolver",
+      "path": "app/documentActions"
+    },
+    {
+      "implements": "part:@sanity/base/document-badges/resolver",
+      "path": "app/documentBadges"
+    },
+    {
       "name": "part:@sanity/base/schema",
-      "path": "./schemas/schema"
+      "path": "app/schema"
+    },
+    {
+      "implements": "part:@sanity/base/tool",
+      "path": "app/tools/board"
     }
   ]
 }
