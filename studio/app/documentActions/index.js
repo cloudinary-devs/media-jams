@@ -6,6 +6,5 @@ export default function resolveDocumentActions(docInfo) {
   if (workflowTypes.includes(docInfo.type)) {
     return resolveWorkflowActions(docInfo);
   }
-
   return defaultResolver(docInfo);
 }

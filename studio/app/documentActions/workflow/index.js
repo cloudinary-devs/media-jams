@@ -6,6 +6,7 @@ import { requestChangesAction } from './requestChanges';
 import { requestReviewAction } from './requestReview';
 import { syncAction } from './sync';
 import { unpublishAction } from './unpublish';
+import { prodPreviewAction } from './prodPreview';
 
 export function resolveWorkflowActions(/* docInfo */) {
   return [
@@ -13,6 +14,7 @@ export function resolveWorkflowActions(/* docInfo */) {
     requestReviewAction,
     approveAction,
     requestChangesAction,
+    prodPreviewAction,
     publishAction,
     unpublishAction,
     discardChangesAction,

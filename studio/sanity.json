@@ -13,6 +13,7 @@
     "@sanity/default-layout",
     "@sanity/default-login",
     "@sanity/desk-tool",
+    "@sanity/production-preview",
     "markdown"
   ],
   "env": {
@@ -40,6 +41,10 @@
     {
       "implements": "part:@sanity/base/tool",
       "path": "app/tools/board"
+    },
+    {
+      "implements": "part:@sanity/production-preview/resolve-production-url",
+      "path": "app/config/resolveProductionUrl"
     }
   ]
 }
