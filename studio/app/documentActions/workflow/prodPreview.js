@@ -27,6 +27,7 @@ export const prodPreviewAction = (props) => {
   }
   const onHandle = () => {
     window.open(previewUrl, '_blank');
+    props.onComplete();
   };
 
   return {
