@@ -18,14 +18,14 @@ const fuseOptions = {
   keys: ['title', 'tags'],
 };
 
-export default function Search({ blogs, handleFilter }) {
+export default function Search({ posts, tagList, handleFilter }) {
   const [searchValue, setSearchValue] = useState('');
   const [searchTags, setSearchTags] = useState([]);
-  const fuse = new Fuse(blogs, fuseOptions);
+  const fuse = new Fuse(posts, fuseOptions);
 
   React.useEffect(() => {
     if (searchValue === '' && searchTags.length === 0) {
-      handleFilter(blogs);
+      handleFilter(posts);
     } else {
       // Allow for a search for tag
       const formattedTags = [...searchTags.map((item) => ({ tags: item }))];
@@ -65,7 +65,7 @@ export default function Search({ blogs, handleFilter }) {
       spacing={[6, 8, 10]}
     >
       <Flex justify="space-around">
-        <TagList tags={TAG_LIST} value={searchTags} onChange={setSearchTags} />
+        <TagList tags={tagList} value={searchTags} onChange={setSearchTags} />
       </Flex>
       <Input value={searchValue} onChange={onChange} />
     </Stack>
