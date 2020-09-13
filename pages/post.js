@@ -7,7 +7,7 @@ import Search from '@components/Search';
 import { Layout } from '@components/Layout';
 
 const sanity = sanityClient({
-  projectId: process.env.SANITY_PROJECT_ID,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.SANITY_DATASET,
   useCdn: true,
 });
