@@ -6,7 +6,7 @@ const previewSecret = 'MY_SECRET_TOKEN'; // TODO: generate an actual token strin
 // TODO: update prod url to domain
 const projectUrl =
   process.env.NODE_ENV === 'production'
-    ? 'https://poc-media-jams.vercel.app/'
+    ? 'https://poc-media-jams.vercel.app'
     : 'http://localhost:3000';
 
 export default function resolveProductionUrl(document) {
