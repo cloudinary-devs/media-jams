@@ -1,4 +1,4 @@
-import { getPostBySlug } from '../../lib/api';
+import { getPreviewPostBySlug } from '../../lib/api';
 
 export default async (req, res) => {
   // Check the secret and next parameters
@@ -8,7 +8,7 @@ export default async (req, res) => {
   }
 
   // Fetch the headless CMS to check if the provided `slug` exists
-  const post = await getPostBySlug(req.query.slug, true);
+  const post = await getPreviewPostBySlug(req.query.slug);
 
   // If the slug doesn't exist prevent preview mode from being enabled
   if (!post) {

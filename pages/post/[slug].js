@@ -16,6 +16,9 @@ export default function Post({ post, preview }) {
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />;
   }
+  if (router.isFallback) {
+    return null;
+  }
   const content = hydrate(post.content, { components });
 
   return (
@@ -35,12 +38,15 @@ export const getStaticPaths = async () => {
 
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.
-  return { paths, fallback: false };
+  return { paths, fallback: true };
 };
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async ({ params: { slug }, preview = false }) => {
-  const { title, body } = await getPostBySlug(slug, preview);
+  const { title, body, slug: slug_current } = await getPostBySlug(
+    slug,
+    preview,
+  );
 
   const mdx = await renderToString(body, { components }, null);
   return {
@@ -49,7 +55,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
       post: {
         content: mdx,
         title: title,
-        slug,
+        slug: slug_current,
       },
     },
   };
