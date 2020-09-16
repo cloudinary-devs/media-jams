@@ -8,7 +8,7 @@ import { getPostBySlug, getAllPostsWithSlug } from 'lib/api';
 
 import Code from '@components/Code';
 import CodeSandbox from '@components/CodeSandbox';
-import iFrame from '@components/Iframe';
+import Iframe from '@components/Iframe';
 import { Chakra } from '@components/Chakra';
 
 const components = { code: Code, iframe: CodeSandbox };
