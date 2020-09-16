@@ -7,10 +7,10 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { getPostBySlug, getAllPostsWithSlug } from 'lib/api';
 
 import Code from '@components/Code';
-import Iframe from '@components/Iframe';
+import CodeSandbox from '@components/CodeSandbox';
 import { Chakra } from '@components/Chakra';
 
-const components = { code: Code };
+const components = { code: Code, iframe: CodeSandbox };
 
 export default function Post({ post, preview }) {
   const router = useRouter();
@@ -29,6 +29,7 @@ export default function Post({ post, preview }) {
       {post?.codeSandbox && (
         <Iframe
           src={`${post.codeSandbox}?codemirror=1&fontsize=12&hidenavigation=1&theme=dark`}
+          title={post.title}
           maxW="960px"
           mx="auto"
           minH="500px"
