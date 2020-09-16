@@ -20,10 +20,10 @@ const queryPostWithTags = `*[_type == "post"] {
 	"tags": tags[]->title,
   "author": author->name,
 	_updatedAt,
-body
+  body
 }
 `;
-// Array of Tags
+// Array of <Tags></Tags>
 const queryTags = `*[_type == "tag"].title`;
 
 export default function Post({ allPosts, allTags }) {
@@ -55,7 +55,7 @@ export default function Post({ allPosts, allTags }) {
 }
 
 // This function gets called at build time on server-side.
-export const getStaticProps = async () => {
+export async function getStaticProps() {
   const [allPosts, allTags] = await Promise.all([
     sanity.fetch(queryPostWithTags),
     sanity.fetch(queryTags),
@@ -66,4 +66,4 @@ export const getStaticProps = async () => {
       allTags,
     },
   };
-};
+}

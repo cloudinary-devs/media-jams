@@ -21,7 +21,9 @@
     "@chakra-ui/theme-tools": "^1.0.0-rc.3",
     "@sanity/block-content-to-markdown": "^0.0.5",
     "@sanity/client": "^1.150.1",
+    "cloudinary": "^1.23.0",
     "fast-glob": "^3.2.4",
+    "framer-motion": "^2.6.13",
     "fuse.js": "^6.4.1",
     "gray-matter": "^4.0.2",
     "js-cookie": "^2.2.1",
@@ -33,7 +35,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
-    "use-cloudinary": "^3.1.6"
+    "use-cloudinary": "^3.1.7"
   },
   "devDependencies": {
     "husky": "^4.2.5",
