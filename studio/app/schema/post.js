@@ -21,6 +21,13 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
+      validation: (Rule) =>
+        Rule.max(50).warning('Shorter titles are usually better'),
+    },
+    {
+      name: 'description',
+      title: 'Description',
+      type: 'text',
     },
     {
       name: 'slug',
@@ -38,6 +45,11 @@ export default {
       to: { type: 'author' },
     },
     {
+      name: 'publishedAt',
+      title: 'Published at',
+      type: 'datetime',
+    },
+    {
       name: 'featured',
       title: 'Featured',
       type: 'boolean',
@@ -46,15 +58,11 @@ export default {
       name: 'tags',
       title: 'Tags',
       type: 'array',
+      validation: (Rule) => Rule.required().min(1),
       of: [{ type: 'reference', to: { type: 'tag' } }],
       options: {
         layout: 'tags',
       },
-    },
-    {
-      name: 'publishedAt',
-      title: 'Published at',
-      type: 'datetime',
     },
     {
       name: 'body',
