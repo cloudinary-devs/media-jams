@@ -45,7 +45,7 @@ export const getStaticPaths = async () => {
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async ({ params: { slug }, preview = false }) => {
-  const { title, body, slug: slug_current } = await getPostBySlug(
+  const { title, body, slug: slug_current, tags } = await getPostBySlug(
     slug,
     preview,
   );
@@ -58,6 +58,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
         content: mdx,
         title: title,
         slug: slug_current,
+        tags,
       },
     },
   };
