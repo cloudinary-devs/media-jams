@@ -4,7 +4,7 @@ import ErrorPage from 'next/error';
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
 
-import { getPostBySlug, getAllPostsWithSlug } from 'lib/api';
+import { postBySlug, postsWithSlug } from 'lib/api';
 
 import Code from '@components/Code';
 import CodeSandbox from '@components/CodeSandbox';
@@ -33,7 +33,7 @@ export default function Post({ post, preview }) {
 
 export const getStaticPaths = async () => {
   // Get the paths we want to pre-render based on posts
-  const posts = await getAllPostsWithSlug();
+  const posts = await postsWithSlug();
   const paths = posts.map(({ _id, slug }) => ({
     params: { slug },
   }));
@@ -45,7 +45,7 @@ export const getStaticPaths = async () => {
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async ({ params: { slug }, preview = false }) => {
-  const { title, body, slug: slug_current, tags } = await getPostBySlug(
+  const { title, body, slug: slug_current, tags = null } = await postBySlug(
     slug,
     preview,
   );
