@@ -1,0 +1,22 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "source": {
+    "include": ["studio/app", "src/", "lib/", "pages/"],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "plugins": ["plugins/markdown"],
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": true
+  },
+  "recurseDepth": 10,
+  "opts": {
+    "destination": "docs",
+    "recurse": true,
+    "readme": "README.md"
+  }
+}
