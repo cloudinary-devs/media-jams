@@ -27,17 +27,6 @@ export default function Post({ post, preview }) {
     <Chakra evaluateThemeLazily>
       <h1>{post.title}</h1>
       {content}
-      {post?.codeSandbox && (
-        <Iframe
-          src={`${post.codeSandbox}?codemirror=1&fontsize=12&hidenavigation=1&theme=dark`}
-          title={post.title}
-          maxW="960px"
-          mx="auto"
-          minH="500px"
-          width="100%"
-          overflow="hidden"
-        />
-      )}
     </Chakra>
   );
 }
@@ -56,12 +45,10 @@ export const getStaticPaths = async () => {
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async ({ params: { slug }, preview = false }) => {
-  const {
-    title,
-    body,
-    slug: slug_current,
-    codeSandbox = null, // set default value for SSR serialization
-  } = await getPostBySlug(slug, preview);
+  const { title, body, slug: slug_current } = await getPostBySlug(
+    slug,
+    preview,
+  );
 
   const mdx = await renderToString(body, { components }, null);
   return {
@@ -71,7 +58,6 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
         content: mdx,
         title: title,
         slug: slug_current,
-        codeSandbox,
       },
     },
   };
