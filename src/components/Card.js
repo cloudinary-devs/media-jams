@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Stack, Flex, Heading, Link, Center } from '@chakra-ui/core';
+import { Stack, Flex, Heading, Link, Center, Avatar } from '@chakra-ui/core';
 
 export default function Card({ post }) {
   return (
@@ -13,6 +13,7 @@ export default function Card({ post }) {
       borderRadius="8px"
     >
       <Flex height="50%" alignItems="center" justify="center">
+        <Avatar mr={8} />
         <Heading as="h3" size="lg">
           {post.author}
         </Heading>

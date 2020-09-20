@@ -1,40 +1,18 @@
-import sanityClient from '@sanity/client';
-
-import { Stack } from '@chakra-ui/core';
+import { Stack, Container } from '@chakra-ui/core';
 import Layout from '@components/Layout';
 import TabbedTagSelection from '@components/TabbedTagSelection';
 import Hero from '@components/Hero';
 import FeaturedJams from '@components/FeaturedJams';
 
-const sanity = sanityClient({
-  projectId: process.env.SANITY_PROJECT_ID,
-  dataset: process.env.SANITY_DATASET,
-  useCdn: true,
-});
+import { allPosts, allCategories } from 'lib/api';
 
-const queryPostWithTags = `*[_type == "post"] {
-  _id,
-  title,
-  "slug": slug.current,
-  "tags": tags[]->title,
-  "author": author->name,
-  _updatedAt,
-  body
-}
-`;
-
-const queryTags = `*[_type == "tag"].title`;
-
-export default function Index({ allPosts, allTags, camera }) {
+export default function Index({ posts, categories, camera }) {
   return (
     <Layout>
-      <Stack spacing={32}>
-        <Hero posts={allPosts} heroImage={camera} />
-        <TabbedTagSelection
-          tags={allTags}
-          tabs={['Frameworks', 'Specializations']}
-        />
-        <FeaturedJams posts={allPosts} />
+      <Stack spacing={48}>
+        <Hero posts={posts} heroImage={camera} />
+        <TabbedTagSelection tabs={categories} />
+        <FeaturedJams posts={posts} />
       </Stack>
     </Layout>
   );
@@ -49,11 +27,7 @@ export async function getStaticProps() {
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
 
-  const [allPosts, allTags] = await Promise.all([
-    sanity.fetch(queryPostWithTags),
-    sanity.fetch(queryTags),
-  ]);
-
+  const [posts, categories] = await Promise.all([allPosts(), allCategories()]);
   const publicIds = ['camera'];
 
   let urls = {};
@@ -68,8 +42,8 @@ export async function getStaticProps() {
 
   return {
     props: {
-      allPosts,
-      allTags,
+      posts,
+      categories,
       ...urls,
     },
   };

@@ -26,7 +26,12 @@ export default function TabbedTagSelection({ tags, tabs }) {
   }
 
   return (
-    <Flex direction="column" alignItems="center">
+    <Flex
+      h="xl"
+      backgroundColor="rebeccapurple"
+      direction="column"
+      alignItems="center"
+    >
       <Center mb={16}>
         <Heading mt={16} mx={16} as="h1" size="2xl">
           Find the right content for you
@@ -35,12 +40,12 @@ export default function TabbedTagSelection({ tags, tabs }) {
       <Tabs isFitted variant="enclosed">
         <TabList mb="1em">
           {tabs.map((tab) => (
-            <Tab>{tab}</Tab>
+            <Tab>{tab.title}</Tab>
           ))}
         </TabList>
         <TabPanels>
           <TabPanel>
-            <Wrap spacing={8}>
+            {/* <Wrap spacing={8}>
               {tags.map((tag) => {
                 return (
                   <Button
@@ -65,7 +70,7 @@ export default function TabbedTagSelection({ tags, tabs }) {
                   </Button>
                 );
               })}
-            </Wrap>
+            </Wrap> */}
           </TabPanel>
         </TabPanels>
       </Tabs>

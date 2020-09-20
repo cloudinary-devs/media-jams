@@ -1,33 +1,13 @@
-import { Box, Flex, Stack } from '@chakra-ui/core';
+import { Flex, Box, Grid, Text } from '@chakra-ui/core';
 
-import sanityClient from '@sanity/client';
+import { allTags, allPosts, allCategories } from 'lib/api';
 
-import ContentBox from '@components/ContentBox';
+import Card from '@components/Card';
 import Search from '@components/Search';
 import Layout from '@components/Layout';
 
-const sanity = sanityClient({
-  projectId: process.env.SANITY_PROJECT_ID,
-  dataset: process.env.SANITY_DATASET,
-  useCdn: true,
-});
-
-// All posts with tags : [String]
-const queryPostWithTags = `*[_type == "post"] {
-  _id,
-  title,
-  "slug": slug.current,
-	"tags": tags[]->title,
-  "author": author->name,
-	_updatedAt,
-  body
-}
-`;
-// Array of <Tags></Tags>
-const queryTags = `*[_type == "tag"].title`;
-
-export default function Post({ allPosts, allTags }) {
-  const [filteredPosts, setFilteredPosts] = React.useState(allPosts);
+export default function Post({ posts, tags, categories }) {
+  const [filteredPosts, setFilteredPosts] = React.useState(posts);
 
   const handleFilter = (data) => {
     setFilteredPosts(data);
@@ -35,35 +15,72 @@ export default function Post({ allPosts, allTags }) {
 
   return (
     <Layout>
-      <Box pb={3}>
-        {/* Content Area + Input + Tag filter */}
-        <Stack spacing={[4, 8, 12]} justify="center" alignItems="center">
-          <Search
-            posts={allPosts}
-            tagList={allTags}
-            handleFilter={handleFilter}
-          />
-          <Stack spacing={[2, 6, 12]}>
-            {filteredPosts?.map((post) => (
-              <ContentBox key={post.slug} post={post} />
+      <Flex w="100vw" h="100vh">
+        <Flex
+          direction="column"
+          alignItems="center"
+          pt={8}
+          w="15%"
+          borderRight="2px solid black"
+        >
+          {categories.map((cat) => (
+            <Text>{cat.title}</Text>
+          ))}
+        </Flex>
+        <Box w="100%">
+          <Search handleFilter={handleFilter} posts={posts} />
+          <Grid
+            flex="1"
+            m={20}
+            gridTemplateColumns="repeat(auto-fill, minmax(300px, 1fr))"
+            gap={8}
+          >
+            {filteredPosts.map((post) => (
+              <Card post={post} />
             ))}
-          </Stack>
-        </Stack>
-      </Box>
+          </Grid>
+        </Box>
+      </Flex>
     </Layout>
   );
 }
 
 // This function gets called at build time on server-side.
-export async function getStaticProps() {
-  const [allPosts, allTags] = await Promise.all([
-    sanity.fetch(queryPostWithTags),
-    sanity.fetch(queryTags),
+export const getStaticProps = async () => {
+  const [posts, tags, categories] = await Promise.all([
+    allPosts(),
+    allTags(),
+    allCategories(),
   ]);
   return {
     props: {
-      allPosts,
-      allTags,
+      posts,
+      tags,
+      categories,
     },
   };
-}
+};
+
+/*
+  const [searchTags, setSearchTags] = useState([]);
+
+  const onTagClick = (tag) => {
+    if (searchTags.includes(tag)) {
+      setSearchTags(searchTags.filter((included) => included != tag));
+    } else {
+      setSearchTags([...searchTags, tag]);
+    }
+  };
+
+  const onTagClick = (tag) => {
+    if (searchTags.includes(tag)) {
+      setSearchTags(searchTags.filter((included) => included != tag));
+    } else {
+      setSearchTags([...searchTags, tag]);
+    }
+  };
+
+  <Flex justify="space-around">
+    <TagList tags={tagList} value={searchTags} onChange={setSearchTags} />
+  </Flex>
+*/

@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {
+  Button,
   useBreakpointValue,
-  Stack,
+  Container,
   Heading,
   Text,
   Flex,
@@ -18,17 +19,22 @@ export default function Hero({ heroImage }) {
   });
 
   return (
-    <Stack alignItems="center">
-      <Flex w={['90%', '80%', '70%']} direction="column" textAlign="center">
-        <Heading mt={16} mx={16} as="h1" size={headings}>
-          Learning Media is hard MediaJams will fix that 👍
-        </Heading>
-        <Text mt={6}>
-          With MediaJams, we connect you with the code that gets you working
-          faster and the experts that teach it
-        </Text>
+    <Container maxW="xl">
+      <Flex alignItems="center" height="800px">
+        <Flex w={['90%', '80%', '70%']} direction="column" textAlign="">
+          <Heading mt={16} as="h1" size={headings}>
+            Learning Media is hard MediaJams will fix that 👍
+          </Heading>
+          <Text mt={6}>
+            With MediaJams, we connect you with the code that gets you working
+            faster and the experts that teach it
+          </Text>
+          <Button w="140px" mt={8} p={8}>
+            Learn More
+          </Button>
+        </Flex>
+        <Image alignSelf="center" w="50%" mt={8} src={heroImage} />
       </Flex>
-      <Image alignSelf="center" w="70%" mt={8} src={heroImage} />
-    </Stack>
+    </Container>
   );
 }
