@@ -1,4 +1,3 @@
-import sanityClient from '@sanity/client';
 import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
 import renderToString from 'next-mdx-remote/render-to-string';

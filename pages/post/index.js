@@ -4,7 +4,7 @@ import sanityClient from '@sanity/client';
 
 import ContentBox from '@components/ContentBox';
 import Search from '@components/Search';
-import { Layout } from '@components/Layout';
+import Layout from '@components/Layout';
 
 const sanity = sanityClient({
   projectId: process.env.SANITY_PROJECT_ID,
