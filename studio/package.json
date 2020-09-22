@@ -37,7 +37,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
-    "@sanity/cli": "^1.150.1"
+    "@sanity/cli": "^1.150.1",
+    "dotenv": "^8.2.0",
+    "r2": "^2.0.1"
   },
   "repository": "https://github.com/mediadevelopers/media-jams"
 }
