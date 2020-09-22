@@ -12,8 +12,16 @@ const mutations = [
           permissions: ['read', 'update', 'create'],
         },
         {
+          filter: "_type == 'workflow.metadata'",
+          permissions: ['read', 'update', 'create'],
+        },
+        {
           filter: "_type == 'author'",
           permissions: ['read', 'update', 'create'],
+        },
+        {
+          filter: '_id in path("**")',
+          permissions: ['read', 'history'],
         },
       ],
       members: ['pMVNYTrk5'], //jtomchak@gmail.com

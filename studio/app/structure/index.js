@@ -31,7 +31,6 @@ export default () =>
     // '_.groups.editors'
     .then((docs) => docs.map((doc) => doc._id.split('.').pop()))
     .then((groupNames) => {
-      console.log(groupNames);
       // groupNames now reflect the groups the current user is a member of
 
       // Build up an array of items depending on group membership. You may of
@@ -42,7 +41,6 @@ export default () =>
         deskItems.push(...workflowListItems, ...docTypeListItems);
       }
       if (groupNames.includes('creator')) {
-        console.log(...docTypeListItems.filter(creatorDocTypes));
         // Add the doctypes that a creators should see to
         deskItems.push(...docTypeListItems.filter(creatorDocTypes));
       }
