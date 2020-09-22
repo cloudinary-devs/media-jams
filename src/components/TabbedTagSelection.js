@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Flex,
   Center,
@@ -10,11 +11,12 @@ import {
   TabPanel,
   Wrap,
   Button,
+  Text,
 } from '@chakra-ui/core';
 
 import { FaHashtag } from 'react-icons/fa';
 
-export default function TabbedTagSelection({ tags, tabs }) {
+export default function TabbedTagSelection({ tabs, tags }) {
   const [searchTags, setSearchTags] = React.useState([]);
 
   function addTag(tag) {
@@ -25,12 +27,55 @@ export default function TabbedTagSelection({ tags, tabs }) {
     return setSearchTags((prev) => prev.filter((pt) => pt !== tag));
   }
 
+  function Panels({ categories, tags }) {
+    // Every category has a Tab.
+    // Every TabPanel needs to show the proper tags for that category
+    // for every category, render a TabPanel showing the tags for only that category
+    console.log({ tags });
+    const renderTags = (tags) => {
+      for (let key in tags) {
+        if (tags[key].length > 0) {
+          return tagArray.map((tag) => {
+            return (
+              <Button
+                onClick={() =>
+                  searchTags.some((selected) => selected.title === tag.title)
+                    ? removeTag(tag)
+                    : addTag(tag)
+                }
+                variant={
+                  searchTags.some((selected) => selected.title === tag.title)
+                    ? 'solid'
+                    : 'outline'
+                }
+                colorScheme={
+                  searchTags.some((selected) => selected.title === tag.title)
+                    ? 'teal'
+                    : null
+                }
+                rightIcon={<FaHashtag />}
+              >
+                {tag.title}
+              </Button>
+            );
+          });
+        } else {
+          return <Text>No tags yet!</Text>;
+        }
+      }
+    };
+    return categories.map((category) => (
+      <TabPanel key={category._id}>{renderTags(tags)}</TabPanel>
+    ));
+  }
+
   return (
     <Flex
       h="xl"
       backgroundColor="rebeccapurple"
       direction="column"
       alignItems="center"
+      minW="100%"
     >
       <Center mb={16}>
         <Heading mt={16} mx={16} as="h1" size="2xl">
@@ -44,34 +89,7 @@ export default function TabbedTagSelection({ tags, tabs }) {
           ))}
         </TabList>
         <TabPanels>
-          <TabPanel>
-            {/* <Wrap spacing={8}>
-              {tags.map((tag) => {
-                return (
-                  <Button
-                    onClick={() =>
-                      searchTags.some((selected) => selected === tag)
-                        ? removeTag(tag)
-                        : addTag(tag)
-                    }
-                    variant={
-                      searchTags.some((selected) => selected === tag)
-                        ? 'solid'
-                        : 'outline'
-                    }
-                    colorScheme={
-                      searchTags.some((selected) => selected === tag)
-                        ? 'teal'
-                        : null
-                    }
-                    rightIcon={<FaHashtag />}
-                  >
-                    {tag}
-                  </Button>
-                );
-              })}
-            </Wrap> */}
-          </TabPanel>
+          <Panels categories={tabs} tags={tags} />
         </TabPanels>
       </Tabs>
     </Flex>

@@ -7,8 +7,7 @@ import { postBySlug, postsWithSlug } from 'lib/api';
 
 import Code from '@components/Code';
 import CodeSandbox from '@components/CodeSandbox';
-import Iframe from '@components/Iframe';
-import { Chakra } from '@components/Chakra';
+import Layout from '@components/Layout';
 
 const components = { code: Code, iframe: CodeSandbox };
 
@@ -23,10 +22,10 @@ export default function Post({ post, preview }) {
   const content = hydrate(post.content, { components });
 
   return (
-    <Chakra evaluateThemeLazily>
+    <Layout>
       <h1>{post.title}</h1>
       {content}
-    </Chakra>
+    </Layout>
   );
 }
 

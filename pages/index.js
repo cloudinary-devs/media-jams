@@ -1,19 +1,18 @@
-import { Stack, Container } from '@chakra-ui/core';
+import { Flex } from '@chakra-ui/core';
+
 import Layout from '@components/Layout';
 import TabbedTagSelection from '@components/TabbedTagSelection';
 import Hero from '@components/Hero';
 import FeaturedJams from '@components/FeaturedJams';
 
-import { allPosts, allCategories } from 'lib/api';
+import { allPosts, allTags, allCategories, tagsByCategory } from 'lib/api';
 
-export default function Index({ posts, categories, camera }) {
+export default function Index({ posts, categories, tags, camera }) {
   return (
     <Layout>
-      <Stack spacing={48}>
-        <Hero posts={posts} heroImage={camera} />
-        <TabbedTagSelection tabs={categories} />
-        <FeaturedJams posts={posts} />
-      </Stack>
+      <Hero posts={posts} heroImage={camera} />
+      <TabbedTagSelection tabs={categories} tags={tags} />
+      <FeaturedJams posts={posts} />
     </Layout>
   );
 }
@@ -28,6 +27,13 @@ export async function getStaticProps() {
   });
 
   const [posts, categories] = await Promise.all([allPosts(), allCategories()]);
+
+  const tagsByCategories = categories.map((category) => {
+    const tags = tagsByCategory(category._id);
+
+    return tags.then((data) => data);
+  });
+
   const publicIds = ['camera'];
 
   let urls = {};
@@ -44,6 +50,7 @@ export async function getStaticProps() {
     props: {
       posts,
       categories,
+      tags: await Promise.all(tagsByCategories),
       ...urls,
     },
   };
