@@ -60,27 +60,3 @@ export const getStaticProps = async () => {
     },
   };
 };
-
-/*
-  const [searchTags, setSearchTags] = useState([]);
-
-  const onTagClick = (tag) => {
-    if (searchTags.includes(tag)) {
-      setSearchTags(searchTags.filter((included) => included != tag));
-    } else {
-      setSearchTags([...searchTags, tag]);
-    }
-  };
-
-  const onTagClick = (tag) => {
-    if (searchTags.includes(tag)) {
-      setSearchTags(searchTags.filter((included) => included != tag));
-    } else {
-      setSearchTags([...searchTags, tag]);
-    }
-  };
-
-  <Flex justify="space-around">
-    <TagList tags={tagList} value={searchTags} onChange={setSearchTags} />
-  </Flex>
-*/

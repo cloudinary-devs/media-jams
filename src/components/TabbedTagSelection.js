@@ -27,16 +27,12 @@ export default function TabbedTagSelection({ tabs, tags }) {
     return setSearchTags((prev) => prev.filter((pt) => pt !== tag));
   }
 
-  function Panels({ categories, tags }) {
-    // Every category has a Tab.
-    // Every TabPanel needs to show the proper tags for that category
-    // for every category, render a TabPanel showing the tags for only that category
-    console.log({ tags });
-    const renderTags = (tags) => {
-      for (let key in tags) {
-        if (tags[key].length > 0) {
-          return tagArray.map((tag) => {
-            return (
+  function Panels({ tags }) {
+    function TagGroup({ tags }) {
+      return tags.map((tagGroups) => (
+        <TabPanel>
+          {tagGroups.length >= 1 ? (
+            tagGroups.map((tag) => (
               <Button
                 onClick={() =>
                   searchTags.some((selected) => selected.title === tag.title)
@@ -57,16 +53,15 @@ export default function TabbedTagSelection({ tabs, tags }) {
               >
                 {tag.title}
               </Button>
-            );
-          });
-        } else {
-          return <Text>No tags yet!</Text>;
-        }
-      }
-    };
-    return categories.map((category) => (
-      <TabPanel key={category._id}>{renderTags(tags)}</TabPanel>
-    ));
+            ))
+          ) : (
+            <p>No tags yet</p>
+          )}
+        </TabPanel>
+      ));
+    }
+
+    return <TagGroup tags={tags} />;
   }
 
   return (
@@ -89,7 +84,7 @@ export default function TabbedTagSelection({ tabs, tags }) {
           ))}
         </TabList>
         <TabPanels>
-          <Panels categories={tabs} tags={tags} />
+          <Panels tags={tags} />
         </TabPanels>
       </Tabs>
     </Flex>
