@@ -28,40 +28,48 @@ export default function TabbedTagSelection({ tabs, tags }) {
   }
 
   function Panels({ tags }) {
-    function TagGroup({ tags }) {
-      return tags.map((tagGroups) => (
-        <TabPanel>
-          {tagGroups.length >= 1 ? (
-            tagGroups.map((tag) => (
-              <Button
-                onClick={() =>
-                  searchTags.some((selected) => selected.title === tag.title)
-                    ? removeTag(tag)
-                    : addTag(tag)
-                }
-                variant={
-                  searchTags.some((selected) => selected.title === tag.title)
-                    ? 'solid'
-                    : 'outline'
-                }
-                colorScheme={
-                  searchTags.some((selected) => selected.title === tag.title)
-                    ? 'teal'
-                    : null
-                }
-                rightIcon={<FaHashtag />}
-              >
-                {tag.title}
-              </Button>
-            ))
-          ) : (
-            <p>No tags yet</p>
-          )}
-        </TabPanel>
-      ));
-    }
-
-    return <TagGroup tags={tags} />;
+    return (
+      <TabPanels>
+        {tags.map((tagGroups) => (
+          <TabPanel>
+            {tagGroups.length >= 1 ? (
+              <Wrap>
+                {tagGroups.map((tag) => (
+                  <Button
+                    onClick={() =>
+                      searchTags.some(
+                        (selected) => selected.title === tag.title,
+                      )
+                        ? removeTag(tag)
+                        : addTag(tag)
+                    }
+                    variant={
+                      searchTags.some(
+                        (selected) => selected.title === tag.title,
+                      )
+                        ? 'solid'
+                        : 'outline'
+                    }
+                    colorScheme={
+                      searchTags.some(
+                        (selected) => selected.title === tag.title,
+                      )
+                        ? 'teal'
+                        : null
+                    }
+                    rightIcon={<FaHashtag />}
+                  >
+                    {tag.title}
+                  </Button>
+                ))}
+              </Wrap>
+            ) : (
+              <Text>No tags yet</Text>
+            )}
+          </TabPanel>
+        ))}
+      </TabPanels>
+    );
   }
 
   return (
@@ -77,15 +85,13 @@ export default function TabbedTagSelection({ tabs, tags }) {
           Find the right content for you
         </Heading>
       </Center>
-      <Tabs isFitted variant="enclosed">
+      <Tabs>
         <TabList mb="1em">
           {tabs.map((tab) => (
-            <Tab>{tab.title}</Tab>
+            <Tab key={tab.id}>{tab.title}</Tab>
           ))}
         </TabList>
-        <TabPanels>
-          <Panels tags={tags} />
-        </TabPanels>
+        <Panels tags={tags} />
       </Tabs>
     </Flex>
   );
