@@ -4,11 +4,11 @@ import { inferMetadataState, useWorkflowMetadata } from '../../lib/workflow';
 
 export function approveAction(props) {
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
-  let buttonDisabled = true;
   if (metadata.data.state !== 'inReview') {
     return null;
   }
 
+  let buttonDisabled = true;
   const next = ({ user }) => {
     buttonDisabled = user.role !== 'administrator';
   };

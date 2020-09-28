@@ -4,7 +4,7 @@ import { inferMetadataState, useWorkflowMetadata } from '../../lib/workflow';
 
 export function requestChangesAction(props) {
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
-
+  let buttonDisabled = true;
   if (metadata.data.state !== 'inReview') {
     return null;
   }
@@ -23,6 +23,7 @@ export function requestChangesAction(props) {
   };
 
   return {
+    disabled: buttonDisabled,
     icon: EditIcon,
     label: 'Request changes',
     onHandle,
