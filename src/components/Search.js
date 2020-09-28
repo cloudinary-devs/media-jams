@@ -3,10 +3,6 @@ import Fuse from 'fuse.js';
 
 import { Flex, Stack, Input } from '@chakra-ui/core';
 
-import TagList from './TagList';
-
-const TAG_LIST = ['react', 'nextjs', 'chakra ui'];
-
 const fuseOptions = {
   threshold: 0.35,
   location: 0,
@@ -20,41 +16,32 @@ const fuseOptions = {
 
 export default function Search({ posts, tagList, handleFilter }) {
   const [searchValue, setSearchValue] = useState('');
-  const [searchTags, setSearchTags] = useState([]);
+
   const fuse = new Fuse(posts, fuseOptions);
 
   React.useEffect(() => {
-    if (searchValue === '' && searchTags.length === 0) {
+    if (searchValue === '') {
       handleFilter(posts);
     } else {
       // Allow for a search for tag
-      const formattedTags = [...searchTags.map((item) => ({ tags: item }))];
+
       const formattedTitle = searchValue.length ? [{ title: searchValue }] : [];
       const queries = {
         $or: [
-          { tags: searchValue },
           { title: searchValue },
           {
-            $and: [...formattedTags, ...formattedTitle],
+            $and: [...formattedTitle],
           },
         ],
       };
       const results = fuse.search(queries).map((result) => result.item);
       handleFilter(results);
     }
-  }, [searchValue, searchTags]);
+  }, [searchValue]);
 
   const onChange = (e) => {
     const { value } = e.target;
     setSearchValue(value);
-  };
-
-  const onTagClick = (tag) => {
-    if (searchTags.includes(tag)) {
-      setSearchTags(searchTags.filter((included) => included != tag));
-    } else {
-      setSearchTags([...searchTags, tag]);
-    }
   };
 
   return (
@@ -64,9 +51,6 @@ export default function Search({ posts, tagList, handleFilter }) {
       align="center"
       spacing={[6, 8, 10]}
     >
-      <Flex justify="space-around">
-        <TagList tags={tagList} value={searchTags} onChange={setSearchTags} />
-      </Flex>
       <Input value={searchValue} onChange={onChange} />
     </Stack>
   );
