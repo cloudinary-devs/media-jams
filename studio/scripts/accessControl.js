@@ -21,10 +21,10 @@ const mutations = [
         },
         {
           filter: '_id in path("**")',
-          permissions: ['read', 'history'],
+          permissions: ['read', 'create', 'update'],
         },
       ],
-      members: ['pMVNYTrk5'], //jtomchak@gmail.com
+      members: ['pMVNYTrk5', 'po38b98q1'], //jtomchak@gmail.com
     },
   },
 ];

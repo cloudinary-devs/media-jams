@@ -23,7 +23,7 @@ export default function FeaturedJams({ posts }) {
         w="70%"
       >
         {posts.map((post) => (
-          <Card post={post} />
+          <Card key={post.slug} post={post} />
         ))}
       </Grid>
     </Flex>

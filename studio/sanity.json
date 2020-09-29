@@ -45,6 +45,10 @@
     {
       "implements": "part:@sanity/production-preview/resolve-production-url",
       "path": "app/config/resolveProductionUrl"
+    },
+    {
+      "name": "part:@sanity/base/new-document-structure",
+      "path": "app/structure/newDocument.js"
     }
   ]
 }
