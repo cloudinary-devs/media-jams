@@ -1,17 +1,14 @@
 import S from '@sanity/desk-tool/structure-builder';
 import client from 'part:@sanity/base/client';
 import { workflowListItems } from './workflow';
+import { creatorListItems } from './creator';
 
 const HIDDEN_TYPES = [
   // NOTE: comment this to debug
   'workflow.metadata',
 ];
 
-const CREATOR_TYPES = ['post', 'author'];
-
 const hiddenDocTypes = (listItem) => !HIDDEN_TYPES.includes(listItem.getId());
-
-const creatorDocTypes = (listItem) => CREATOR_TYPES.includes(listItem.getId());
 
 const docTypeListItems = S.documentTypeListItems().filter(hiddenDocTypes);
 
@@ -42,7 +39,7 @@ export default () =>
       }
       if (groupNames.includes('creator')) {
         // Add the doctypes that a creators should see to
-        deskItems.push(...docTypeListItems.filter(creatorDocTypes));
+        deskItems.push(...creatorListItems);
       }
 
       return S.list().title('Content').items(deskItems);
