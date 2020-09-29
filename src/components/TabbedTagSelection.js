@@ -30,12 +30,13 @@ export default function TabbedTagSelection({ tabs, tags }) {
   function Panels({ tags }) {
     return (
       <TabPanels>
-        {tags.map((tagGroups) => (
-          <TabPanel>
+        {tags.map((tagGroups, idx) => (
+          <TabPanel key={idx}>
             {tagGroups.length >= 1 ? (
               <Wrap>
                 {tagGroups.map((tag) => (
                   <Button
+                    key={tag.title}
                     onClick={() =>
                       searchTags.some(
                         (selected) => selected.title === tag.title,
@@ -88,7 +89,7 @@ export default function TabbedTagSelection({ tabs, tags }) {
       <Tabs>
         <TabList mb="1em">
           {tabs.map((tab) => (
-            <Tab key={tab.id}>{tab.title}</Tab>
+            <Tab key={tab.title}>{tab.title}</Tab>
           ))}
         </TabList>
         <Panels tags={tags} />
