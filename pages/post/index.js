@@ -28,7 +28,7 @@ export default function Post({ posts, categories }) {
 
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
-    setSearchTags(router.query.tags?.split(','));
+    setSearchTags(router.query.tags?.split(',') || []);
   }, [router.query]);
 
   // handle updating the filteredPosts with different search criteria
@@ -38,7 +38,6 @@ export default function Post({ posts, categories }) {
     } else {
       // Allow for a search for tag
       const formattedTags = [...searchTags.map((item) => ({ tags: item }))];
-      const formattedTitle = searchValue.length ? [{ title: searchValue }] : [];
       const queries = {
         $or: [
           { title: searchValue },
@@ -52,8 +51,6 @@ export default function Post({ posts, categories }) {
       handleFilter(results);
     }
   }, [searchValue, searchTags]);
-
-  console.log(searchTags);
 
   const fuse = new Fuse(posts, fuseOptions);
 
@@ -73,22 +70,30 @@ export default function Post({ posts, categories }) {
     <Layout>
       <Flex w="100vw" h="100vh">
         <Flex w="100%" direction="column" alignItems="center">
-          <TabbedTagSelection
-            handleFilter={handleFilter}
-            tabs={categories}
-            addTag={addTag}
-            removeTag={removeTag}
-            searchTags={searchTags}
-            posts={posts}
-            fuse={fuse}
-          />
-          <SearchInput
-            handleFilter={handleFilter}
-            posts={posts}
-            fuse={fuse}
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-          />
+          <Flex
+            direction="column"
+            alignItems="center"
+            justify="center"
+            height="40%"
+          >
+            <TabbedTagSelection
+              handleFilter={handleFilter}
+              tabs={categories}
+              addTag={addTag}
+              removeTag={removeTag}
+              searchTags={searchTags}
+              posts={posts}
+              fuse={fuse}
+            />
+            <SearchInput
+              mt={16}
+              handleFilter={handleFilter}
+              posts={posts}
+              fuse={fuse}
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
+            />
+          </Flex>
           <Grid
             m={20}
             w="80%"
