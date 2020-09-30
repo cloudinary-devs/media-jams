@@ -6,9 +6,8 @@ import { getDocumentMutations$ } from '../lib/document';
 import { getDocumentQuery$ } from '../lib/document';
 import { getCurrentUser$ } from '../lib/user';
 
-const WORKFLOW_DOCUMENTS_FILTER = `_type == $type && $userId in assignees`;
 const CREATOR_DOCUMENTS_QUERY = `
-  * [_type == $type && author._ref in *[_type=="author" && _id== $userId]._id] 
+* [_type == $type  && author._ref == $userId ] 
 `;
 
 const CREATOR_AUTHOR_QUERY = `
@@ -22,10 +21,10 @@ export const creatorListItems = [
     .icon(Pencil)
     .child(() => {
       return getCurrentUser$().pipe(
-        switchMap((user) => {
+        switchMap(({ id }) => {
           return getDocumentQuery$(CREATOR_DOCUMENTS_QUERY, {
             type: 'post',
-            userId: user.id,
+            userId: `${id}.self`,
           });
         }),
         map((docs) => {
@@ -45,7 +44,7 @@ export const creatorListItems = [
     .child(() => {
       return getCurrentUser$().pipe(
         map(({ id }) => {
-          return S.document().schemaType('author').documentId(`${id}.self`);
+          return S.editor().schemaType('author').documentId(`${id}.self`);
         }),
       );
     }),
