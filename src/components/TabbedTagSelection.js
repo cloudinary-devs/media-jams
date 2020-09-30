@@ -19,6 +19,7 @@ export default function TabbedTagSelection({
   removeTag,
   searchTags,
 }) {
+  console.log(searchTags);
   function Panels({ tabs }) {
     return (
       <TabPanels>

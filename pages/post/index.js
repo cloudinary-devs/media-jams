@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import useQueryParamState, { deserializeArray } from '@hooks/useQueryParameter';
+
 import { allPosts, allCategories } from 'lib/api';
 
 import Card from '@components/Card';
@@ -21,14 +21,17 @@ const fuseOptions = {
 };
 
 export default function Post({ posts, categories }) {
-  const router = useRouter();
-  console.log(router.query);
   const [filteredPosts, setFilteredPosts] = React.useState(posts);
   const [searchTags, setSearchTags] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
+  const router = useRouter();
 
-  const [query, setQuery] = useQueryParamState('q');
+  // check if there's any tag selections coming from the router and set them
+  React.useEffect(() => {
+    setSearchTags(router.query.tags?.split(','));
+  }, [router.query]);
 
+  // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
     if (searchValue === '' && searchTags.length === 0) {
       handleFilter(posts);
@@ -36,15 +39,12 @@ export default function Post({ posts, categories }) {
       // Allow for a search for tag
       const formattedTags = [...searchTags.map((item) => ({ tags: item }))];
       const formattedTitle = searchValue.length ? [{ title: searchValue }] : [];
-      const formattedAuthor = searchValue.length
-        ? [{ author: searchValue }]
-        : [];
       const queries = {
         $or: [
           { title: searchValue },
           { author: searchValue },
           {
-            $and: [...formattedTags, ...formattedTitle],
+            $and: [...formattedTags],
           },
         ],
       };
@@ -52,6 +52,8 @@ export default function Post({ posts, categories }) {
       handleFilter(results);
     }
   }, [searchValue, searchTags]);
+
+  console.log(searchTags);
 
   const fuse = new Fuse(posts, fuseOptions);
 
