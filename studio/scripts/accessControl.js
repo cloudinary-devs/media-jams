@@ -20,7 +20,7 @@ const mutations = [
           permissions: ['read', 'update', 'create'],
         },
         {
-          filter: '_id in path("**")',
+          filter: '_type == "sanity.imageAsset"',
           permissions: ['read', 'create', 'update'],
         },
       ],
