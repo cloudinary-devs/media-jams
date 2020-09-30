@@ -1,9 +1,6 @@
 import React from 'react';
 
 import {
-  Flex,
-  Center,
-  Heading,
   Tab,
   Tabs,
   TabList,
@@ -16,50 +13,39 @@ import {
 
 import { FaHashtag } from 'react-icons/fa';
 
-export default function TabbedTagSelection({ tabs, tags }) {
-  const [searchTags, setSearchTags] = React.useState([]);
-
-  function addTag(tag) {
-    return setSearchTags((prev) => [...prev, tag]);
-  }
-
-  function removeTag(tag) {
-    return setSearchTags((prev) => prev.filter((pt) => pt !== tag));
-  }
-
-  function Panels({ tags }) {
+export default function TabbedTagSelection({
+  tabs,
+  addTag,
+  removeTag,
+  searchTags,
+}) {
+  function Panels({ tabs }) {
     return (
       <TabPanels>
-        {tags.map((tagGroups) => (
+        {tabs.map((category) => (
           <TabPanel>
-            {tagGroups.length >= 1 ? (
+            {category.tags?.length >= 1 ? (
               <Wrap>
-                {tagGroups.map((tag) => (
+                {category.tags.map((tag) => (
                   <Button
                     onClick={() =>
-                      searchTags.some(
-                        (selected) => selected.title === tag.title,
-                      )
+                      searchTags.some((selected) => selected === tag)
                         ? removeTag(tag)
                         : addTag(tag)
                     }
                     variant={
-                      searchTags.some(
-                        (selected) => selected.title === tag.title,
-                      )
+                      searchTags.some((selected) => selected === tag)
                         ? 'solid'
                         : 'outline'
                     }
                     colorScheme={
-                      searchTags.some(
-                        (selected) => selected.title === tag.title,
-                      )
+                      searchTags.some((selected) => selected === tag)
                         ? 'teal'
                         : null
                     }
                     rightIcon={<FaHashtag />}
                   >
-                    {tag.title}
+                    {tag}
                   </Button>
                 ))}
               </Wrap>
@@ -73,26 +59,13 @@ export default function TabbedTagSelection({ tabs, tags }) {
   }
 
   return (
-    <Flex
-      h="xl"
-      backgroundColor="rebeccapurple"
-      direction="column"
-      alignItems="center"
-      minW="100%"
-    >
-      <Center mb={16}>
-        <Heading mt={16} mx={16} as="h1" size="2xl">
-          Find the right content for you
-        </Heading>
-      </Center>
-      <Tabs>
-        <TabList mb="1em">
-          {tabs.map((tab) => (
-            <Tab key={tab.id}>{tab.title}</Tab>
-          ))}
-        </TabList>
-        <Panels tags={tags} />
-      </Tabs>
-    </Flex>
+    <Tabs>
+      <TabList mb="1em">
+        {tabs.map((tab) => (
+          <Tab key={tab.id}>{tab.title}</Tab>
+        ))}
+      </TabList>
+      <Panels tabs={tabs} />
+    </Tabs>
   );
 }

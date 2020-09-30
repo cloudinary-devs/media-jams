@@ -10,7 +10,12 @@ class Document extends NextDocument {
   render() {
     return (
       <html lang="en">
-        <Head></Head>
+        <Head>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Lato&family=Merriweather:wght@300&display=swap"
+            rel="stylesheet"
+          />
+        </Head>
         <body>
           <ColorModeScript defaultMode="system" />
           <Main />
