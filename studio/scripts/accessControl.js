@@ -20,11 +20,11 @@ const mutations = [
           permissions: ['read', 'update', 'create'],
         },
         {
-          filter: '_id in path("**")',
-          permissions: ['read', 'history'],
+          filter: '_type == "sanity.imageAsset"',
+          permissions: ['read', 'create', 'update'],
         },
       ],
-      members: ['pMVNYTrk5'], //jtomchak@gmail.com
+      members: ['pMVNYTrk5', 'po38b98q1'], //jtomchak@gmail.com
     },
   },
 ];

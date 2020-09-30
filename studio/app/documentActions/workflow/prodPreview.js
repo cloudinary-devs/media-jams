@@ -8,8 +8,11 @@ import Hotkeys from 'part:@sanity/components/typography/hotkeys';
 export const prodPreviewAction = (props) => {
   const ops = useDocumentOperation(props.id, props.type);
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
-
-  if (props.liveEdit || metadata.data.state === 'published') {
+  if (
+    props.liveEdit ||
+    props.type !== 'post' ||
+    metadata.data.state === 'published'
+  ) {
     return null;
   }
   let previewUrl;
@@ -18,7 +21,6 @@ export const prodPreviewAction = (props) => {
   } catch (error) {
     error.message = `An error was thrown while trying to get production preview url: ${error.message}`;
     // eslint-disable-next-line no-console
-    console.error(error);
     return null;
   }
 
