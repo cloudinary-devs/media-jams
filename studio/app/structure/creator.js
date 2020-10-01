@@ -21,13 +21,22 @@ export const creatorListItems = [
     .icon(Pencil)
     .child(() => {
       return getCurrentUser$().pipe(
+        filter(Boolean),
         switchMap(({ id }) => {
-          return getDocumentQuery$(CREATOR_DOCUMENTS_QUERY, {
+          return getDocumentMutations$(CREATOR_DOCUMENTS_QUERY, {
             type: 'post',
             userId: `${id}.self`,
-          });
+          }).pipe(
+            switchMap(() => {
+              return getDocumentQuery$(CREATOR_DOCUMENTS_QUERY, {
+                type: 'post',
+                userId: `${id}.self`,
+              });
+            }),
+          );
         }),
         map((docs) => {
+          console.log(docs);
           return S.list()
             .title('Posts')
             .items(

@@ -49,6 +49,10 @@
     {
       "name": "part:@sanity/base/new-document-structure",
       "path": "app/structure/newDocument.js"
+    },
+    {
+      "name": "part:@sanity/base/initial-value-templates",
+      "path": "app/schema/templates/initialValueTemamplateByUser.js"
     }
   ]
 }
