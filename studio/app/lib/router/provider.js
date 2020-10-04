@@ -10,7 +10,6 @@ export class RouterProvider extends React.Component {
 
   render() {
     const router = this.context.__internalRouter;
-
     return (
       <RouterContext.Provider value={router}>
         {this.props.children}
