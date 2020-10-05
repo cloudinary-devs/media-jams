@@ -1,4 +1,5 @@
 import { useDocumentOperation } from '@sanity/react-hooks';
+import userStore from 'part:@sanity/base/user';
 import CloseIcon from 'part:@sanity/base/close-icon';
 import { inferMetadataState, useWorkflowMetadata } from '../../lib/workflow';
 
