@@ -16,6 +16,14 @@ const mutations = [
           permissions: ['read', 'update', 'create'],
         },
         {
+          filter: "_type == 'tag'",
+          permissions: ['read'],
+        },
+        {
+          filter: "_type == 'category'",
+          permissions: ['read'],
+        },
+        {
           filter: "_type == 'author'",
           permissions: ['read', 'update', 'create'],
         },

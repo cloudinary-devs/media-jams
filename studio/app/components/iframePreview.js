@@ -15,11 +15,11 @@ class IframePreview extends React.PureComponent {
   };
 
   render() {
-    const { displayed } = this.props.document;
-    if (!displayed) {
+    const { displayed, slug } = this.props.document;
+    if (!displayed || !slug) {
       return (
         <div className={styles.componentWrapper}>
-          <p>There is no document to preview</p>
+          <p>A Post needs a title and some content to show first!</p>
         </div>
       );
     }

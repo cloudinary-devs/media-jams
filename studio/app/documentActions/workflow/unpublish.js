@@ -10,6 +10,15 @@ export function unpublishAction(props) {
     return null;
   }
 
+  const next = ({ user }) => {
+    ops.publish.disabled = user.role !== 'administrator';
+  };
+
+  userStore.currentUser.subscribe({
+    next,
+    error: (error) => console.error(`Failed to get current user: ${error}`),
+  });
+
   const onHandle = () => {
     if (ops.unpublish.disabled) {
       props.onComplete();

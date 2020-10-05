@@ -39,7 +39,7 @@ export const creatorListItems = [
             .documentId(documentId)
             .schemaType('post')
             .views([
-              S.view.component(CreatorEditor).icon(EditIcon).title('Editor'),
+              S.view.form().icon(EditIcon).title('Editor'),
               S.view
                 .component(IframePreview)
                 .icon(EyeIcon)
