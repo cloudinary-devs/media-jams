@@ -28,24 +28,29 @@ export default function Post({ post, preview }) {
     </Layout>
   );
 }
-
+/**
+ * Get all posts w/slug to pre-render url path
+ * Filter out any posts that might not have a slug set
+ * @returns {Object} paths based on post slug, and fallback true to live-preview drafts
+ */
 export const getStaticPaths = async () => {
   // Get the paths we want to pre-render based on posts
   const posts = await postsWithSlug();
   return {
     paths:
-      posts?.map((post) => ({
-        params: {
-          slug: post.slug,
-        },
-      })) || [],
+      posts
+        ?.filter((post) => post?.slug)
+        .map(({ slug }) => ({
+          params: {
+            slug,
+          },
+        })) || [],
     fallback: true,
   };
 };
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async ({ params: { slug }, preview = false }) => {
-  console.log(`Loading post content, preview mode is ${!!preview}`);
   const { title, body, slug: slug_current, tags = null } = await postBySlug(
     slug,
     preview,
