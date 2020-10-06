@@ -7,7 +7,6 @@ export function requestReviewAction(props) {
   const [showWizardDialog, setShowWizardDialog] = React.useState(false);
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
   const { state } = metadata.data;
-  console.log(props);
   if (
     !props.draft ||
     !props.draft.slug?.current ||
