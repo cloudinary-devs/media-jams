@@ -4,7 +4,7 @@ import { ChakraProvider } from '@chakra-ui/core';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
 
-import fathomAnalytics from '../lib/fathomAnalytics';
+import { fathomAnalytics } from '../lib/fathomAnalytics';
 
 const App = ({ Component, pageProps }) => {
   useEffect(fathomAnalytics, []);
