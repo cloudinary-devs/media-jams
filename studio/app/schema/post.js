@@ -1,4 +1,5 @@
 import slugify from 'slugify';
+import { isUniqueSlug } from '../lib/utils/isUniqueSlug';
 
 /**
  * Defines a Media Jam
@@ -49,6 +50,7 @@ export default {
       options: {
         source: 'title',
         slugify: slugify,
+        isUnique: isUniqueSlug,
       },
     },
     {
