@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
+
 import { ChakraProvider } from '@chakra-ui/core';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
 
+import fathomAnalytics from '../lib/fathomAnalytics';
+
 const App = ({ Component, pageProps }) => {
+  useEffect(fathomAnalytics, []);
   return (
     <ChakraProvider resetCSS theme={theme}>
       <DefaultSeo
