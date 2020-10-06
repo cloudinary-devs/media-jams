@@ -47,7 +47,6 @@ export default {
       type: 'slug',
       validation: (Rule) => Rule.required(),
       options: {
-        isUnique: true,
         source: 'title',
         slugify: slugify,
       },
