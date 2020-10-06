@@ -1,3 +1,4 @@
+import React from 'react';
 import S from '@sanity/desk-tool/structure-builder';
 import client from 'part:@sanity/base/client';
 import { workflowListItems } from './workflow';
@@ -16,8 +17,6 @@ const docTypeListItems = S.documentTypeListItems().filter(hiddenDocTypes);
 // includes both built in groups like 'administrator' and any custom groups you
 // may have created as part of SSO etc.
 const groupQuery = '* [_type == "system.group" && $identity in members] {_id}';
-
-// A fallback standard Desk structure
 
 export default () =>
   client

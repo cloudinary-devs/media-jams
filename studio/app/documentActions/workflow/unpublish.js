@@ -1,4 +1,5 @@
 import { useDocumentOperation } from '@sanity/react-hooks';
+import userStore from 'part:@sanity/base/user';
 import CloseIcon from 'part:@sanity/base/close-icon';
 import { inferMetadataState, useWorkflowMetadata } from '../../lib/workflow';
 
@@ -9,6 +10,15 @@ export function unpublishAction(props) {
   if (metadata.data.state !== 'published') {
     return null;
   }
+
+  const next = ({ user }) => {
+    ops.publish.disabled = user.role !== 'administrator';
+  };
+
+  userStore.currentUser.subscribe({
+    next,
+    error: (error) => console.error(`Failed to get current user: ${error}`),
+  });
 
   const onHandle = () => {
     if (ops.unpublish.disabled) {

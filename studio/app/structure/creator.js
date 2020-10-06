@@ -1,14 +1,16 @@
 import S from '@sanity/desk-tool/structure-builder';
 import Pencil from 'react-icons/lib/ti/pencil';
 import User from 'react-icons/lib/ti/user-outline';
+import userStore from 'part:@sanity/base/user';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { getDocumentMutations$ } from '../lib/document';
-import { getDocumentQuery$ } from '../lib/document';
+import EyeIcon from 'part:@sanity/base/eye-icon';
+import EditIcon from 'part:@sanity/base/edit-icon';
+import IframePreview from '../components/iframePreview';
+import CreatorEditor from '../components/creatorEditor';
 import { getCurrentUser$ } from '../lib/user';
 
-const WORKFLOW_DOCUMENTS_FILTER = `_type == $type && $userId in assignees`;
 const CREATOR_DOCUMENTS_QUERY = `
-  * [_type == $type && author._ref in *[_type=="author" && _id== $userId]._id] 
+* [_type == $type  && author._ref == $userId ] 
 `;
 
 const CREATOR_AUTHOR_QUERY = `
@@ -17,35 +19,42 @@ const CREATOR_AUTHOR_QUERY = `
 
 export const creatorListItems = [
   // Show only posts authored by current_user
-  S.listItem()
-    .title('My Jams')
-    .icon(Pencil)
-    .child(() => {
-      return getCurrentUser$().pipe(
-        switchMap((user) => {
-          return getDocumentQuery$(CREATOR_DOCUMENTS_QUERY, {
-            type: 'post',
-            userId: user.id,
-          });
-        }),
-        map((docs) => {
-          return S.list()
-            .title('Posts')
-            .items(
-              docs.map((item) =>
-                S.documentListItem().id(item._id).schemaType(item._type),
-              ),
-            );
-        }),
-      );
-    }),
+  S.listItem({
+    id: 'posts-by-author',
+    title: 'My Jams',
+    icon: Pencil,
+    schemaType: 'post',
+    child: async () => {
+      const { name, id } = await userStore.getUser('me');
+      const self = `${id}.self`;
+      return S.documentTypeList('post')
+        .title('Jams')
+        .filter('_type == $type && author._ref == $authorId')
+        .params({ type: 'post', authorId: self })
+        .initialValueTemplates([
+          S.initialValueTemplateItem('post-by-author', { authorId: self }),
+        ])
+        .child((documentId) =>
+          S.document()
+            .documentId(documentId)
+            .schemaType('post')
+            .views([
+              S.view.form().icon(EditIcon).title('Editor'),
+              S.view
+                .component(IframePreview)
+                .icon(EyeIcon)
+                .title('Web Preview'),
+            ]),
+        );
+    },
+  }),
   S.listItem()
     .title('Author Profile')
     .icon(User)
     .child(() => {
       return getCurrentUser$().pipe(
         map(({ id }) => {
-          return S.document().schemaType('author').documentId(`${id}.self`);
+          return S.editor().schemaType('author').documentId(`${id}.self`);
         }),
       );
     }),

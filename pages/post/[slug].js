@@ -28,17 +28,25 @@ export default function Post({ post, preview }) {
     </Layout>
   );
 }
-
+/**
+ * Get all posts w/slug to pre-render url path
+ * Filter out any posts that might not have a slug set
+ * @returns {Object} paths based on post slug, and fallback true to live-preview drafts
+ */
 export const getStaticPaths = async () => {
   // Get the paths we want to pre-render based on posts
   const posts = await postsWithSlug();
-  const paths = posts.map(({ _id, slug }) => ({
-    params: { slug },
-  }));
-
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: true };
+  return {
+    paths:
+      posts
+        ?.filter((post) => post?.slug)
+        .map(({ slug }) => ({
+          params: {
+            slug,
+          },
+        })) || [],
+    fallback: true,
+  };
 };
 
 // This function gets called at build time on server-side.

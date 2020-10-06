@@ -1,3 +1,6 @@
+import slugify from 'slugify';
+import { isUniqueSlug } from '../lib/utils/isUniqueSlug';
+
 /**
  * Defines a Media Jam
  * @typedef {Object} Post
@@ -16,13 +19,23 @@ export default {
   name: 'post',
   title: 'Post',
   type: 'document',
+  validation: (Rule) =>
+    Rule.custom((fields) => {
+      if (fields.title.length > 0 && fields.slug?.current?.length <= 0)
+        return "You've gotta have a slug to go with that awesome title!";
+      return true;
+    }),
   fields: [
     {
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule) =>
+      validation: (Rule) => [
+        Rule.required()
+          .min(10)
+          .error('A title of min. 10 characters is required'),
         Rule.max(50).warning('Shorter titles are usually better'),
+      ],
     },
     {
       name: 'description',
@@ -33,21 +46,25 @@ export default {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
+      validation: (Rule) => Rule.required(),
       options: {
         source: 'title',
-        maxLength: 96,
+        slugify: slugify,
+        isUnique: isUniqueSlug,
       },
     },
     {
       name: 'author',
       title: 'Author',
       type: 'reference',
+      readOnly: true,
       to: { type: 'author' },
     },
     {
       name: 'publishedAt',
       title: 'Published at',
       type: 'datetime',
+      readOnly: true,
     },
     {
       name: 'featured',
