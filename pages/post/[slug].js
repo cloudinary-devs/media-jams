@@ -32,17 +32,20 @@ export default function Post({ post, preview }) {
 export const getStaticPaths = async () => {
   // Get the paths we want to pre-render based on posts
   const posts = await postsWithSlug();
-  const paths = posts.map(({ _id, slug }) => ({
-    params: { slug },
-  }));
-
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: true };
+  return {
+    paths:
+      posts?.map((post) => ({
+        params: {
+          slug: post.slug,
+        },
+      })) || [],
+    fallback: true,
+  };
 };
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async ({ params: { slug }, preview = false }) => {
+  console.log(`Loading post content, preview mode is ${!!preview}`);
   const { title, body, slug: slug_current, tags = null } = await postBySlug(
     slug,
     preview,

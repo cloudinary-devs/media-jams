@@ -15,8 +15,9 @@ class IframePreview extends React.PureComponent {
   };
 
   render() {
-    const { displayed, slug } = this.props.document;
-    if (!displayed || !slug) {
+    const { displayed } = this.props.document;
+    const { slug, body } = displayed;
+    if (!slug && !body) {
       return (
         <div className={styles.componentWrapper}>
           <p>A Post needs a title and some content to show first!</p>

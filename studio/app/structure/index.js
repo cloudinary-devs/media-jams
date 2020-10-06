@@ -17,21 +17,6 @@ const docTypeListItems = S.documentTypeListItems().filter(hiddenDocTypes);
 // includes both built in groups like 'administrator' and any custom groups you
 // may have created as part of SSO etc.
 const groupQuery = '* [_type == "system.group" && $identity in members] {_id}';
-const JsonPreview = ({ document }) => (
-  // The JSON preview
-  <pre>{JSON.stringify(document.displayed, null, 2)}</pre>
-);
-
-export const getDefaultDocumentNode = () => {
-  if (schemaType == 'post') {
-    // Give all documents of type myDocument the JSON preview,
-    // as well as the default form view
-    S.document().views([
-      S.view.form(),
-      S.view.component(JsonPreview).title('JSON'),
-    ]);
-  }
-};
 
 export default () =>
   client

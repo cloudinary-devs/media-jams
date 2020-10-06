@@ -10,8 +10,9 @@ export function publishAction(props) {
   if (props.liveEdit || metadata.data.state === 'published') {
     return null;
   }
+  let buttonDisabled = true;
   const next = ({ user }) => {
-    ops.publish.disabled = user.role !== 'administrator';
+    buttonDisabled = user.role !== 'administrator';
   };
 
   userStore.currentUser.subscribe({
@@ -24,14 +25,14 @@ export function publishAction(props) {
       props.onComplete();
       return;
     }
-
+    ops.patch.execute([{ set: { publishedAt: new Date().toISOString() } }]);
     metadata.setState('published');
     ops.publish.execute();
     props.onComplete();
   };
 
   return {
-    disabled: ops.publish.disabled,
+    disabled: buttonDisabled,
     icon: PublishIcon,
     shortcut: 'mod+shift+p',
     label: 'Publish',

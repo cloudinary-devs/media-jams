@@ -42,12 +42,14 @@ export default {
       name: 'author',
       title: 'Author',
       type: 'reference',
+      readOnly: true,
       to: { type: 'author' },
     },
     {
       name: 'publishedAt',
       title: 'Published at',
       type: 'datetime',
+      readOnly: true,
     },
     {
       name: 'featured',
