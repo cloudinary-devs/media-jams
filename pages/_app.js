@@ -1,16 +1,9 @@
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-
 import { ChakraProvider } from '@chakra-ui/core';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
-import { fathomAnalytics } from 'lib/fathomAnalytics';
 
 const App = ({ Component, pageProps }) => {
-  const router = useRouter();
-  useEffect(() => {
-    fathomAnalytics(router);
-  }, []);
   return (
     <ChakraProvider resetCSS theme={theme}>
       <DefaultSeo
