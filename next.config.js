@@ -9,7 +9,12 @@ module.exports = {
   publicRuntimeConfig: {
     // Will be available on both server and client
     staticFolder: '/static',
+    // plausibleDomain: 'poc-media-jams.vercel.app',
+    plausibleDomain: 'localhost:3000',
     fathomSiteId: process.env.FATHOM_SITE_ID,
-    fathomIncludedDomains: ['https://poc-media-jams.vercel.app/'],
+    fathomIncludedDomains: [
+      'https://poc-media-jams.vercel.app/',
+      'http://localhost:3000',
+    ],
   },
 };

@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
 
 import { allPosts, allCategories } from 'lib/api';
-
 import Card from '@components/Card';
 import TabbedTagSelection from '@components/TabbedTagSelection';
 import SearchInput from '@components/SearchInput';
 import Layout from '@components/Layout';
 import { Flex, Grid } from '@chakra-ui/core';
+import NextLink from 'next/link';
 import Fuse from 'fuse.js';
 
 const fuseOptions = {
@@ -101,7 +101,7 @@ export default function Post({ posts, categories }) {
             gap={8}
           >
             {filteredPosts.map((post) => (
-              <Card post={post} />
+              <Card key={post._id} post={post} />
             ))}
           </Grid>
         </Flex>
