@@ -11,8 +11,9 @@ export function unpublishAction(props) {
     return null;
   }
 
+  let buttonDisabled = true;
   const next = ({ user }) => {
-    ops.publish.disabled = user.role !== 'administrator';
+    buttonDisabled = user.role !== 'administrator';
   };
 
   userStore.currentUser.subscribe({
@@ -32,7 +33,7 @@ export function unpublishAction(props) {
   };
 
   return {
-    disabled: ops.unpublish.disabled,
+    disabled: buttonDisabled,
     icon: CloseIcon,
     shortcut: 'mod+shift+u',
     label: 'Unpublish',

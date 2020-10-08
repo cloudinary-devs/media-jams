@@ -50,6 +50,13 @@ export function useWorkflowMetadata(id, defaultState) {
     ]);
   }
 
+  function setRoles(roles) {
+    ops.patch.execute([
+      { setIfMissing: { documentId: id } },
+      { set: { roles } },
+    ]);
+  }
+
   function setState(state) {
     ops.patch.execute([
       { setIfMissing: { documentId: id } },
