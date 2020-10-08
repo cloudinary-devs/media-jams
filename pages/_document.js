@@ -17,18 +17,6 @@ class Document extends NextDocument {
             href="https://fonts.googleapis.com/css2?family=Lato&family=Merriweather:wght@300&display=swap"
             rel="stylesheet"
           />
-          <script
-            async
-            defer
-            data-domain={publicRuntimeConfig.plausibleDomain}
-            src="https://plausible.io/js/plausible.js"
-          ></script>
-          <script
-            dangerouslySetInnerHTML={{
-              __html:
-                'window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }',
-            }}
-          />
         </Head>
         <body>
           <ColorModeScript defaultMode="system" />

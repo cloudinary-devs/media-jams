@@ -15,5 +15,6 @@ module.exports = {
       'https://poc-media-jams.vercel.app/',
       'http://localhost:3000',
     ],
+    mixPanelToken: process.env.MIXPANEL_TOKEN,
   },
 };
