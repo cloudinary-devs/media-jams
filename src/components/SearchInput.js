@@ -1,14 +1,16 @@
 import React from 'react';
 import { Stack, Input } from '@chakra-ui/core';
-import Mixpanel, { useMixPanel } from 'lib/mixpanel';
 import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig();
+import Mixpanel, { useMixPanel } from 'lib/mixpanel';
+import useDebounce from '../hooks/useDebounce';
 
 export default function SearchInput({ searchValue, setSearchValue }) {
   const mixpanel = useMixPanel();
+  const debounceSearchValue = useDebounce(searchValue, 500);
   React.useEffect(() => {
-    mixpanel.track('Search Tag', { searchValue });
-  }, [searchValue]);
+    mixpanel.track('Search Tag', { searchInput: debounceSearchValue });
+  }, [debounceSearchValue]);
   const onChange = (e) => {
     const { value } = e.target;
     setSearchValue(value);

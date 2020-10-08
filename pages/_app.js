@@ -8,9 +8,7 @@ import { DefaultSeo } from 'next-seo';
 import Mixpanel from 'lib/mixpanel';
 
 const App = ({ Component, pageProps }) => {
-  React.useEffect(() => {
-    Mixpanel.init(publicRuntimeConfig.mixPanelToken);
-  }, []);
+  React.useEffect(() => {}, []);
   return (
     <MixPanelProvider>
       <ChakraProvider resetCSS theme={theme}>
