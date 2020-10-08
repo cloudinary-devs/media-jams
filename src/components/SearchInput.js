@@ -1,7 +1,14 @@
 import React from 'react';
 import { Stack, Input } from '@chakra-ui/core';
+import Mixpanel, { useMixPanel } from 'lib/mixpanel';
+import getConfig from 'next/config';
+const { publicRuntimeConfig } = getConfig();
 
 export default function SearchInput({ searchValue, setSearchValue }) {
+  const mixpanel = useMixPanel();
+  React.useEffect(() => {
+    mixpanel.track('Search Tag', { searchValue });
+  }, [searchValue]);
   const onChange = (e) => {
     const { value } = e.target;
     setSearchValue(value);
