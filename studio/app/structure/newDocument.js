@@ -1,7 +1,5 @@
 import S from '@sanity/base/structure-builder';
-import userStore from 'part:@sanity/base/user';
-// remember to add rxjs/operators to your dependencies with npm or yarn
-import { map } from 'rxjs/operators';
+import { GoFile } from 'react-icons/go';
 
 export default [
   S.initialValueTemplateItem('post').id(`post`).title('New Media Jam'),

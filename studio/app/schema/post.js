@@ -1,4 +1,5 @@
 import userStore from 'part:@sanity/base/user';
+import { GoFile } from 'react-icons/go';
 import slugify from 'slugify';
 import { isUniqueSlug } from '../lib/utils/isUniqueSlug';
 
@@ -107,9 +108,11 @@ export default {
       author: 'author.name',
     },
     prepare(selection) {
+      let media = GoFile;
       const { author } = selection;
       return Object.assign({}, selection, {
         subtitle: author && `by ${author}`,
+        media,
       });
     },
   },

@@ -1,6 +1,5 @@
 import S from '@sanity/desk-tool/structure-builder';
-import Pencil from 'react-icons/lib/ti/pencil';
-import User from 'react-icons/lib/ti/user-outline';
+import { GoPencil, GoPerson, GoEye, GoTextSize } from 'react-icons/go';
 import userStore from 'part:@sanity/base/user';
 import { filter, map, switchMap } from 'rxjs/operators';
 import EyeIcon from 'part:@sanity/base/eye-icon';
@@ -22,7 +21,7 @@ export const creatorListItems = [
   S.listItem({
     id: 'posts-by-author',
     title: 'My Jams',
-    icon: Pencil,
+    icon: GoPencil,
     schemaType: 'post',
     child: async () => {
       const { name, id } = await userStore.getUser('me');
@@ -36,18 +35,15 @@ export const creatorListItems = [
             .documentId(documentId)
             .schemaType('post')
             .views([
-              S.view.form().icon(EditIcon).title('Editor'),
-              S.view
-                .component(IframePreview)
-                .icon(EyeIcon)
-                .title('Web Preview'),
+              S.view.form().icon(GoTextSize).title('Editor'),
+              S.view.component(IframePreview).icon(GoEye).title('Web Preview'),
             ]),
         );
     },
   }),
   S.listItem()
     .title('Author Profile')
-    .icon(User)
+    .icon(GoPerson)
     .child(() => {
       return getCurrentUser$().pipe(
         map(({ id }) => {
