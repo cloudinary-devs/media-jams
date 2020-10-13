@@ -1,7 +1,13 @@
 {
   "providers": {
-    "mode": "append",
-    "redirectOnSingle": false,
-    "entries": []
+    "mode": "replace",
+    "redirectOnSingle": true,
+    "entries": [
+      {
+        "name": "custom-login",
+        "title": "Custom Login",
+        "url": "http://localhost:3000/api/login"
+      }
+    ]
   }
 }
