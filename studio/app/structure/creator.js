@@ -31,9 +31,6 @@ export const creatorListItems = [
         .title('Jams')
         .filter('_type == $type && author._ref == $authorId')
         .params({ type: 'post', authorId: self })
-        .initialValueTemplates([
-          S.initialValueTemplateItem('post-by-author', { authorId: self }),
-        ])
         .child((documentId) =>
           S.document()
             .documentId(documentId)
