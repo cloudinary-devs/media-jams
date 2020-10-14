@@ -22,7 +22,7 @@ export default function FeaturedJams({ posts }) {
         gap={8}
         w="70%"
       >
-        {posts.map((post) => (
+        {posts?.map((post) => (
           <Card key={post.slug} post={post} />
         ))}
       </Grid>
