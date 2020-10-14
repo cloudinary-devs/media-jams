@@ -11,7 +11,7 @@
     "start": "next start",
     "studio": "cd studio && npm start",
     "docs": "jsdoc -c jsdoc.conf.json",
-    "test": "jest",
+    "test": "jest --watch",
     "format": "yarn format:index && yarn format:pages && yarn format:src",
     "format:index": "prettier --write \"*.{js,json,md}\"",
     "format:pages": "prettier --write \"pages/**/*.js\"",
@@ -51,7 +51,8 @@
     "jest": "^26.5.3",
     "jest-dom": "^4.0.0",
     "lint-staged": "^10.2.11",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "rewire": "^5.0.0"
   },
   "husky": {
     "hooks": {
