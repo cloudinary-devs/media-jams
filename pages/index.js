@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { serializeArray, deserializeArray } from '@hooks/useQueryParameter';
-import { allPosts, allCategories } from 'lib/api';
+import { allPosts, allCategories } from '../lib/api';
 
 import { Flex, Center, Heading, Button, Link } from '@chakra-ui/core';
 import Layout from '@components/Layout';
