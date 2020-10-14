@@ -11,6 +11,7 @@
     "start": "next start",
     "studio": "cd studio && npm start",
     "docs": "jsdoc -c jsdoc.conf.json",
+    "test": "jest",
     "format": "yarn format:index && yarn format:pages && yarn format:src",
     "format:index": "prettier --write \"*.{js,json,md}\"",
     "format:pages": "prettier --write \"pages/**/*.js\"",
@@ -41,7 +42,13 @@
     "use-cloudinary": "^3.1.7"
   },
   "devDependencies": {
+    "@testing-library/dom": "^7.26.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.0.4",
+    "babel-jest": "^26.5.2",
     "husky": "^4.2.5",
+    "jest": "^26.5.3",
+    "jest-dom": "^4.0.0",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5"
   },
@@ -70,5 +77,22 @@
     "nextjs",
     "mdx"
   ],
+  "babel": {
+    "presets": [
+      "next/babel"
+    ]
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/.next/",
+      "<rootDir>/node_modules/"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/__tests__/setupTests.js"
+    ],
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest"
+    }
+  },
   "license": "ISC"
 }
