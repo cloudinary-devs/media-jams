@@ -6,5 +6,8 @@
       "@components/*": ["src/components/*"],
       "@hooks/*": ["src/hooks/*"]
     }
+  },
+  "typeAcquisition": {
+    "include": ["jest"]
   }
 }
