@@ -11,11 +11,9 @@ export default [
     title: 'Post by author',
     description: 'Posts by a specific author',
     schemaType: 'post',
-    parameters: [{ name: 'authorId', type: 'string' }],
-    value: async (params) => {
-      return {
-        author: { _type: 'reference', _ref: params.authorId },
-      };
+    parameters: [{ type: 'string' }],
+    value: {
+      type: type,
     },
   }),
 ];
