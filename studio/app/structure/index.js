@@ -32,7 +32,7 @@ export default () =>
       // Build up an array of items depending on group membership. You may of
       // course do this completely different. This is just an example.
       const deskItems = [];
-      if (groupNames.includes('administrator')) {
+      if (groupNames.includes('moderator')) {
         // Add the items that administrators should see
         deskItems.push(...workflowListItems, ...docTypeListItems);
       }
