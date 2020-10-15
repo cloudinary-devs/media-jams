@@ -1,14 +1,16 @@
-import { MixPanelProvider } from '../lib/mixpanel';
-import getConfig from 'next/config';
-const { publicRuntimeConfig } = getConfig();
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 import { ChakraProvider } from '@chakra-ui/core';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
-import Mixpanel from 'lib/mixpanel';
+import { fathomAnalytics } from 'lib/fathomAnalytics';
 
 const App = ({ Component, pageProps }) => {
-  React.useEffect(() => {}, []);
+  const router = useRouter();
+  useEffect(() => {
+    fathomAnalytics(router);
+  }, []);
   return (
     <MixPanelProvider>
       <ChakraProvider resetCSS theme={theme}>

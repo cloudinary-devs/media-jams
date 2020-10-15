@@ -22,13 +22,13 @@ export default function TabbedTagSelection({
   function Panels({ tabs }) {
     return (
       <TabPanels>
-        {tabs?.map((category, idx) => (
-          <TabPanel key={idx.toString()}>
+        {tabs.map((category) => (
+          <TabPanel>
             {category.tags?.length >= 1 ? (
               <Wrap>
-                {category.tags.map((tag, idx) => (
+                {category.tags.map((tag) => (
                   <Button
-                    key={idx.toString()}
+                    key={tag.title}
                     onClick={() =>
                       searchTags.some((selected) => selected === tag)
                         ? removeTag(tag)
@@ -62,8 +62,8 @@ export default function TabbedTagSelection({
   return (
     <Tabs>
       <TabList mb="1em">
-        {tabs?.map((tab, idx) => (
-          <Tab key={idx}>{tab.title}</Tab>
+        {tabs.map((tab) => (
+          <Tab key={tab.id}>{tab.title}</Tab>
         ))}
       </TabList>
       <Panels tabs={tabs} />

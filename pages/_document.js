@@ -1,6 +1,4 @@
 import NextDocument, { Head, Main, NextScript } from 'next/document';
-import getConfig from 'next/config';
-const { publicRuntimeConfig } = getConfig();
 import { ColorModeScript } from '@chakra-ui/core';
 import React from 'react';
 
