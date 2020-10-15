@@ -9,6 +9,7 @@ const callbacks = {
    * @return {string}          URL the client will be redirect to
    */
   redirect: async (url, baseUrl) => {
+    debugger;
     return Promise.resolve('http://localhost:3333');
     // return Promise.resolve(url);
   },
