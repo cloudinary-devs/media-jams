@@ -1,5 +1,5 @@
-import auth0 from '../../lib/auth0';
-import addQueryToUrl from '../../lib/addQueryToUrl';
+import auth0 from '../../../lib/auth0';
+import addQueryToUrl from '../../../lib/addQueryToUrl';
 
 export default async function callback(req, res) {
   try {
