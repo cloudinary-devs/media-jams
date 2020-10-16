@@ -33,6 +33,7 @@ const mutations = [
         },
       ],
       members: [], //jtomchak@gmail.com
+
     },
   },
 ];

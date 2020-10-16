@@ -5,7 +5,6 @@ const { publicRuntimeConfig } = getConfig();
 import { ChakraProvider } from '@chakra-ui/core';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
-import Mixpanel from 'lib/mixpanel';
 
 const App = ({ Component, pageProps }) => {
   React.useEffect(() => {}, []);

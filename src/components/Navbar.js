@@ -1,20 +1,12 @@
 import { Flex, Text, Box, Link } from '@chakra-ui/core';
 import ThemeTogglebutton from '@components/ThemeToggleButton';
-import NextLink from 'next/link';
+import { Link as NextLink } from 'next/link';
 
-/**
- *
- * @param {Object} props child elements, href and props
- * Wrapping chakra-ui 'Link' with Router context NextJS Link as NextLink
- * https://nextjs.org/docs/api-reference/next/link#if-the-child-is-a-custom-component-that-wraps-an-a-tag
- */
-function NavLink({ children, href, ...props }) {
+function NavLink({ children, ...props }) {
   return (
-    <NextLink href={href} passHref>
-      <Link as="a" px={2} {...props}>
-        {children}
-      </Link>
-    </NextLink>
+    <Link as={NextLink} px={2} {...props}>
+      {children}
+    </Link>
   );
 }
 
