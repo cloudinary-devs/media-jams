@@ -1,22 +1,13 @@
 import CheckIcon from 'part:@sanity/base/check-icon';
-import userStore from 'part:@sanity/base/user';
+import { userModerator } from '../../lib/user';
 import { inferMetadataState, useWorkflowMetadata } from '../../lib/workflow';
 
 export function approveAction(props) {
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
+  const buttonDisabled = !userModerator();
   if (metadata.data.state !== 'inReview') {
     return null;
   }
-
-  let buttonDisabled = true;
-  const next = ({ user }) => {
-    buttonDisabled = user.role !== 'moderator';
-  };
-
-  userStore.currentUser.subscribe({
-    next,
-    error: (error) => console.error(`Failed to get current user: ${error}`),
-  });
 
   const onHandle = () => {
     metadata.setState('approved');

@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import client from 'part:@sanity/base/client';
 import { useCurrentProject } from '../project';
 import { useObservable } from '../utils/use';
 import { getUser$ } from './user';
@@ -28,4 +30,26 @@ export function useProjectUsers() {
   const allUserIds = project && project.members.map((user) => user.id);
 
   return useUserList(allUserIds || []);
+}
+
+export function userModerator() {
+  const groupQuery = `* [_type == "system.group" && $identity in members]{_id}`;
+  const [hasPermission, setPermission] = useState(false);
+  useEffect(() => {
+    const updatePermission = () => {
+      client
+        .fetch(groupQuery)
+        // Convenience: Get the last portion of the group documents '_id' property,
+        // since we'd like to just work with the string 'editors' instead of
+        // '_.groups.editors'
+        .then((docs) => docs.map((doc) => doc._id.split('.').pop()))
+        .then((groupNames) => {
+          console.log(groupNames);
+          setPermission(groupNames.includes('moderator'));
+        });
+    };
+    updatePermission();
+    return () => {};
+  }, []);
+  return hasPermission;
 }
