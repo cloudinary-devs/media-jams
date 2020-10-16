@@ -12,7 +12,7 @@ export function deleteAction(props) {
 
   let buttonDisabled = true;
   const next = ({ user }) => {
-    buttonDisabled = user.role !== 'administrator';
+    buttonDisabled = user.role !== 'moderator';
   };
 
   userStore.currentUser.subscribe({
