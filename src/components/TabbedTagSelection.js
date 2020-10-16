@@ -22,7 +22,7 @@ export default function TabbedTagSelection({
   function Panels({ tabs }) {
     return (
       <TabPanels>
-        {tabs.map((category, idx) => (
+        {tabs?.map((category, idx) => (
           <TabPanel key={idx.toString()}>
             {category.tags?.length >= 1 ? (
               <Wrap>
@@ -62,7 +62,7 @@ export default function TabbedTagSelection({
   return (
     <Tabs>
       <TabList mb="1em">
-        {tabs.map((tab, idx) => (
+        {tabs?.map((tab, idx) => (
           <Tab key={idx}>{tab.title}</Tab>
         ))}
       </TabList>

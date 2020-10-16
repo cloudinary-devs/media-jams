@@ -32,7 +32,7 @@ const mutations = [
           permissions: ['read', 'create', 'update'],
         },
       ],
-      members: ['pMVNYTrk5', 'po38b98q1'], //jtomchak@gmail.com
+      members: [], //jtomchak@gmail.com
     },
   },
 ];
