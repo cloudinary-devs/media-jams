@@ -9,7 +9,7 @@ export function requestChangesAction(props) {
     return null;
   }
   const next = ({ user }) => {
-    buttonDisabled = user.role !== 'administrator';
+    buttonDisabled = user.role !== 'moderator';
   };
 
   userStore.currentUser.subscribe({
