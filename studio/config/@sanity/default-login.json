@@ -4,9 +4,9 @@
     "redirectOnSingle": true,
     "entries": [
       {
-        "name": "custom-login",
-        "title": "Custom Login",
-        "url": "https://poc-media-jams-git-auth0-studio.jtomchak.vercel.app/api/auth/login"
+        "name": "media-jams-login",
+        "title": "Media Jams Login",
+        "url": "https://poc-media-jams.vercel.app/api/auth/login"
       }
     ]
   }
