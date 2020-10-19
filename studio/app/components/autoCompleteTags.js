@@ -4,7 +4,7 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from 'react';
-import CreatableSelect from 'react-select/creatable';
+import Select from 'react-select';
 import PatchEvent, { set, unset } from 'part:@sanity/form-builder/patch-event';
 import { withDocument } from 'part:@sanity/form-builder';
 import client from 'part:@sanity/base/client';
@@ -91,7 +91,7 @@ const autoCompleteTags = forwardRef((props, ref) => {
   return (
     <>
       <label>{props.type.title}</label>
-      <CreatableSelect
+      <Select
         disabled={isLoading}
         isLoading={isLoading}
         value={selected}
