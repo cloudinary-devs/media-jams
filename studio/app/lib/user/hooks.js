@@ -44,7 +44,6 @@ export function userModerator() {
         // '_.groups.editors'
         .then((docs) => docs.map((doc) => doc._id.split('.').pop()))
         .then((groupNames) => {
-          console.log(groupNames);
           setPermission(groupNames.includes('moderator'));
         });
     };
