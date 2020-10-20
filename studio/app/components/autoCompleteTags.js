@@ -42,13 +42,21 @@ const autoCompleteTags = forwardRef((props, ref) => {
 
     // TODO: Implement .focus() mentod
 
+    /**
+     * Query for all tags
+     * use documents referenced tag id's to get tag title as label
+     * to populate the list on render
+     * set unique tags and selected tags
+     */
     const fetchTags = async () => {
       const allTags = await client.fetch(query);
-      const selectedTags = props.document.tags.map((tag) => {
+      const selectedTags = props.document.tags?.map((tag) => {
         return allTags.find((t) => t._id === tag._ref);
       });
+      if (selectedTags) {
+        setSelected(selectedTags);
+      }
       setUniqueTags(allTags);
-      setSelected(selectedTags);
       return allTags;
     };
 
@@ -58,7 +66,13 @@ const autoCompleteTags = forwardRef((props, ref) => {
     setIsLoading(false);
   }, []);
 
-  // Here we handle change to the tags when this change does not involve creating a new tag
+  /**
+   *
+   * @param {Array} newValue Complete Array of all selected tags
+   * this isn't the latest selected tag, it's all selected tags
+   * so we can simply setSelected, no need to diff or append to existing state
+   * just an outright replacement.
+   */
   const handleChange = (newValue) => {
     setSelected(newValue);
     props.onChange(createPatchFrom(newValue));
