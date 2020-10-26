@@ -6,6 +6,7 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { postBySlug, postsWithSlug } from 'lib/api';
 
 import { Code } from '@mdnextjs/components';
+import CodeSandbox from '@components/CodeSandbox';
 
 const components = { code: Code, iframe: CodeSandbox };
 
