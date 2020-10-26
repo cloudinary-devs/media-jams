@@ -2,7 +2,7 @@ import userStore from 'part:@sanity/base/user';
 import { GoFile } from 'react-icons/go';
 import slugify from 'slugify';
 import { isUniqueSlug } from '../lib/utils/isUniqueSlug';
-import authCompleteTags from '../components/autoCompleteTags';
+import autoCompleteTags from '../components/autoCompleteTags';
 
 /**
  * Defines a Media Jam
@@ -87,7 +87,7 @@ export default {
       name: 'tags',
       title: 'Tags',
       type: 'array',
-      inputComponent: authCompleteTags,
+      inputComponent: autoCompleteTags,
       validation: (Rule) => Rule.required().min(1),
       of: [{ type: 'reference', to: { type: 'tag' } }],
       options: {

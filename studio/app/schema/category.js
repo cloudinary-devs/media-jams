@@ -1,3 +1,5 @@
+import autoCompleteTags from '../components/autoCompleteTags';
+
 export default {
   name: 'category',
   title: 'Category',
@@ -17,6 +19,7 @@ export default {
       name: 'tags',
       title: 'Tags',
       type: 'array',
+      inputComponent: autoCompleteTags,
       of: [
         {
           type: 'reference',

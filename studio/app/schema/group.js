@@ -1,3 +1,4 @@
+import autoCompleteTags from '../components/autoCompleteTags';
 export default {
   name: 'group',
   title: 'Group',
@@ -12,6 +13,7 @@ export default {
       name: 'tags',
       title: 'Tags',
       type: 'array',
+      inputComponent: autoCompleteTags,
       of: [{ type: 'reference', to: { type: 'tag' } }],
     },
   ],
