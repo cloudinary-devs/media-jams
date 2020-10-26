@@ -1,7 +1,14 @@
 {
   "providers": {
-    "mode": "append",
-    "redirectOnSingle": false,
-    "entries": []
+    "mode": "replace",
+    "redirectOnSingle": true,
+    "entries": [
+      {
+        "name": "media-jams-login",
+        "title": "Media Jams Login",
+        "url": "https://poc-media-jams.vercel.app/api/auth/login"
+
+      }
+    ]
   }
 }

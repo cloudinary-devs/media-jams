@@ -7,34 +7,53 @@
   "main": "next.config.js",
   "scripts": {
     "build": "next build",
-    "dev": "next",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "start": "next start",
     "studio": "cd studio && npm start",
+    "docs": "jsdoc -c jsdoc.conf.json",
+    "test": "jest --watch",
     "format": "yarn format:index && yarn format:pages && yarn format:src",
     "format:index": "prettier --write \"*.{js,json,md}\"",
     "format:pages": "prettier --write \"pages/**/*.js\"",
     "format:src": "prettier --write \"src/**/*.{js,md,mdx}\""
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^0.16.0",
     "@chakra-ui/core": "^1.0.0-rc.3",
     "@chakra-ui/theme": "^1.0.0-rc.3",
     "@chakra-ui/theme-tools": "^1.0.0-rc.3",
+    "@mdnextjs/components": "^0.2.0",
+    "@sanity/block-content-to-markdown": "^0.0.5",
+    "@sanity/client": "^1.150.1",
+    "cloudinary": "^1.23.0",
     "fast-glob": "^3.2.4",
+    "fathom-client": "^3.0.0",
+    "framer-motion": "^2.6.13",
     "fuse.js": "^6.4.1",
     "gray-matter": "^4.0.2",
+    "mixpanel-browser": "^2.39.0",
     "next": "^9.5.2",
+    "next-auth": "^3.1.0",
     "next-mdx-remote": "^1.0.0",
     "next-seo": "^4.7.3",
     "prism-react-renderer": "^1.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
-    "use-cloudinary": "^3.1.6"
+    "use-cloudinary": "^3.1.7"
   },
   "devDependencies": {
+    "@testing-library/dom": "^7.26.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.0.4",
+    "babel-jest": "^26.5.2",
+    "dotenv": "^8.2.0",
     "husky": "^4.2.5",
+    "jest": "^26.5.3",
+    "jest-dom": "^4.0.0",
     "lint-staged": "^10.2.11",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "rewire": "^5.0.0"
   },
   "husky": {
     "hooks": {
@@ -61,5 +80,10 @@
     "nextjs",
     "mdx"
   ],
+  "babel": {
+    "presets": [
+      "next/babel"
+    ]
+  },
   "license": "ISC"
 }
