@@ -5,9 +5,8 @@ import hydrate from 'next-mdx-remote/hydrate';
 
 import { postBySlug, postsWithSlug } from 'lib/api';
 
-import Code from '@components/Code';
-import CodeSandbox from '@components/CodeSandbox';
-import Layout from '@components/Layout';
+import { Code } from '@mdnextjs/components';
+import { Chakra } from '@components/Chakra';
 
 const components = { code: Code, iframe: CodeSandbox };
 

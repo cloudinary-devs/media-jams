@@ -1381,7 +1381,7 @@
   dependencies:
     "@chakra-ui/utils" "1.0.0-rc.3"
 
-"@chakra-ui/core@^1.0.0-rc.3":
+"@chakra-ui/core@^1.0.0-rc.3", "@chakra-ui/core@next":
   version "1.0.0-rc.3"
   resolved "https://registry.yarnpkg.com/@chakra-ui/core/-/core-1.0.0-rc.3.tgz#6c66ff71e0d5f6bb1d09842d01a7d0ff21eaf422"
   integrity sha512-21ghOsEGfrL9FzKU7ZB5iLZNBBNoB8dAzQW4RN3SDQPsg2Q1QxFxHZ1WvNjmTO/1PM/ihnAdXZZfYUrTE4IjnA==
@@ -1729,7 +1729,7 @@
     "@chakra-ui/form-control" "1.0.0-rc.3"
     "@chakra-ui/utils" "1.0.0-rc.3"
 
-"@chakra-ui/theme-tools@1.0.0-rc.3", "@chakra-ui/theme-tools@^1.0.0-rc.3":
+"@chakra-ui/theme-tools@1.0.0-rc.3", "@chakra-ui/theme-tools@^1.0.0-rc.3", "@chakra-ui/theme-tools@next":
   version "1.0.0-rc.3"
   resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-1.0.0-rc.3.tgz#8aab04bfce2c03a70c3739b28a4992eca08253d7"
   integrity sha512-Jka7fcAwQu18lBtwNwe1/K9N7xcRDmFDsTt7SmuzUYecqqmy5+Zga/ggkUqXa9YI8DLVip+SN8PMl26vNiIj3g==
@@ -1738,7 +1738,7 @@
     "@types/tinycolor2" "1.4.2"
     tinycolor2 "1.4.1"
 
-"@chakra-ui/theme@1.0.0-rc.3", "@chakra-ui/theme@^1.0.0-rc.3":
+"@chakra-ui/theme@1.0.0-rc.3", "@chakra-ui/theme@^1.0.0-rc.3", "@chakra-ui/theme@next":
   version "1.0.0-rc.3"
   resolved "https://registry.yarnpkg.com/@chakra-ui/theme/-/theme-1.0.0-rc.3.tgz#e1166c3a3813ba9608fab7bc35fb92568fc92827"
   integrity sha512-dclGn5CUhq6w9wi9TWFB3xmeYNpzqhJM9+ow+p/KaH+SF9IV8Se+QlpxHCPwRc521VuQ1vLzp8dAwrQycFijzg==
@@ -1910,6 +1910,7 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
+<<<<<<< Updated upstream
 "@hapi/b64@4.x.x":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@hapi/b64/-/b64-4.2.1.tgz#bf8418d7907c5e73463f2e3b5c6fca7e9f2a1357"
@@ -2148,6 +2149,21 @@
     "@types/node" "*"
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
+=======
+"@mdnextjs/components@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@mdnextjs/components/-/components-0.2.0.tgz#d3b0d8d2851312deb311210bd0400b27b49d55ee"
+  integrity sha512-Dfx/TS5GBNGMroRinQovwXet2bujGMoRQEYRYgb+u7V0D1zvUMWnw/LDmLOS3I2UDezmCuLjy3drnzqdeF/SgA==
+  dependencies:
+    "@chakra-ui/core" next
+    "@chakra-ui/theme" next
+    "@chakra-ui/theme-tools" next
+    cra-template "1.0.3"
+    react "^16.13.1"
+    react-dom "^16.13.1"
+    react-icons "^3.11.0"
+    use-cloudinary "^3.1.7"
+>>>>>>> Stashed changes
 
 "@mdx-js/mdx@^1.6.16":
   version "1.6.16"
@@ -4090,6 +4106,11 @@ cosmiconfig@^7.0.0:
     parse-json "^5.0.0"
     path-type "^4.0.0"
     yaml "^1.10.0"
+
+cra-template@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/cra-template/-/cra-template-1.0.3.tgz#0d717b1e04cac41984a345b3feabe082fcf76eb7"
+  integrity sha512-cId6LtH8xfrFSz8XoEjaXIVjB0N7TJubro08WuVbqGuOaYwoakYUtCWlVvLeUKNsy42SkulYx3soABetKhf0EA==
 
 create-ecdh@^4.0.0:
   version "4.0.4"
@@ -10138,6 +10159,19 @@ use-callback-ref@^1.2.1, use-callback-ref@^1.2.3:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.2.4.tgz#d86d1577bfd0b955b6e04aaf5971025f406bea3c"
   integrity sha512-rXpsyvOnqdScyied4Uglsp14qzag1JIemLeTWGKbwpotWht57hbP78aNT+Q4wdFKQfQibbUX4fb6Qb4y11aVOQ==
+
+use-cloudinary@^3.1.7:
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/use-cloudinary/-/use-cloudinary-3.1.7.tgz#eb7970ce64c46dc86489e0a2393570a839ec2ad3"
+  integrity sha512-Piu6eUsNr4wR8D+Peqc5uOA8edlgL1W949hEuyasQ9Iz28uqMBto5ocBW1wVzcL3/H4PrKkZ1AyYAO4xQLrSkg==
+  dependencies:
+    "@babel/runtime" "^7.9.2"
+    "@charlietango/use-native-lazy-loading" "^1.7.1"
+    cloudinary-core "^2.8.2"
+    isomorphic-unfetch "^3.0.0"
+    lodash "^4.17.15"
+    react-intersection-observer "^8.26.2"
+    react-query "^2.0.0"
 
 use-cloudinary@^3.1.7:
   version "3.1.7"

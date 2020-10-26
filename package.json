@@ -22,6 +22,7 @@
     "@chakra-ui/core": "^1.0.0-rc.3",
     "@chakra-ui/theme": "^1.0.0-rc.3",
     "@chakra-ui/theme-tools": "^1.0.0-rc.3",
+    "@mdnextjs/components": "^0.2.0",
     "@sanity/block-content-to-markdown": "^0.0.5",
     "@sanity/client": "^1.150.1",
     "cloudinary": "^1.23.0",
