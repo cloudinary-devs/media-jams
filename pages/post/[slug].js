@@ -30,7 +30,7 @@ export default function Post({ post, preview }) {
 /**
  * Get all posts w/slug to pre-render url path
  * Filter out any posts that might not have a slug set
- * @returns {Object} paths based on post slug & fallback true to live-preview drafts
+ * @returns {Object} paths based on post slug, and fallback true to live-preview drafts
  */
 export const getStaticPaths = async () => {
   // Get the paths we want to pre-render based on posts
