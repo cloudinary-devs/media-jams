@@ -28,7 +28,7 @@ export default function TabbedTagSelection({
               <Wrap>
                 {category.tags?.map((tag) => (
                   <Button
-                    key={tag.title}
+                    key={tag.toString()}
                     onClick={() =>
                       searchTags.some((selected) => selected === tag)
                         ? removeTag(tag)

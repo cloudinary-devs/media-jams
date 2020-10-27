@@ -42,9 +42,11 @@
     "use-cloudinary": "^3.1.7"
   },
   "devDependencies": {
-    "@testing-library/dom": "^7.26.0",
+    "@babel/helper-validator-option": "^7.12.1",
+    "@testing-library/dom": "^7.26.3",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.4",
+    "@testing-library/user-event": "^12.1.10",
     "babel-jest": "^26.5.2",
     "dotenv": "^8.2.0",
     "husky": "^4.2.5",
