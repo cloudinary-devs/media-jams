@@ -1,5 +1,13 @@
 import autoCompleteTags from '../components/autoCompleteTags';
 
+/**
+ * Defines a Category, a group of tags
+ * @typedef {Object} Category
+ * @property {Object} category
+ * @property {string} category.title - category name
+ * @property {string} category.description - details of grouping
+ * @property {Tag[]} category.tags - reference to child tags
+ */
 export default {
   name: 'category',
   title: 'Category',

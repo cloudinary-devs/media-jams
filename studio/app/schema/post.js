@@ -12,8 +12,8 @@ import autoCompleteTags from '../components/autoCompleteTags';
  * @property {slug} post.Slug - unique value generated from the title
  * @property {Object} post.Author - reference to Auther
  * @property {boolean} post.featured - to flag an article as featured for specific styling or display
- * @property {string[]} post.Tags - reference to Tag. One to many relationship
- * @property {string[]} post.Categories - reference to Categories. One to many relationship
+ * @property {Tag[]} post.Tags - reference to Tag. One to many relationship
+ * @property {Category[]} post.Categories - reference to Categories. One to many relationship
  * @property {datetime} post.publishedAt - date media jam is published
  * @property {markdown} post.body - content of media supporting markdown
  */

@@ -4,8 +4,8 @@
     "dictionaries": ["jsdoc", "closure"]
   },
   "source": {
-    "include": ["studio/app", "src/", "lib/", "pages/"],
-    "includePattern": ".+\\.js(doc|x)?$",
+    "include": ["studio/app", "studio/README.md", "src/", "lib/", "pages/"],
+    "includePattern": ".+\\.js(doc|x|md)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
   "plugins": ["plugins/markdown"],
