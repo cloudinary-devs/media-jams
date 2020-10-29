@@ -1,7 +1,9 @@
-name: CI
+name: Deploy Studio
 on:
   push:
     branches: [master, development]
+    paths:
+      - 'studio/*'
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -24,5 +26,5 @@ jobs:
           # https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
           # Make sure to add a secret for SANITY_AUTH_TOKEN
           cd ./studio
-          SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}" yarn deploy
+          SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}" SANITY_STUDIO_PREVIEW_SECRET="{{ secrets.SANITY_STUDIO_PREVIEW_SECRET }}" deploy
           SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}" yarn deploy:gql --playground

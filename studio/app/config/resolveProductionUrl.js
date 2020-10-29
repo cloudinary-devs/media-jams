@@ -2,11 +2,15 @@
  * Function that will receive the full document that was selected for previewing.
  * The function must return a URL to your front end that is adapted to your front-ends URL structure.
  */
-const previewSecret = 'MY_SECRET_TOKEN'; // TODO: generate an actual token string!
-// TODO: update prod url to domain
+const previewSecret = process.env.SANITY_STUDIO_PREVIEW_SECRET;
+/**
+ * For local dev we want 'localhost:3000', meaning we're also running the mediajams app too
+ * For prod the url would be mediajams.dev
+ * The studio has no separate development portal that'd you reach, only stage for dev, and prod.
+ */
 const projectUrl =
   process.env.NODE_ENV === 'production'
-    ? 'https://poc-media-jams.vercel.app'
+    ? 'https://mediajams.dev'
     : 'http://localhost:3000';
 
 export default function resolveProductionUrl(document) {
