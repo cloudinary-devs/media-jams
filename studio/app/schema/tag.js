@@ -1,3 +1,11 @@
+/**
+ * Defines a Tag, belongs to  specific  categories
+ * @typedef {Object} Tag
+ * @property {Object} tag
+ * @property {string} tag.title - tag name
+ * @property {string} tag.description - details of what the tag is for
+ * @property {Category[]} tag.category - reference to child tags
+ */
 export default {
   name: 'tag',
   title: 'Tag',

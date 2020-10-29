@@ -1,3 +1,12 @@
+/**
+ * Defines an Author of Media Jams
+ * @typedef {Object} Author
+ * @property {Object} author
+ * @property {string} author.name - display name of the author
+ * @property {slug} author.Slug - unique value generated from the name
+ * @property {Image} author.image - avatar of the author's choosing
+ * @property {string} author.bio - short about the author
+ */
 export default {
   name: 'author',
   title: 'Author',

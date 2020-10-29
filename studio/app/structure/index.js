@@ -18,6 +18,12 @@ const docTypeListItems = S.documentTypeListItems().filter(hiddenDocTypes);
 // may have created as part of SSO etc.
 const groupQuery = '* [_type == "system.group" && $identity in members] {_id}';
 
+/**
+ * Structure Builder By Role
+ * Query system groups that logged in user is a part of
+ * Append desk items for each group the user a part of
+ * @property {string[]} Groups - Moderator, Creator
+ */
 export default () =>
   client
     .fetch(groupQuery)

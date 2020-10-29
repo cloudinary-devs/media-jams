@@ -1,7 +1,8 @@
 module.exports = {
   env: {
     SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-    SANITY_DATASET: process.env.SANITY_DATASET,
+    SANITY_DATASET: process.env.NEXT_PUBLIC_SANITY_DATASET,
+    SANITY_STUDIO_PREVIEW_SECRET: process.env.SANITY_STUDIO_PREVIEW_SECRET,
     CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
     CLOUD_NAME: process.env.CLOUD_NAME,
@@ -12,12 +13,6 @@ module.exports = {
   publicRuntimeConfig: {
     // Will be available on both server and client
     staticFolder: '/static',
-    plausibleDomain: 'poc-media-jams.vercel.app',
-    fathomSiteId: process.env.FATHOM_SITE_ID,
-    fathomIncludedDomains: [
-      'https://poc-media-jams.vercel.app/',
-      'http://localhost:3000',
-    ],
     mixPanelToken: process.env.MIXPANEL_TOKEN,
   },
 };

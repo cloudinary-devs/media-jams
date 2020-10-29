@@ -3,7 +3,7 @@ import theme from 'prism-react-renderer/themes/vsDark';
 import CopyButton from '@components/CopyButton.js';
 
 export default function Code({ children, className }) {
-  const language = className.replace(/language-/, '');
+  const language = className?.replace(/language-/, '');
   return (
     <Highlight
       {...defaultProps}
