@@ -8,6 +8,7 @@ import { postBySlug, postsWithSlug } from 'lib/api';
 
 import { Code } from '@mdnextjs/components';
 import CodeSandbox from '@components/CodeSandbox';
+import Layout from '@components/Layout';
 
 const components = { code: Code, iframe: CodeSandbox };
 

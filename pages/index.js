@@ -1,3 +1,4 @@
+import React from 'react';
 import { useRouter } from 'next/router';
 import { serializeArray, deserializeArray } from '@hooks/useQueryParameter';
 import { allPosts, allCategories } from '../lib/api';

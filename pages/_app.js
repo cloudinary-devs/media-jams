@@ -1,7 +1,5 @@
+import React from 'react';
 import { MixPanelProvider } from '../lib/mixpanel';
-import getConfig from 'next/config';
-const { publicRuntimeConfig } = getConfig();
-
 import { ChakraProvider } from '@chakra-ui/core';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
