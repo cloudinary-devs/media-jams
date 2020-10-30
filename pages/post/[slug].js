@@ -1,3 +1,4 @@
+import React from 'react';
 import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
 import renderToString from 'next-mdx-remote/render-to-string';
@@ -54,17 +55,20 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
     slug,
     preview,
   );
-
-  const mdx = await renderToString(body, { components }, null);
-  return {
-    props: {
-      preview,
-      post: {
-        content: mdx,
-        title: title,
-        slug: slug_current,
-        tags,
+  try {
+    const mdx = await renderToString(body, { components }, null);
+    return {
+      props: {
+        preview,
+        post: {
+          content: mdx,
+          title: title,
+          slug: slug_current,
+          tags,
+        },
       },
-    },
-  };
+    };
+  } catch (error) {
+    console.error(error);
+  }
 };
