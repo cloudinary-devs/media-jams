@@ -20,9 +20,9 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^0.16.0",
-    "@chakra-ui/core": "^1.0.0-rc.3",
-    "@chakra-ui/theme": "^1.0.0-rc.3",
-    "@chakra-ui/theme-tools": "^1.0.0-rc.3",
+    "@chakra-ui/core": "^1.0.0-rc.8",
+    "@chakra-ui/theme": "^1.0.0-rc.8",
+    "@chakra-ui/theme-tools": "^1.0.0-rc.8",
     "@emotion/core": "^10.0.35",
     "@mdnextjs/components": "^0.2.0",
     "@sanity/block-content-to-markdown": "^0.0.5",
@@ -84,5 +84,10 @@
     "nextjs",
     "mdx"
   ],
+  "babel": {
+    "presets": [
+      "next/babel"
+    ]
+  },
   "license": "ISC"
 }
