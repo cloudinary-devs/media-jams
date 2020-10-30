@@ -1,5 +1,5 @@
+import React from 'react';
 import { useRouter } from 'next/router';
-
 import { allPosts, allCategories } from 'lib/api';
 
 import Card from '@components/Card';
