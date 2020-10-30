@@ -1,5 +1,5 @@
-import { MixPanelProvider } from '../lib/mixpanel';
 import React from 'react';
+import { MixPanelProvider } from '../lib/mixpanel';
 import { ChakraProvider } from '@chakra-ui/core';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
