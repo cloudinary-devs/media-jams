@@ -1,4 +1,6 @@
-module.exports = {
+const withCSS = require('@zeit/next-css');
+
+module.exports = withCSS({
   env: {
     SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
     SANITY_DATASET: process.env.NEXT_PUBLIC_SANITY_DATASET,
@@ -15,4 +17,12 @@ module.exports = {
     staticFolder: '/static',
     mixPanelToken: process.env.MIXPANEL_TOKEN,
   },
-};
+  webpack: (config) => {
+    // Fixes npm packages that depend on `fs` module
+    config.node = {
+      fs: 'empty',
+    };
+
+    return config;
+  },
+});

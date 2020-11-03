@@ -50,6 +50,14 @@ export default {
       ],
     },
     {
+      name: 'body',
+      title: 'Body',
+      type: 'markdown',
+      options: {
+        minRows: 20,
+      },
+    },
+    {
       name: 'description',
       title: 'Description',
       type: 'text',
@@ -93,14 +101,6 @@ export default {
       options: {
         layout: 'tags',
         isHighlighted: true,
-      },
-    },
-    {
-      name: 'body',
-      title: 'Body',
-      type: 'markdown',
-      options: {
-        minRows: 20,
       },
     },
   ],

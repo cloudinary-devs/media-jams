@@ -16,3 +16,7 @@ const projectUrl =
 export default function resolveProductionUrl(document) {
   return `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document.slug.current}`;
 }
+
+export function resolveLiveEditUrl(document) {
+  return `${projectUrl}/api/live-edit?secret=${previewSecret}&slug=${document.slug.current}`;
+}
