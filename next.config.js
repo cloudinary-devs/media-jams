@@ -1,6 +1,10 @@
-const withCSS = require('@zeit/next-css');
-
-module.exports = withCSS({
+const withMDX = require('@next/mdx')({
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+  },
+});
+module.exports = withMDX({
   env: {
     SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
     SANITY_DATASET: process.env.NEXT_PUBLIC_SANITY_DATASET,

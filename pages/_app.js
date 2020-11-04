@@ -3,6 +3,9 @@ import { MixPanelProvider } from '../lib/mixpanel';
 import { ChakraProvider } from '@chakra-ui/core';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
+// used for CodeMirror Preivew Content
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/material.css';
 
 const App = ({ Component, pageProps }) => {
   React.useEffect(() => {}, []);

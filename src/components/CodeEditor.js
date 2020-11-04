@@ -4,11 +4,9 @@ import { Global, css } from '@emotion/core';
 import { UnControlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/jsx/jsx';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
 
-const CodeEditor = ({ value, onChange, ...rest }) => (
-  <Box>
+const CodeEditor = ({ code, onChange = () => {}, ...props }) => (
+  <Box flex={1}>
     <Global
       styles={css`
         & .CodeMirror {
@@ -18,8 +16,8 @@ const CodeEditor = ({ value, onChange, ...rest }) => (
       `}
     />
     <CodeMirror
-      {...rest}
-      value={value}
+      {...props}
+      value={code}
       options={{ theme: 'material', mode: 'jsx', lineNumbers: true }}
       onChange={onChange}
     />

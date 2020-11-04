@@ -26,6 +26,11 @@
     "@chakra-ui/theme-tools": "^1.0.0-rc.8",
     "@emotion/core": "^10.0.35",
     "@mdnextjs/components": "^0.2.0",
+    "@mdx-js/loader": "^1.6.19",
+    "@mdx-js/mdx": "^1.6.19",
+    "@mdx-js/react": "^1.6.19",
+    "@mdx-js/runtime": "^1.6.19",
+    "@next/mdx": "^10.0.0",
     "@sanity/block-content-to-markdown": "^0.0.5",
     "@sanity/client": "^1.150.1",
     "@zeit/next-css": "^1.0.1",
@@ -47,6 +52,9 @@
     "react-codemirror2": "^7.2.1",
     "react-dom": "^16.14.0",
     "react-icons": "^3.11.0",
+    "react-live": "^2.2.2",
+    "remark-mdx-remove-exports": "^1.6.19",
+    "remark-mdx-remove-imports": "^1.6.19",
     "use-cloudinary": "^3.1.7"
   },
   "devDependencies": {
