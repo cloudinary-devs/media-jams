@@ -8,7 +8,7 @@ import client, { previewClient, authClient } from '../../../lib/sanity';
 const CodeEditor = dynamic(import('@components/CodeEditor'), {
   ssr: false,
 });
-const LiveMDX = dynamic(import('@components/LiveMDX'), { ssr: false });
+import LiveMDX from '@components/LiveMDX';
 
 import { postBySlug, postsWithSlug } from 'lib/api';
 
@@ -39,25 +39,26 @@ export default function LiveEdit({ post, preview }) {
     return null;
   }
 
-  // const handleChange = (content) => {
-  //   console.log(content.getValue());
-  //   authClient
-  //     .patch(post._id) // Document ID to patch
-  //     .set({ body: content.getValue() }) // Shallow merge
-  //     .commit() // Perform the patch and return a promise
-  //     .then((updatedContent) => {
-  //       console.log(updatedContent);
-  //       updateContent(updateContent);
-  //     })
-  //     .catch((err) => {
-  //       console.error('Oh no, the update failed: ', err.message);
-  //     });
-  // };
+  const handleChange = (content) => {
+    console.log(content.getValue());
+    // authClient
+    //   .patch(post._id) // Document ID to patch
+    //   .set({ body: content.getValue() }) // Shallow merge
+    //   .commit() // Perform the patch and return a promise
+    //   .then((updatedContent) => {
+    //     console.log(updatedContent);
+    //     updateContent(updateContent);
+    //   })
+    //   .catch((err) => {
+    //     console.error('Oh no, the update failed: ', err.message);
+    //   });
+    updateContent(content.getValue());
+  };
 
   return (
     <Layout>
       <Flex>
-        <CodeEditor code={content} />
+        <CodeEditor onChange={handleChange} code={content} />
         <LiveMDX code={content} />
       </Flex>
     </Layout>

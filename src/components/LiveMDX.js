@@ -71,7 +71,7 @@ const LiveMDX = ({ code, scope = {}, ...props }) => {
   const { jsx, mdast, hast, error } = generateOutputs(code);
 
   return (
-    <Box flex={1}>
+    <Box width={'50%'}>
       <LiveProvider
         {...props}
         code={code}
@@ -85,6 +85,7 @@ const LiveMDX = ({ code, scope = {}, ...props }) => {
         transformCode={(code) => {
           return transformCode(code);
         }}
+        theme={theme.prism}
       >
         {error ? (
           <div>
@@ -93,7 +94,7 @@ const LiveMDX = ({ code, scope = {}, ...props }) => {
             <LiveError />
           </div>
         ) : (
-          <LivePreview />
+          <LivePreview flex={1} />
         )}
       </LiveProvider>
     </Box>

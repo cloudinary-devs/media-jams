@@ -6,7 +6,7 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/jsx/jsx';
 
 const CodeEditor = ({ code, onChange = () => {}, ...props }) => (
-  <Box flex={1}>
+  <Box width={'50%'}>
     <Global
       styles={css`
         & .CodeMirror {
@@ -18,7 +18,12 @@ const CodeEditor = ({ code, onChange = () => {}, ...props }) => (
     <CodeMirror
       {...props}
       value={code}
-      options={{ theme: 'material', mode: 'jsx', lineNumbers: true }}
+      options={{
+        theme: 'material',
+        mode: 'jsx',
+        lineNumbers: true,
+        lineWrapping: true,
+      }}
       onChange={onChange}
     />
   </Box>
