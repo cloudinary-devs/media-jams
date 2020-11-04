@@ -4,7 +4,8 @@
     "paths": {
       "@theme": ["src/theme"],
       "@components/*": ["src/components/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@lib/*": ["lib/*"]
     }
   },
   "typeAcquisition": {
