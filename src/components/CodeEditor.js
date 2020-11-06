@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Box } from '@chakra-ui/core';
 import { Global, css } from '@emotion/core';
 import { UnControlled as CodeMirror } from 'react-codemirror2';
+// used for CodeMirror Preivew Content
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/material.css';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/jsx/jsx';
 

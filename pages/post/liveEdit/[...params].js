@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import ErrorPage from 'next/error';
 import dynamic from 'next/dynamic';
 import { Flex } from '@chakra-ui/core';
-import client, { previewClient, authClient } from '../../../lib/sanity';
+import auth0 from '@lib/auth0';
+import client, { previewClient, authClient } from '@lib/sanity';
 
 const CodeEditor = dynamic(import('@components/CodeEditor'), {
   ssr: false,
@@ -14,30 +13,23 @@ import { postBySlug, postsWithSlug } from 'lib/api';
 
 import Layout from '@components/Layout';
 
-export default function LiveEdit({ post, preview }) {
-  const [content, updateContent] = useState(post.content);
+export default function LiveEdit({ user, post, preview }) {
+  const [content, updateContent] = useState(null);
   useEffect(() => {
     updateContent(post.content);
   }, [post.content]);
 
   useEffect(() => {
     // subscribe to home component messages
-    const subscription = previewClient
-      .listen(`* [_id == $postId ].body[0]`, { postId: post._id })
-      .subscribe((update) => {
-        console.info('content updated >>>>>>', update.result);
-        updateContent(update.result);
-      });
+    // const subscription = previewClient
+    //   .listen(`* [_id == $postId ].body[0]`, { postId: post._id })
+    //   .subscribe((update) => {
+    //     console.info('content updated >>>>>>', update.result);
+    //     updateContent(update.result);
+    //   });
     // return unsubscribe method to execute when component unmounts
-    return subscription.unsubscribe;
+    // return subscription.unsubscribe;
   }, []);
-  const router = useRouter();
-  if (!router.isFallback && !post?.slug) {
-    return <ErrorPage statusCode={404} />;
-  }
-  if (router.isFallback) {
-    return null;
-  }
 
   const handleChange = (content) => {
     console.log(content.getValue());
@@ -56,7 +48,7 @@ export default function LiveEdit({ post, preview }) {
   };
 
   return (
-    <Layout>
+    <Layout user={user}>
       <Flex>
         <CodeEditor onChange={handleChange} code={content} />
         <LiveMDX code={content} />
@@ -65,23 +57,26 @@ export default function LiveEdit({ post, preview }) {
   );
 }
 
-// Get the paths we want to pre-render based on live edit, which is none
-export const getStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  };
-};
-
-// This function gets called at build time on server-side.
-export const getStaticProps = async ({
+export const getServerSideProps = async ({
   params: {
     params: [slug],
   },
   preview = false,
+  req,
+  res,
 }) => {
-  const { _id, body, slug: slug_current } = await postBySlug(slug, preview);
   try {
+    const { _id, body, slug: slug_current } = await postBySlug(slug, preview);
+    const session = await auth0.getSession(req);
+
+    if (!session || !session.user) {
+      res.writeHead(302, {
+        Location: '/api/auth/login',
+      });
+      res.end();
+      return;
+    }
+
     return {
       props: {
         preview,
@@ -90,6 +85,7 @@ export const getStaticProps = async ({
           content: body,
           slug: slug_current,
         },
+        user: session.user,
       },
     };
   } catch (error) {

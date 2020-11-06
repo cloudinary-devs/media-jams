@@ -1,4 +1,4 @@
-import auth0 from '../../../lib/auth0';
+import auth0 from '@lib/auth0';
 
 /**
  * TODO: if there is no origin url on the loging request,
@@ -9,9 +9,8 @@ import auth0 from '../../../lib/auth0';
  */
 export default async function login(req, res) {
   try {
-    await auth0.handleLogin(req, res, {
-      redirectTo: req.query.origin || `https://mediajams.sanity.studio`,
-    });
+    const user = await auth0.handleLogin(req, res);
+    console.log(user);
   } catch (error) {
     console.error(error);
     res.status(error.status || 400).end(error.message);
