@@ -1,6 +1,7 @@
 // This import is only needed when checking authentication status directly from getServerSideProps
 // import auth0 from '@lib/auth0';
-import Link from 'next/link';
+import { Flex, Text, Box, Link, Icon } from '@chakra-ui/core';
+import { Link as NextLink } from 'next/link';
 import Layout from '@components/Layout';
 import { useFetchUser } from '@lib/user';
 
@@ -15,6 +16,15 @@ function ProfileCard({ user }) {
         <p>nickname: {user.nickname}</p>
         <p>name: {user.name}</p>
       </div>
+      <Link as={NextLink} px={2} href="/api/auth/logout">
+        Logout
+      </Link>
+      <Link
+        href={`${user['https://mediajams-studio/claimUrl']}?origin=http://localhost:3333`}
+        isExternal
+      >
+        Media Jams Studio <Icon name="external-link" mx="2px" />
+      </Link>
     </>
   );
 }

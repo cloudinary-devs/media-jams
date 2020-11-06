@@ -1,7 +1,7 @@
 import { Flex, Text, Box, Link } from '@chakra-ui/core';
 import ThemeTogglebutton from '@components/ThemeToggleButton';
 import { Link as NextLink } from 'next/link';
-
+import { useFetchUser } from '@lib/user';
 function NavLink({ children, ...props }) {
   return (
     <Link as={NextLink} px={2} {...props}>
@@ -11,6 +11,7 @@ function NavLink({ children, ...props }) {
 }
 
 export default function Navbar() {
+  const { user, loading } = useFetchUser();
   return (
     <Flex
       minW="100%"
@@ -27,6 +28,15 @@ export default function Navbar() {
         <NavLink ml={4} href="/post">
           Media Jams
         </NavLink>
+        {user ? (
+          <NavLink ml={4} href="/profile">
+            Profile
+          </NavLink>
+        ) : (
+          <NavLink ml={4} href="/api/auth/login">
+            Login
+          </NavLink>
+        )}
       </Box>
     </Flex>
   );
