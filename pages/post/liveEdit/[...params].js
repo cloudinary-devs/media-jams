@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Flex } from '@chakra-ui/core';
 import auth0 from '@lib/auth0';
-import client, { previewClient, authClient } from '@lib/sanity';
+import useDebounce from '@hooks/useDebounce';
+import { previewClient } from '@lib/sanity';
 
 const CodeEditor = dynamic(import('@components/CodeEditor'), {
   ssr: false,
@@ -13,38 +14,28 @@ import { postBySlug, postsWithSlug } from 'lib/api';
 
 import Layout from '@components/Layout';
 
-export default function LiveEdit({ user, post, preview }) {
+export default function LiveEdit({ post, user }) {
   const [content, updateContent] = useState(null);
   useEffect(() => {
     updateContent(post.content);
-  }, [post.content]);
-
+  }, [post]);
+  const debouncedContentValue = useDebounce(content, 500);
   useEffect(() => {
-    // subscribe to home component messages
-    // const subscription = previewClient
-    //   .listen(`* [_id == $postId ].body[0]`, { postId: post._id })
-    //   .subscribe((update) => {
-    //     console.info('content updated >>>>>>', update.result);
-    //     updateContent(update.result);
-    //   });
-    // return unsubscribe method to execute when component unmounts
-    // return subscription.unsubscribe;
-  }, []);
+    previewClient(user['https://mediajams-studio/token'])
+      .patch(post._id) // Document ID to patch
+      .set({ body: debouncedContentValue }) // Shallow merge
+      .commit() // Perform the patch and return a promise
+      .then((updatedContent) => {
+        console.log('content is updated>>>>>>', updatedContent.body);
+      })
+      .catch((err) => {
+        console.error('Oh no, the update failed: ', err.message);
+      });
+  }, [debouncedContentValue]);
 
   const handleChange = (content) => {
-    console.log(content.getValue());
-    // authClient
-    //   .patch(post._id) // Document ID to patch
-    //   .set({ body: content.getValue() }) // Shallow merge
-    //   .commit() // Perform the patch and return a promise
-    //   .then((updatedContent) => {
-    //     console.log(updatedContent);
-    //     updateContent(updateContent);
-    //   })
-    //   .catch((err) => {
-    //     console.error('Oh no, the update failed: ', err.message);
-    //   });
-    updateContent(content.getValue());
+    const contentValue = content.getValue();
+    updateContent(contentValue);
   };
 
   return (
