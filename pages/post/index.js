@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { useFetchUser, useUser } from '@lib/user';
 import { allPosts, allCategories } from 'lib/api';
 
 import Card from '@components/Card';
@@ -25,7 +26,7 @@ export default function Post({ posts, categories }) {
   const [searchTags, setSearchTags] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const router = useRouter();
-
+  const { user, loading } = useUser();
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
     setSearchTags(router.query.tags?.split(',') || []);

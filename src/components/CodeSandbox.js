@@ -4,7 +4,7 @@ import Iframe from '@components/Iframe';
 
 const isCodeSandboxUrl = (url) => new URL(url).hostname === 'codesandbox.io';
 
-export default function CodeSandbox({ title, src, children, ...rest }) {
+export default function CodeSandbox({ title, src, children, ...props }) {
   const { colorMode } = useColorMode();
   const codeSandboxEncodeUrl = (src) => {
     const url = new URL(src);
@@ -14,7 +14,7 @@ export default function CodeSandbox({ title, src, children, ...rest }) {
   return (
     <>
       {/* if it's not an iframe from codesandbox, return unchanged */}
-      {!isCodeSandboxUrl(src) && <Iframe src={src} title={title} rest />}
+      {!isCodeSandboxUrl(src) && <Iframe src={src} title={title} {...props} />}
       <Iframe
         src={codeSandboxEncodeUrl(src)}
         title={title}
