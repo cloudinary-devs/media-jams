@@ -6,6 +6,7 @@ import {
   Heading,
   Text,
   Flex,
+  yellow,
 } from '@chakra-ui/core';
 
 import Container from '@components/Container';
@@ -21,7 +22,16 @@ export default function Hero({ heroImage }) {
   return (
     <Flex justifyContent="center" alignItems="center" height="800px" m={32}>
       <Flex direction="column" textAlign="">
-        <Heading mt={16} as="h1">
+        <Heading mt={16} as="h1" textStyle="headline-page">
+          Learning Media is hard MediaJams will fix that 👍
+        </Heading>
+        <Heading mt={16} as="h1" textStyle="headline">
+          Learning Media is hard MediaJams will fix that 👍
+        </Heading>
+        <Heading mt={16} as="h1" textStyle="headline-accent">
+          Learning Media is hard MediaJams will fix that 👍
+        </Heading>
+        <Heading mt={16} as="h1" textStyle="headline-intersitial">
           Learning Media is hard MediaJams will fix that 👍
         </Heading>
         <Text mt={6}>

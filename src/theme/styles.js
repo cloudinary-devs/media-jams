@@ -5,7 +5,7 @@ const styles = {
     'html, body': {
       'font-family': 'Roboto, sans-serif',
       fontSize: 'lg',
-      color: props.colorMode === 'dark' ? 'white' : 'gray.600',
+      color: props.colorMode === 'dark' ? 'white' : 'gray.900',
       lineHeight: 'base',
     },
     a: {
