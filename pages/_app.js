@@ -4,7 +4,6 @@ import { ChakraProvider } from '@chakra-ui/core';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
 import { UserProvider, useUser } from '@lib/user';
-import { useFetchUser } from '../lib/user';
 
 const App = ({ Component, pageProps }) => {
   const { user, loading } = useUser();

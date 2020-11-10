@@ -5,14 +5,12 @@ export default {
     fontWeight: 'normal',
     lineHeight: 'tall',
     letterSpacing: 'wide',
-    color: 'gray.900',
     fontSize: ['5xl', '7xl'],
   },
   headline: {
     fontWeight: 'bold',
     lineHeight: 'tall',
     letterSpacing: 'normal',
-    color: 'gray.900',
     fontSize: ['3xl', '5xl'],
   },
   'headline-accent': {
@@ -20,14 +18,12 @@ export default {
     fontWeight: 'normal',
     lineHeight: 'tall',
     letterSpacing: 'tight',
-    color: 'gray.900',
     fontSize: ['3xl'],
   },
   'headline-intersitial': {
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     lineHeight: 'taller',
     letterSpacing: 'tight',
-    color: 'gray.900',
     fontSize: ['3xl'],
   },
 };
