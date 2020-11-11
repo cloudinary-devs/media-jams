@@ -1,12 +1,24 @@
-import defaultTheme from '@chakra-ui/theme';
+import { extendTheme, mode } from '@chakra-ui/core';
+
+// Global style overrides
+import styles from './styles';
+
+// Foundational style overrides
+import colors from './foundations/colors';
+import textStyles from './foundations/textStyles';
+
+// Component style overrides
 import components from './components';
 
-const theme = {
-  ...defaultTheme,
+const overrides = {
+  styles,
+  colors,
+  textStyles,
+  // Other foundational style overrides go here
   components: {
-    ...defaultTheme.components,
+    // Other components go here
     ...components,
   },
 };
 
-export default theme;
+export default extendTheme(overrides);
