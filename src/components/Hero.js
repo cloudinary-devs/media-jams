@@ -6,11 +6,12 @@ import {
   Heading,
   Text,
   Flex,
-  yellow,
+  Box,
 } from '@chakra-ui/core';
 
 import Container from '@components/Container';
 import Image from '@components/Image';
+import RawkButton from '@components/RawkButton';
 
 export default function Hero({ heroImage }) {
   const headings = useBreakpointValue({
@@ -38,9 +39,6 @@ export default function Hero({ heroImage }) {
           With MediaJams, we connect you with the code that gets you working
           faster and the experts that teach it
         </Text>
-        <Button w="140px" mt={8} p={8}>
-          Learn More
-        </Button>
       </Flex>
       <Image alignSelf="center" mt={8} src={heroImage} />
     </Flex>
