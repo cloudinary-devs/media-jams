@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Flex, Grid, Center, Heading } from '@chakra-ui/core';
 
-import Card from '@components/Card';
+import JamCard from '@components/JamCard';
 
 export default function FeaturedJams({ posts }) {
   return (
@@ -18,12 +18,12 @@ export default function FeaturedJams({ posts }) {
         </Heading>
       </Center>
       <Grid
-        gridTemplateColumns="repeat(auto-fill, minmax(300px, 1fr))"
-        gap={8}
+        gridTemplateColumns="repeat(auto-fill, minmax(500px, 1fr))"
+        gap={12}
         w="70%"
       >
         {posts?.map((post) => (
-          <Card key={post.slug} post={post} />
+          <JamCard key={post.slug} post={post} />
         ))}
       </Grid>
     </Flex>
