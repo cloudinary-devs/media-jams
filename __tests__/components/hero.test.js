@@ -4,8 +4,8 @@ import Hero from '@components/Hero';
 
 test('renders hero component', () => {
   render(<Hero />);
-  const heroElement = screen.getByText(
+  const heroElement = screen.getAllByText(
     /Learning Media is hard MediaJams will fix that 👍/,
   );
-  expect(heroElement).toBeInTheDocument();
+  expect(heroElement[0]).toBeInTheDocument();
 });
