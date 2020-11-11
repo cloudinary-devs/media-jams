@@ -3,7 +3,7 @@ import { mode } from '@chakra-ui/core';
 const styles = {
   global: (props) => ({
     'html, body': {
-      'font-family': 'Roboto, sans-serif',
+      fontFamily: 'Roboto, sans-serif',
       fontSize: 'lg',
       color: props.colorMode === 'dark' ? 'white' : 'gray.900',
       lineHeight: 'base',

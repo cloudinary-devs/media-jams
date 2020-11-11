@@ -1,7 +1,7 @@
 export default {
   'headline-page': {
     // you can also use responsive styles
-    'font-family': 'Bangers, cursive',
+    fontFamily: 'Bangers, cursive',
     fontWeight: 'normal',
     lineHeight: 'tall',
     letterSpacing: 'wide',
@@ -14,7 +14,7 @@ export default {
     fontSize: ['3xl', '5xl'],
   },
   'headline-accent': {
-    'font-family': 'Bangers, cursive',
+    fontFamily: 'Bangers, cursive',
     fontWeight: 'normal',
     lineHeight: 'tall',
     letterSpacing: 'tight',
