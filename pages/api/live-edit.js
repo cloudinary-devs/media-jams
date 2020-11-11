@@ -22,6 +22,8 @@ export default async (req, res) => {
   res.setPreviewData({});
 
   // Redirect to the path from the fetched post
-  res.writeHead(307, { Location: `/post/${post.slug}` });
+  res.writeHead(307, {
+    Location: `/post/liveEdit/${post.slug}/${post._id}`,
+  });
   res.end();
 };

@@ -21,5 +21,6 @@ module.exports = {
     '^@theme$': '<rootDir>/src/theme$1',
     '^@components(.*)$': '<rootDir>/src/components$1',
     '^@hooks(.*)$': '<rootDir>/src/hooks$1',
+    '^@lib(.*)$': '<rootDir>/lib$1',
   },
 };
