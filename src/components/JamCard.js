@@ -27,7 +27,7 @@ export default function Card({ post }) {
     >
       <HStack p={4} mt={0}>
         <VStack>
-          <Avatar mr={2} />
+          <Avatar size="lg" name="Kola Tioluwani" mr={2} />
         </VStack>
         <VStack align="start">
           <Heading textStyle="headline-card">{post.title}</Heading>
@@ -42,16 +42,12 @@ export default function Card({ post }) {
         }}
         backgroundColor="green.400"
       >
-        <VStack>
-          <Box maxW="xl">
-            <Box padding="4" maxW="3xl">
-              There are many benefits to a joint design and development system.
-              Not only does it bring benefits to the design team, but it also
-              brings benefits to engineering teams. It makes sure that our
-              experiences have a consistent look and feel, not just in our
-              design specs, but in production
+        <VStack flexGrow={1}>
+          <Container centerContent maxWidth="80ch">
+            <Box maxW="xl" alignItems="center" color="white">
+              {post.description}
             </Box>
-          </Box>
+          </Container>
           <HStack pb={4} spacing={4}>
             <Tag size="lg" variant="outline" colorScheme="yellow">
               <FaTag />

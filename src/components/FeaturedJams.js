@@ -18,7 +18,7 @@ export default function FeaturedJams({ posts }) {
         </Heading>
       </Center>
       <Grid
-        gridTemplateColumns="repeat(auto-fill, minmax(500px, 1fr))"
+        gridTemplateColumns="repeat(auto-fill, minmax(400px, 1fr))"
         gap={12}
         w="70%"
       >
