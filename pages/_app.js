@@ -4,28 +4,34 @@ import { ChakraProvider } from '@chakra-ui/core';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
 import { UserProvider, useUser } from '@lib/user';
+import { useImage } from 'use-cloudinary';
 
 const App = ({ Component, pageProps }) => {
   const { user, loading } = useUser();
+  const { generateImageUrl } = useImage('mediadevs');
+
+  // this doesn't exist in our cloudinary yet, but will plugin once it does
+  const ogImageConfig = {
+    delivery: {
+      publicId: 'mediajams/og-image',
+    },
+  };
+
   React.useEffect(() => {}, []);
   return (
     <MixPanelProvider>
       <ChakraProvider resetCSS theme={theme}>
         <UserProvider value={{ user, loading }}>
           <DefaultSeo
-            title="Nextjs + MDX Starter pack"
-            description="This is an opinionated way to handle MDX from multiple sources in a Next project with some help styling from ChakraUI"
-            url="www.whatever.com"
+            title="MediaJams"
+            description="The best spot on the web to learn how to take advantage of media the right way."
+            url="www.mediajams.dev"
             ogImage={{
-              url: 'www.whatever.com',
-              title: 'OG Image title',
-              description: 'Describe the OG image',
-              image: ``,
-              siteName: 'Your site name',
-            }}
-            twitter={{
-              handle: '@domitriusclark',
-              site: 'https://twitter.com/domitriusclark',
+              url: 'www.mediajams.dev',
+              title: 'Putting Media to work is hard',
+              description: '',
+              image: generateImageUrl(ogImageConfig),
+              siteName: 'MediaJams',
             }}
           />
           <Component {...pageProps} />
