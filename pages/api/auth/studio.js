@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-unfetch';
+import auth0 from '@lib/auth0';
 
 const studioURL = 'https://5ad74sb4.api.sanity.io/v1/auth/thirdParty/session';
 const role = {
@@ -23,7 +24,8 @@ const sessionQuery = (data) => ({
 
 const studioAuth = async (req, res) => {
   try {
-    // const recipes = await getRecipes();
+    const { user } = await auth0.getSession(req);
+    const studioSession = await generateSanitySession(user);
     res.status(200).json({ success: true });
   } catch (error) {
     res.status(500).json({ success: false });

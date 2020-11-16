@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 // This import is only needed when checking authentication status directly from getServerSideProps
 import auth0 from '@lib/auth0';
 import { Flex, Text, Box, Link, Icon } from '@chakra-ui/core';
@@ -7,24 +8,23 @@ import { useFetchUser } from '@lib/user';
 
 import { generateSanitySession } from './api/auth/studio';
 
-function ProfileCard({ user }) {
+function ProfileCard({ user, sanitySession }) {
   return (
     <>
       <h1>Profile</h1>
-
       <div>
-        <h3>Profile (client rendered)</h3>
+        <h3>Profile (server rendered)</h3>
         <img src={user.picture} alt="user picture" />
         <p>nickname: {user.nickname}</p>
         <p>name: {user.name}</p>
       </div>
-
       <Link
-        href={`${user['https://mediajams-studio/claimUrl']}?origin=https://mediajams.sanity.studio`}
+        href={`${sanitySession.endUserClaimUrl}?origin=https://mediajams.sanity.studio`}
         isExternal
       >
         Media Jams Studio <Icon name="external-link" mx="2px" />
       </Link>
+      )
       <Link as={NextLink} px={2} href="/api/auth/logout">
         Logout
       </Link>
@@ -32,12 +32,10 @@ function ProfileCard({ user }) {
   );
 }
 
-function Profile({ user }) {
-  // const { user, loading } = useFetchUser({ required: true });
-
+function Profile({ user, sanitySession }) {
   return (
     <Layout>
-      <ProfileCard user={user} />
+      <ProfileCard user={user} sanitySession={sanitySession} />
     </Layout>
   );
 }
