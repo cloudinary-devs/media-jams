@@ -33,9 +33,8 @@ export default function LiveEdit({ post, user }) {
       });
   }, [debouncedContentValue]);
 
-  const handleChange = (content) => {
-    const contentValue = content.getValue();
-    updateContent(contentValue);
+  const handleChange = (editor, data, value) => {
+    updateContent(value);
   };
 
   return (

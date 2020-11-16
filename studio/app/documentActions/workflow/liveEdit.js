@@ -1,6 +1,6 @@
 import React from 'react';
 import { inferMetadataState, useWorkflowMetadata } from '../../lib/workflow';
-import PublicIcon from 'part:@sanity/base/public-icon';
+import { GoClippy } from 'react-icons/go';
 import { useDocumentOperation } from '@sanity/react-hooks';
 import { resolveLiveEditUrl } from '../../config/resolveProductionUrl';
 import Hotkeys from 'part:@sanity/components/typography/hotkeys';
@@ -33,9 +33,9 @@ export const liveEditAction = (props) => {
   };
 
   return {
-    icon: PublicIcon,
+    icon: GoClippy,
     shortcut: 'mod+shift+l',
-    label: 'Live Draft',
+    label: 'Live Edit',
     onHandle,
   };
 };
