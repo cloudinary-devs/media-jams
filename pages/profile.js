@@ -20,7 +20,7 @@ function ProfileCard({ user }) {
         Logout
       </Link>
       <Link
-        href={`${user['https://mediajams-studio/claimUrl']}?origin=http://localhost:3333`}
+        href={`${user['https://mediajams-studio/claimUrl']}?origin=https://mediajams.sanity.studio/`}
         isExternal
       >
         Media Jams Studio <Icon name="external-link" mx="2px" />
