@@ -1,20 +1,12 @@
 import S from '@sanity/desk-tool/structure-builder';
 import { GoPencil, GoPerson, GoEye, GoTextSize } from 'react-icons/go';
 import userStore from 'part:@sanity/base/user';
-import { filter, map, switchMap } from 'rxjs/operators';
-import EyeIcon from 'part:@sanity/base/eye-icon';
-import EditIcon from 'part:@sanity/base/edit-icon';
+import client from 'part:@sanity/base/client';
+import { map } from 'rxjs/operators';
 import IframePreview from '../components/iframePreview';
-import CreatorEditor from '../components/creatorEditor';
 import { getCurrentUser$ } from '../lib/user';
 
-const CREATOR_DOCUMENTS_QUERY = `
-* [_type == $type  && author._ref == $userId ] 
-`;
-
-const CREATOR_AUTHOR_QUERY = `
- *[_type == $type && _id == $userId]
-`;
+const AUTHOR_QUERY = '_type == $type && author._ref == $authorId';
 
 export const creatorListItems = [
   // Show only posts authored by current_user
@@ -24,11 +16,16 @@ export const creatorListItems = [
     icon: GoPencil,
     schemaType: 'post',
     child: async () => {
-      const { name, id } = await userStore.getUser('me');
+      // Check for author profile, else create it
+      const { id } = await userStore.getUser('me');
       const self = `${id}.self`;
+      await client.createIfNotExists({
+        _id: self,
+        _type: 'author',
+      });
       return S.documentTypeList('post')
         .title('Jams')
-        .filter('_type == $type && author._ref == $authorId')
+        .filter(AUTHOR_QUERY)
         .params({ type: 'post', authorId: self })
         .child((documentId) =>
           S.document()
