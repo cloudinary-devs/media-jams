@@ -25,7 +25,7 @@ export default function Card({ post }) {
       href={`/post/${post.slug}`}
       boxShadow="dark-lg"
     >
-      <HStack p={4}>
+      <HStack p={4} mt={0}>
         <VStack>
           <Avatar mr={2} />
         </VStack>
@@ -35,7 +35,7 @@ export default function Card({ post }) {
         </VStack>
       </HStack>
       <Flex
-        pt={4}
+        pt={8}
         style={{
           clipPath:
             'polygon(4.82% -0.53%, 27.8% 11.74%, 49.63% -0.5%, 78.39% 8.86%, 100.83% -1.05%, 101% 100%, 0px 101%, 0px 19.01%)',
@@ -43,7 +43,7 @@ export default function Card({ post }) {
         backgroundColor="green.400"
       >
         <VStack>
-          <Box maxW="xl" centerContent>
+          <Box maxW="xl">
             <Box padding="4" maxW="3xl">
               There are many benefits to a joint design and development system.
               Not only does it bring benefits to the design team, but it also
