@@ -7,7 +7,7 @@ const role = {
   CREATOR: 'creator',
 };
 const userData = (user, role) => ({
-  userId: `e-${user.sub.split('|').pop()}`,
+  userId: `e-${user['https://mediajams-studio/user_id']}`,
   userFullName: user.nickname,
   userEmail: user.email,
   userRole: role === role.MODERATOR ? 'administrator' : 'editor',
@@ -26,7 +26,7 @@ const studioAuth = async (req, res) => {
   try {
     const { user } = await auth0.getSession(req);
     const studioSession = await generateSanitySession(user);
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, studioSession });
   } catch (error) {
     res.status(500).json({ success: false });
   }
