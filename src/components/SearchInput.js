@@ -24,7 +24,6 @@ export default function SearchInput({ searchValue, setSearchValue }) {
     setSearchValue(value);
   };
 
-  console.log(theme);
   return (
     <InputGroup size="md" w="35rem">
       <Input

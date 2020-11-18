@@ -3,11 +3,12 @@ import { useRouter } from 'next/router';
 import { useFetchUser, useUser } from '@lib/user';
 import { allPosts, allCategories } from 'lib/api';
 
-import Card from '@components/Card';
+import JamCard from '@components/JamCard';
 import TabbedTagSelection from '@components/TabbedTagSelection';
+import SearchDrawer from '@components/SearchDrawer';
 import SearchInput from '@components/SearchInput';
 import Layout from '@components/Layout';
-import { Flex, Grid } from '@chakra-ui/core';
+import { Button, Flex, Grid, useDisclosure } from '@chakra-ui/core';
 import Fuse from 'fuse.js';
 
 const fuseOptions = {
@@ -18,14 +19,16 @@ const fuseOptions = {
   shouldSort: true,
   includeScore: true,
   useExtendedSearch: true,
-  keys: ['title', 'tags', 'author'],
+  keys: ['title', 'tags'],
 };
 
 export default function Post({ posts, categories }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [filteredPosts, setFilteredPosts] = React.useState(posts);
   const [searchTags, setSearchTags] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const router = useRouter();
+  const btnRef = React.useRef();
   const { user, loading } = useUser();
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
@@ -77,22 +80,16 @@ export default function Post({ posts, categories }) {
             justify="center"
             height="40%"
           >
-            <TabbedTagSelection
-              handleFilter={handleFilter}
-              tabs={categories}
+            <Button onClick={onOpen}>Open Filter</Button>
+            <SearchDrawer
+              isOpen={isOpen}
+              finalFocusRef={btnRef}
+              placement="left"
+              onClose={onClose}
+              categories={categories}
               addTag={addTag}
               removeTag={removeTag}
               searchTags={searchTags}
-              posts={posts}
-              fuse={fuse}
-            />
-            <SearchInput
-              mt={16}
-              handleFilter={handleFilter}
-              posts={posts}
-              fuse={fuse}
-              searchValue={searchValue}
-              setSearchValue={setSearchValue}
             />
           </Flex>
           <Grid
@@ -102,7 +99,7 @@ export default function Post({ posts, categories }) {
             gap={8}
           >
             {filteredPosts.map((post) => (
-              <Card post={post} />
+              <JamCard key={post.id} post={post} />
             ))}
           </Grid>
         </Flex>

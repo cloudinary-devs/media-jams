@@ -14,9 +14,6 @@ export default function Card({ post }) {
     >
       <Flex height="50%" alignItems="center" justify="center">
         <Avatar mr={8} />
-        <Heading as="h3" size="lg">
-          {post.author}
-        </Heading>
       </Flex>
       <Center flex="1" backgroundColor="black">
         <Heading as="h3" size="lg">
