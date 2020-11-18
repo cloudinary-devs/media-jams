@@ -12,6 +12,7 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest',
+    '^.+\\.svg$': 'jest-svg-transformer',
   },
   transformIgnorePatterns: [
     '/node_modules/',
@@ -22,5 +23,8 @@ module.exports = {
     '^@components(.*)$': '<rootDir>/src/components$1',
     '^@hooks(.*)$': '<rootDir>/src/hooks$1',
     '^@lib(.*)$': '<rootDir>/lib$1',
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
+      '<rootDir>/__mocks__/fileMock.js',
+    '\\.(css|less)$': '<rootDir>/__mocks__/styleMock.js',
   },
 };

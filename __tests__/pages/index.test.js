@@ -8,15 +8,13 @@ jest.mock('@sanity/client');
 test('renders index w/o error', async () => {
   render(<Index />);
   const heroElement = await waitFor(() =>
-    screen.getAllByText(/Learning Media is hard MediaJams will fix that 👍/),
+    screen.getAllByText(/TRYING TO LEARN EVERYTHING ABOUT MEDIA IS HARD/),
   );
   expect(heroElement[0]).toBeInTheDocument();
 });
 
 test('renders subheader h1', async () => {
   render(<Index />);
-  const subHeading = await waitFor(() =>
-    screen.getByText(/Find the right content for you/),
-  );
+  const subHeading = await waitFor(() => screen.getByText(/Why Media Matters/));
   expect(subHeading).toBeInTheDocument();
 });
