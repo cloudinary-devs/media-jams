@@ -4,7 +4,7 @@ const styles = {
   global: (props) => ({
     'html, body': {
       fontFamily: 'Roboto, sans-serif',
-      fontSize: 'lg',
+      fontSize: 'md',
       color: props.colorMode === 'dark' ? 'white' : 'gray.900',
       lineHeight: 'base',
     },

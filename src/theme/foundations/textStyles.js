@@ -15,15 +15,21 @@ export default {
   },
   'headline-accent': {
     fontFamily: 'Bangers, cursive',
-    fontWeight: 'normal',
+    fontWeight: 'bold',
     lineHeight: 'tall',
-    letterSpacing: 'tight',
+    letterSpacing: 'normal',
     fontSize: ['3xl'],
   },
   'headline-intersitial': {
-    fontWeight: 'normal',
+    fontWeight: 'bold',
     lineHeight: 'taller',
-    letterSpacing: 'tight',
+    letterSpacing: 'normal',
     fontSize: ['3xl'],
+  },
+  'headline-card': {
+    fontWeight: 'bold',
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+    fontSize: ['lg'],
   },
 };
