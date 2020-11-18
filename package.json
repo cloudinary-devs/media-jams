@@ -61,6 +61,7 @@
   },
   "devDependencies": {
     "@babel/helper-validator-option": "^7.12.1",
+    "@svgr/webpack": "^5.5.0",
     "@testing-library/dom": "^7.26.3",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.4",
