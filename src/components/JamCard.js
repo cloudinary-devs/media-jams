@@ -24,6 +24,7 @@ export default function Card({ post }) {
       _hover={{ textDecor: 'none' }}
       href={`/post/${post.slug}`}
       boxShadow="dark-lg"
+      backgroundColor="white"
     >
       <HStack p={4} mt={0}>
         <VStack>
