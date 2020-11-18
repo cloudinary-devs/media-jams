@@ -18,7 +18,7 @@ const fuseOptions = {
   shouldSort: true,
   includeScore: true,
   useExtendedSearch: true,
-  keys: ['title', 'tags', 'author'],
+  keys: ['title', 'tags', 'author.name'],
 };
 
 export default function Post({ posts, categories }) {
