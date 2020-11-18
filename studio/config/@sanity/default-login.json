@@ -6,8 +6,7 @@
       {
         "name": "media-jams-login",
         "title": "Media Jams Login",
-        "url": "https://poc-media-jams.vercel.app/api/auth/login"
-
+        "url": "https://mediajams.dev/api/auth/login"
       }
     ]
   }

@@ -1,10 +1,23 @@
-import { Flex, Text, Box, Link } from '@chakra-ui/core';
-import ThemeTogglebutton from '@components/ThemeToggleButton';
+import { Flex, Text, Box, Link, Button, Image } from '@chakra-ui/core';
 import { Link as NextLink } from 'next/link';
 import { useFetchUser } from '@lib/user';
-function NavLink({ children, ...props }) {
+import { useImage } from 'use-cloudinary';
+
+function NavLink({ children, isButton, ...props }) {
   return (
-    <Link as={NextLink} px={2} {...props}>
+    <Link
+      as={NextLink}
+      _hover={
+        !isButton && {
+          color: 'yellow.400',
+          borderBottomWidth: '5px',
+          borderBottomStyle: 'solid',
+          paddingBottom: '3px',
+        }
+      }
+      px={2}
+      {...props}
+    >
       {children}
     </Link>
   );
@@ -12,30 +25,52 @@ function NavLink({ children, ...props }) {
 
 export default function Navbar() {
   const { user, loading } = useFetchUser();
+  const { generateImageUrl } = useImage('mediadevs');
+
+  const logoConfig = {
+    delivery: {
+      publicId: 'mediajams/logo',
+    },
+    transformation: {
+      height: 0.8,
+    },
+  };
+
   return (
     <Flex
-      minW="100%"
+      minW="100%;"
+      height="5rem"
       px={5}
       py={4}
-      justifyContent="flex-end"
-      alignItems="center"
+      justifyContent="space-between"
+      alignItems="flex-start"
+      backgroundColor="grey.900"
     >
+      <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
       <Box>
-        <ThemeTogglebutton />
         <NavLink ml={4} href="/">
           Home
         </NavLink>
         <NavLink ml={4} href="/post">
-          Media Jams
+          Jams
         </NavLink>
         {user ? (
           <NavLink ml={4} href="/profile">
             Profile
           </NavLink>
         ) : (
-          <NavLink ml={4} href="/api/auth/login">
+          <Button
+            as={NavLink}
+            isButton
+            href="/api/auth/login"
+            borderRadius="3px"
+            colorScheme="blue"
+            ml={4}
+            variant="outline"
+            w="120px"
+          >
             Login
-          </NavLink>
+          </Button>
         )}
       </Box>
     </Flex>
