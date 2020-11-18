@@ -11680,6 +11680,14 @@ use-cloudinary@^3.1.7:
     react-intersection-observer "^8.26.2"
     react-query "^2.0.0"
 
+use-cloudinary@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/use-cloudinary/-/use-cloudinary-4.0.2.tgz#77502ccb747fa448704696481a9e75197b448f17"
+  integrity sha512-YUN3iWx/VV519+++ETUyyJqWqDi0yzgRqlYMCBQ8vPIcbdEweyNJ0rfz7JDLw9KPGxpue4DlBiFkPFnz/YGJlQ==
+  dependencies:
+    "@charlietango/use-native-lazy-loading" "^1.7.1"
+    react-intersection-observer "^8.26.2"
+
 use-sidecar@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/use-sidecar/-/use-sidecar-1.0.3.tgz#17a4e567d4830c0c0ee100040e85a7fe68611e0f"

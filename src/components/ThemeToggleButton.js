@@ -9,6 +9,7 @@ export default function ThemeTogglebutton() {
   return (
     <IconButton
       icon={<ToggleIcon />}
+      color="white"
       variant="ghost"
       aria-label="Toggle Theme"
       onClick={toggleMode}
