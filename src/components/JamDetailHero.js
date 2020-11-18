@@ -1,0 +1,43 @@
+import React from 'react';
+
+import {
+  Button,
+  useBreakpointValue,
+  Heading,
+  Text,
+  Flex,
+  Box,
+  Image,
+  HStack,
+} from '@chakra-ui/core';
+import { useImage } from 'use-cloudinary';
+
+import Container from '@components/Container';
+import RawkButton from '@components/RawkButton';
+
+export default function Hero({ children }) {
+  const headings = useBreakpointValue({
+    base: 'md',
+    md: 'xl',
+    lg: '2xl',
+  });
+
+  const { generateImageUrl } = useImage('mediadevs');
+  const imgConfig = {
+    delivery: {
+      publicId: 'mediajams/placeholder',
+    },
+    transformation: {
+      height: 0.8,
+    },
+  };
+
+  return (
+    <Flex h="xl" direction="row" justifyContent="center" alignItems="center">
+      <Box flex={1} boxSize="sm">
+        <Image alt="Feature Image" src={generateImageUrl(imgConfig)} />
+      </Box>
+      <HStack flex={1}>{children}</HStack>
+    </Flex>
+  );
+}

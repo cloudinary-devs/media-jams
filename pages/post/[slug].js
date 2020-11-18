@@ -12,6 +12,21 @@ import Layout from '@components/Layout';
 
 const components = { code: Code, iframe: CodeSandbox };
 
+import JamDetailHero from '@components/JamDetailHero';
+import {
+  Flex,
+  Text,
+  Center,
+  Heading,
+  Button,
+  Link,
+  VStack,
+  HStack,
+  Box,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from '@chakra-ui/core';
 export default function Post({ post, preview }) {
   const router = useRouter();
   if (!router.isFallback && !post?.slug) {
@@ -24,7 +39,15 @@ export default function Post({ post, preview }) {
 
   return (
     <Layout>
-      <h1>{post.title}</h1>
+      <JamDetailHero
+        title={post.title}
+        updatedAt={post._updatedAt}
+        author={post.author}
+      >
+        <Heading mt={16} as="h1" textStyle="headline-accent" color="grey.900">
+          {post.title}
+        </Heading>
+      </JamDetailHero>
       {content}
     </Layout>
   );
@@ -52,7 +75,7 @@ export const getStaticPaths = async () => {
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async ({ params: { slug }, preview = false }) => {
-  const { title, body, slug: slug_current, tags = [] } = await postBySlug(
+  const { title, body, slug: slug_current, ...post } = await postBySlug(
     slug,
     preview,
   );
@@ -65,7 +88,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
           content: mdx,
           title: title,
           slug: slug_current,
-          tags,
+          ...post,
         },
       },
     };
