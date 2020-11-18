@@ -4,7 +4,7 @@ import { Flex, Grid, Heading, Button, Link, Text } from '@chakra-ui/core';
 
 import JamCard from '@components/JamCard';
 
-export default function FeaturedJams({ posts }) {
+export default function FeaturedJams({ posts = [] }) {
   // TODO: temperary reduce 'features' to 3 posts
   const featuredJams = posts
     .sort(() => Math.random() - Math.random())
