@@ -45,21 +45,25 @@ export default function Post({ post, preview }) {
   return (
     <Layout>
       <JamDetailHero>
-        <VStack spacing={4} align="stretch" flex={1}>
-          <Box
-            backgroundColor="blue.200"
-            ml="-10%"
-            width="110%"
-            display="block"
-          >
-            <Box color="grey.900" my={4} ml={4}>
-              <Heading as="h1" textStyle="headline-accent" color="grey.900">
-                {post.title}
-              </Heading>
-              <AuthorByline fontSize="xs">By {post.author?.name}</AuthorByline>
-              <Text my={4} maxWidth="80%">
-                {post.description}
-              </Text>
+        <VStack align="stretch" flex={1}>
+          <Box backgroundColor="yellow.400">
+            <Box
+              backgroundColor="blue.200"
+              ml="-10%"
+              width="110%"
+              display="block"
+            >
+              <Box color="grey.900" my={4} ml={4}>
+                <Heading as="h1" textStyle="headline-accent" color="grey.900">
+                  {post.title}
+                </Heading>
+                <AuthorByline fontSize="xs">
+                  By {post.author?.name}
+                </AuthorByline>
+                <Text my={4} maxWidth="80%">
+                  {post.description}
+                </Text>
+              </Box>
             </Box>
           </Box>
         </VStack>
