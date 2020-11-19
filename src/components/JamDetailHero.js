@@ -34,7 +34,7 @@ export default function Hero({ children }) {
 
   return (
     <Flex h="xl" direction="row" justifyContent="center" alignItems="center">
-      <Box flex={1} boxSize="sm" overflow="hidden">
+      <Box flex={{ sm: 1, base: 0 }} boxSize="sm" overflow="hidden">
         <Image
           maxWidth="100%"
           alt="Feature Image"
