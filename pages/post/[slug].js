@@ -27,6 +27,11 @@ import {
   InputGroup,
   InputRightElement,
 } from '@chakra-ui/core';
+import styled from '@emotion/styled';
+
+const AuthorByline = styled(Text)`
+  text-indent: 5px;
+`;
 export default function Post({ post, preview }) {
   const router = useRouter();
   if (!router.isFallback && !post?.slug) {
@@ -39,14 +44,25 @@ export default function Post({ post, preview }) {
 
   return (
     <Layout>
-      <JamDetailHero
-        title={post.title}
-        updatedAt={post._updatedAt}
-        author={post.author}
-      >
-        <Heading mt={16} as="h1" textStyle="headline-accent" color="grey.900">
-          {post.title}
-        </Heading>
+      <JamDetailHero>
+        <VStack spacing={4} align="stretch" flex={1}>
+          <Box
+            backgroundColor="blue.200"
+            ml="-10%"
+            width="110%"
+            display="block"
+          >
+            <Box color="grey.900" my={4} ml={4}>
+              <Heading as="h1" textStyle="headline-accent" color="grey.900">
+                {post.title}
+              </Heading>
+              <AuthorByline fontSize="xs">By {post.author?.name}</AuthorByline>
+              <Text my={4} maxWidth="80%">
+                {post.description}
+              </Text>
+            </Box>
+          </Box>
+        </VStack>
       </JamDetailHero>
       {content}
     </Layout>

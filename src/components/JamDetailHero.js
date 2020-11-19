@@ -34,10 +34,16 @@ export default function Hero({ children }) {
 
   return (
     <Flex h="xl" direction="row" justifyContent="center" alignItems="center">
-      <Box flex={1} boxSize="sm">
-        <Image alt="Feature Image" src={generateImageUrl(imgConfig)} />
+      <Box flex={1} boxSize="sm" overflow="hidden">
+        <Image
+          maxWidth="100%"
+          alt="Feature Image"
+          src={generateImageUrl(imgConfig)}
+        />
       </Box>
-      <HStack flex={1}>{children}</HStack>
+      <HStack height="100%" width="100%" flex={2}>
+        {children}
+      </HStack>
     </Flex>
   );
 }
