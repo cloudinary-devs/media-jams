@@ -32,6 +32,11 @@ import styled from '@emotion/styled';
 const AuthorByline = styled(Text)`
   text-indent: 5px;
 `;
+
+const JamContent = styled(Box)`
+  margin: auto;
+  width: 80%;
+`;
 export default function Post({ post, preview }) {
   const router = useRouter();
   if (!router.isFallback && !post?.slug) {
@@ -55,12 +60,7 @@ export default function Post({ post, preview }) {
               py={4}
             >
               <Box color="grey.900" my={4} pl={4}>
-                <Heading
-                  as="h1"
-                  fontSize="4xl"
-                  textStyle="headline-accent"
-                  color="grey.900"
-                >
+                <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
                   {post.title}
                 </Heading>
                 <AuthorByline fontSize="xs">
@@ -72,7 +72,7 @@ export default function Post({ post, preview }) {
           </Box>
         </VStack>
       </JamDetailHero>
-      {content}
+      <JamContent>{content}</JamContent>
     </Layout>
   );
 }
