@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Stack,
   Flex,
@@ -18,6 +17,7 @@ import { FaTag } from 'react-icons/fa';
 import ContentBox from './ContentBox';
 
 export default function Card({ post }) {
+  const { author } = post;
   return (
     <Stack
       as={Link}
@@ -28,11 +28,17 @@ export default function Card({ post }) {
     >
       <HStack p={4} mt={0}>
         <VStack>
-          <Avatar size="lg" name="Kola Tioluwani" mr={2} />
+          <Avatar
+            size="lg"
+            name={author.name}
+            mr={2}
+            src={author.image}
+            loading="lazy"
+          />
         </VStack>
         <VStack align="start">
           <Heading textStyle="headline-card">{post.title}</Heading>
-          <Text fontSize="sm">By Walt Peterman</Text>
+          <Text fontSize="sm">By {author.name}</Text>
         </VStack>
       </HStack>
       <Flex
@@ -50,10 +56,12 @@ export default function Card({ post }) {
             </Box>
           </Container>
           <HStack pb={4} spacing={4}>
-            <Tag size="lg" variant="outline" colorScheme="yellow">
-              <FaTag />
-              <TagLabel>JamStack</TagLabel>
-            </Tag>
+            {post.tags.map((t) => (
+              <Tag key={t} size="lg" variant="outline" colorScheme="yellow.900">
+                <FaTag />
+                <TagLabel>{t}</TagLabel>
+              </Tag>
+            ))}
           </HStack>
         </VStack>
       </Flex>
