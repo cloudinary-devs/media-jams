@@ -61,11 +61,13 @@
   },
   "devDependencies": {
     "@babel/helper-validator-option": "^7.12.1",
+    "@svgr/webpack": "^5.5.0",
     "@testing-library/dom": "^7.26.3",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.4",
     "@testing-library/user-event": "^12.1.10",
     "babel-jest": "^26.5.2",
+    "babel-plugin-inline-react-svg": "^1.1.2",
     "dotenv": "^8.2.0",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "^6.15.0",
@@ -78,6 +80,7 @@
     "husky": "^4.2.5",
     "jest": "^26.5.3",
     "jest-dom": "^4.0.0",
+    "jest-svg-transformer": "^1.0.0",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "rewire": "^5.0.0"

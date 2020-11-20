@@ -26,7 +26,11 @@ module.exports = withMDX({
     config.node = {
       fs: 'empty',
     };
-
+    // SVG LOADER
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
     return config;
   },
 });
