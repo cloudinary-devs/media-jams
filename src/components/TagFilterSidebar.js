@@ -3,7 +3,7 @@ import Fuse from 'fuse.js';
 import { Box, Button, Input, Flex, Icon, Wrap, Heading } from '@chakra-ui/core';
 import { FaHashtag } from 'react-icons/fa';
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from 'react-icons/bs';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function CategoryTagList({
   addTag,
@@ -60,6 +60,7 @@ export default function TagFilterSidebar({
     location: 0,
     distance: 100,
     minMatchCharLength: 1,
+    ignoreLocation: true,
     shouldSort: true,
     includeScore: true,
     useExtendedSearch: true,
@@ -77,6 +78,7 @@ export default function TagFilterSidebar({
 
       return setFilteredTagResults(arr);
     }
+
     const results = fuse.search(search).map((result) => result.item);
     return setFilteredTagResults(results);
   }, [search]);
@@ -88,7 +90,15 @@ export default function TagFilterSidebar({
   };
 
   return (
-    <Flex as={motion.div} animate={{}} width={isOpen ? '20%' : 'auto'}>
+    <Flex
+      width={isOpen ? '20%' : 'auto'}
+      as={motion.div}
+      animate={isOpen ? 'open' : 'closed'}
+      variants={{
+        open: { opacity: 1, x: 0 },
+        closed: { opacity },
+      }}
+    >
       {isOpen ? (
         <Box
           p="1.2rem"

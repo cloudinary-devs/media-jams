@@ -16,6 +16,7 @@ const fuseOptions = {
   location: 0,
   distance: 100,
   minMatchCharLength: 1,
+  ignoreLocation: true,
   shouldSort: true,
   includeScore: true,
   useExtendedSearch: true,
@@ -27,7 +28,6 @@ export default function Post({ posts, categories }) {
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const router = useRouter();
-  const btnRef = React.useRef();
   const { user, loading } = useUser();
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
@@ -93,6 +93,8 @@ export default function Post({ posts, categories }) {
                   key={tag.toString()}
                   size="sm"
                   fontSize="10px"
+                  ml={2}
+                  mr={1}
                   onClick={() =>
                     selectedFilters.some((selected) => selected === tag)
                       ? removeTag(tag)

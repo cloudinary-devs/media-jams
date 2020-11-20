@@ -41,13 +41,7 @@ export default function SearchInput({ searchValue, setSearchValue }) {
         }}
       />
       <InputRightElement w="10rem" pr=".3rem">
-        <Button
-          w="100%"
-          variant="outline"
-          size="sm"
-          borderRadius="3px"
-          colorScheme="blue"
-        >
+        <Button w="100%" size="sm" borderRadius="3px" colorScheme="blue">
           Search
         </Button>
       </InputRightElement>
