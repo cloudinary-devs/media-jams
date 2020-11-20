@@ -13,6 +13,9 @@ import Layout from '@components/Layout';
 const components = { code: Code, iframe: CodeSandbox };
 
 import JamDetailHero from '@components/JamDetailHero';
+import JamAuthorBanner from '@components/JamAuthorBanner';
+import EmailSubscription from '@components/EmailSubscription';
+
 import {
   Flex,
   Text,
@@ -23,9 +26,7 @@ import {
   VStack,
   HStack,
   Box,
-  Input,
-  InputGroup,
-  InputRightElement,
+  Image,
 } from '@chakra-ui/core';
 import styled from '@emotion/styled';
 
@@ -46,6 +47,7 @@ export default function Post({ post, preview }) {
     return null;
   }
   const content = hydrate(post.content, { components });
+  const { author } = post;
 
   return (
     <Layout>
@@ -73,6 +75,26 @@ export default function Post({ post, preview }) {
         </VStack>
       </JamDetailHero>
       <JamContent>{content}</JamContent>
+      <JamAuthorBanner>
+        <Box boxSize="sm" overflow="hidden">
+          <Image
+            fit="contain"
+            width="100%"
+            src={author.image}
+            alt={author.name}
+          />
+        </Box>
+        <Box backgroundColor="blue.200" py={4} maxWidth="50%">
+          <Box color="grey.900" my={4} pl={4}>
+            <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
+              {author.name}
+            </Heading>
+            <AuthorByline fontSize="xs">By {post.author?.name}</AuthorByline>
+            <Text maxWidth="80%">{post.description}</Text>
+          </Box>
+        </Box>
+      </JamAuthorBanner>
+      <EmailSubscription />
     </Layout>
   );
 }

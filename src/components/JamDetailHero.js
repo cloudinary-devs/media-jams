@@ -15,7 +15,7 @@ import { useImage } from 'use-cloudinary';
 import Container from '@components/Container';
 import RawkButton from '@components/RawkButton';
 
-export default function Hero({ children }) {
+export default function JamDetailHero({ children }) {
   const headings = useBreakpointValue({
     base: 'md',
     md: 'xl',
