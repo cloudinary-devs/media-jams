@@ -73,22 +73,22 @@ const r2 = require('r2');
 //   },
 // ];
 
-// const mutations = [
-//   {
-//     patch: {
-//       id: '_.groups.moderator',
-//       insert: {
-//         after: 'grants[-1]',
-//         items: [
-//           {
-//             path: 'drafts.**',
-//             permissions: ['create', 'update', 'read'],
-//           },
-//         ],
-//       },
-//     },
-//   },
-// ];
+const mutations = [
+  {
+    patch: {
+      id: '_.groups.creator',
+      insert: {
+        after: 'grants[-1]',
+        items: [
+          {
+            path: 'drafts.**',
+            permissions: ['create', 'update', 'read'],
+          },
+        ],
+      },
+    },
+  },
+];
 
 const updateAccess = async () => {
   try {

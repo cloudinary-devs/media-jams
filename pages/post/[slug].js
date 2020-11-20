@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
+import BlockContent from '@sanity/block-content-to-react';
 
 import { postBySlug, postsWithSlug } from 'lib/api';
 
@@ -89,8 +90,12 @@ export default function Post({ post, preview }) {
             <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
               {author.name}
             </Heading>
-            <AuthorByline fontSize="xs">By {post.author?.name}</AuthorByline>
-            <Text maxWidth="80%">{post.description}</Text>
+            <AuthorByline fontSize="xs">
+              By Media Developer Expert, Developer 🥑
+            </AuthorByline>
+            <Text maxWidth="80%">
+              <BlockContent blocks={author.bio} />
+            </Text>
           </Box>
         </Box>
       </JamAuthorBanner>
