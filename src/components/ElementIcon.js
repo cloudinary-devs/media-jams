@@ -29,7 +29,7 @@ function ElementIcon({ phrase, ...props }) {
   const { left, top, degrees, Element } = phraseAttributes[phrase.toString()];
   return (
     <Box my={3} w="150px" opacity="40%" position="relative" {...props}>
-      <Element minWidth="150px" />
+      <Element />
       <Text
         position="absolute"
         left={left}
