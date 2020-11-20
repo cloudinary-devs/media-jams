@@ -3,11 +3,12 @@ import { useRouter } from 'next/router';
 import { useFetchUser, useUser } from '@lib/user';
 import { allPosts, allCategories } from 'lib/api';
 
-import Card from '@components/Card';
-import TabbedTagSelection from '@components/TabbedTagSelection';
+import JamCard from '@components/JamCard';
 import SearchInput from '@components/SearchInput';
+import TagFilterSidebar from '@components/TagFilterSidebar';
 import Layout from '@components/Layout';
-import { Flex, Grid } from '@chakra-ui/core';
+import { Button, Flex, Grid, Wrap } from '@chakra-ui/core';
+import { FaHashtag } from 'react-icons/fa';
 import Fuse from 'fuse.js';
 
 const fuseOptions = {
@@ -23,22 +24,25 @@ const fuseOptions = {
 
 export default function Post({ posts, categories }) {
   const [filteredPosts, setFilteredPosts] = React.useState(posts);
-  const [searchTags, setSearchTags] = React.useState([]);
+  const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const router = useRouter();
+  const btnRef = React.useRef();
   const { user, loading } = useUser();
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
-    setSearchTags(router.query.tags?.split(',') || []);
+    setSelectedFilters(router.query.tags?.split(',') || []);
   }, [router.query]);
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
-    if (searchValue === '' && searchTags.length === 0) {
+    if (searchValue === '' && selectedFilters.length === 0) {
       handleFilter(posts);
     } else {
       // Allow for a search for tag
-      const formattedTags = [...searchTags.map((item) => ({ tags: item }))];
+      const formattedTags = [
+        ...selectedFilters.map((item) => ({ tags: item })),
+      ];
       const queries = {
         $or: [
           { title: searchValue },
@@ -51,16 +55,16 @@ export default function Post({ posts, categories }) {
       const results = fuse.search(queries).map((result) => result.item);
       handleFilter(results);
     }
-  }, [searchValue, searchTags]);
+  }, [searchValue, selectedFilters]);
 
   const fuse = new Fuse(posts, fuseOptions);
 
   function addTag(tag) {
-    return setSearchTags((prev) => [...prev, tag]);
+    return setSelectedFilters((prev) => [...prev, tag]);
   }
 
   function removeTag(tag) {
-    return setSearchTags((prev) => prev.filter((pt) => pt !== tag));
+    return setSelectedFilters((prev) => prev.filter((pt) => pt !== tag));
   }
 
   const handleFilter = (data) => {
@@ -69,32 +73,54 @@ export default function Post({ posts, categories }) {
 
   return (
     <Layout>
-      <Flex w="100vw" h="100vh">
+      <Flex w="100vw" h="100%">
+        <TagFilterSidebar
+          categories={categories}
+          addTag={addTag}
+          removeTag={removeTag}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+        />
         <Flex w="100%" direction="column" alignItems="center">
+          <SearchInput
+            searchvalue={searchValue}
+            setSearchValue={setSearchValue}
+          />
+          {selectedFilters && (
+            <Wrap mt={6}>
+              {selectedFilters.map((tag) => (
+                <Button
+                  key={tag.toString()}
+                  size="sm"
+                  fontSize="10px"
+                  onClick={() =>
+                    selectedFilters.some((selected) => selected === tag)
+                      ? removeTag(tag)
+                      : addTag(tag)
+                  }
+                  variant={
+                    selectedFilters.some((selected) => selected === tag)
+                      ? 'solid'
+                      : 'outline'
+                  }
+                  colorScheme={
+                    selectedFilters.some((selected) => selected === tag)
+                      ? 'teal'
+                      : null
+                  }
+                  rightIcon={<FaHashtag />}
+                >
+                  {tag}
+                </Button>
+              ))}
+            </Wrap>
+          )}
           <Flex
             direction="column"
             alignItems="center"
             justify="center"
             height="40%"
-          >
-            <TabbedTagSelection
-              handleFilter={handleFilter}
-              tabs={categories}
-              addTag={addTag}
-              removeTag={removeTag}
-              searchTags={searchTags}
-              posts={posts}
-              fuse={fuse}
-            />
-            <SearchInput
-              mt={16}
-              handleFilter={handleFilter}
-              posts={posts}
-              fuse={fuse}
-              searchValue={searchValue}
-              setSearchValue={setSearchValue}
-            />
-          </Flex>
+          ></Flex>
           <Grid
             m={20}
             w="80%"
@@ -102,7 +128,7 @@ export default function Post({ posts, categories }) {
             gap={8}
           >
             {filteredPosts.map((post) => (
-              <Card post={post} />
+              <JamCard key={post.id} post={post} />
             ))}
           </Grid>
         </Flex>

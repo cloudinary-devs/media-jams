@@ -12,6 +12,7 @@ function NavLink({ children, isButton, ...props }) {
           color: 'yellow.400',
           borderBottomWidth: '5px',
           borderBottomStyle: 'solid',
+          borderBottomColor: 'yellow.400',
           paddingBottom: '3px',
         }
       }
@@ -32,7 +33,7 @@ export default function Navbar() {
       publicId: 'mediajams/logo',
     },
     transformation: {
-      height: 0.8,
+      height: 0.7,
     },
   };
 
@@ -45,6 +46,7 @@ export default function Navbar() {
       justifyContent="space-between"
       alignItems="flex-start"
       backgroundColor="grey.900"
+      color="white"
     >
       <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
       <Box>
