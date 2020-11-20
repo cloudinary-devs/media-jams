@@ -35,10 +35,12 @@ const AuthorByline = styled(Text)`
   text-indent: 5px;
 `;
 
-const JamContent = styled(Box)`
-  margin: auto;
-  width: 80%;
-`;
+/**
+ * Can override any general styles set for textStyle="main-jam-content"
+ * in the `styled(Box)` -->
+ * */
+const JamContent = styled(Box)``;
+
 export default function Post({ post, preview }) {
   const router = useRouter();
   if (!router.isFallback && !post?.slug) {
@@ -75,7 +77,7 @@ export default function Post({ post, preview }) {
           </Box>
         </VStack>
       </JamDetailHero>
-      <JamContent>{content}</JamContent>
+      <JamContent textStyle="main-jam-content">{content}</JamContent>
       <JamAuthorBanner>
         <Box boxSize="sm" overflow="hidden">
           <Image

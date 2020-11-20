@@ -5,10 +5,6 @@ import { Flex, Grid, Heading, Button, Link, Text } from '@chakra-ui/core';
 import JamCard from '@components/JamCard';
 
 export default function FeaturedJams({ posts = [] }) {
-  // TODO: temperary reduce 'features' to 3 posts
-  const featuredJams = posts
-    .sort(() => Math.random() - Math.random())
-    .slice(0, 3);
   return (
     <Flex
       minW="100%"
@@ -32,7 +28,7 @@ export default function FeaturedJams({ posts = [] }) {
         gap={12}
         w="90%"
       >
-        {featuredJams?.map((post) => (
+        {posts?.map((post) => (
           <JamCard key={post.slug} post={post} />
         ))}
       </Grid>
