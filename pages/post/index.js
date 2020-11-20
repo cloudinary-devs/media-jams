@@ -7,7 +7,8 @@ import JamCard from '@components/JamCard';
 import SearchInput from '@components/SearchInput';
 import TagFilterSidebar from '@components/TagFilterSidebar';
 import Layout from '@components/Layout';
-import { Button, Flex, Grid } from '@chakra-ui/core';
+import { Button, Flex, Grid, Wrap } from '@chakra-ui/core';
+import { FaHashtag } from 'react-icons/fa';
 import Fuse from 'fuse.js';
 
 const fuseOptions = {
@@ -81,6 +82,39 @@ export default function Post({ posts, categories }) {
           setSelectedFilters={setSelectedFilters}
         />
         <Flex w="100%" direction="column" alignItems="center">
+          <SearchInput
+            searchvalue={searchValue}
+            setSearchValue={setSearchValue}
+          />
+          {selectedFilters && (
+            <Wrap mt={6}>
+              {selectedFilters.map((tag) => (
+                <Button
+                  key={tag.toString()}
+                  size="sm"
+                  fontSize="10px"
+                  onClick={() =>
+                    selectedFilters.some((selected) => selected === tag)
+                      ? removeTag(tag)
+                      : addTag(tag)
+                  }
+                  variant={
+                    selectedFilters.some((selected) => selected === tag)
+                      ? 'solid'
+                      : 'outline'
+                  }
+                  colorScheme={
+                    selectedFilters.some((selected) => selected === tag)
+                      ? 'teal'
+                      : null
+                  }
+                  rightIcon={<FaHashtag />}
+                >
+                  {tag}
+                </Button>
+              ))}
+            </Wrap>
+          )}
           <Flex
             direction="column"
             alignItems="center"

@@ -25,7 +25,7 @@ export default function SearchInput({ searchValue, setSearchValue }) {
   };
 
   return (
-    <InputGroup size="md" w="35rem">
+    <InputGroup size="md" w="35rem" mt={10}>
       <Input
         variant="outline"
         placeholder="Search by tag, title, or keyword..."
@@ -33,9 +33,9 @@ export default function SearchInput({ searchValue, setSearchValue }) {
         value={searchValue}
         onChange={onChange}
         borderColor="blue.200"
-        backgroundColor="blue.900"
+        backgroundColor="blue.200"
         _placeholder={{
-          color: 'white',
+          color: 'black',
           lineSpacing: '4px',
           fontSize: 'md',
         }}
@@ -46,8 +46,7 @@ export default function SearchInput({ searchValue, setSearchValue }) {
           variant="outline"
           size="sm"
           borderRadius="3px"
-          bg="blue.500"
-          outline="blue.400"
+          colorScheme="blue"
         >
           Search
         </Button>

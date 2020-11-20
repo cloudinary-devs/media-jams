@@ -1,10 +1,48 @@
 import React from 'react';
 import Fuse from 'fuse.js';
-
-import { Box, Button, Input, Flex, Icon } from '@chakra-ui/core';
+import { Box, Button, Input, Flex, Icon, Wrap, Heading } from '@chakra-ui/core';
+import { FaHashtag } from 'react-icons/fa';
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from 'react-icons/bs';
-import CategoryTagList from '@components/CategoryTagList';
 import { motion } from 'framer-motion';
+
+function CategoryTagList({
+  addTag,
+  removeTag,
+  selectedFilters,
+  filteredTagResults,
+}) {
+  return (
+    <Wrap spacing="3px">
+      {filteredTagResults.map((tag) => {
+        return (
+          <Button
+            key={tag.toString()}
+            size="sm"
+            fontSize="10px"
+            onClick={() =>
+              selectedFilters.some((selected) => selected === tag)
+                ? removeTag(tag)
+                : addTag(tag)
+            }
+            variant={
+              selectedFilters.some((selected) => selected === tag)
+                ? 'solid'
+                : 'outline'
+            }
+            colorScheme={
+              selectedFilters.some((selected) => selected === tag)
+                ? 'teal'
+                : null
+            }
+            rightIcon={<FaHashtag />}
+          >
+            {tag}
+          </Button>
+        );
+      })}
+    </Wrap>
+  );
+}
 
 export default function TagFilterSidebar({
   categories,
@@ -27,9 +65,10 @@ export default function TagFilterSidebar({
     useExtendedSearch: true,
   };
 
+  let arr = [];
+
   React.useEffect(() => {
     if (search === '' && filteredTagResults.length <= 0) {
-      let arr = [];
       categories.map((cat) => {
         if (cat.tags) {
           cat.tags.map((tag) => arr.push(tag));
@@ -65,42 +104,22 @@ export default function TagFilterSidebar({
             placeholder="Filter tags..."
             onChange={(e) => setSearch(e.target.value)}
           />
-          <Button variant="outline" onClick={() => setSelectedFilters([])}>
+          <Button
+            p={2}
+            mt={2}
+            mb={3}
+            variant="outline"
+            fontSize="10px"
+            onClick={() => setSelectedFilters([])}
+          >
             Clear Tags
           </Button>
-          {selectedFilters ??
-            selectedFilters.map((tag) => (
-              <Button
-                key={tag.toString()}
-                size="sm"
-                fontSize="10px"
-                onClick={() =>
-                  selectedFilters.some((selected) => selected === tag)
-                    ? removeTag(tag)
-                    : addTag(tag)
-                }
-                variant={
-                  selectedFilters.some((selected) => selected === tag)
-                    ? 'solid'
-                    : 'outline'
-                }
-                colorScheme={
-                  selectedFilters.some((selected) => selected === tag)
-                    ? 'teal'
-                    : null
-                }
-                rightIcon={<FaHashtag />}
-              >
-                {tag}
-              </Button>
-            ))}
           {filteredTagResults && (
             <CategoryTagList
               filteredTagResults={filteredTagResults}
               addTag={addTag}
               removeTag={removeTag}
               selectedFilters={selectedFilters}
-              categories={categories}
             />
           )}
         </Box>
@@ -110,7 +129,7 @@ export default function TagFilterSidebar({
         borderBottomLeftRadius="0"
         borderTopRightRadius="xl"
         borderBottomRightRadius="xl"
-        colorScheme="red"
+        colorScheme="blue"
         p={3}
         w={4}
         position="sticky"
