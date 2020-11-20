@@ -57,7 +57,7 @@ export default function Card({ post }) {
           </Container>
           <HStack pb={4} spacing={4}>
             {post.tags.map((t) => (
-              <Tag key={t} size="lg" variant="outline" colorScheme="yellow.900">
+              <Tag key={t} size="lg" variant="outline" colorScheme="yellow">
                 <FaTag />
                 <TagLabel>{t}</TagLabel>
               </Tag>
