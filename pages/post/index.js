@@ -4,11 +4,10 @@ import { useFetchUser, useUser } from '@lib/user';
 import { allPosts, allCategories } from 'lib/api';
 
 import JamCard from '@components/JamCard';
-import TabbedTagSelection from '@components/TabbedTagSelection';
-import SearchDrawer from '@components/SearchDrawer';
 import SearchInput from '@components/SearchInput';
+import TagFilterSidebar from '@components/TagFilterSidebar';
 import Layout from '@components/Layout';
-import { Button, Flex, Grid, useDisclosure } from '@chakra-ui/core';
+import { Button, Flex, Grid } from '@chakra-ui/core';
 import Fuse from 'fuse.js';
 
 const fuseOptions = {
@@ -23,25 +22,26 @@ const fuseOptions = {
 };
 
 export default function Post({ posts, categories }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [filteredPosts, setFilteredPosts] = React.useState(posts);
-  const [searchTags, setSearchTags] = React.useState([]);
+  const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const router = useRouter();
   const btnRef = React.useRef();
   const { user, loading } = useUser();
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
-    setSearchTags(router.query.tags?.split(',') || []);
+    setSelectedFilters(router.query.tags?.split(',') || []);
   }, [router.query]);
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
-    if (searchValue === '' && searchTags.length === 0) {
+    if (searchValue === '' && selectedFilters.length === 0) {
       handleFilter(posts);
     } else {
       // Allow for a search for tag
-      const formattedTags = [...searchTags.map((item) => ({ tags: item }))];
+      const formattedTags = [
+        ...selectedFilters.map((item) => ({ tags: item })),
+      ];
       const queries = {
         $or: [
           { title: searchValue },
@@ -54,16 +54,16 @@ export default function Post({ posts, categories }) {
       const results = fuse.search(queries).map((result) => result.item);
       handleFilter(results);
     }
-  }, [searchValue, searchTags]);
+  }, [searchValue, selectedFilters]);
 
   const fuse = new Fuse(posts, fuseOptions);
 
   function addTag(tag) {
-    return setSearchTags((prev) => [...prev, tag]);
+    return setSelectedFilters((prev) => [...prev, tag]);
   }
 
   function removeTag(tag) {
-    return setSearchTags((prev) => prev.filter((pt) => pt !== tag));
+    return setSelectedFilters((prev) => prev.filter((pt) => pt !== tag));
   }
 
   const handleFilter = (data) => {
@@ -72,26 +72,21 @@ export default function Post({ posts, categories }) {
 
   return (
     <Layout>
-      <Flex w="100vw" h="100vh">
+      <Flex w="100vw" h="100%">
+        <TagFilterSidebar
+          categories={categories}
+          addTag={addTag}
+          removeTag={removeTag}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+        />
         <Flex w="100%" direction="column" alignItems="center">
           <Flex
             direction="column"
             alignItems="center"
             justify="center"
             height="40%"
-          >
-            <Button onClick={onOpen}>Open Filter</Button>
-            <SearchDrawer
-              isOpen={isOpen}
-              finalFocusRef={btnRef}
-              placement="left"
-              onClose={onClose}
-              categories={categories}
-              addTag={addTag}
-              removeTag={removeTag}
-              searchTags={searchTags}
-            />
-          </Flex>
+          ></Flex>
           <Grid
             m={20}
             w="80%"
