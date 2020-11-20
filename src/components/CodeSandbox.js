@@ -5,10 +5,10 @@ import Iframe from '@components/Iframe';
 const isCodeSandboxUrl = (url) => new URL(url).hostname === 'codesandbox.io';
 
 export default function CodeSandbox({ title, src, children, ...props }) {
-  const { colorMode } = useColorMode();
+  const { colorMode = 'dark' } = useColorMode();
   const codeSandboxEncodeUrl = (src) => {
     const url = new URL(src);
-    url.search = `fontsize=14&hidenavigation=1&theme=${colorMode}`;
+    url.search = `runonclick=1&codemiror=1&fontsize=14&hidenavigation=1&theme=${!colorMode}`;
     return url;
   };
   return (
@@ -19,9 +19,9 @@ export default function CodeSandbox({ title, src, children, ...props }) {
         src={codeSandboxEncodeUrl(src)}
         title={title}
         width="full"
-        maxW="960px"
+        maxW="1280px"
         mx="auto"
-        minH="500px"
+        minH="800px"
         overflow="hidden"
         allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
         sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"

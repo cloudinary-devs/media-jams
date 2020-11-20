@@ -33,7 +33,7 @@ export default function JamDetailHero({ children }) {
   };
 
   return (
-    <Flex h="xl" direction="row" justifyContent="center" alignItems="center">
+    <Flex h="lg" direction="row" justifyContent="center" alignItems="center">
       <Box flex={{ sm: 1, base: 0 }} boxSize="sm" overflow="hidden">
         <Image
           maxWidth="100%"
