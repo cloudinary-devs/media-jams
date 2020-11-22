@@ -4,16 +4,23 @@ import {
   Button,
   useBreakpointValue,
   Heading,
-  Text,
+  Spacer,
   Flex,
   Box,
 } from '@chakra-ui/core';
-
-import Container from '@components/Container';
+import { useImage } from 'use-cloudinary';
 import Image from '@components/Image';
-import RawkButton from '@components/RawkButton';
 
-export default function Hero({ heroImage }) {
+export default function Hero() {
+  const { generateImageUrl } = useImage('mediadevs');
+  const imgConfig = {
+    delivery: {
+      publicId: 'mediajams/hero',
+    },
+    transformation: {
+      height: 0.8,
+    },
+  };
   const headings = useBreakpointValue({
     base: 'md',
     md: 'xl',
@@ -29,9 +36,15 @@ export default function Hero({ heroImage }) {
       alignItems="center"
     >
       <Heading mt={16} as="h1" textStyle="headline-page" color="yellow.900">
-        TRYING TO LEARN EVERYTHING ABOUT MEDIA IS HARD
+        TRYING TO LEARN EVERYTHING
       </Heading>
-      <Image alignSelf="center" mt={8} src={heroImage} />
+      <Heading as="h1" textStyle="headline-page" color="yellow.900">
+        ABOUT MEDIA IS HARD
+      </Heading>
+      <Box flex={{ sm: 1, base: 0 }} boxSize="xl">
+        <Image alt="Feature Image" src={generateImageUrl(imgConfig)} />
+      </Box>
+      <Spacer backgroundColor="white" />
     </Flex>
   );
 }

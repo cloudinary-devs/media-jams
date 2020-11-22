@@ -8,7 +8,7 @@ jest.mock('@sanity/client');
 test('renders index w/o error', async () => {
   render(<Index />);
   const heroElement = await waitFor(() =>
-    screen.getAllByText(/TRYING TO LEARN EVERYTHING ABOUT MEDIA IS HARD/),
+    screen.getAllByText(/TRYING TO LEARN EVERYTHING/),
   );
   expect(heroElement[0]).toBeInTheDocument();
 });

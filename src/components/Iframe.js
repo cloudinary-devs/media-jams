@@ -1,14 +1,16 @@
-import { Box } from '@chakra-ui/core';
+import { Flex, Box } from '@chakra-ui/core';
 
 export default function Iframe({ src, style, title, ...rest }) {
   return (
-    <Box
-      as="iframe"
-      title={title}
-      src={src}
-      style={style}
-      allowFullScreen
-      {...rest}
-    />
+    <Flex justifyContent="center" width="100vw">
+      <Box
+        as="iframe"
+        title={title}
+        src={src}
+        style={style}
+        allowFullScreen
+        {...rest}
+      />
+    </Flex>
   );
 }
