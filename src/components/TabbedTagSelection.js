@@ -15,13 +15,16 @@ import { FaHashtag } from 'react-icons/fa';
 
 function Panels({ tabs, searchTags, addTag, removeTag }) {
   return (
-    <TabPanels>
+    <TabPanel>
       {tabs?.map((category, idx) => (
         <TabPanel key={idx.toString()}>
-          {category.tags?.length >= 1 ? (
-            <Wrap>
-              {category.tags?.map((tag) => (
+          {category.tags?.length > 0 ? (
+            <Wrap w="xl" spacing="20px">
+              {category.tags.map((tag) => (
                 <Button
+                  size="md"
+                  colorScheme="blue"
+                  fontSize={10}
                   key={tag.toString()}
                   onClick={() =>
                     searchTags.some((selected) => selected === tag)
@@ -35,8 +38,8 @@ function Panels({ tabs, searchTags, addTag, removeTag }) {
                   }
                   colorScheme={
                     searchTags.some((selected) => selected === tag)
-                      ? 'teal'
-                      : null
+                      ? 'blue'
+                      : 'blue'
                   }
                   rightIcon={<FaHashtag />}
                 >
@@ -44,12 +47,10 @@ function Panels({ tabs, searchTags, addTag, removeTag }) {
                 </Button>
               ))}
             </Wrap>
-          ) : (
-            <Text>No tags yet</Text>
-          )}
+          ) : null}
         </TabPanel>
       ))}
-    </TabPanels>
+    </TabPanel>
   );
 }
 
@@ -60,11 +61,24 @@ export default function TabbedTagSelection({
   searchTags,
 }) {
   return (
-    <Tabs>
-      <TabList mb="1em">
-        {tabs?.map((tab, idx) => (
-          <Tab key={idx}>{tab.title}</Tab>
-        ))}
+    <Tabs
+      border="2px solid black"
+      borderRadius="6px"
+      boxShadow="0px 9px 38px 0px rgba(0,0,0,0.75)"
+      height="20rem"
+    >
+      <TabList borderBottom="none" p={10} mb="1em">
+        {tabs?.map((tab, idx) => {
+          if (tab.tags && tab.tags.length > 0) {
+            return (
+              <Tab fontSize={10} key={idx}>
+                {tab.title}
+              </Tab>
+            );
+          } else {
+            return;
+          }
+        })}
       </TabList>
       <Panels
         addTag={addTag}
