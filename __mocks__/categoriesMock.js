@@ -1,11 +1,10 @@
 export default [
-  { _id: '376bfca7-be64-47e5-93e2-552b1aeb813a', title: 'Theme' },
   {
     _id: '3ca5296c-9be9-4e6b-9e34-a06ab88f146f',
     tags: ['Protocol', 'RTMP'],
     title: 'Protocol',
   },
-  { _id: '4ef178e3-12ca-4120-9805-d4dce1d60d11', title: 'Operations' },
+
   {
     _id: '80c8fa57-6c45-4e03-8713-abbb5e43ecd8',
     tags: ['Wordpress', 'NOSQL', 'GraphQL'],
@@ -28,7 +27,6 @@ export default [
     ],
     title: 'Frontend Frameworks',
   },
-  { _id: '9d3e84f8-b1d9-4c3b-8824-b6c61e14ffd1', title: 'Tools (OSS)' },
   {
     _id: '9d54b33f-e5dc-4779-b370-7455f7b53c56',
     tags: ['Cloudinary'],

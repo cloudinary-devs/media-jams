@@ -19,7 +19,7 @@ function Panels({ tabs, searchTags, addTag, removeTag }) {
       {tabs?.map((category, idx) => {
         return (
           category.tags?.length > 0 && (
-            <Wrap key={category.id} w="xl" spacing="20px">
+            <Wrap key={idx} w="xl" spacing="20px">
               {category.tags.map((tag) => (
                 <Button
                   size="md"
