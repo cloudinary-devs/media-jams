@@ -68,7 +68,8 @@ export default function Navbar() {
             borderRadius="3px"
             colorScheme="blue"
             ml={4}
-            w="120px"
+            size="sm"
+            w="100px"
           >
             Login
           </Button>

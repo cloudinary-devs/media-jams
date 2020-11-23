@@ -16,10 +16,10 @@ import { FaHashtag } from 'react-icons/fa';
 function Panels({ tabs, searchTags, addTag, removeTag }) {
   return (
     <TabPanel>
-      {tabs?.map((category, idx) => (
-        <TabPanel key={idx.toString()}>
-          {category.tags?.length > 0 ? (
-            <Wrap w="xl" spacing="20px">
+      {tabs.map((category, idx) => {
+        return (
+          category.tags?.length > 0 && (
+            <Wrap key={category.id} w="xl" spacing="20px">
               {category.tags.map((tag) => (
                 <Button
                   size="md"
@@ -36,20 +36,15 @@ function Panels({ tabs, searchTags, addTag, removeTag }) {
                       ? 'solid'
                       : 'outline'
                   }
-                  colorScheme={
-                    searchTags.some((selected) => selected === tag)
-                      ? 'blue'
-                      : 'blue'
-                  }
                   rightIcon={<FaHashtag />}
                 >
                   {tag}
                 </Button>
               ))}
             </Wrap>
-          ) : null}
-        </TabPanel>
-      ))}
+          )
+        );
+      })}
     </TabPanel>
   );
 }

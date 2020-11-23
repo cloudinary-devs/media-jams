@@ -71,7 +71,7 @@ export default function Index({ posts, categories }) {
             </Center>
           </Box>
         </HStack>
-        <HStack w="70%">
+        <HStack w="80%">
           <VStack alignItems="stretch" spacing={20} justify="space-between">
             <ElementIcon
               phrase="flexibility"

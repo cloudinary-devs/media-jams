@@ -1,7 +1,7 @@
 import React from 'react';
 import Fuse from 'fuse.js';
 import { Box, Button, Input, Flex, Icon, Wrap, Heading } from '@chakra-ui/core';
-import { FaHashtag } from 'react-icons/fa';
+import { FaHashtag, FaMinusCircle } from 'react-icons/fa';
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from 'react-icons/bs';
 import { motion } from 'framer-motion';
 
@@ -34,7 +34,13 @@ function CategoryTagList({
                 ? 'teal'
                 : null
             }
-            rightIcon={<FaHashtag />}
+            leftIcon={
+              selectedFilters.some((selected) => selected === tag) ? (
+                <Icon as={FaMinusCircle} color="red.300" />
+              ) : (
+                <FaHashtag />
+              )
+            }
           >
             {tag}
           </Button>

@@ -24,9 +24,9 @@ export default function Card({ post }) {
       as={Link}
       _hover={{ textDecor: 'none' }}
       href={`/post/${post.slug}`}
-      boxShadow="light-lg"
+      boxShadow="0px 9px 38px 0px rgba(0,0,0,0.75)"
       backgroundColor="white"
-      w="80%"
+      w={['700px', '500px', '400px']}
       h="200px"
       borderRadius="8px"
     >

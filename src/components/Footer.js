@@ -22,6 +22,7 @@ export default function Footer() {
       justifyContent="flex-end"
       alignItems="flex-start"
       backgroundColor="red.900"
+      alignSelf="flex-end"
     >
       <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
     </Flex>

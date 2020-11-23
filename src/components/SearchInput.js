@@ -12,7 +12,8 @@ const { publicRuntimeConfig } = getConfig();
 import Mixpanel, { useMixPanel } from 'lib/mixpanel';
 import useDebounce from '../hooks/useDebounce';
 
-export default function SearchInput({ searchValue, setSearchValue }) {
+export default function SearchInput({ searchValue, setSearchValue, ...rest }) {
+  console.log(rest);
   const mixpanel = useMixPanel();
   const debounceSearchValue = useDebounce(searchValue, 500);
   const theme = useTheme();
@@ -25,7 +26,7 @@ export default function SearchInput({ searchValue, setSearchValue }) {
   };
 
   return (
-    <InputGroup size="md" w="35rem" mt={10}>
+    <InputGroup size="md" w="35rem" mt={10} {...rest}>
       <Input
         variant="outline"
         placeholder="Search by tag, title, or keyword..."
@@ -41,13 +42,7 @@ export default function SearchInput({ searchValue, setSearchValue }) {
         }}
       />
       <InputRightElement w="10rem" pr=".3rem">
-        <Button
-          w="100%"
-          variant="outline"
-          size="sm"
-          borderRadius="3px"
-          colorScheme="blue"
-        >
+        <Button w="100%" size="sm" borderRadius="3px" colorScheme="blue">
           Search
         </Button>
       </InputRightElement>
