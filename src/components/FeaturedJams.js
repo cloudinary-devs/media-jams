@@ -16,9 +16,9 @@ export default function FeaturedJams({ posts = [] }) {
       p={18}
     >
       <Heading
-        mt={16}
-        mx={16}
-        mr="auto"
+        mt={12}
+        mb={10}
+        ml={25}
         textStyle="headline-accent"
         color="yellow.900"
       >
@@ -28,7 +28,7 @@ export default function FeaturedJams({ posts = [] }) {
       <Grid
         gridTemplateColumns="repeat(auto-fill, minmax(400px, 1fr))"
         gap={['80px', '60px', '10px']}
-        w="100%"
+        w="80%"
         justifyItems="center"
         mb={6}
       >
