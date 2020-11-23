@@ -39,6 +39,7 @@ export default function FeaturedJams({ posts = [] }) {
         colorScheme="blue"
         mt={20}
         width="30%"
+        mb="5rem"
       >
         See All Jams
       </Button>
