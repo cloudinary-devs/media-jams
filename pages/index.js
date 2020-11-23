@@ -86,7 +86,7 @@ export default function Index({ posts, categories }) {
             w="2xl"
             direction="column"
             alignItems="center"
-            ml="10rem!important"
+            ml="5rem!important"
           >
             <Heading
               alignSelf="start"
