@@ -15,20 +15,14 @@ export default function FeaturedJams({ posts = [] }) {
       backgroundColor="grey.900"
       p={18}
     >
-      <Heading
-        mt={12}
-        mb={10}
-        ml={25}
-        textStyle="headline-accent"
-        color="yellow.900"
-      >
+      <Heading mt={12} mb={10} textStyle="headline-accent" color="yellow.900">
         Featured Jams
       </Heading>
 
       <Grid
         gridTemplateColumns="repeat(auto-fill, minmax(400px, 1fr))"
         gap={['80px', '60px', '10px']}
-        w="80%"
+        w="60%"
         justifyItems="center"
         mb={6}
       >
