@@ -71,22 +71,22 @@ export default function Index({ posts, categories }) {
             </Center>
           </Box>
         </HStack>
-        <HStack w="80%">
-          <VStack alignItems="stretch" spacing={20} justify="space-between">
+        <HStack w="100%" justifyContent="space-around">
+          <VStack alignItems="stretch" spacing={20} ml="10rem!important">
             <ElementIcon
               phrase="flexibility"
               alignItems="right"
               mr={25}
               mb={16}
             />
-            <ElementIcon phrase="power" mb={5} />
+            <ElementIcon phrase="power" mb={5} ml="15rem!important" />
           </VStack>
           <Flex
             h="xl"
             w="2xl"
             direction="column"
             alignItems="center"
-            ml="20rem!important"
+            ml="10rem!important"
           >
             <Heading
               alignSelf="start"
