@@ -24,7 +24,7 @@ import FeaturedJams from '@components/FeaturedJams';
 import ElementIcon from '@components/ElementIcon';
 import EmailSubscription from '@components/EmailSubscription';
 
-export default function Index({ posts, categories, camera }) {
+export default function Index({ posts, categories }) {
   const [searchTags, setSearchTags] = React.useState([]);
   const router = useRouter();
 
@@ -45,7 +45,7 @@ export default function Index({ posts, categories, camera }) {
   }
   return (
     <Layout>
-      <Hero posts={posts} heroImage={camera} />
+      <Hero posts={posts} />
       <VStack spacing={20} justifyContent="space-between" minW="100%" mb={20}>
         <Center maxW="3xl">
           <Heading
@@ -109,6 +109,7 @@ export default function Index({ posts, categories, camera }) {
               as={Link}
               mt={10}
               size="lg"
+              p={5}
               colorScheme="blue"
               onClick={() => addTagsToRoute(searchTags)}
               _hover={{ textDecoration: 'none' }}
@@ -125,33 +126,12 @@ export default function Index({ posts, categories, camera }) {
 }
 
 export async function getStaticProps() {
-  const cloudinary = require('cloudinary').v2;
-
-  cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-  });
-
   const [posts, categories] = await Promise.all([allPosts(), allCategories()]);
-
-  const publicIds = ['camera'];
-
-  let urls = {};
-
-  publicIds.map((pid) => {
-    const url = cloudinary.url(pid);
-    return (urls = {
-      ...urls,
-      [pid]: url,
-    });
-  });
 
   return {
     props: {
       posts,
       categories,
-      ...urls,
     },
   };
 }

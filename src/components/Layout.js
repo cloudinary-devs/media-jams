@@ -1,5 +1,6 @@
 import { Flex, Box } from '@chakra-ui/core';
 import Navbar from '@components/Navbar';
+import Footer from '@components/Footer';
 import SEO from '@components/SEO';
 export default function Layout({ props, children }) {
   return (
@@ -7,6 +8,7 @@ export default function Layout({ props, children }) {
       <SEO {...props} />
       <Navbar />
       <Box flex={1}>{children}</Box>
+      <Footer />
     </Flex>
   );
 }
