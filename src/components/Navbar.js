@@ -3,7 +3,7 @@ import { Link as NextLink } from 'next/link';
 import { useFetchUser } from '@lib/user';
 import { useImage } from 'use-cloudinary';
 
-function NavLink({ children, isButton, ...props }) {
+export function NavLink({ children, isButton, ...props }) {
   return (
     <Link
       as={NextLink}
@@ -40,7 +40,7 @@ export default function Navbar() {
   return (
     <Flex
       minW="100%;"
-      height="5rem"
+      height="7rem"
       px={5}
       py={4}
       justifyContent="space-between"
@@ -68,8 +68,8 @@ export default function Navbar() {
             borderRadius="3px"
             colorScheme="blue"
             ml={4}
-            variant="outline"
-            w="120px"
+            size="sm"
+            w="100px"
           >
             Login
           </Button>

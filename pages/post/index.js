@@ -7,8 +7,8 @@ import JamCard from '@components/JamCard';
 import SearchInput from '@components/SearchInput';
 import TagFilterSidebar from '@components/TagFilterSidebar';
 import Layout from '@components/Layout';
-import { Button, Flex, Grid, Wrap } from '@chakra-ui/core';
-import { FaHashtag } from 'react-icons/fa';
+import { Button, Flex, Grid, Wrap, Heading, Icon } from '@chakra-ui/core';
+import { FaHashtag, FaMinusCircle } from 'react-icons/fa';
 import Fuse from 'fuse.js';
 
 const fuseOptions = {
@@ -73,6 +73,16 @@ export default function Post({ posts, categories }) {
 
   return (
     <Layout>
+      <Flex
+        h="5rem"
+        backgroundColor="grey.900"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Heading as="h1" textStyle="headline-page" color="yellow.900" mb="5rem">
+          Let's Jam
+        </Heading>
+      </Flex>
       <Flex w="100vw" h="100%">
         <TagFilterSidebar
           categories={categories}
@@ -81,18 +91,20 @@ export default function Post({ posts, categories }) {
           selectedFilters={selectedFilters}
           setSelectedFilters={setSelectedFilters}
         />
-        <Flex w="100%" direction="column" alignItems="center">
+        <Flex w="100%" direction="column" mt={5}>
           <SearchInput
             searchvalue={searchValue}
             setSearchValue={setSearchValue}
+            alignSelf="center"
           />
           {selectedFilters && (
-            <Wrap mt={6}>
+            <Wrap spacing={3} w="50%" alignSelf="center" m={12}>
               {selectedFilters.map((tag) => (
                 <Button
                   key={tag.toString()}
                   size="sm"
                   fontSize="10px"
+                  ml={4}
                   onClick={() =>
                     selectedFilters.some((selected) => selected === tag)
                       ? removeTag(tag)
@@ -108,24 +120,22 @@ export default function Post({ posts, categories }) {
                       ? 'teal'
                       : null
                   }
-                  rightIcon={<FaHashtag />}
+                  leftIcon={
+                    selectedFilters.some((selected) => selected === tag) ? (
+                      <Icon as={FaMinusCircle} color="red.300" />
+                    ) : (
+                      <FaHashtag />
+                    )
+                  }
                 >
                   {tag}
                 </Button>
               ))}
             </Wrap>
           )}
-          <Flex
-            direction="column"
-            alignItems="center"
-            justify="center"
-            height="40%"
-          ></Flex>
           <Grid
-            m={20}
-            w="80%"
-            gridTemplateColumns="repeat(auto-fill, minmax(300px, 1fr))"
-            gap={8}
+            gridTemplateColumns="repeat(auto-fill, minmax(400px, 1fr))"
+            gap={['80px', '60px', '10px']}
           >
             {filteredPosts.map((post) => (
               <JamCard key={post.id} post={post} />

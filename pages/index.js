@@ -24,7 +24,7 @@ import FeaturedJams from '@components/FeaturedJams';
 import ElementIcon from '@components/ElementIcon';
 import EmailSubscription from '@components/EmailSubscription';
 
-export default function Index({ posts, categories, camera }) {
+export default function Index({ posts, categories }) {
   const [searchTags, setSearchTags] = React.useState([]);
   const router = useRouter();
 
@@ -45,11 +45,11 @@ export default function Index({ posts, categories, camera }) {
   }
   return (
     <Layout>
-      <Hero posts={posts} heroImage={camera} />
-      <VStack minW="100%">
+      <Hero posts={posts} />
+      <VStack spacing={20} justifyContent="space-between" minW="100%" mb={20}>
         <Center maxW="3xl">
           <Heading
-            mt={16}
+            mt="15rem"
             as="h1"
             textStyle="headline-intersitial"
             lineHeight="sm"
@@ -71,37 +71,51 @@ export default function Index({ posts, categories, camera }) {
             </Center>
           </Box>
         </HStack>
-        <HStack w="70%">
-          <VStack alignItems="stretch" justify="space-around">
+        <HStack w="100%" justifyContent="space-around">
+          <VStack alignItems="stretch" spacing={20} ml="10rem!important">
             <ElementIcon
               phrase="flexibility"
               alignItems="right"
-              mr={16}
+              mr={25}
               mb={16}
             />
-            <ElementIcon phrase="power" mr={16} mb={16} />
+            <ElementIcon phrase="power" mb={5} ml="15rem!important" />
           </VStack>
-          <Flex h="xl" direction="column" alignItems="center" minW="100%">
-            <Center mb={16}>
-              <Heading mt={16} mx={16} as="h1" size="2xl">
-                Start your media journey
-              </Heading>
-            </Center>
+          <Flex
+            h="xl"
+            w="2xl"
+            direction="column"
+            alignItems="center"
+            ml="5rem!important"
+          >
+            <Heading
+              alignSelf="start"
+              textStyle="headline-page"
+              mt={16}
+              as="h1"
+              fontSpacing="2px"
+              fontSize="3xl"
+            >
+              Start your media journey
+            </Heading>
+
             <TabbedTagSelection
               tabs={categories}
               searchTags={searchTags}
               addTag={addTag}
               removeTag={removeTag}
             />
-            <Link
-              as={Button}
-              mt={16}
+            <Button
+              as={Link}
+              mt={10}
               size="lg"
+              p={5}
+              colorScheme="blue"
               onClick={() => addTagsToRoute(searchTags)}
               _hover={{ textDecoration: 'none' }}
             >
               Search
-            </Link>
+            </Button>
           </Flex>
         </HStack>
       </VStack>
@@ -112,33 +126,12 @@ export default function Index({ posts, categories, camera }) {
 }
 
 export async function getStaticProps() {
-  const cloudinary = require('cloudinary').v2;
-
-  cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-  });
-
   const [posts, categories] = await Promise.all([allPosts(), allCategories()]);
-
-  const publicIds = ['camera'];
-
-  let urls = {};
-
-  publicIds.map((pid) => {
-    const url = cloudinary.url(pid);
-    return (urls = {
-      ...urls,
-      [pid]: url,
-    });
-  });
 
   return {
     props: {
       posts,
       categories,
-      ...urls,
     },
   };
 }

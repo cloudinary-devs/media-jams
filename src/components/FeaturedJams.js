@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link as NextLink } from 'next/link';
 import { Flex, Grid, Heading, Button, Link, Text } from '@chakra-ui/core';
+import { NavLink } from '@components/Navbar';
 
 import JamCard from '@components/JamCard';
 
@@ -12,40 +13,36 @@ export default function FeaturedJams({ posts = [] }) {
       justifyContent="center"
       alignItems="center"
       backgroundColor="grey.900"
+      p={18}
     >
-      <Heading
-        mt={16}
-        mx={16}
-        mr="auto"
-        textStyle="headline-accent"
-        color="yellow.900"
-      >
+      <Heading mt={12} mb={10} textStyle="headline-accent" color="yellow.900">
         Featured Jams
       </Heading>
 
       <Grid
         gridTemplateColumns="repeat(auto-fill, minmax(400px, 1fr))"
-        gap={12}
-        w="90%"
+        gap={['80px', '60px', '10px']}
+        w="60%"
+        justifyItems="center"
+        mb={6}
       >
         {posts?.map((post) => (
           <JamCard key={post.slug} post={post} />
         ))}
       </Grid>
-      <Link w="50%" my={8} as={NextLink} href="/post">
-        <Button
-          size="lg"
-          borderRadius="3px"
-          colorScheme="blue"
-          _hover={{ borderColor: '#bec3c9' }}
-          variant="outline"
-          w="100%"
-        >
-          <Heading textStyle="heading" color="white">
-            See All Jams
-          </Heading>
-        </Button>
-      </Link>
+      <Button
+        as={NavLink}
+        href="/post"
+        isButton
+        size="md"
+        borderRadius="3px"
+        colorScheme="blue"
+        mt={20}
+        width="30%"
+        mb="5rem"
+      >
+        See All Jams
+      </Button>
     </Flex>
   );
 }
