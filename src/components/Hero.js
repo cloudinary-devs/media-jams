@@ -4,16 +4,23 @@ import {
   Button,
   useBreakpointValue,
   Heading,
-  Text,
+  Spacer,
   Flex,
   Box,
 } from '@chakra-ui/core';
-
-import Container from '@components/Container';
+import { useImage } from 'use-cloudinary';
 import Image from '@components/Image';
-import RawkButton from '@components/RawkButton';
 
-export default function Hero({ heroImage }) {
+export default function Hero() {
+  const { generateImageUrl } = useImage('mediadevs');
+  const imgConfig = {
+    delivery: {
+      publicId: 'mediajams/hero',
+    },
+    transformation: {
+      height: 0.8,
+    },
+  };
   const headings = useBreakpointValue({
     base: 'md',
     md: 'xl',
@@ -21,26 +28,23 @@ export default function Hero({ heroImage }) {
   });
 
   return (
-    <Flex justifyContent="center" alignItems="center" height="800px" m={32}>
-      <Flex direction="column" textAlign="">
-        <Heading mt={16} as="h1" textStyle="headline-page">
-          Learning Media is hard MediaJams will fix that 👍
-        </Heading>
-        <Heading mt={16} as="h1" textStyle="headline">
-          Learning Media is hard MediaJams will fix that 👍
-        </Heading>
-        <Heading mt={16} as="h1" textStyle="headline-accent">
-          Learning Media is hard MediaJams will fix that 👍
-        </Heading>
-        <Heading mt={16} as="h1" textStyle="headline-intersitial">
-          Learning Media is hard MediaJams will fix that 👍
-        </Heading>
-        <Text mt={6}>
-          With MediaJams, we connect you with the code that gets you working
-          faster and the experts that teach it
-        </Text>
-      </Flex>
-      <Image alignSelf="center" mt={8} src={heroImage} />
+    <Flex
+      h="xl"
+      direction="column"
+      backgroundColor="grey.900"
+      justifyContent="space-between"
+      alignItems="center"
+    >
+      <Heading mt={16} as="h1" textStyle="headline-page" color="yellow.900">
+        TRYING TO LEARN EVERYTHING
+      </Heading>
+      <Heading as="h1" textStyle="headline-page" color="yellow.900">
+        ABOUT MEDIA IS HARD
+      </Heading>
+      <Box pt="8rem" flex={{ sm: 1, base: 0 }} boxSize="xl">
+        <Image alt="Feature Image" src={generateImageUrl(imgConfig)} />
+      </Box>
+      <Spacer backgroundColor="white" />
     </Flex>
   );
 }

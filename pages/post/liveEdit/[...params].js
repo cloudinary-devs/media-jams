@@ -25,9 +25,7 @@ export default function LiveEdit({ post, user }) {
       .patch(post._id) // Document ID to patch
       .set({ body: debouncedContentValue }) // Shallow merge
       .commit() // Perform the patch and return a promise
-      .then((updatedContent) => {
-        console.log('content is updated>>>>>>', updatedContent.body);
-      })
+      .then((updatedContent) => {})
       .catch((err) => {
         console.error('Oh no, the update failed: ', err.message);
       });

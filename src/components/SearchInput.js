@@ -1,13 +1,22 @@
 import React from 'react';
-import { Stack, Input } from '@chakra-ui/core';
+import {
+  Button,
+  Input,
+  InputGroup,
+  InputRightElement,
+  useTheme,
+} from '@chakra-ui/core';
+
 import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig();
 import Mixpanel, { useMixPanel } from 'lib/mixpanel';
 import useDebounce from '../hooks/useDebounce';
 
-export default function SearchInput({ searchValue, setSearchValue }) {
+export default function SearchInput({ searchValue, setSearchValue, ...rest }) {
+  console.log(rest);
   const mixpanel = useMixPanel();
   const debounceSearchValue = useDebounce(searchValue, 500);
+  const theme = useTheme();
   React.useEffect(() => {
     mixpanel.track('Search Tag', { searchInput: debounceSearchValue });
   }, [debounceSearchValue]);
@@ -17,14 +26,26 @@ export default function SearchInput({ searchValue, setSearchValue }) {
   };
 
   return (
-    <Stack
-      direction="column"
-      w={['100%', '75%', '50%']}
-      align="center"
-      spacing={[6, 8, 10]}
-      mt={16}
-    >
-      <Input value={searchValue} onChange={onChange} />
-    </Stack>
+    <InputGroup size="md" w="35rem" mt={10} {...rest}>
+      <Input
+        variant="outline"
+        placeholder="Search by tag, title, or keyword..."
+        padding="1.2rem 0 1.2rem 1rem"
+        value={searchValue}
+        onChange={onChange}
+        borderColor="blue.200"
+        backgroundColor="blue.200"
+        _placeholder={{
+          color: 'black',
+          lineSpacing: '4px',
+          fontSize: 'md',
+        }}
+      />
+      <InputRightElement w="10rem" pr=".3rem">
+        <Button w="100%" size="sm" borderRadius="3px" colorScheme="blue">
+          Search
+        </Button>
+      </InputRightElement>
+    </InputGroup>
   );
 }

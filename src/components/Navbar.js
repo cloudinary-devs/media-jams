@@ -3,7 +3,7 @@ import { Link as NextLink } from 'next/link';
 import { useFetchUser } from '@lib/user';
 import { useImage } from 'use-cloudinary';
 
-function NavLink({ children, isButton, ...props }) {
+export function NavLink({ children, isButton, ...props }) {
   return (
     <Link
       as={NextLink}
@@ -12,6 +12,7 @@ function NavLink({ children, isButton, ...props }) {
           color: 'yellow.400',
           borderBottomWidth: '5px',
           borderBottomStyle: 'solid',
+          borderBottomColor: 'yellow.400',
           paddingBottom: '3px',
         }
       }
@@ -32,19 +33,20 @@ export default function Navbar() {
       publicId: 'mediajams/logo',
     },
     transformation: {
-      height: 0.8,
+      height: 0.7,
     },
   };
 
   return (
     <Flex
       minW="100%;"
-      height="5rem"
+      height="7rem"
       px={5}
       py={4}
       justifyContent="space-between"
       alignItems="flex-start"
       backgroundColor="grey.900"
+      color="white"
     >
       <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
       <Box>
@@ -66,8 +68,8 @@ export default function Navbar() {
             borderRadius="3px"
             colorScheme="blue"
             ml={4}
-            variant="outline"
-            w="120px"
+            size="sm"
+            w="100px"
           >
             Login
           </Button>
