@@ -18,7 +18,7 @@ export const creatorListItems = [
     child: async () => {
       // Check for author profile, else create it
       const { id } = await userStore.getUser('me');
-      const self = `${id}.self`;
+      const self = `${id}-self`;
       await client.createIfNotExists({
         _id: self,
         _type: 'author',
@@ -44,7 +44,7 @@ export const creatorListItems = [
     .child(() => {
       return getCurrentUser$().pipe(
         map(({ id }) => {
-          return S.editor().schemaType('author').documentId(`${id}.self`);
+          return S.editor().schemaType('author').documentId(`${id}-self`);
         }),
       );
     }),

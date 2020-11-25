@@ -9,7 +9,7 @@ import {
   Box,
   Image,
   HStack,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { useImage } from 'use-cloudinary';
 
 import Container from '@components/Container';

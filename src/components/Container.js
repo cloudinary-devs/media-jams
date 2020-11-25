@@ -1,5 +1,5 @@
 import React from 'react';
-import { theme, Flex } from '@chakra-ui/core';
+import { theme, Flex } from '@chakra-ui/react';
 
 const Container = ({ children, ...props }) => {
   const breakpoints = [...theme.breakpoints];

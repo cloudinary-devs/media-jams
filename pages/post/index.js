@@ -7,7 +7,15 @@ import JamCard from '@components/JamCard';
 import SearchInput from '@components/SearchInput';
 import TagFilterSidebar from '@components/TagFilterSidebar';
 import Layout from '@components/Layout';
-import { Button, Flex, Grid, Wrap, Heading, Icon, Text } from '@chakra-ui/core';
+import {
+  Button,
+  Flex,
+  Grid,
+  Wrap,
+  Heading,
+  Icon,
+  Text,
+} from '@chakra-ui/react';
 import { FaHashtag, FaMinusCircle } from 'react-icons/fa';
 import Fuse from 'fuse.js';
 
@@ -141,7 +149,7 @@ export default function Post({ posts, categories }) {
             gap={['80px', '60px', '10px']}
           >
             {filteredPosts.map((post) => (
-              <JamCard key={post.id} post={post} />
+              <JamCard key={post._id} post={post} />
             ))}
           </Grid>
         </Flex>

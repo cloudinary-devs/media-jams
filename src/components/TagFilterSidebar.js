@@ -1,6 +1,14 @@
 import React from 'react';
 import Fuse from 'fuse.js';
-import { Box, Button, Input, Flex, Icon, Wrap, Heading } from '@chakra-ui/core';
+import {
+  Box,
+  Button,
+  Input,
+  Flex,
+  Icon,
+  Wrap,
+  Heading,
+} from '@chakra-ui/react';
 import { FaHashtag, FaMinusCircle } from 'react-icons/fa';
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from 'react-icons/bs';
 import { motion } from 'framer-motion';
