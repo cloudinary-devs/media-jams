@@ -7,7 +7,7 @@ import JamCard from '@components/JamCard';
 import SearchInput from '@components/SearchInput';
 import TagFilterSidebar from '@components/TagFilterSidebar';
 import Layout from '@components/Layout';
-import { Button, Flex, Grid, Wrap, Heading, Icon } from '@chakra-ui/core';
+import { Button, Flex, Grid, Wrap, Heading, Icon, Text } from '@chakra-ui/core';
 import { FaHashtag, FaMinusCircle } from 'react-icons/fa';
 import Fuse from 'fuse.js';
 
@@ -97,6 +97,9 @@ export default function Post({ posts, categories }) {
             setSearchValue={setSearchValue}
             alignSelf="center"
           />
+          <Text as="label" alignSelf="center">
+            Find content by technology or media topic
+          </Text>
           {selectedFilters && (
             <Wrap spacing={3} w="50%" alignSelf="center" m={12}>
               {selectedFilters.map((tag) => (

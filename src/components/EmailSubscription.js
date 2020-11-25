@@ -14,7 +14,7 @@ export default function EmailSubscription() {
     <VStack mb={16}>
       <Center>
         <Heading mt={16} mx={16} textStyle="headline-interestitial">
-          Keep up with all the Jams
+          Keep Jammin'
         </Heading>
       </Center>
       <Center maxWidth="2xl">

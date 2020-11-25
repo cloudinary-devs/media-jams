@@ -36,10 +36,10 @@ export default function Hero() {
       alignItems="center"
     >
       <Heading mt={16} as="h1" textStyle="headline-page" color="yellow.900">
-        TRYING TO LEARN EVERYTHING
+        Putting Media to Work
       </Heading>
       <Heading as="h1" textStyle="headline-page" color="yellow.900">
-        ABOUT MEDIA IS HARD
+        is Hard
       </Heading>
       <Box pt="8rem" flex={{ sm: 1, base: 0 }} boxSize="xl">
         <Image alt="Feature Image" src={generateImageUrl(imgConfig)} />
