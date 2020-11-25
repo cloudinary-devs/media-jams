@@ -41,7 +41,7 @@ export default function FeaturedJams({ posts = [] }) {
         width="30%"
         mb="5rem"
       >
-        See All Jams
+        See More Jams
       </Button>
     </Flex>
   );
