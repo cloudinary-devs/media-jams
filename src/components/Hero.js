@@ -39,7 +39,7 @@ export default function Hero() {
         Putting Media to Work
       </Heading>
       <Heading as="h1" textStyle="headline-page" color="yellow.900">
-        is Hard
+        IS HARD
       </Heading>
       <Box pt="8rem" flex={{ sm: 1, base: 0 }} boxSize="xl">
         <Image alt="Feature Image" src={generateImageUrl(imgConfig)} />
