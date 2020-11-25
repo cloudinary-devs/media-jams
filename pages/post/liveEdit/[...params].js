@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import { Flex } from '@chakra-ui/core';
+import { Flex } from '@chakra-ui/react';
 import auth0 from '@lib/auth0';
 import useDebounce from '@hooks/useDebounce';
 import { previewClient } from '@lib/sanity';

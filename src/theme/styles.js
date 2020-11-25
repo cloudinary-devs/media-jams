@@ -1,4 +1,4 @@
-import { mode } from '@chakra-ui/core';
+import { mode } from '@chakra-ui/react';
 
 const styles = {
   global: (props) => ({

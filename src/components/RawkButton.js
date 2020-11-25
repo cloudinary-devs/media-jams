@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text, Flex, Box } from '@chakra-ui/core';
+import { Button, Text, Flex, Box } from '@chakra-ui/react';
 import { FaHashtag } from 'react-icons/fa';
 
 export default function RawkButton({ onClick = () => {}, children, ...props }) {

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 // This import is only needed when checking authentication status directly from getServerSideProps
 import auth0 from '@lib/auth0';
-import { Flex, Text, Box, Link, Icon } from '@chakra-ui/core';
+import { Flex, Text, Box, Link, Icon } from '@chakra-ui/react';
 import { Link as NextLink } from 'next/link';
 import Layout from '@components/Layout';
 import { useFetchUser } from '@lib/user';

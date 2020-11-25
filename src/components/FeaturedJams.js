@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link as NextLink } from 'next/link';
-import { Flex, Grid, Heading, Button, Link, Text } from '@chakra-ui/core';
+import { Flex, Grid, Heading, Button, Link, Text } from '@chakra-ui/react';
 import { NavLink } from '@components/Navbar';
 
 import JamCard from '@components/JamCard';

@@ -1,4 +1,4 @@
-import { extendTheme, mode } from '@chakra-ui/core';
+import { extendTheme, mode } from '@chakra-ui/react';
 
 // Global style overrides
 import styles from './styles';

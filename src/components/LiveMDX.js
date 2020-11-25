@@ -1,7 +1,7 @@
 import React, { useContext, Fragment } from 'react';
 import { css, jsx, ThemeContext } from '@emotion/core';
 
-import { Box } from '@chakra-ui/core';
+import { Box } from '@chakra-ui/react';
 import MDX from '@mdx-js/runtime';
 import mdx from '@mdx-js/mdx';
 import { MDXProvider, mdx as createElement } from '@mdx-js/react';

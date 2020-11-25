@@ -16,7 +16,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import TabbedTagSelection from '@components/TabbedTagSelection';
 import Hero from '@components/Hero';

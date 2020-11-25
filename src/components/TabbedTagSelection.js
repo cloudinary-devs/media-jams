@@ -9,7 +9,7 @@ import {
   Wrap,
   Button,
   Text,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 
 import { FaHashtag } from 'react-icons/fa';
 

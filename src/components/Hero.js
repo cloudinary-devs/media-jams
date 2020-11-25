@@ -7,7 +7,7 @@ import {
   Spacer,
   Flex,
   Box,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { useImage } from 'use-cloudinary';
 import Image from '@components/Image';
 
