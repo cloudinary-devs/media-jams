@@ -93,7 +93,7 @@ export default function Index({ posts, categories }) {
               textStyle="headline-page"
               mt={16}
               as="h1"
-              fontSpacing="2px"
+              fontspacing="2px"
               fontSize="3xl"
             >
               Start your media journey
