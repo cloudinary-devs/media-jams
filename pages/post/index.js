@@ -9,8 +9,9 @@ import TagFilterSidebar from '@components/TagFilterSidebar';
 import Layout from '@components/Layout';
 import {
   Button,
+  Center,
   Flex,
-  Grid,
+  WrapItem,
   Wrap,
   Heading,
   Icon,
@@ -105,53 +106,14 @@ export default function Post({ posts, categories }) {
             setSearchValue={setSearchValue}
             alignSelf="center"
           />
-          <Text as="label" alignSelf="center">
-            Find content by technology or media topic
-          </Text>
-          {selectedFilters && (
-            <Wrap spacing={3} w="50%" alignSelf="center" m={12}>
-              {selectedFilters.map((tag) => (
-                <Button
-                  key={tag.toString()}
-                  size="sm"
-                  fontSize="10px"
-                  ml={4}
-                  onClick={() =>
-                    selectedFilters.some((selected) => selected === tag)
-                      ? removeTag(tag)
-                      : addTag(tag)
-                  }
-                  variant={
-                    selectedFilters.some((selected) => selected === tag)
-                      ? 'solid'
-                      : 'outline'
-                  }
-                  colorScheme={
-                    selectedFilters.some((selected) => selected === tag)
-                      ? 'teal'
-                      : null
-                  }
-                  leftIcon={
-                    selectedFilters.some((selected) => selected === tag) ? (
-                      <Icon as={FaMinusCircle} color="red.300" />
-                    ) : (
-                      <FaHashtag />
-                    )
-                  }
-                >
-                  {tag}
-                </Button>
-              ))}
-            </Wrap>
-          )}
-          <Grid
-            gridTemplateColumns="repeat(auto-fill, minmax(400px, 1fr))"
-            gap={['80px', '60px', '10px']}
-          >
+
+          <Wrap w="100%" spacing="5.5rem" justify="center" my={8}>
             {filteredPosts.map((post) => (
-              <JamCard key={post._id} post={post} />
+              <WrapItem>
+                <JamCard key={post._id} post={post} />
+              </WrapItem>
             ))}
-          </Grid>
+          </Wrap>
         </Flex>
       </Flex>
     </Layout>

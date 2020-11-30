@@ -3,15 +3,18 @@ import Fuse from 'fuse.js';
 import {
   Box,
   Button,
+  VStack,
   Input,
   Flex,
   Icon,
+  Text,
   Wrap,
-  Heading,
+  WrapItem,
 } from '@chakra-ui/react';
-import { FaHashtag, FaMinusCircle } from 'react-icons/fa';
+import { FaTag, FaMinusCircle } from 'react-icons/fa';
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from 'react-icons/bs';
-import { motion } from 'framer-motion';
+import TagButton from '@components/TagButton';
+import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
 
 function CategoryTagList({
   addTag,
@@ -23,35 +26,21 @@ function CategoryTagList({
     <Wrap spacing="3px">
       {filteredTagResults.map((tag) => {
         return (
-          <Button
-            key={tag.toString()}
-            size="sm"
-            fontSize="10px"
-            onClick={() =>
-              selectedFilters.some((selected) => selected === tag)
-                ? removeTag(tag)
-                : addTag(tag)
-            }
-            variant={
-              selectedFilters.some((selected) => selected === tag)
-                ? 'solid'
-                : 'outline'
-            }
-            colorScheme={
-              selectedFilters.some((selected) => selected === tag)
-                ? 'teal'
-                : null
-            }
-            leftIcon={
-              selectedFilters.some((selected) => selected === tag) ? (
-                <Icon as={FaMinusCircle} color="red.300" />
-              ) : (
-                <FaHashtag />
-              )
-            }
-          >
-            {tag}
-          </Button>
+          <WrapItem>
+            <TagButton
+              searchTags={selectedFilters}
+              removeTag={removeTag}
+              addTag={addTag}
+              tag={tag}
+              icon={
+                selectedFilters.some((selected) => selected === tag) ? (
+                  <Icon as={FaMinusCircle} color="red.300" />
+                ) : (
+                  <FaTag />
+                )
+              }
+            />
+          </WrapItem>
         );
       })}
     </Wrap>
@@ -82,7 +71,7 @@ export default function TagFilterSidebar({
   let arr = [];
 
   React.useEffect(() => {
-    if (search === '' && filteredTagResults.length <= 0) {
+    if (filteredTagResults.length <= 0 || search.length === 0) {
       categories.map((cat) => {
         if (cat.tags) {
           cat.tags.map((tag) => arr.push(tag));
@@ -102,7 +91,7 @@ export default function TagFilterSidebar({
   };
 
   return (
-    <Flex as={motion.div} animate={{}} width={isOpen ? '20%' : 'auto'}>
+    <Flex width={isOpen ? '20%' : 'auto'}>
       {isOpen ? (
         <Box
           p="1.2rem"
@@ -128,6 +117,29 @@ export default function TagFilterSidebar({
           >
             Clear Tags
           </Button>
+          <VStack my="1.5rem" alignItems="flex-start">
+            <Text fontSize="xs" as="i">
+              Current Filters
+            </Text>
+            <Wrap>
+              {selectedFilters ? (
+                selectedFilters.map((tag) => (
+                  <WrapItem>
+                    <TagButton
+                      addTag={addTag}
+                      removeTag={removeTag}
+                      searchTags={selectedFilters}
+                      icon={FaTag}
+                      tag={tag}
+                    />
+                  </WrapItem>
+                ))
+              ) : (
+                <Box></Box>
+              )}
+            </Wrap>
+          </VStack>
+
           {filteredTagResults && (
             <CategoryTagList
               filteredTagResults={filteredTagResults}
