@@ -1,4 +1,4 @@
-import autoCompleteTags from '../components/autoCompleteTags';
+import categoryTags from '../components/categoryTags';
 
 /**
  * Defines a Category, a group of tags
@@ -27,13 +27,8 @@ export default {
       name: 'tags',
       title: 'Tags',
       type: 'array',
-      inputComponent: autoCompleteTags,
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'tag' }],
-        },
-      ],
+      inputComponent: categoryTags,
+      of: [{ type: 'string' }],
     },
   ],
 };

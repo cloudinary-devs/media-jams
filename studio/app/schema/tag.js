@@ -1,3 +1,8 @@
+import { getDocumentQuery$ } from '../lib/document';
+
+const WORKFLOW_DOCUMENTS_QUERY = `
+*[_type == $type ].title 
+`;
 /**
  * Defines a Tag, belongs to  specific  categories
  * @typedef {Object} Tag
@@ -22,6 +27,19 @@ export default {
       type: 'text',
     },
     {
+      name: 'rank',
+      title: 'Ranking',
+      description:
+        'Weighted value of a tag when searching, higher will appear more often',
+      type: 'number',
+      validation: (Rule) => Rule.required().min(1).max(10),
+    },
+    {
+      name: 'featured',
+      title: 'Featured',
+      type: 'boolean',
+    },
+    {
       title: 'Category',
       name: 'category',
       type: 'array',
@@ -32,6 +50,13 @@ export default {
           to: [{ type: 'category' }],
         },
       ],
+      readOnly: false,
     },
   ],
+  initialValue: async () => {
+    // const response = await getDocumentQuery$(WORKFLOW_DOCUMENTS_QUERY, {
+    //   type: 'category',
+    // });
+    return { rank: 1, featured: false };
+  },
 };

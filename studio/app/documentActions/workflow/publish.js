@@ -9,7 +9,11 @@ export function publishAction(props) {
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
   const buttonDisabled = !userModerator();
 
-  if (props.liveEdit || metadata.data.state === 'published') {
+  if (
+    props.liveEdit ||
+    metadata.data.state === 'published' ||
+    metadata.data.state === 'inReview'
+  ) {
     return null;
   }
 

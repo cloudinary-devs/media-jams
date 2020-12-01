@@ -4,9 +4,9 @@ import { getDocumentMutations$ } from '../lib/document';
 import { getDocumentQuery$ } from '../lib/document';
 import { getCurrentUser$ } from '../lib/user';
 
-const WORKFLOW_DOCUMENTS_FILTER = `_type == $type && $userId in assignees`;
+const WORKFLOW_DOCUMENTS_FILTER = `_type == $type && $state == state`;
 const WORKFLOW_DOCUMENTS_QUERY = `
-  * [_type == $type && $userId in assignees] {
+  * [_type == $type && $state == state] {
     ...coalesce(
       *[_id == "drafts." + ^.documentId]{_id,_type}[0],
       *[_id == ^.documentId]{_id,_type}[0]
@@ -16,7 +16,7 @@ const WORKFLOW_DOCUMENTS_QUERY = `
 
 export const workflowListItems = [
   S.listItem()
-    .title('Assigned to me')
+    .title('In Review')
     .id('me')
     .child(() => {
       return getCurrentUser$().pipe(
@@ -24,19 +24,19 @@ export const workflowListItems = [
         switchMap((user) => {
           return getDocumentMutations$(WORKFLOW_DOCUMENTS_FILTER, {
             type: 'workflow.metadata',
-            userId: user.id,
+            state: 'inReview',
           }).pipe(
             switchMap(() => {
               return getDocumentQuery$(WORKFLOW_DOCUMENTS_QUERY, {
                 type: 'workflow.metadata',
-                userId: user.id,
+                state: 'inReview',
               });
             }),
           );
         }),
         map((docs) => {
           return S.list()
-            .title(docs.length ? 'Assigned to me' : 'No assigments')
+            .title(docs.length ? 'Needs Review' : 'All Clear')
             .id('me')
             .items(
               docs.map((item) =>
