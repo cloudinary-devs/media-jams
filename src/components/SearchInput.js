@@ -5,7 +5,7 @@ import {
   InputGroup,
   InputRightElement,
   useTheme,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 
 import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig();

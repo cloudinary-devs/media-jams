@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 // This import is only needed when checking authentication status directly from getServerSideProps
 import auth0 from '@lib/auth0';
-import { Flex, Text, Box, Link, Icon } from '@chakra-ui/core';
+import { Flex, Text, Box, Link, Icon } from '@chakra-ui/react';
 import { Link as NextLink } from 'next/link';
 import Layout from '@components/Layout';
 import { useFetchUser } from '@lib/user';
@@ -19,7 +19,11 @@ function ProfileCard({ user, sanitySession }) {
         <p>name: {user.name}</p>
       </div>
       <Link
-        href={`${sanitySession.endUserClaimUrl}?origin=https://mediajams.sanity.studio`}
+        href={`${sanitySession.endUserClaimUrl}?origin=${
+          process.env.NODE_ENV == 'production'
+            ? 'https://mediajams.sanity.studio'
+            : 'http://localhost:3333'
+        }`}
         isExternal
       >
         Media Jams Studio <Icon name="external-link" mx="2px" />

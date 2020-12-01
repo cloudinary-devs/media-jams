@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image as ChakraImage } from '@chakra-ui/core';
+import { Image as ChakraImage } from '@chakra-ui/react';
 import { useImage } from 'use-cloudinary';
 
 export default function Image({

@@ -13,7 +13,7 @@ import {
   Text,
   VStack,
   useBreakpointValue,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { FaTag } from 'react-icons/fa';
 
 export default function Card({ post }) {

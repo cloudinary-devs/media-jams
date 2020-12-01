@@ -1,16 +1,19 @@
 import React from 'react';
 import Fuse from 'fuse.js';
-import { Box, Button, Input, Flex, Icon, Wrap, Heading } from '@chakra-ui/core';
+import {
+  Box,
+  Button,
+  Input,
+  Flex,
+  Icon,
+  Wrap,
+  Heading,
+} from '@chakra-ui/react';
 import { FaHashtag, FaMinusCircle } from 'react-icons/fa';
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from 'react-icons/bs';
 import { motion } from 'framer-motion';
 
-function CategoryTagList({
-  addTag,
-  removeTag,
-  selectedFilters,
-  filteredTagResults,
-}) {
+function TagList({ addTag, removeTag, selectedFilters, filteredTagResults }) {
   return (
     <Wrap spacing="3px">
       {filteredTagResults.map((tag) => {
@@ -51,7 +54,7 @@ function CategoryTagList({
 }
 
 export default function TagFilterSidebar({
-  categories,
+  tags,
   addTag,
   removeTag,
   selectedFilters,
@@ -75,11 +78,7 @@ export default function TagFilterSidebar({
 
   React.useEffect(() => {
     if (search === '' && filteredTagResults.length <= 0) {
-      categories.map((cat) => {
-        if (cat.tags) {
-          cat.tags.map((tag) => arr.push(tag));
-        }
-      });
+      tags.map(({ title }) => arr.push(title));
 
       return setFilteredTagResults(arr);
     }
@@ -121,7 +120,7 @@ export default function TagFilterSidebar({
             Clear Tags
           </Button>
           {filteredTagResults && (
-            <CategoryTagList
+            <TagList
               filteredTagResults={filteredTagResults}
               addTag={addTag}
               removeTag={removeTag}

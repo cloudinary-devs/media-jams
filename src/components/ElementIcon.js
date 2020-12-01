@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text } from '@chakra-ui/core';
+import { Box, Text } from '@chakra-ui/react';
 import PowerElement from '@lib/assets/power_element.svg';
 import SpeedElement from '@lib/assets/speed_element.svg';
 import FlexibilityElement from '@lib/assets/flexibility_element.svg';

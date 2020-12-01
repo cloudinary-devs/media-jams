@@ -9,7 +9,7 @@ import {
   Wrap,
   Button,
   Text,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 
 import { FaHashtag } from 'react-icons/fa';
 
@@ -20,25 +20,25 @@ function Panels({ tabs, searchTags, addTag, removeTag }) {
         return (
           category.tags?.length > 0 && (
             <Wrap key={idx} w="xl" spacing="20px">
-              {category.tags.map((tag) => (
+              {category.tags.map(({ title, _id }) => (
                 <Button
                   size="md"
                   colorScheme="blue"
                   fontSize={10}
-                  key={tag.toString()}
+                  key={_id.toString()}
                   onClick={() =>
-                    searchTags.some((selected) => selected === tag)
-                      ? removeTag(tag)
-                      : addTag(tag)
+                    searchTags.some((selected) => selected === title)
+                      ? removeTag(title)
+                      : addTag(title)
                   }
                   variant={
-                    searchTags.some((selected) => selected === tag)
+                    searchTags.some((selected) => selected === title)
                       ? 'solid'
                       : 'outline'
                   }
                   rightIcon={<FaHashtag />}
                 >
-                  {tag}
+                  {title}
                 </Button>
               ))}
             </Wrap>

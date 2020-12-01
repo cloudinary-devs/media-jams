@@ -16,7 +16,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import TabbedTagSelection from '@components/TabbedTagSelection';
 import Hero from '@components/Hero';
@@ -54,8 +54,8 @@ export default function Index({ posts, categories }) {
             textStyle="headline-intersitial"
             lineHeight="sm"
           >
-            With MediaJams, we connect you with the code that gets you working
-            faster and the experts that teach it
+            Media Jams connect you with live code and experts to help solve
+            media problems in popular tech stacks and use cases
           </Heading>
         </Center>
         <HStack alignItems="stretch" justify="space-around" w="70%">
@@ -93,7 +93,7 @@ export default function Index({ posts, categories }) {
               textStyle="headline-page"
               mt={16}
               as="h1"
-              fontSpacing="2px"
+              fontspacing="2px"
               fontSize="3xl"
             >
               Start your media journey

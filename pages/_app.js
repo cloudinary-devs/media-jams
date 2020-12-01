@@ -1,6 +1,6 @@
 import React from 'react';
 import { MixPanelProvider } from '@lib/mixpanel';
-import { ChakraProvider } from '@chakra-ui/core';
+import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
 import { UserProvider, useUser } from '@lib/user';

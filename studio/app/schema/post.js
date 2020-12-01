@@ -29,7 +29,7 @@ export default {
     }),
   initialValue: async () => {
     const { name, id } = await userStore.getUser('me');
-    const self = `${id}.self`;
+    const self = `${id}-self`;
     return {
       author: {
         _ref: self,
@@ -77,8 +77,8 @@ export default {
       name: 'author',
       title: 'Author',
       type: 'reference',
-      readOnly: true,
       to: { type: 'author' },
+      readOnly: true,
     },
     {
       name: 'publishedAt',

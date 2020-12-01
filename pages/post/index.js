@@ -1,13 +1,21 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useFetchUser, useUser } from '@lib/user';
-import { allPosts, allCategories } from 'lib/api';
+import { allPosts, allTags } from 'lib/api';
 
 import JamCard from '@components/JamCard';
 import SearchInput from '@components/SearchInput';
 import TagFilterSidebar from '@components/TagFilterSidebar';
 import Layout from '@components/Layout';
-import { Button, Flex, Grid, Wrap, Heading, Icon } from '@chakra-ui/core';
+import {
+  Button,
+  Flex,
+  Grid,
+  Wrap,
+  Heading,
+  Icon,
+  Text,
+} from '@chakra-ui/react';
 import { FaHashtag, FaMinusCircle } from 'react-icons/fa';
 import Fuse from 'fuse.js';
 
@@ -22,7 +30,7 @@ const fuseOptions = {
   keys: ['title', 'tags', 'author.name'],
 };
 
-export default function Post({ posts, categories }) {
+export default function Post({ posts, tags }) {
   const [filteredPosts, setFilteredPosts] = React.useState(posts);
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
@@ -85,7 +93,7 @@ export default function Post({ posts, categories }) {
       </Flex>
       <Flex w="100vw" h="100%">
         <TagFilterSidebar
-          categories={categories}
+          tags={tags}
           addTag={addTag}
           removeTag={removeTag}
           selectedFilters={selectedFilters}
@@ -97,6 +105,9 @@ export default function Post({ posts, categories }) {
             setSearchValue={setSearchValue}
             alignSelf="center"
           />
+          <Text as="label" alignSelf="center">
+            Find content by technology or media topic
+          </Text>
           {selectedFilters && (
             <Wrap spacing={3} w="50%" alignSelf="center" m={12}>
               {selectedFilters.map((tag) => (
@@ -138,7 +149,7 @@ export default function Post({ posts, categories }) {
             gap={['80px', '60px', '10px']}
           >
             {filteredPosts.map((post) => (
-              <JamCard key={post.id} post={post} />
+              <JamCard key={post._id} post={post} />
             ))}
           </Grid>
         </Flex>
@@ -149,11 +160,11 @@ export default function Post({ posts, categories }) {
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async () => {
-  const [posts, categories] = await Promise.all([allPosts(), allCategories()]);
+  const [posts, tags] = await Promise.all([allPosts(), allTags()]);
   return {
     props: {
       posts,
-      categories,
+      tags,
     },
   };
 };

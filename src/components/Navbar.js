@@ -1,4 +1,4 @@
-import { Flex, Text, Box, Link, Button, Image } from '@chakra-ui/core';
+import { Flex, Text, Box, Link, Button, Image } from '@chakra-ui/react';
 import { Link as NextLink } from 'next/link';
 import { useFetchUser } from '@lib/user';
 import { useImage } from 'use-cloudinary';

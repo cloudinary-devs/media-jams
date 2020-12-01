@@ -1,5 +1,5 @@
 import React from 'react';
-import { useColorMode, IconButton, useColorModeValue } from '@chakra-ui/core';
+import { useColorMode, IconButton, useColorModeValue } from '@chakra-ui/react';
 import Iframe from '@components/Iframe';
 
 const isCodeSandboxUrl = (url) => new URL(url).hostname === 'codesandbox.io';

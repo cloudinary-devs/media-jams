@@ -1,6 +1,6 @@
 import { useImage } from 'use-cloudinary';
 
-import { Flex, Text, Box, Link, Button, Image } from '@chakra-ui/core';
+import { Flex, Text, Box, Link, Button, Image } from '@chakra-ui/react';
 
 export default function Footer() {
   const { generateImageUrl } = useImage('mediadevs');

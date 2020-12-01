@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Box } from '@chakra-ui/core';
+import { Box } from '@chakra-ui/react';
 import { Global, css } from '@emotion/core';
 import { UnControlled as CodeMirror } from 'react-codemirror2';
 // used for CodeMirror Preivew Content

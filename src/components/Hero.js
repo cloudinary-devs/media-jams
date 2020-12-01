@@ -7,7 +7,7 @@ import {
   Spacer,
   Flex,
   Box,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { useImage } from 'use-cloudinary';
 import Image from '@components/Image';
 
@@ -36,10 +36,10 @@ export default function Hero() {
       alignItems="center"
     >
       <Heading mt={16} as="h1" textStyle="headline-page" color="yellow.900">
-        TRYING TO LEARN EVERYTHING
+        Putting Media to Work
       </Heading>
       <Heading as="h1" textStyle="headline-page" color="yellow.900">
-        ABOUT MEDIA IS HARD
+        IS HARD
       </Heading>
       <Box pt="8rem" flex={{ sm: 1, base: 0 }} boxSize="xl">
         <Image alt="Feature Image" src={generateImageUrl(imgConfig)} />

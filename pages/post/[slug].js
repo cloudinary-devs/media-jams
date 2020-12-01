@@ -28,7 +28,7 @@ import {
   HStack,
   Box,
   Image,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 const AuthorByline = styled(Text)`

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link as NextLink } from 'next/link';
-import { Flex, Grid, Heading, Button, Link, Text } from '@chakra-ui/core';
+import { Flex, Grid, Heading, Button, Link, Text } from '@chakra-ui/react';
 import { NavLink } from '@components/Navbar';
 
 import JamCard from '@components/JamCard';
@@ -41,7 +41,7 @@ export default function FeaturedJams({ posts = [] }) {
         width="30%"
         mb="5rem"
       >
-        See All Jams
+        See More Jams
       </Button>
     </Flex>
   );
