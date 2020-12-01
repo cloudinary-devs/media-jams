@@ -46,7 +46,6 @@ export default () =>
         // Add the doctypes that a creators should see to
         deskItems.push(...creatorListItems);
       }
-
       return S.list().title('Content').items(deskItems);
     })
     .catch(() => {

@@ -78,6 +78,7 @@ export default {
       title: 'Author',
       type: 'reference',
       to: { type: 'author' },
+      readOnly: true,
     },
     {
       name: 'publishedAt',

@@ -19,7 +19,11 @@ function ProfileCard({ user, sanitySession }) {
         <p>name: {user.name}</p>
       </div>
       <Link
-        href={`${sanitySession.endUserClaimUrl}?origin=https://mediajams.sanity.studio`}
+        href={`${sanitySession.endUserClaimUrl}?origin=${
+          process.env.NODE_ENV == 'production'
+            ? 'https://mediajams.sanity.studio'
+            : 'http://localhost:3333'
+        }`}
         isExternal
       >
         Media Jams Studio <Icon name="external-link" mx="2px" />

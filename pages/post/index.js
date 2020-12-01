@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useFetchUser, useUser } from '@lib/user';
-import { allPosts, allCategories } from 'lib/api';
+import { allPosts, allTags } from 'lib/api';
 
 import JamCard from '@components/JamCard';
 import SearchInput from '@components/SearchInput';
@@ -30,7 +30,7 @@ const fuseOptions = {
   keys: ['title', 'tags', 'author.name'],
 };
 
-export default function Post({ posts, categories }) {
+export default function Post({ posts, tags }) {
   const [filteredPosts, setFilteredPosts] = React.useState(posts);
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
@@ -93,7 +93,7 @@ export default function Post({ posts, categories }) {
       </Flex>
       <Flex w="100vw" h="100%">
         <TagFilterSidebar
-          categories={categories}
+          tags={tags}
           addTag={addTag}
           removeTag={removeTag}
           selectedFilters={selectedFilters}
@@ -160,11 +160,11 @@ export default function Post({ posts, categories }) {
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async () => {
-  const [posts, categories] = await Promise.all([allPosts(), allCategories()]);
+  const [posts, tags] = await Promise.all([allPosts(), allTags()]);
   return {
     props: {
       posts,
-      categories,
+      tags,
     },
   };
 };
