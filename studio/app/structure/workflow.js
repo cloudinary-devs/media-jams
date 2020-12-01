@@ -17,7 +17,7 @@ const WORKFLOW_DOCUMENTS_QUERY = `
 export const workflowListItems = [
   S.listItem()
     .title('In Review')
-    .id('me')
+    .id('in-review')
     .child(() => {
       return getCurrentUser$().pipe(
         filter(Boolean),
@@ -37,7 +37,7 @@ export const workflowListItems = [
         map((docs) => {
           return S.list()
             .title(docs.length ? 'Needs Review' : 'All Clear')
-            .id('me')
+            .id('in-review')
             .items(
               docs.map((item) =>
                 S.documentListItem().id(item._id).schemaType(item._type),
