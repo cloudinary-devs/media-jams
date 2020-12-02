@@ -25,9 +25,9 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - name: Install dependencies
+      - name: Install All dependencies
         run: |
-          yarn
+          yarn install --production=false
       - name: Deploy Sanity
         run: |
           set -e
