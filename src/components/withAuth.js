@@ -5,40 +5,22 @@ import { fetchUser } from '@lib/user';
 import createLoginUrl from '@lib/login-url';
 import RedirectToLogin from './LoginRedirect';
 
-export default function withAuth(InnerComponent) {
-  return class Authenticated extends Component {
-    static async getInitialProps(ctx) {
-      if (!ctx.req) {
-        const user = await fetchUser();
-        return {
-          user,
-        };
-      }
-
-      const session = await auth0.getSession(ctx.req);
-      if (!session || !session.user) {
-        ctx.res.writeHead(302, {
-          Location: createLoginUrl(ctx.req.url),
-        });
-        ctx.res.end();
-        return;
-      }
-
-      return { user: session.user };
+export function withAuthServerSideProps(getServerSidePropsFunc) {
+  return async (context) => {
+    const session = await auth0.getSession(context.req);
+    if (!session || !session.user) {
+      context.res.writeHead(302, {
+        Location: createLoginUrl(ctx.req.url),
+      });
+      context.res.end();
+      return;
     }
-
-    constructor(props) {
-      super(props);
+    const { user } = session;
+    if (getServerSidePropsFunc) {
+      return {
+        props: { user, data: await getServerSidePropsFunc(context, user) },
+      };
     }
-
-    render() {
-      if (!this.props.user) {
-        return <RedirectToLogin />;
-      }
-
-      return (
-        <div>{<InnerComponent {...this.props} user={this.props.user} />}</div>
-      );
-    }
+    return { props: { user, data: { props: { user } } } };
   };
 }
