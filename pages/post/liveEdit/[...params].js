@@ -15,21 +15,21 @@ import { postBySlug, postsWithSlug } from 'lib/api';
 import Layout from '@components/Layout';
 
 export default function LiveEdit({ post, user, error }) {
-  const [content, updateContent] = useState(null);
+  const [content, updateContent] = useState(post.content);
   useEffect(() => {
     updateContent(post.content);
   }, [post]);
-  const debouncedContentValue = useDebounce(content, 500);
-  useEffect(() => {
-    previewClient(user['https://mediajams-studio/token'])
-      .patch(post._id) // Document ID to patch
-      .set({ body: debouncedContentValue }) // Shallow merge
-      .commit() // Perform the patch and return a promise
-      .then((updatedContent) => {})
-      .catch((err) => {
-        console.error('Oh no, the update failed: ', err.message);
-      });
-  }, [debouncedContentValue]);
+  // const debouncedContentValue = useDebounce(content, 500);
+  // useEffect(() => {
+  //   previewClient(user['https://mediajams-studio/token'])
+  //     .patch(post._id) // Document ID to patch
+  //     .set({ body: debouncedContentValue }) // Shallow merge
+  //     .commit() // Perform the patch and return a promise
+  //     .then((updatedContent) => {})
+  //     .catch((err) => {
+  //       console.error('Oh no, the update failed: ', err.message);
+  //     });
+  // }, [debouncedContentValue]);
 
   const handleChange = (editor, data, value) => {
     updateContent(value);
