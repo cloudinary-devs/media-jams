@@ -19,7 +19,7 @@ export default function LiveEdit({ post, user, error }) {
   useEffect(() => {
     updateContent(post.content);
   }, [post]);
-  // const debouncedContentValue = useDebounce(content, 500);
+  const debouncedContentValue = useDebounce(content, 500);
   // useEffect(() => {
   //   previewClient(user['https://mediajams-studio/token'])
   //     .patch(post._id) // Document ID to patch
@@ -53,38 +53,15 @@ export const getServerSideProps = async ({
   req,
   res,
 }) => {
-  try {
-    // Auth check before post query
-    const session = await auth0.getSession(req);
-    if (!session || !session.user) {
-      res.writeHead(302, {
-        Location: '/api/auth/login',
-      });
-      res.end();
-      return;
-    }
-    console.log(slug, draftPostId, session);
-    const { _id, body, slug: slug_current } = await postBySlug(slug, preview);
-    return {
-      props: {
-        preview,
-        post: {
-          _id,
-          content: body,
-          slug: slug_current,
-        },
-        user: session.user,
+  const { _id, body, slug: slug_current } = await postBySlug(slug, preview);
+  return {
+    props: {
+      preview,
+      post: {
+        _id,
+        content: body,
+        slug: slug_current,
       },
-    };
-  } catch (error) {
-    console.info(error);
-    return {
-      props: {
-        preview,
-        post: { slug: slug_current },
-        user: session_user,
-        error,
-      },
-    };
-  }
+    },
+  };
 };
