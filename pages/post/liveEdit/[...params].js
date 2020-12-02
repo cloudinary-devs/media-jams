@@ -78,8 +78,8 @@ export const getServerSideProps = async ({
     };
   } catch (error) {
     console.info(error);
-    return {
-      props: { preview, post: { slug: slug_current }, user: session_user },
-    };
   }
+  return {
+    props: { preview, post: { slug: slug_current }, user: session_user },
+  };
 };
