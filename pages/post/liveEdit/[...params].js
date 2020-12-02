@@ -63,7 +63,7 @@ export const getServerSideProps = async ({
       res.end();
       return;
     }
-
+    console.log(slug, draftPostId, session);
     const { _id, body, slug: slug_current } = await postBySlug(slug, preview);
     return {
       props: {
