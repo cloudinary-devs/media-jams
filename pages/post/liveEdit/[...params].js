@@ -14,7 +14,7 @@ import { postBySlug, postsWithSlug } from 'lib/api';
 
 import Layout from '@components/Layout';
 
-export default function LiveEdit({ post, user }) {
+export default function LiveEdit({ post, user, error }) {
   const [content, updateContent] = useState(null);
   useEffect(() => {
     updateContent(post.content);
@@ -78,8 +78,13 @@ export const getServerSideProps = async ({
     };
   } catch (error) {
     console.info(error);
+    return {
+      props: {
+        preview,
+        post: { slug: slug_current },
+        user: session_user,
+        error,
+      },
+    };
   }
-  return {
-    props: { preview, post: { slug: slug_current }, user: session_user },
-  };
 };
