@@ -47,16 +47,15 @@ export default function LiveEdit({ post, user }) {
 
 export const getServerSideProps = async ({
   params: {
-    params: [slug],
+    params: [slug, draftPostId],
   },
   preview = false,
   req,
   res,
 }) => {
   try {
-    const { _id, body, slug: slug_current } = await postBySlug(slug, preview);
+    // Auth check before post query
     const session = await auth0.getSession(req);
-
     if (!session || !session.user) {
       res.writeHead(302, {
         Location: '/api/auth/login',
@@ -65,6 +64,7 @@ export const getServerSideProps = async ({
       return;
     }
 
+    const { _id, body, slug: slug_current } = await postBySlug(slug, preview);
     return {
       props: {
         preview,
