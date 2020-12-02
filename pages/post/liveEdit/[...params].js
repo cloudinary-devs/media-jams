@@ -77,6 +77,9 @@ export const getServerSideProps = async ({
       },
     };
   } catch (error) {
-    console.error(error);
+    console.info(error);
+    return {
+      props: { preview, post: { slug: slug_current }, user: session_user },
+    };
   }
 };
