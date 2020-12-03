@@ -15,7 +15,7 @@ const projectUrl =
     ? 'https://mediajams.dev'
     : 'http://localhost:3000';
 
-export default function resolveProductionUrl(document) {
+export function resolveProductionUrl(document) {
   return `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document.slug.current}`;
 }
 

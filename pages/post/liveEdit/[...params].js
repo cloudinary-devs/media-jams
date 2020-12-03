@@ -29,7 +29,7 @@ function LiveEdit({ user, data: { post } }) {
       .catch((err) => {
         console.error('Oh no, the update failed: ', err.message);
       });
-  }, [debouncedContentValue]);
+  }, []);
 
   const handleChange = (editor, data, value) => {
     updateContent(value);
@@ -38,7 +38,6 @@ function LiveEdit({ user, data: { post } }) {
   return (
     <Layout user={user}>
       <Flex>
-        <CodeEditor onChange={handleChange} code={content} />
         <LiveMDX content={content} />
       </Flex>
     </Layout>

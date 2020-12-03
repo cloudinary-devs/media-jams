@@ -33,7 +33,7 @@ export const creatorListItems = [
             .schemaType('post')
             .views([
               S.view.form().icon(GoTextSize).title('Editor'),
-              S.view.component(IframePreview).icon(GoEye).title('Web Preview'),
+              S.view.component(IframePreview).icon(GoEye).title('Live Preview'),
             ]),
         );
     },
