@@ -12,7 +12,7 @@ export function withAuthServerSideProps(getServerSidePropsFunc) {
     const session = await auth0.getSession(context.req);
     if (!session) {
       context.res.writeHead(302, {
-        Location: '/api/auth/login',
+        Location: createLoginUrl(context.req.url),
       });
       context.res.end();
       return { props: {} };
