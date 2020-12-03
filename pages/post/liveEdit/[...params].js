@@ -39,7 +39,7 @@ function LiveEdit({ user, data: { post } }) {
     <Layout user={user}>
       <Flex>
         <CodeEditor onChange={handleChange} code={content} />
-        <LiveMDX code={content} />
+        <LiveMDX content={content} />
       </Flex>
     </Layout>
   );
