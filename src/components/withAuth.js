@@ -17,7 +17,7 @@ export function withAuthServerSideProps(getServerSidePropsFunc) {
       context.res.end();
       return { props: {} };
     }
-    const user = {};
+    const { user } = session;
     if (getServerSidePropsFunc) {
       return {
         props: {

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Flex } from '@chakra-ui/react';
-import auth0 from '@lib/auth0';
-import useDebounce from '@hooks/useDebounce';
-import { previewClient } from '@lib/sanity';
 import { withAuthServerSideProps } from '@components/withAuth';
 import { postBySlug, postsWithSlug } from 'lib/api';
+import {
+  getClient,
+  usePreviewSubscription,
+  urlFor,
+  PortableText,
+  previewClient,
+} from '@lib/sanity';
 
 import LiveMDX from '@components/LiveMDX';
 import Layout from '@components/Layout';
@@ -14,26 +18,27 @@ const CodeEditor = dynamic(import('@components/CodeEditor'), {
   ssr: false,
 });
 
+const queryDraftPost = `*[_type == "post" && _id == $postId].body`;
+
 function LiveEdit({ user, data: { post } }) {
   const [content, updateContent] = useState(post.content);
   useEffect(() => {
     updateContent(post.content);
   }, [post]);
-  const debouncedContentValue = useDebounce(content, 500);
   useEffect(() => {
-    previewClient(user['https://mediajams-studio/token'])
-      .patch(post._id) // Document ID to patch
-      .set({ body: debouncedContentValue }) // Shallow merge
-      .commit() // Perform the patch and return a promise
-      .then((updatedContent) => {})
-      .catch((err) => {
-        console.error('Oh no, the update failed: ', err.message);
+    console.log('start subscription');
+    const subscription = previewClient(user['https://mediajams-studio/token'])
+      .listen(queryDraftPost, { postId: post._id })
+      .subscribe((update) => {
+        console.log({ update });
+        updateContent(update.result.body);
       });
+    console.log(subscription);
+    //unsubscribe
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
-
-  const handleChange = (editor, data, value) => {
-    updateContent(value);
-  };
 
   return (
     <Layout user={user}>
