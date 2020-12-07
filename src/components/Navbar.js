@@ -2,7 +2,6 @@ import { Flex, Text, Box, Link, Button, Image } from '@chakra-ui/react';
 import { Link as NextLink } from 'next/link';
 import { useFetchUser } from '@lib/user';
 import { useImage } from 'use-cloudinary';
-import ThemeToggleButton from '@components/ThemeToggleButton';
 
 export function NavLink({ children, isButton, ...props }) {
   return (
@@ -51,7 +50,6 @@ export default function Navbar() {
     >
       <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
       <Box>
-        <ThemeToggleButton />
         <NavLink ml={4} href="/">
           Home
         </NavLink>

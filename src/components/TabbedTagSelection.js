@@ -31,7 +31,7 @@ export default function TabbedTagSelection({
           (tab) =>
             tab.tags &&
             tab.tags.length > 0 && (
-              <Tab colorScheme="green" fontSize={15} key={tab._id}>
+              <Tab fontSize={15} key={tab._id}>
                 {tab.title}
               </Tab>
             ),
