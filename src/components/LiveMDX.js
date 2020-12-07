@@ -9,6 +9,7 @@ import { LiveProvider, LivePreview, LiveEditor, LiveError } from 'react-live';
 import removeImports from 'remark-mdx-remove-imports';
 import removeExports from 'remark-mdx-remove-exports';
 
+import blocksToText from '@lib/blocksToText';
 import Code from '@components/Code';
 /**
  * Used working example of mdx playground
@@ -66,15 +67,16 @@ const generateOutputs = (src) => {
   return { jsx, mdast, hast };
 };
 
-const LiveMDX = ({ code, scope = {}, ...props }) => {
+const LiveMDX = ({ content: blockContent, scope = {}, ...props }) => {
+  const content = blocksToText(blockContent);
   const theme = useContext(ThemeContext);
-  const { jsx, mdast, hast, error } = generateOutputs(code);
+  const { jsx, mdast, hast, error } = generateOutputs(content);
 
   return (
     <Box width={'50%'}>
       <LiveProvider
         {...props}
-        code={code}
+        code={content}
         scope={{
           components: MDXProvider,
           MDXProvider,

@@ -3,58 +3,22 @@ import Fuse from 'fuse.js';
 import {
   Box,
   Button,
+  VStack,
   Input,
   Flex,
   Icon,
+  Text,
   Wrap,
-  Heading,
+  WrapItem,
 } from '@chakra-ui/react';
-import { FaHashtag, FaMinusCircle } from 'react-icons/fa';
+import { FaTag, FaMinusCircle } from 'react-icons/fa';
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from 'react-icons/bs';
+import TagButton from '@components/TagButton';
 import { motion } from 'framer-motion';
-
-function TagList({ addTag, removeTag, selectedFilters, filteredTagResults }) {
-  return (
-    <Wrap spacing="3px">
-      {filteredTagResults.map((tag) => {
-        return (
-          <Button
-            key={tag.toString()}
-            size="sm"
-            fontSize="10px"
-            onClick={() =>
-              selectedFilters.some((selected) => selected === tag)
-                ? removeTag(tag)
-                : addTag(tag)
-            }
-            variant={
-              selectedFilters.some((selected) => selected === tag)
-                ? 'solid'
-                : 'outline'
-            }
-            colorScheme={
-              selectedFilters.some((selected) => selected === tag)
-                ? 'teal'
-                : null
-            }
-            leftIcon={
-              selectedFilters.some((selected) => selected === tag) ? (
-                <Icon as={FaMinusCircle} color="red.300" />
-              ) : (
-                <FaHashtag />
-              )
-            }
-          >
-            {tag}
-          </Button>
-        );
-      })}
-    </Wrap>
-  );
-}
 
 export default function TagFilterSidebar({
   tags,
+  categories,
   addTag,
   removeTag,
   selectedFilters,
@@ -72,28 +36,26 @@ export default function TagFilterSidebar({
     shouldSort: true,
     includeScore: true,
     useExtendedSearch: true,
+    keys: ['title'],
   };
 
-  let arr = [];
-
   React.useEffect(() => {
-    if (search === '' && filteredTagResults.length <= 0) {
-      tags.map(({ title }) => arr.push(title));
-
-      return setFilteredTagResults(arr);
+    if (search === '') {
+      setFilteredTagResults(categories);
+    } else {
+      const results = fuse.search(search).map((result) => result.item);
+      setFilteredTagResults(results);
     }
-    const results = fuse.search(search).map((result) => result.item);
-    return setFilteredTagResults(results);
   }, [search]);
 
-  const fuse = new Fuse(filteredTagResults, fuseOptions);
+  const fuse = new Fuse(tags, fuseOptions);
 
   const onToggle = () => {
     return setIsOpen(!isOpen);
   };
 
   return (
-    <Flex as={motion.div} animate={{}} width={isOpen ? '20%' : 'auto'}>
+    <Flex as={motion.div} animate={isOpen ? { width: '20%' } : { width: 0 }}>
       {isOpen ? (
         <Box
           p="1.2rem"
@@ -119,14 +81,71 @@ export default function TagFilterSidebar({
           >
             Clear Tags
           </Button>
-          {filteredTagResults && (
-            <TagList
-              filteredTagResults={filteredTagResults}
-              addTag={addTag}
-              removeTag={removeTag}
-              selectedFilters={selectedFilters}
-            />
-          )}
+          <VStack my="1.5rem" alignItems="flex-start">
+            <Text fontSize="xs" as="i">
+              Current Filters
+            </Text>
+            <Wrap>
+              {selectedFilters ? (
+                selectedFilters.map((tag) => (
+                  <WrapItem key={tag._id}>
+                    <TagButton
+                      addTag={addTag}
+                      removeTag={removeTag}
+                      searchTags={selectedFilters}
+                      icon={<FaTag />}
+                      tag={tag}
+                    />
+                  </WrapItem>
+                ))
+              ) : (
+                <Box />
+              )}
+            </Wrap>
+            <Flex direction="column">
+              {search.length > 0 &&
+                filteredTagResults.map((tag) => {
+                  return (
+                    <Box mb={10} key={tag._id}>
+                      <Wrap spacing={2}>
+                        <WrapItem>
+                          <TagButton
+                            addTag={addTag}
+                            removeTag={removeTag}
+                            searchTags={selectedFilters}
+                            icon={<FaTag />}
+                            tag={tag}
+                          />
+                        </WrapItem>
+                      </Wrap>
+                    </Box>
+                  );
+                })}
+              {search === '' &&
+                filteredTagResults.map((cat) => {
+                  return (
+                    <Box key={cat._id} mb={10}>
+                      <Text>{cat.title}</Text>
+                      <Wrap spacing={2}>
+                        {cat.tags?.map((tag) => {
+                          return (
+                            <WrapItem key={tag.title}>
+                              <TagButton
+                                addTag={addTag}
+                                removeTag={removeTag}
+                                searchTags={selectedFilters}
+                                icon={<FaTag />}
+                                tag={tag}
+                              />
+                            </WrapItem>
+                          );
+                        })}
+                      </Wrap>
+                    </Box>
+                  );
+                })}
+            </Flex>
+          </VStack>
         </Box>
       ) : null}
       <Button

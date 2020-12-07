@@ -5,7 +5,6 @@ import { allPosts, allCategories } from '../lib/api';
 
 import {
   Flex,
-  Text,
   Center,
   Heading,
   Button,
@@ -13,9 +12,6 @@ import {
   VStack,
   HStack,
   Box,
-  Input,
-  InputGroup,
-  InputRightElement,
 } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import TabbedTagSelection from '@components/TabbedTagSelection';
@@ -24,7 +20,7 @@ import FeaturedJams from '@components/FeaturedJams';
 import ElementIcon from '@components/ElementIcon';
 import EmailSubscription from '@components/EmailSubscription';
 
-export default function Index({ posts, categories }) {
+export default function Index({ posts, categories, assets }) {
   const [searchTags, setSearchTags] = React.useState([]);
   const router = useRouter();
 
@@ -45,10 +41,12 @@ export default function Index({ posts, categories }) {
   }
   return (
     <Layout>
-      <Hero posts={posts} />
-      <VStack spacing={20} justifyContent="space-between" minW="100%" mb={20}>
-        <Center maxW="3xl">
+      <Hero heroImg={assets ? assets[0] : null} />
+
+      <VStack w="100%" mt={20} mb={40}>
+        <Center maxW="5xl" textAlign="center">
           <Heading
+            fontSize="2.5rem"
             mt="15rem"
             as="h1"
             textStyle="headline-intersitial"
@@ -58,80 +56,88 @@ export default function Index({ posts, categories }) {
             media problems in popular tech stacks and use cases
           </Heading>
         </Center>
-        <HStack alignItems="stretch" justify="space-around" w="70%">
-          <ElementIcon phrase="speed" mr={16} />
-          <Box maxW="xl">
-            <Heading mt={16} as="h1" textStyle="headline">
-              Why Media Matters
-            </Heading>
-            <Center>
+        <Flex w="100%">
+          <HStack justifyContent="space-around" flexGrow="2">
+            <VStack w="70%" alignItems="stretch" spacing={20}>
+              <ElementIcon phrase="speed" ml={20} />
+              <ElementIcon
+                phrase="flexibility"
+                alignItems="right"
+                alignSelf="center"
+              />
+              <ElementIcon phrase="power" alignSelf="flex-end" />
+            </VStack>
+          </HStack>
+
+          <VStack flexGrow="2">
+            <Box ml={50} alignSelf="flex-start" maxW="xl">
+              <Heading mt={16} as="h1" textStyle="headline">
+                Why Media Matters
+              </Heading>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et
               ornare quam, ut scelerisque eros. Nunc urna lacus, pharetra in
               nulla ac, suscipit malesuada augue. Maecenas ac ultrices enim.{' '}
-            </Center>
-          </Box>
-        </HStack>
-        <HStack w="100%" justifyContent="space-around">
-          <VStack alignItems="stretch" spacing={20} ml="10rem!important">
-            <ElementIcon
-              phrase="flexibility"
-              alignItems="right"
-              mr={25}
-              mb={16}
-            />
-            <ElementIcon phrase="power" mb={5} ml="15rem!important" />
+            </Box>
+            <Box pt={50}>
+              <TabbedTagSelection
+                tabs={categories}
+                addTag={addTag}
+                removeTag={removeTag}
+                searchTags={searchTags}
+              />
+              <Button
+                as={Link}
+                mt={10}
+                size="lg"
+                p={5}
+                colorScheme="blue"
+                onClick={() => addTagsToRoute(searchTags)}
+                _hover={{ textDecoration: 'none' }}
+                w={64}
+                alignSelf="center"
+              >
+                Search
+              </Button>
+            </Box>
           </VStack>
-          <Flex
-            h="xl"
-            w="2xl"
-            direction="column"
-            alignItems="center"
-            ml="5rem!important"
-          >
-            <Heading
-              alignSelf="start"
-              textStyle="headline-page"
-              mt={16}
-              as="h1"
-              fontspacing="2px"
-              fontSize="3xl"
-            >
-              Start your media journey
-            </Heading>
-
-            <TabbedTagSelection
-              tabs={categories}
-              searchTags={searchTags}
-              addTag={addTag}
-              removeTag={removeTag}
-            />
-            <Button
-              as={Link}
-              mt={10}
-              size="lg"
-              p={5}
-              colorScheme="blue"
-              onClick={() => addTagsToRoute(searchTags)}
-              _hover={{ textDecoration: 'none' }}
-            >
-              Search
-            </Button>
-          </Flex>
-        </HStack>
+        </Flex>
       </VStack>
+
       <FeaturedJams posts={posts} />
+
       <EmailSubscription />
     </Layout>
   );
 }
 
 export async function getStaticProps() {
+  const cloudinary = require('cloudinary').v2;
   const [posts, categories] = await Promise.all([allPosts(), allCategories()]);
+
+  cloudinary.config({
+    cloud_name: 'mediadevs',
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+
+  const config = [
+    {
+      publicId: 'mediajams/hero',
+      transforms: {},
+    },
+  ];
+
+  const assets = [];
+
+  config.map((pid) =>
+    assets.push(cloudinary.url(pid.publicId, pid.transforms)),
+  );
 
   return {
     props: {
       posts,
       categories,
+      assets,
     },
   };
 }

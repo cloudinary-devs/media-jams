@@ -2,8 +2,6 @@ name: Deploy Studio
 on:
   push:
     branches: [master, development]
-    paths:
-      - 'studio/*'
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,17 +11,23 @@ jobs:
         working-directory: studio
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v1.4.2
+      - uses: actions/setup-node@v2-beta
         with:
-          node-version: 12.x
+          node-version: '12'
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install All dependencies
         run: |
-          yarn
+          yarn install
       - name: Deploy Sanity
         run: |
           set -e
@@ -31,5 +35,5 @@ jobs:
           # to create secrets for them on GitHub:
           # https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
           # Make sure to add a secret for SANITY_AUTH_TOKEN
-          SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}" SANITY_STUDIO_PREVIEW_SECRET="{{ secrets.SANITY_STUDIO_PREVIEW_SECRET }}" deploy
+          SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}" SANITY_STUDIO_PREVIEW_SECRET="{{ secrets.SANITY_STUDIO_PREVIEW_SECRET }}" yarn deploy
           SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}" yarn deploy:gql --playground

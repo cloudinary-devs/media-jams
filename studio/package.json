@@ -13,13 +13,14 @@
     "build": "sanity build public -y",
     "deploy": "sanity deploy",
     "deploy:gql": "sanity graphql deploy",
-    "delete-metadata": "sanity exec --with-user-token scripts/deleteWorkflowDocs.js"
+    "delete-metadata": "sanity exec --with-user-token app/scripts/deleteWorkflowDocs.js"
   },
   "keywords": [
     "sanity"
   ],
   "dependencies": {
     "@sanity/base": "^2.0.9",
+    "@sanity/code-input": "^2.0.9",
     "@sanity/components": "^2.0.9",
     "@sanity/core": "^2.0.9",
     "@sanity/default-layout": "^2.0.9",

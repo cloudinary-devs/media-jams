@@ -12,16 +12,27 @@ import {
   TagLabel,
   Text,
   VStack,
-  useBreakpointValue,
 } from '@chakra-ui/react';
+
 import { FaTag } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+
+function AnimatedLink({ children, ...rest }) {
+  return (
+    <Link as={motion.a} {...rest}>
+      {children}
+    </Link>
+  );
+}
 
 export default function Card({ post }) {
   const { author } = post;
 
   return (
     <Stack
-      as={Link}
+      as={AnimatedLink}
+      whileHover={{ scale: 1.01 }}
+      whileTap={{ scale: 0.99 }}
       _hover={{ textDecor: 'none' }}
       href={`/post/${post.slug}`}
       boxShadow="0px 9px 38px 0px rgba(0,0,0,0.75)"
