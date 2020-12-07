@@ -24,7 +24,6 @@ export const prodPreviewAction = (props) => {
   if (!previewUrl) {
     return null;
   }
-  console.log(previewUrl);
   const onHandle = () => {
     window.open(previewUrl, '_blank');
     props.onComplete();
