@@ -2,14 +2,8 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Flex } from '@chakra-ui/react';
 import { withAuthServerSideProps } from '@components/withAuth';
-import { postBySlug, postsWithSlug } from 'lib/api';
-import {
-  getClient,
-  usePreviewSubscription,
-  urlFor,
-  PortableText,
-  previewClient,
-} from '@lib/sanity';
+import { postBySlug, postsWithSlug } from '@lib/api';
+import { previewClient } from '@lib/sanity';
 
 import LiveMDX from '@components/LiveMDX';
 import Layout from '@components/Layout';
@@ -26,14 +20,11 @@ function LiveEdit({ user, data: { post } }) {
     updateContent(post.content);
   }, [post]);
   useEffect(() => {
-    console.log('start subscription');
     const subscription = previewClient(user['https://mediajams-studio/token'])
       .listen(queryDraftPost, { postId: post._id })
       .subscribe((update) => {
-        console.log({ update });
         updateContent(update.result.body);
       });
-    console.log(subscription);
     //unsubscribe
     return () => {
       subscription.unsubscribe();

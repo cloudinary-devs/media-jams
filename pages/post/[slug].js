@@ -4,6 +4,7 @@ import ErrorPage from 'next/error';
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
 import BlockContent from '@sanity/block-content-to-react';
+import blocksToText from '@lib/blocksToText';
 
 import { postBySlug, postsWithSlug } from 'lib/api';
 
@@ -133,7 +134,10 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
     preview,
   );
   try {
-    const mdx = await renderToString(body, { components }, null);
+    // Convert the body of Jam from sanity portable text to string
+    // Then serialize to mdx formated string for hydration in components.
+    const bodyToString = blocksToText(body);
+    const mdx = await renderToString(bodyToString, { components }, null);
     return {
       props: {
         preview,
