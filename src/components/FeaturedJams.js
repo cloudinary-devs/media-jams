@@ -29,7 +29,7 @@ export default function FeaturedJams({ posts = [] }) {
 
       <Wrap w="100%" spacing="50px" justify="center" mb={8}>
         {posts?.map((post) => (
-          <WrapItem>
+          <WrapItem key={post._id}>
             <JamCard key={post.slug} post={post} />
           </WrapItem>
         ))}

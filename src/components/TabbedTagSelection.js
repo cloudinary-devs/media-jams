@@ -24,14 +24,14 @@ export default function TabbedTagSelection({
       border="2px solid black"
       borderRadius="6px"
       boxShadow="0px 9px 38px 0px rgba(0,0,0,0.75)"
-      height="18rem"
+      isFitted
     >
-      <TabList borderBottom="none" p={10} mb="1em">
+      <TabList borderBottom="none" mb="1em">
         {tabs?.map(
-          (tab, idx) =>
+          (tab) =>
             tab.tags &&
             tab.tags.length > 0 && (
-              <Tab colorScheme="green" fontSize={10} key={idx}>
+              <Tab colorScheme="green" fontSize={15} key={tab._id}>
                 {tab.title}
               </Tab>
             ),
@@ -39,17 +39,22 @@ export default function TabbedTagSelection({
       </TabList>
       <TabPanels>
         {tabs?.map(
-          (category, idx) =>
+          (category) =>
             category.tags?.length > 0 && (
-              <TabPanel>
-                <Wrap key={idx} w="40rem" justify="center" spacing="10px">
+              <TabPanel key={category._id}>
+                <Wrap
+                  key={category._id}
+                  w="40rem"
+                  justify="center"
+                  spacing="10px"
+                >
                   {category.tags.map((tag) => (
-                    <WrapItem>
+                    <WrapItem key={tag._id}>
                       <TagButton
                         addTag={addTag}
                         removeTag={removeTag}
                         searchTags={searchTags}
-                        icon={FaTag}
+                        icon={<FaTag />}
                         tag={tag}
                       />
                     </WrapItem>

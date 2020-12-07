@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  Button,
   useBreakpointValue,
   Heading,
   Spacer,
@@ -10,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import Image from '@components/Image';
 
-export default function Hero() {
+export default function Hero({ heroImg }) {
   const headings = useBreakpointValue({
     base: 'md',
     md: 'xl',
@@ -43,11 +42,7 @@ export default function Hero() {
         IS HARD
       </Heading>
       <Box pt="2rem" flex={{ sm: 1, base: 0 }} boxSize="40rem">
-        <Image
-          alt="Feature Image"
-          cloudName="mediadevs"
-          publicId="mediajams/hero"
-        />
+        <Image alt="Feature Image" src={heroImg} />
       </Box>
       <Spacer backgroundColor="white" />
     </Flex>

@@ -1,23 +1,14 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useFetchUser, useUser } from '@lib/user';
-import { allPosts, allCategories } from 'lib/api';
+import { allPosts, allTags, allCategories } from 'lib/api';
 
 import JamCard from '@components/JamCard';
 import SearchInput from '@components/SearchInput';
 import TagFilterSidebar from '@components/TagFilterSidebar';
 import Layout from '@components/Layout';
-import {
-  Button,
-  Center,
-  Flex,
-  WrapItem,
-  Wrap,
-  Heading,
-  Icon,
-  Text,
-} from '@chakra-ui/react';
-import { FaHashtag, FaMinusCircle } from 'react-icons/fa';
+import { Flex, WrapItem, Wrap, Heading } from '@chakra-ui/react';
+
 import Fuse from 'fuse.js';
 
 const fuseOptions = {
@@ -31,7 +22,7 @@ const fuseOptions = {
   keys: ['title', 'tags', 'author.name'],
 };
 
-export default function Post({ posts, categories }) {
+export default function Post({ posts, tags, categories }) {
   const [filteredPosts, setFilteredPosts] = React.useState(posts);
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
@@ -40,7 +31,7 @@ export default function Post({ posts, categories }) {
   const { user, loading } = useUser();
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
-    setSelectedFilters(router.query.tags?.split(',') || []);
+    setSelectedFilters(router.query.tags?.title.split(',') || []);
   }, [router.query]);
 
   // handle updating the filteredPosts with different search criteria
@@ -50,7 +41,7 @@ export default function Post({ posts, categories }) {
     } else {
       // Allow for a search for tag
       const formattedTags = [
-        ...selectedFilters.map((item) => ({ tags: item })),
+        ...selectedFilters.map((item) => ({ tags: item.title })),
       ];
       const queries = {
         $or: [
@@ -94,6 +85,7 @@ export default function Post({ posts, categories }) {
       </Flex>
       <Flex w="100vw" h="100%">
         <TagFilterSidebar
+          tags={tags}
           categories={categories}
           addTag={addTag}
           removeTag={removeTag}
@@ -109,8 +101,8 @@ export default function Post({ posts, categories }) {
 
           <Wrap w="100%" spacing="5.5rem" justify="center" my={8}>
             {filteredPosts.map((post) => (
-              <WrapItem>
-                <JamCard key={post._id} post={post} />
+              <WrapItem key={post._id}>
+                <JamCard post={post} />
               </WrapItem>
             ))}
           </Wrap>
@@ -122,10 +114,15 @@ export default function Post({ posts, categories }) {
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async () => {
-  const [posts, categories] = await Promise.all([allPosts(), allCategories()]);
+  const [posts, tags, categories] = await Promise.all([
+    allPosts(),
+    allTags(),
+    allCategories(),
+  ]);
   return {
     props: {
       posts,
+      tags,
       categories,
     },
   };

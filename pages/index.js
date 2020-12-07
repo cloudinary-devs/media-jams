@@ -20,7 +20,7 @@ import FeaturedJams from '@components/FeaturedJams';
 import ElementIcon from '@components/ElementIcon';
 import EmailSubscription from '@components/EmailSubscription';
 
-export default function Index({ posts, categories }) {
+export default function Index({ posts, categories, assets }) {
   const [searchTags, setSearchTags] = React.useState([]);
   const router = useRouter();
 
@@ -41,7 +41,7 @@ export default function Index({ posts, categories }) {
   }
   return (
     <Layout>
-      <Hero posts={posts} />
+      <Hero heroImg={assets[0]} />
 
       <VStack w="100%" mt={20} mb={40}>
         <Center maxW="5xl" textAlign="center">
@@ -111,12 +111,33 @@ export default function Index({ posts, categories }) {
 }
 
 export async function getStaticProps() {
+  const cloudinary = require('cloudinary').v2;
   const [posts, categories] = await Promise.all([allPosts(), allCategories()]);
+
+  cloudinary.config({
+    cloud_name: 'mediadevs',
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+
+  const config = [
+    {
+      publicId: 'mediajams/hero',
+      transforms: {},
+    },
+  ];
+
+  const assets = [];
+
+  config.map((pid) =>
+    assets.push(cloudinary.url(pid.publicId, pid.transforms)),
+  );
 
   return {
     props: {
       posts,
       categories,
+      assets,
     },
   };
 }

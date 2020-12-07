@@ -31,8 +31,8 @@ export default function Card({ post }) {
   return (
     <Stack
       as={AnimatedLink}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.9 }}
+      whileHover={{ scale: 1.01 }}
+      whileTap={{ scale: 0.99 }}
       _hover={{ textDecor: 'none' }}
       href={`/post/${post.slug}`}
       boxShadow="0px 9px 38px 0px rgba(0,0,0,0.75)"

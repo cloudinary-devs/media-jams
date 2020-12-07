@@ -19,16 +19,18 @@ export default function TagButton({
       }}
       key={tag.toString()}
       onClick={() =>
-        searchTags.some((selected) => selected === tag)
+        searchTags.some((selected) => selected.title === tag.title)
           ? removeTag(tag)
           : addTag(tag)
       }
       variant={
-        searchTags.some((selected) => selected === tag) ? 'solid' : 'outline'
+        searchTags.some((selected) => selected.title === tag.title)
+          ? 'solid'
+          : 'outline'
       }
       leftIcon={icon}
     >
-      <TagLabel>{tag}</TagLabel>
+      <TagLabel>{tag.title}</TagLabel>
     </Button>
   );
 }
