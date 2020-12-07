@@ -8,7 +8,6 @@ import Hotkeys from 'part:@sanity/components/typography/hotkeys';
 export const prodPreviewAction = (props) => {
   const ops = useDocumentOperation(props.id, props.type);
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
-  console.log(props, metadata, ops);
   if (props.type !== 'post') {
     return null;
   }
