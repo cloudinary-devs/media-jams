@@ -7,47 +7,11 @@ import {
   TabPanels,
   TabPanel,
   Wrap,
-  Button,
-  Text,
+  WrapItem,
 } from '@chakra-ui/react';
 
-import { FaHashtag } from 'react-icons/fa';
-
-function Panels({ tabs, searchTags, addTag, removeTag }) {
-  return (
-    <TabPanel>
-      {tabs?.map((category, idx) => {
-        return (
-          category.tags?.length > 0 && (
-            <Wrap key={idx} w="xl" spacing="20px">
-              {category.tags.map(({ title, _id }) => (
-                <Button
-                  size="md"
-                  colorScheme="blue"
-                  fontSize={10}
-                  key={_id.toString()}
-                  onClick={() =>
-                    searchTags.some((selected) => selected === title)
-                      ? removeTag(title)
-                      : addTag(title)
-                  }
-                  variant={
-                    searchTags.some((selected) => selected === title)
-                      ? 'solid'
-                      : 'outline'
-                  }
-                  rightIcon={<FaHashtag />}
-                >
-                  {title}
-                </Button>
-              ))}
-            </Wrap>
-          )
-        );
-      })}
-    </TabPanel>
-  );
-}
+import TagButton from '@components/TagButton';
+import { FaTag } from 'react-icons/fa';
 
 export default function TabbedTagSelection({
   tabs,
@@ -60,27 +24,46 @@ export default function TabbedTagSelection({
       border="2px solid black"
       borderRadius="6px"
       boxShadow="0px 9px 38px 0px rgba(0,0,0,0.75)"
-      height="20rem"
+      isFitted
     >
-      <TabList borderBottom="none" p={10} mb="1em">
-        {tabs?.map((tab, idx) => {
-          if (tab.tags && tab.tags.length > 0) {
-            return (
-              <Tab fontSize={10} key={idx}>
+      <TabList borderBottom="none" mb="1em">
+        {tabs?.map(
+          (tab) =>
+            tab.tags &&
+            tab.tags.length > 0 && (
+              <Tab fontSize={15} key={tab._id}>
                 {tab.title}
               </Tab>
-            );
-          } else {
-            return;
-          }
-        })}
+            ),
+        )}
       </TabList>
-      <Panels
-        addTag={addTag}
-        removeTag={removeTag}
-        searchTags={searchTags}
-        tabs={tabs}
-      />
+      <TabPanels>
+        {tabs?.map(
+          (category) =>
+            category.tags?.length > 0 && (
+              <TabPanel key={category._id}>
+                <Wrap
+                  key={category._id}
+                  w="40rem"
+                  justify="center"
+                  spacing="10px"
+                >
+                  {category.tags.map((tag) => (
+                    <WrapItem key={tag._id}>
+                      <TagButton
+                        addTag={addTag}
+                        removeTag={removeTag}
+                        searchTags={searchTags}
+                        icon={<FaTag />}
+                        tag={tag}
+                      />
+                    </WrapItem>
+                  ))}
+                </Wrap>
+              </TabPanel>
+            ),
+        )}
+      </TabPanels>
     </Tabs>
   );
 }

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  Input,
-  InputGroup,
-  InputRightElement,
-  useTheme,
-} from '@chakra-ui/react';
+import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 
 import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig();
@@ -13,10 +7,9 @@ import Mixpanel, { useMixPanel } from 'lib/mixpanel';
 import useDebounce from '../hooks/useDebounce';
 
 export default function SearchInput({ searchValue, setSearchValue, ...rest }) {
-  console.log(rest);
   const mixpanel = useMixPanel();
   const debounceSearchValue = useDebounce(searchValue, 500);
-  const theme = useTheme();
+
   React.useEffect(() => {
     mixpanel.track('Search Tag', { searchInput: debounceSearchValue });
   }, [debounceSearchValue]);

@@ -1,6 +1,14 @@
 import React from 'react';
 import { Link as NextLink } from 'next/link';
-import { Flex, Grid, Heading, Button, Link, Text } from '@chakra-ui/react';
+import {
+  Wrap,
+  WrapItem,
+  Flex,
+  Heading,
+  Button,
+  Link,
+  Text,
+} from '@chakra-ui/react';
 import { NavLink } from '@components/Navbar';
 
 import JamCard from '@components/JamCard';
@@ -19,17 +27,13 @@ export default function FeaturedJams({ posts = [] }) {
         Featured Jams
       </Heading>
 
-      <Grid
-        gridTemplateColumns="repeat(auto-fill, minmax(400px, 1fr))"
-        gap={['80px', '60px', '10px']}
-        w="60%"
-        justifyItems="center"
-        mb={6}
-      >
+      <Wrap w="100%" spacing="50px" justify="center" mb={8}>
         {posts?.map((post) => (
-          <JamCard key={post.slug} post={post} />
+          <WrapItem key={post._id}>
+            <JamCard key={post.slug} post={post} />
+          </WrapItem>
         ))}
-      </Grid>
+      </Wrap>
       <Button
         as={NavLink}
         href="/post"
@@ -38,8 +42,8 @@ export default function FeaturedJams({ posts = [] }) {
         borderRadius="3px"
         colorScheme="blue"
         mt={20}
-        width="30%"
-        mb="5rem"
+        width="25%"
+        mb="6rem"
       >
         See More Jams
       </Button>

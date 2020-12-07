@@ -1,18 +1,36 @@
 import React from 'react';
-import { Button } from '@chakra-ui/react';
-import { FaHashtag } from 'react-icons/fa';
+import { Tag, TagLabel, Button } from '@chakra-ui/react';
 
-export default function TagButton({ tags, tag }) {
+export default function TagButton({
+  addTag,
+  removeTag,
+  searchTags,
+  tag,
+  icon,
+}) {
   return (
     <Button
+      size="sm"
+      as={Tag}
+      colorScheme="green"
+      fontSize={10}
+      _hover={{
+        cursor: 'pointer',
+      }}
+      key={tag.toString()}
       onClick={() =>
-        tags.some((selected) => selected === tag) ? removeTag(tag) : addTag(tag)
+        searchTags.some((selected) => selected.title === tag.title)
+          ? removeTag(tag)
+          : addTag(tag)
       }
-      variant={tags.some((selected) => selected === tag) ? 'solid' : 'outline'}
-      colorScheme={tags.some((selected) => selected === tag) ? 'teal' : null}
-      rightIcon={<FaHashtag />}
+      variant={
+        searchTags.some((selected) => selected.title === tag.title)
+          ? 'solid'
+          : 'outline'
+      }
+      leftIcon={icon}
     >
-      {tag}
+      <TagLabel>{tag.title}</TagLabel>
     </Button>
   );
 }
