@@ -41,7 +41,7 @@ export default function Index({ posts, categories, assets }) {
   }
   return (
     <Layout>
-      <Hero heroImg={assets[0]} />
+      <Hero heroImg={assets ? assets[0] : null} />
 
       <VStack w="100%" mt={20} mb={40}>
         <Center maxW="5xl" textAlign="center">
