@@ -40,12 +40,12 @@ export default function TagFilterSidebar({
   };
 
   React.useEffect(() => {
-    if (search.length === 0) {
-      return setFilteredTagResults(categories);
+    if (search === '') {
+      setFilteredTagResults(categories);
+    } else {
+      const results = fuse.search(search).map((result) => result.item);
+      setFilteredTagResults(results);
     }
-
-    const results = fuse.search(search).map((result) => result.item);
-    return setFilteredTagResults(results);
   }, [search]);
 
   const fuse = new Fuse(tags, fuseOptions);
@@ -55,11 +55,7 @@ export default function TagFilterSidebar({
   };
 
   return (
-    <Flex
-      as={motion.div}
-      initial={false}
-      animate={isOpen ? { width: '20%' } : { width: 0 }}
-    >
+    <Flex as={motion.div} animate={isOpen ? { width: '20%' } : { width: 0 }}>
       {isOpen ? (
         <Box
           p="1.2rem"
@@ -107,46 +103,47 @@ export default function TagFilterSidebar({
               )}
             </Wrap>
             <Flex direction="column">
-              {search.length > 0
-                ? filteredTagResults.map((tag) => {
-                    return (
-                      <Box mb={10} key={tag._id}>
-                        <Wrap spacing={2}>
-                          <WrapItem>
-                            <TagButton
-                              addTag={addTag}
-                              removeTag={removeTag}
-                              searchTags={selectedFilters}
-                              icon={<FaTag />}
-                              tag={tag}
-                            />
-                          </WrapItem>
-                        </Wrap>
-                      </Box>
-                    );
-                  })
-                : filteredTagResults.map((cat) => {
-                    return (
-                      <Box key={cat._id} mb={10}>
-                        <Text>{cat.title}</Text>
-                        <Wrap spacing={2}>
-                          {cat.tags.map((tag) => {
-                            return (
-                              <WrapItem key={tag.title}>
-                                <TagButton
-                                  addTag={addTag}
-                                  removeTag={removeTag}
-                                  searchTags={selectedFilters}
-                                  icon={<FaTag />}
-                                  tag={tag}
-                                />
-                              </WrapItem>
-                            );
-                          })}
-                        </Wrap>
-                      </Box>
-                    );
-                  })}
+              {search.length > 0 &&
+                filteredTagResults.map((tag) => {
+                  return (
+                    <Box mb={10} key={tag._id}>
+                      <Wrap spacing={2}>
+                        <WrapItem>
+                          <TagButton
+                            addTag={addTag}
+                            removeTag={removeTag}
+                            searchTags={selectedFilters}
+                            icon={<FaTag />}
+                            tag={tag}
+                          />
+                        </WrapItem>
+                      </Wrap>
+                    </Box>
+                  );
+                })}
+              {search === '' &&
+                filteredTagResults.map((cat) => {
+                  return (
+                    <Box key={cat._id} mb={10}>
+                      <Text>{cat.title}</Text>
+                      <Wrap spacing={2}>
+                        {cat.tags?.map((tag) => {
+                          return (
+                            <WrapItem key={tag.title}>
+                              <TagButton
+                                addTag={addTag}
+                                removeTag={removeTag}
+                                searchTags={selectedFilters}
+                                icon={<FaTag />}
+                                tag={tag}
+                              />
+                            </WrapItem>
+                          );
+                        })}
+                      </Wrap>
+                    </Box>
+                  );
+                })}
             </Flex>
           </VStack>
         </Box>

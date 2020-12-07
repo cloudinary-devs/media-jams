@@ -27,7 +27,7 @@ export default function Post({ posts, tags, categories }) {
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const router = useRouter();
-  const btnRef = React.useRef();
+
   const { user, loading } = useUser();
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
