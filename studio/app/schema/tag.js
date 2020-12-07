@@ -43,6 +43,7 @@ export default {
       title: 'Category',
       name: 'category',
       type: 'array',
+      weak: true,
       validation: (Rule) => Rule.required().min(1), // require at least 1 category for a tag
       of: [
         {
