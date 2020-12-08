@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Flex } from '@chakra-ui/react';
 import { withAuthServerSideProps } from '@components/withAuth';
-import { postBySlug, postsWithSlug } from '@lib/api';
+import { postBySlug } from '@lib/api';
 import { previewClient } from '@lib/sanity';
 
 import LiveMDX from '@components/LiveMDX';
@@ -12,7 +12,7 @@ const CodeEditor = dynamic(import('@components/CodeEditor'), {
   ssr: false,
 });
 
-const queryDraftPost = `*[_type == "post" && _id == $postId].body`;
+const queryDraftPost = `*[_type == "post" && _id == $postId && (_id in path("drafts.**"))].body`;
 
 function LiveEdit({ user, data: { post } }) {
   const [content, updateContent] = useState(post.content);
