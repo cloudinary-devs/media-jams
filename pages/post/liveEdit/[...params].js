@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Flex } from '@chakra-ui/react';
 import { withAuthServerSideProps } from '@components/withAuth';
-import { postBySlug, postsWithSlug } from '@lib/api';
+import { postBySlug, queryDraftPostBody } from '@lib/api';
 import { previewClient } from '@lib/sanity';
 
 import LiveMDX from '@components/LiveMDX';
 import Layout from '@components/Layout';
 
-const CodeEditor = dynamic(import('@components/CodeEditor'), {
-  ssr: false,
-});
-
-const queryDraftPost = `*[_type == "post" && _id == $postId].body`;
-
+/**
+ *
+ * @param {Object} Props
+ * Renders draft post content and then subscribes
+ * to changes via 'previewClient' for realtime results in Studio
+ * when creators are editing
+ */
 function LiveEdit({ user, data: { post } }) {
   const [content, updateContent] = useState(post.content);
   useEffect(() => {
@@ -21,7 +22,7 @@ function LiveEdit({ user, data: { post } }) {
   }, [post]);
   useEffect(() => {
     const subscription = previewClient(user['https://mediajams-studio/token'])
-      .listen(queryDraftPost, { postId: post._id })
+      .listen(queryDraftPostBody, { postId: post._id })
       .subscribe((update) => {
         updateContent(update.result.body);
       });

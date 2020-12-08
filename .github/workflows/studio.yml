@@ -29,11 +29,14 @@ jobs:
         run: |
           yarn install
       - name: Deploy Sanity
+        env:
+          AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+          PREVIEW_SECRET: ${{ secrets.SANITY_STUDIO_PREVIEW_SECRET }}
         run: |
           set -e
           # Put your environment variables here. Don't forget
           # to create secrets for them on GitHub:
           # https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
           # Make sure to add a secret for SANITY_AUTH_TOKEN
-          SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}" SANITY_STUDIO_PREVIEW_SECRET="{{ secrets.SANITY_STUDIO_PREVIEW_SECRET }}" yarn deploy
-          SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}" yarn deploy:gql --playground
+          SANITY_AUTH_TOKEN="$AUTH_TOKEN" SANITY_STUDIO_PREVIEW_SECRET="$PREVIEW_SECRET" yarn deploy
+          SANITY_AUTH_TOKEN="$AUTH_TOKEN" yarn deploy:gql --playground
