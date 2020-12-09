@@ -1,37 +1,74 @@
 import React, { useEffect } from 'react';
 // This import is only needed when checking authentication status directly from getServerSideProps
 import auth0 from '@lib/auth0';
-import { Flex, Text, Box, Link, Icon } from '@chakra-ui/react';
+import {
+  Flex,
+  Text,
+  Box,
+  Link,
+  Icon,
+  GridItem,
+  Grid,
+  Stack,
+  Button,
+} from '@chakra-ui/react';
 import { Link as NextLink } from 'next/link';
 import Layout from '@components/Layout';
 import { useFetchUser } from '@lib/user';
 
 import { generateSanitySession } from './api/auth/studio';
 
+export function ProfileLink({ children, ...props }) {
+  return (
+    <Button borderRadius="3px" colorScheme="blue" size="lg" w="150px">
+      {children}
+    </Button>
+  );
+}
+
 function ProfileCard({ user, sanitySession }) {
   return (
     <>
-      <h1>Profile</h1>
-      <div>
-        <h3>Profile (server rendered)</h3>
-        <img src={user.picture} alt="user picture" />
-        <p>nickname: {user.nickname}</p>
-        <p>name: {user.name}</p>
-      </div>
-      <Link
-        href={`${sanitySession.endUserClaimUrl}?origin=${
-          process.env.NODE_ENV == 'production'
-            ? 'https://mediajams.sanity.studio'
-            : 'http://localhost:3333'
-        }`}
-        isExternal
+      <Grid
+        h="800px"
+        templateRows="75px 1fr"
+        templateColumns={['1fr', 'repeat(3, 1fr)']}
+        templateAreas={`"header main main" "sidebar main main"`}
+        gap={[0, 4]}
       >
-        Media Jams Studio <Icon name="external-link" mx="2px" />
-      </Link>
-      )
-      <Link as={NextLink} px={2} href="/api/auth/logout">
-        Logout
-      </Link>
+        <GridItem gridArea="header" bg="tomato" />
+        <GridItem colSpan={[0, 'auto']} gridArea="sidebar" bg="tomato">
+          <Stack direction="column" spacing={4} align="center">
+            <ProfileLink>Account</ProfileLink>
+            <ProfileLink>Studio</ProfileLink>
+            <ProfileLink>Notes</ProfileLink>
+            <ProfileLink>Settings</ProfileLink>
+          </Stack>
+        </GridItem>
+        <GridItem gridArea="main" bg="papayawhip">
+          <h1>Profile</h1>
+          <div>
+            <h3>Profile (server rendered)</h3>
+            <img src={user.picture} alt="user picture" />
+            <p>nickname: {user.nickname}</p>
+            <p>name: {user.name}</p>
+          </div>
+          <Link
+            href={`${sanitySession.endUserClaimUrl}?origin=${
+              process.env.NODE_ENV == 'production'
+                ? 'https://mediajams.sanity.studio'
+                : 'http://localhost:3333'
+            }`}
+            isExternal
+          >
+            Media Jams Studio <Icon name="external-link" mx="2px" />
+          </Link>
+          )
+          <Link as={NextLink} px={2} href="/api/auth/logout">
+            Logout
+          </Link>
+        </GridItem>
+      </Grid>
     </>
   );
 }
