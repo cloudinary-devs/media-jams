@@ -11,6 +11,7 @@ import {
   Grid,
   Stack,
   Button,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { Link as NextLink } from 'next/link';
 import Layout from '@components/Layout';
@@ -20,30 +21,44 @@ import { generateSanitySession } from './api/auth/studio';
 
 export function ProfileLink({ children, ...props }) {
   return (
-    <Button borderRadius="3px" colorScheme="blue" size="lg" w="150px">
+    <Button
+      borderRadius="3px"
+      colorScheme="blue"
+      size="lg"
+      w={['0px', '150px']}
+    >
       {children}
     </Button>
   );
 }
 
 function ProfileCard({ user, sanitySession }) {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  console.log(isMobile);
   return (
     <>
       <Grid
-        h="800px"
+        h="100%"
         templateRows="75px 1fr"
-        templateColumns={['1fr', 'repeat(3, 1fr)']}
+        templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
         templateAreas={`"header main main" "sidebar main main"`}
-        gap={[0, 4]}
+        gap={{ base: 0, md: 4 }}
       >
         <GridItem gridArea="header" bg="tomato" />
         <GridItem colSpan={[0, 'auto']} gridArea="sidebar" bg="tomato">
-          <Stack direction="column" spacing={4} align="center">
-            <ProfileLink>Account</ProfileLink>
-            <ProfileLink>Studio</ProfileLink>
-            <ProfileLink>Notes</ProfileLink>
-            <ProfileLink>Settings</ProfileLink>
-          </Stack>
+          {!isMobile && (
+            <Stack
+              direction="column"
+              spacing={4}
+              align="center"
+              w={[0, '100%']}
+            >
+              <ProfileLink>Account</ProfileLink>
+              <ProfileLink>Studio</ProfileLink>
+              <ProfileLink>Notes</ProfileLink>
+              <ProfileLink>Settings</ProfileLink>
+            </Stack>
+          )}
         </GridItem>
         <GridItem gridArea="main" bg="papayawhip">
           <h1>Profile</h1>
