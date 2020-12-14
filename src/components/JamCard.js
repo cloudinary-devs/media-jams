@@ -19,7 +19,7 @@ import { motion } from 'framer-motion';
 
 function AnimatedLink({ children, ...rest }) {
   return (
-    <Link as={motion.a} {...rest}>
+    <Link minH="400px" as={motion.a} {...rest}>
       {children}
     </Link>
   );
@@ -37,9 +37,9 @@ export default function Card({ post }) {
       href={`/post/${post.slug}`}
       boxShadow="0px 9px 38px 0px rgba(0,0,0,0.75)"
       backgroundColor="white"
-      w={['700px', '500px', '400px']}
-      h="200px"
+      w={['500px', '300px']}
       borderRadius="8px"
+      justifyContent="space-between"
     >
       <HStack p={4} mt={0}>
         <VStack>
@@ -64,21 +64,16 @@ export default function Card({ post }) {
         }}
         backgroundColor="green.400"
         borderBottomRadius="8px"
+        height="250px"
       >
         <VStack flexGrow={1}>
           <Container centerContent maxWidth="80ch">
-            <Box fontSize="10px" maxW="xl" alignItems="center" color="white">
-              {post.description}
+            <Box maxW="lg" alignItems="center" color="white">
+              <Text mt={10} noOfLines={5} fontSize="xs">
+                {post.description}
+              </Text>
             </Box>
           </Container>
-          <HStack pb={4} spacing={4}>
-            {post.tags.map((t) => (
-              <Tag key={t} size="md" colorScheme="green">
-                <FaTag />
-                <TagLabel pl={2}>{t}</TagLabel>
-              </Tag>
-            ))}
-          </HStack>
         </VStack>
       </Flex>
     </Stack>

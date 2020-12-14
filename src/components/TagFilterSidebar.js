@@ -55,7 +55,7 @@ export default function TagFilterSidebar({
   };
 
   return (
-    <Flex as={motion.div} animate={isOpen ? { width: '20%' } : { width: 0 }}>
+    <Flex as={motion.div} animate={isOpen ? { width: '400px' } : { width: 0 }}>
       {isOpen ? (
         <Box
           p="1.2rem"
