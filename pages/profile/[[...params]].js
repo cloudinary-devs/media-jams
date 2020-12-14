@@ -20,6 +20,8 @@ import { useRouter } from 'next/router';
 import { generateSanitySession } from '../api/auth/studio';
 
 const StudioPanel = (props) => <>I am studio</>;
+const NotesPanel = (props) => <>I am notes</>;
+const SettingsPanel = (props) => <>I am settings</>;
 const AccountPanel = ({ user, sanitySession }) => (
   <>
     <h1>Profile</h1>
@@ -57,12 +59,22 @@ const sideMenuItems = [
     href: '/profile/studio',
     component: StudioPanel,
   },
-  { name: 'notes', label: 'Notes', href: '/profile/notes' },
-  { name: 'settings', label: 'Settings', href: '/profile/settings' },
+  {
+    name: 'notes',
+    label: 'Notes',
+    href: '/profile/notes',
+    component: NotesPanel,
+  },
+  {
+    name: 'settings',
+    label: 'Settings',
+    href: '/profile/settings',
+    component: SettingsPanel,
+  },
 ];
 
-export function ProfileItemLink({ children, isActive, ...props }) {
-  return (
+export const ProfileItemLink = React.forwardRef(
+  ({ children, isActive, ...props }, ref) => (
     <Button
       borderRadius="3px"
       colorScheme="blue"
@@ -78,18 +90,16 @@ export function ProfileItemLink({ children, isActive, ...props }) {
     >
       {children}
     </Button>
-  );
-}
+  ),
+);
 
 function ProfileCard({ user, sanitySession }) {
   const [activeMenuItem, setMenuItem] = useState('account'); //defaults to account
   const isMobile = useBreakpointValue({ base: true, md: false });
   const router = useRouter();
   useEffect(() => {
-    const {
-      params: [path],
-    } = router.query;
-    if (path) setMenuItem(path);
+    const { params = [] } = router.query;
+    if (params.length) setMenuItem(params[0]);
   }, [router.query]);
   return (
     <>
@@ -124,7 +134,11 @@ function ProfileCard({ user, sanitySession }) {
           {sideMenuItems
             .filter(({ name }) => name === activeMenuItem)
             .map((Item) => (
-              <Item.component user={user} sanitySession={sanitySession} />
+              <Item.component
+                key={Item.name}
+                user={user}
+                sanitySession={sanitySession}
+              />
             ))}
         </GridItem>
       </Grid>
