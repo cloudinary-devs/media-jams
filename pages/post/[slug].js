@@ -19,18 +19,7 @@ import JamDetailHero from '@components/JamDetailHero';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
 
-import {
-  Flex,
-  Text,
-  Center,
-  Heading,
-  Button,
-  Link,
-  VStack,
-  HStack,
-  Box,
-  Image,
-} from '@chakra-ui/react';
+import { Text, Heading, VStack, Box, Image } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 const AuthorByline = styled(Text)`
@@ -38,7 +27,7 @@ const AuthorByline = styled(Text)`
 `;
 
 /**
- * Can override any general styles set for textStyle="main-jam-content"
+ * Can override any general styles set for textStyle="jam-content"
  * in the `styled(Box)` -->
  * */
 const JamContent = styled(Box)``;
