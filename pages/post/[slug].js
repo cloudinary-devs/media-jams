@@ -10,9 +10,10 @@ import { postBySlug, postsWithSlug } from 'lib/api';
 
 import { Code } from '@mdnextjs/components';
 import CodeSandbox from '@components/CodeSandbox';
+import JamImage from '@components/Image';
 import Layout from '@components/Layout';
 
-const components = { code: Code, iframe: CodeSandbox };
+const components = { code: Code, iframe: CodeSandbox, img: JamImage };
 
 import JamDetailHero from '@components/JamDetailHero';
 import JamAuthorBanner from '@components/JamAuthorBanner';
@@ -78,7 +79,7 @@ export default function Post({ post, preview }) {
           </Box>
         </VStack>
       </JamDetailHero>
-      <JamContent textStyle="main-jam-content">{content}</JamContent>
+      <JamContent textStyle="jam-content">{content}</JamContent>
       <JamAuthorBanner>
         <Box boxSize="sm" overflow="hidden">
           <Image
