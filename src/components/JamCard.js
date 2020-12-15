@@ -12,6 +12,9 @@ import {
   TagLabel,
   Text,
   VStack,
+  Wrap,
+  WrapItem,
+  TagLeftIcon,
 } from '@chakra-ui/react';
 
 import { FaTag } from 'react-icons/fa';
@@ -64,16 +67,33 @@ export default function Card({ post }) {
         }}
         backgroundColor="green.400"
         borderBottomRadius="8px"
-        height="250px"
+        height="280px"
       >
-        <VStack flexGrow={1}>
-          <Container centerContent maxWidth="80ch">
+        <VStack justifyContent="space-between" flexGrow={1}>
+          <Flex
+            as={Container}
+            direction="column"
+            centerContent
+            maxWidth="80ch"
+            justifyContent="space-between"
+            h="100%"
+          >
             <Box maxW="lg" alignItems="center" color="white">
-              <Text mt={10} noOfLines={5} fontSize="xs">
+              <Text fontWeight="bold" mt={10} noOfLines={5} fontSize="14px">
                 {post.description}
               </Text>
             </Box>
-          </Container>
+            <Wrap alignSelf="flex-start" mb={5}>
+              {post.tags.map((tag) => (
+                <WrapItem>
+                  <Tag colorScheme="green">
+                    <TagLeftIcon as={FaTag} />
+                    <TagLabel>{tag}</TagLabel>
+                  </Tag>
+                </WrapItem>
+              ))}
+            </Wrap>
+          </Flex>
         </VStack>
       </Flex>
     </Stack>

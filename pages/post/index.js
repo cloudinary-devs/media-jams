@@ -92,7 +92,7 @@ export default function Post({ posts, tags, categories }) {
           selectedFilters={selectedFilters}
           setSelectedFilters={setSelectedFilters}
         />
-        <Flex direction="column" mt={5}>
+        <Flex direction="column" w="100%" mt={5} mb={20}>
           <SearchInput
             searchvalue={searchValue}
             setSearchValue={setSearchValue}
