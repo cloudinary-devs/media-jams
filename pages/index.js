@@ -25,7 +25,10 @@ export default function Index({ posts, categories, assets }) {
   const router = useRouter();
 
   function addTagsToRoute(tags) {
-    const params = serializeArray(tags);
+    const tagsArr = [];
+    tags.map((tag) => tagsArr.push(tag.title));
+    const params = serializeArray(tagsArr);
+
     return router.push({
       pathname: '/post',
       query: { tags: params },
@@ -78,7 +81,7 @@ export default function Index({ posts, categories, assets }) {
               ornare quam, ut scelerisque eros. Nunc urna lacus, pharetra in
               nulla ac, suscipit malesuada augue. Maecenas ac ultrices enim.{' '}
             </Box>
-            <Box pt={50}>
+            <Flex direction="column" pt={50}>
               <TabbedTagSelection
                 tabs={categories}
                 addTag={addTag}
@@ -98,7 +101,7 @@ export default function Index({ posts, categories, assets }) {
               >
                 Search
               </Button>
-            </Box>
+            </Flex>
           </VStack>
         </Flex>
       </VStack>

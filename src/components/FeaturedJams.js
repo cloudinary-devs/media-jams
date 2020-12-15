@@ -3,6 +3,7 @@ import { Link as NextLink } from 'next/link';
 import {
   Wrap,
   WrapItem,
+  Center,
   Flex,
   Heading,
   Button,
@@ -27,13 +28,14 @@ export default function FeaturedJams({ posts = [] }) {
         Featured Jams
       </Heading>
 
-      <Wrap w="100%" spacing="50px" justify="center" mb={8}>
+      <Wrap w="80%" spacing="50px" mb={8}>
         {posts?.map((post) => (
           <WrapItem key={post._id}>
             <JamCard key={post.slug} post={post} />
           </WrapItem>
         ))}
       </Wrap>
+
       <Button
         as={NavLink}
         href="/post"
