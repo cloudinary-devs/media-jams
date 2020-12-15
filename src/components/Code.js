@@ -30,7 +30,9 @@ const LineContent = styled.span`
 `;
 
 const ActionContent = styled.div`
-  margin-top: 0em;
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 0 !important;
   background-color: rgb(30, 30, 30);
   align-self: stretch;
 `;
@@ -68,7 +70,7 @@ export default function Code({ children, className }) {
         )}
       </Highlight>
       <ActionContent>
-        <CopyButton justifySelf="end" value={children.trim()} />
+        <CopyButton value={children.trim()} />
       </ActionContent>
     </VStack>
   );
