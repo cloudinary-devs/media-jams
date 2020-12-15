@@ -8,7 +8,7 @@ import blocksToText from '@lib/blocksToText';
 
 import { postBySlug, postsWithSlug } from 'lib/api';
 
-import { Code } from '@mdnextjs/components';
+import Code from '@components/Code';
 import CodeSandbox from '@components/CodeSandbox';
 import JamImage from '@components/Image';
 import Layout from '@components/Layout';

@@ -59,7 +59,7 @@ export default {
     },
     pre: {
       width: '65vw',
-      margin: '20px auto',
+      margin: '20px auto 0px',
     },
     ul: {
       listStyle: 'none',

@@ -4,7 +4,12 @@ import { Button } from '@chakra-ui/react';
 export default function CopyButton({ value }) {
   const { onCopy, hasCopied } = useClipboard(value);
   return (
-    <Button aria-label="Copy text" role="button" onClick={onCopy}>
+    <Button
+      justifySelf="flex-end"
+      aria-label="Copy text"
+      role="button"
+      onClick={onCopy}
+    >
       {hasCopied ? 'Copied' : 'Copy'}
     </Button>
   );
