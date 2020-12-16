@@ -57,7 +57,11 @@ test("renders 'hello world'", () => {
   expect(screen.getByText(/hello world/)).toBeInTheDocument();
 });
 
+/**
+ * Code component does render
+ * TODO: Prettier format
+ */
 test('render and format jsx', () => {
-  render(<Code className="jsx">{jsxCode}</Code>);
-  expect(screen.getByText(/this.image/)).toBeInTheDocument();
+  render(<Code>{jsxCode}</Code>);
+  expect(screen.getByText(/this.loading = true/)).toBeInTheDocument();
 });
