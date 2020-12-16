@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^0.16.0",
+    "@chakra-ui/icons": "^1.0.1",
     "@chakra-ui/react": "^1.0.1",
     "@chakra-ui/theme": "^1.1.0",
     "@chakra-ui/theme-tools": "^1.0.1",
@@ -85,7 +86,7 @@
     "jest-dom": "^4.0.0",
     "jest-svg-transformer": "^1.0.0",
     "lint-staged": "^10.2.11",
-    "prettier": "^2.0.5",
+    "prettier": "^2.2.1",
     "rewire": "^5.0.0"
   },
   "husky": {

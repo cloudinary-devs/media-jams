@@ -57,9 +57,8 @@ export default {
       margin: '10px auto',
       width: '55%',
     },
-    pre: {
-      width: '65vw',
-      margin: '20px auto',
+    'pre.prisma-code': {
+      margin: '0px 0px 0px auto',
     },
     ul: {
       listStyle: 'none',

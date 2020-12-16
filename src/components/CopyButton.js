@@ -1,11 +1,24 @@
 import { useClipboard } from '@chakra-ui/react';
+import { PhoneIcon, AddIcon, CheckIcon } from '@chakra-ui/icons';
 import { Button } from '@chakra-ui/react';
 
-export default function CopyButton({ value }) {
+export default function CopyButton({ value, ...props }) {
   const { onCopy, hasCopied } = useClipboard(value);
   return (
-    <Button aria-label="Copy text" role="button" onClick={onCopy}>
-      {hasCopied ? 'Copied' : 'Copy'}
+    <Button
+      size="xs"
+      aria-label="Copy text"
+      role="button"
+      onClick={onCopy}
+      {...props}
+    >
+      {hasCopied ? (
+        <>
+          Copied <CheckIcon color="green.500" />
+        </>
+      ) : (
+        'Copy'
+      )}
     </Button>
   );
 }

@@ -38,5 +38,7 @@ jobs:
           # to create secrets for them on GitHub:
           # https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
           # Make sure to add a secret for SANITY_AUTH_TOKEN
-          SANITY_AUTH_TOKEN="$AUTH_TOKEN" SANITY_STUDIO_PREVIEW_SECRET="$PREVIEW_SECRET" yarn deploy
-          SANITY_AUTH_TOKEN="$AUTH_TOKEN" yarn deploy:gql --playground
+          echo "$AUTH_TOKEN" 
+          echo "$PREVIEW_SECRET"
+          #SANITY_AUTH_TOKEN="$AUTH_TOKEN" SANITY_STUDIO_PREVIEW_SECRET="$PREVIEW_SECRET" yarn deploy
+          #SANITY_AUTH_TOKEN="$AUTH_TOKEN" yarn deploy:gql --playground
