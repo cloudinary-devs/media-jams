@@ -1,4 +1,5 @@
 import { useClipboard } from '@chakra-ui/react';
+import { PhoneIcon, AddIcon, CheckIcon } from '@chakra-ui/icons';
 import { Button } from '@chakra-ui/react';
 
 export default function CopyButton({ value, ...props }) {
@@ -11,7 +12,13 @@ export default function CopyButton({ value, ...props }) {
       onClick={onCopy}
       {...props}
     >
-      {hasCopied ? 'Copied' : 'Copy'}
+      {hasCopied ? (
+        <>
+          Copied <CheckIcon color="green.500" />
+        </>
+      ) : (
+        'Copy'
+      )}
     </Button>
   );
 }

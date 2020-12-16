@@ -7,10 +7,12 @@ import styled from '@emotion/styled';
 
 const Pre = styled.pre`
   text-align: left;
-  margin: 1em auto 0em;
+  margin: 0em 0em 0em;
   padding: 0.5em;
   overflow: scroll;
-  white-space: 'pre';
+  white-space: pre;
+  max-width: 80ch;
+  min-width: 40ch;
 `;
 
 const Line = styled.div`
@@ -34,7 +36,8 @@ const LineContent = styled.span`
 
 const ActionContent = styled.div`
   display: flex;
-  flex-direction: column-reverse;
+  min-width: 75px;
+  flex-direction: column;
   background-color: rgb(30, 30, 30);
   align-self: stretch;
 `;
@@ -49,7 +52,7 @@ const ActionContent = styled.div`
 export default function Code({ children, className }) {
   const language = className?.replace(/language-/, '');
   return (
-    <HStack spacing="0" my={4}>
+    <HStack spacing="0" my={4} justify="center" align="center">
       <Highlight
         {...defaultProps}
         theme={theme}
@@ -72,7 +75,9 @@ export default function Code({ children, className }) {
         )}
       </Highlight>
       <ActionContent>
-        <CopyButton mr="1" mb="1" value={children.trim()} />
+        <Box>
+          <CopyButton float="right" mr="1" my="1" value={children.trim()} />
+        </Box>
       </ActionContent>
     </HStack>
   );

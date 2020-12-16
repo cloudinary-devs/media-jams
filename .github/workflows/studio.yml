@@ -31,7 +31,7 @@ jobs:
       - name: Deploy Sanity
         env:
           AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-          PREVIEW_SECRET: ${{ secrets.SANITY_PREVIEW_SECRET }}
+          PREVIEW_SECRET: ${{ secrets.SANITY_STUDIO_PREVIEW_SECRET }}
         run: |
           set -e
           # Put your environment variables here. Don't forget
@@ -40,5 +40,5 @@ jobs:
           # Make sure to add a secret for SANITY_AUTH_TOKEN
           echo "$AUTH_TOKEN" 
           echo "$PREVIEW_SECRET"
-          #SANITY_AUTH_TOKEN="$AUTH_TOKEN" SANITY_PREVIEW_SECRET="$PREVIEW_SECRET" yarn deploy
+          #SANITY_AUTH_TOKEN="$AUTH_TOKEN" SANITY_STUDIO_PREVIEW_SECRET="$PREVIEW_SECRET" yarn deploy
           #SANITY_AUTH_TOKEN="$AUTH_TOKEN" yarn deploy:gql --playground
