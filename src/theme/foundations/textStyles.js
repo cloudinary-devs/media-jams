@@ -34,8 +34,8 @@ export default {
     letterSpacing: 'normal',
     fontSize: ['lg'],
   },
-  'main-jam-content': {
-    h2: {
+  'jam-content': {
+    'h1, h2': {
       margin: '0px auto 20px',
       fontFamily: 'Bangers, cursive',
       fontWeight: 'bold',
@@ -44,19 +44,32 @@ export default {
       fontSize: ['3xl'],
       width: '55%',
     },
+    'h3, h4, h5': {
+      margin: '0px auto 20px',
+      fontFamily: 'Bangers, cursive',
+      fontWeight: 'bold',
+      lineHeight: 'tall',
+      letterSpacing: 'normal',
+      fontSize: ['xl'],
+      width: '55%',
+    },
     p: {
       margin: '10px auto',
       width: '55%',
     },
-    pre: {
-      width: '65vw',
-      margin: '20px auto',
+    'pre.prisma-code': {
+      margin: '0px 0px 0px auto',
     },
     ul: {
       listStyle: 'none',
       padding: 0,
       margin: '10px auto',
       width: '55%',
+    },
+    img: {
+      width: '100%',
+      marginLeft: 'auto',
+      marginRight: 'auto',
     },
   },
 };

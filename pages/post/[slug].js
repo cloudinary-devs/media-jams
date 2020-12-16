@@ -8,28 +8,18 @@ import blocksToText from '@lib/blocksToText';
 
 import { postBySlug, postsWithSlug } from 'lib/api';
 
-import { Code } from '@mdnextjs/components';
+import Code from '@components/Code';
 import CodeSandbox from '@components/CodeSandbox';
+import JamImage from '@components/Image';
 import Layout from '@components/Layout';
 
-const components = { code: Code, iframe: CodeSandbox };
+const components = { code: Code, iframe: CodeSandbox, img: JamImage };
 
 import JamDetailHero from '@components/JamDetailHero';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
 
-import {
-  Flex,
-  Text,
-  Center,
-  Heading,
-  Button,
-  Link,
-  VStack,
-  HStack,
-  Box,
-  Image,
-} from '@chakra-ui/react';
+import { Text, Heading, VStack, Box, Image } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 const AuthorByline = styled(Text)`
@@ -37,7 +27,7 @@ const AuthorByline = styled(Text)`
 `;
 
 /**
- * Can override any general styles set for textStyle="main-jam-content"
+ * Can override any general styles set for textStyle="jam-content"
  * in the `styled(Box)` -->
  * */
 const JamContent = styled(Box)``;
@@ -78,7 +68,7 @@ export default function Post({ post, preview }) {
           </Box>
         </VStack>
       </JamDetailHero>
-      <JamContent textStyle="main-jam-content">{content}</JamContent>
+      <JamContent textStyle="jam-content">{content}</JamContent>
       <JamAuthorBanner>
         <Box boxSize="sm" overflow="hidden">
           <Image
