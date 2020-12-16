@@ -1,7 +1,7 @@
 name: Deploy Studio
 on:
   push:
-    branches: [feat/code-fmt]
+    branches: [master, development]
 jobs:
   deploy:
     runs-on: ubuntu-latest
