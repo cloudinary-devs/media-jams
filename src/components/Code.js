@@ -1,6 +1,6 @@
 import React from 'react';
 import Highlight, { defaultProps } from 'prism-react-renderer';
-import { VStack, Box } from '@chakra-ui/react';
+import { HStack, Box } from '@chakra-ui/react';
 import theme from 'prism-react-renderer/themes/vsDark';
 import CopyButton from '@components/CopyButton.js';
 import styled from '@emotion/styled';
@@ -15,6 +15,9 @@ const Pre = styled.pre`
 
 const Line = styled.div`
   display: table-row;
+  > span: {
+    line-height: normal;
+  }
 `;
 
 const LineNo = styled.span`
@@ -31,8 +34,7 @@ const LineContent = styled.span`
 
 const ActionContent = styled.div`
   display: flex;
-  flex-direction: row-reverse;
-  margin-top: 0 !important;
+  flex-direction: column-reverse;
   background-color: rgb(30, 30, 30);
   align-self: stretch;
 `;
@@ -47,7 +49,7 @@ const ActionContent = styled.div`
 export default function Code({ children, className }) {
   const language = className?.replace(/language-/, '');
   return (
-    <VStack>
+    <HStack spacing="0" my={4}>
       <Highlight
         {...defaultProps}
         theme={theme}
@@ -70,8 +72,8 @@ export default function Code({ children, className }) {
         )}
       </Highlight>
       <ActionContent>
-        <CopyButton value={children.trim()} />
+        <CopyButton mr="1" mb="1" value={children.trim()} />
       </ActionContent>
-    </VStack>
+    </HStack>
   );
 }

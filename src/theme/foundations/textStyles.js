@@ -58,8 +58,8 @@ export default {
       width: '55%',
     },
     pre: {
-      width: '65vw',
-      margin: '20px auto 0px',
+      width: '45vw',
+      margin: '0px auto 0px',
     },
     ul: {
       listStyle: 'none',
