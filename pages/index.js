@@ -60,7 +60,11 @@ export default function Index({ posts, categories, assets }) {
           </Heading>
         </Center>
         <Flex w="100%">
-          <HStack justifyContent="space-around" flexGrow="2">
+          <HStack
+            display={['none', 'none', 'flex']}
+            justifyContent="space-around"
+            flexGrow="2"
+          >
             <VStack w="70%" alignItems="stretch" spacing={20}>
               <ElementIcon phrase="speed" ml={20} />
               <ElementIcon
@@ -73,7 +77,7 @@ export default function Index({ posts, categories, assets }) {
           </HStack>
 
           <VStack flexGrow="2">
-            <Box ml={50} alignSelf="flex-start" maxW="xl">
+            <Box ml={[1, 50]} alignSelf="flex-start" maxW="xl">
               <Heading mt={16} as="h1" textStyle="headline">
                 Why Media Matters
               </Heading>
@@ -81,7 +85,7 @@ export default function Index({ posts, categories, assets }) {
               ornare quam, ut scelerisque eros. Nunc urna lacus, pharetra in
               nulla ac, suscipit malesuada augue. Maecenas ac ultrices enim.{' '}
             </Box>
-            <Flex direction="column" pt={50}>
+            <Flex direction="column" w={'100%'} pt={50}>
               <TabbedTagSelection
                 tabs={categories}
                 addTag={addTag}
