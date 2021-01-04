@@ -81,9 +81,11 @@ export default function Index({ posts, categories, assets }) {
               <Heading mt={16} as="h1" textStyle="headline">
                 Why Media Matters
               </Heading>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et
-              ornare quam, ut scelerisque eros. Nunc urna lacus, pharetra in
-              nulla ac, suscipit malesuada augue. Maecenas ac ultrices enim.{' '}
+              <span>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et
+                ornare quam, ut scelerisque eros. Nunc urna lacus, pharetra in
+                nulla ac, suscipit malesuada augue. Maecenas ac ultrices enim.{' '}
+              </span>
             </Box>
             <Flex direction="column" w={'100%'} pt={50}>
               <TabbedTagSelection
