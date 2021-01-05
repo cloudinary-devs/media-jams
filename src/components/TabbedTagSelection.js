@@ -29,6 +29,7 @@ export default function TabbedTagSelection({
       border="2px solid black"
       borderRadius="6px"
       boxShadow={isMobile ? null : '0px 9px 38px 0px rgba(0,0,0,0.75)'}
+      maxW={'42rem'}
       isFitted={!isMobile}
     >
       <TabList borderBottom="none" mb="1em">
@@ -45,7 +46,7 @@ export default function TabbedTagSelection({
         {tabs?.map(
           (category) =>
             category.tags?.length > 0 && (
-              <TabPanel key={category._id}>
+              <TabPanel alignSelf="center" key={category._id}>
                 <Wrap key={category._id} justify="center" spacing="10px">
                   {category.tags.map((tag) => (
                     <WrapItem key={tag._id}>

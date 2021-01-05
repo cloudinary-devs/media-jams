@@ -10,10 +10,10 @@ export default function TagButton({
 }) {
   return (
     <Button
-      size="sm"
+      size={['lg']}
       as={Tag}
       colorScheme="green"
-      fontSize={10}
+      fontSize={16}
       _hover={{
         cursor: 'pointer',
       }}
