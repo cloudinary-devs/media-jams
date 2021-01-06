@@ -69,29 +69,7 @@ export default function Post({ post, preview }) {
         </VStack>
       </JamDetailHero>
       <JamContent textStyle="jam-content">{content}</JamContent>
-      <JamAuthorBanner>
-        <Box boxSize="sm" overflow="hidden">
-          <Image
-            fit="contain"
-            width="100%"
-            src={author.image}
-            alt={author.name}
-          />
-        </Box>
-        <Box backgroundColor="blue.200" py={4} maxWidth="50%">
-          <Box color="grey.900" my={4} pl={4}>
-            <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
-              {author.name}
-            </Heading>
-            <AuthorByline fontSize="xs">
-              By Media Developer Expert, Developer 🥑
-            </AuthorByline>
-            <Text maxWidth="80%">
-              <BlockContent blocks={author.bio} />
-            </Text>
-          </Box>
-        </Box>
-      </JamAuthorBanner>
+      <JamAuthorBanner author={author}></JamAuthorBanner>
       <EmailSubscription />
     </Layout>
   );

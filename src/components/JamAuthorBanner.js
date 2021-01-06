@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Button,
   useBreakpointValue,
@@ -8,11 +7,16 @@ import {
   Flex,
   Box,
   Image,
-  HStack,
 } from '@chakra-ui/react';
+import BlockContent from '@sanity/block-content-to-react';
 import { useImage } from 'use-cloudinary';
+import styled from '@emotion/styled';
 
-export default function JamAuthorBanner({ children }) {
+const AuthorByline = styled(Text)`
+  text-indent: 5px;
+`;
+
+export default function JamAuthorBanner({ author }) {
   const headings = useBreakpointValue({
     base: 'md',
     md: 'xl',
@@ -30,12 +34,20 @@ export default function JamAuthorBanner({ children }) {
   };
 
   return (
-    <Flex h="md" direction="row" justifyContent="center" alignItems="center">
+    <Flex
+      h="md"
+      direction="row"
+      justifyContent="center"
+      alignItems="center"
+      my={8}
+    >
+      {/* Destop Display */}
       <Box
         height="100%"
         width="80%"
         backgroundColor="black"
         position="relative"
+        d={['none', 'block']}
       >
         <Box
           height="50%"
@@ -52,9 +64,45 @@ export default function JamAuthorBanner({ children }) {
             justifyContent="center"
             height="100%"
           >
-            {children}
+            <Box boxSize="sm" overflow="hidden">
+              <Image
+                fit="contain"
+                width="100%"
+                src={author.image}
+                alt={author.name}
+              />
+            </Box>
+            <Box backgroundColor="blue.200" py={4} maxWidth="50%">
+              <Box color="grey.900" my={4} pl={4}>
+                <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
+                  {author.name}
+                </Heading>
+                <AuthorByline fontSize="xs">
+                  By Media Developer Expert, Developer 🥑
+                </AuthorByline>
+                <Text maxWidth="80%">
+                  <BlockContent blocks={author.bio} />
+                </Text>
+              </Box>
+            </Box>
           </Flex>
         </Box>
+      </Box>
+      <Box backgroundColor="black" d={['block', 'none']}>
+        <Heading
+          as="h1"
+          fontSize="4xl"
+          textStyle="headline-accent"
+          textColor="white"
+        >
+          {author.name}
+        </Heading>
+        <AuthorByline fontSize="xs">
+          By Media Developer Expert, Developer 🥑
+        </AuthorByline>
+        <Text maxWidth="80%">
+          <BlockContent blocks={author.bio} />
+        </Text>
       </Box>
     </Flex>
   );

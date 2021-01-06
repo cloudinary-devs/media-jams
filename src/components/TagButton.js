@@ -10,7 +10,7 @@ export default function TagButton({
 }) {
   return (
     <Button
-      size={['lg']}
+      size="lg"
       as={Tag}
       colorScheme="green"
       fontSize={16}

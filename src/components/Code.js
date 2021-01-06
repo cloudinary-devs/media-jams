@@ -35,11 +35,22 @@ const LineContent = styled.span`
 `;
 
 const ActionContent = styled.div`
+  @media (min-width: 48em) {
+    display: flex;
+    min-width: 75px;
+    flex-direction: column;
+    background-color: rgb(30, 30, 30);
+    align-self: stretch;
+  }
+  display: none;
+`;
+
+const ActionContentMobile = styled.div`
+  @media (min-width: 48em) {
+    display: none;
+  }
   display: flex;
-  min-width: 75px;
-  flex-direction: column;
-  background-color: rgb(30, 30, 30);
-  align-self: stretch;
+  flex-direction: row-reverse;
 `;
 
 /**
@@ -52,33 +63,42 @@ const ActionContent = styled.div`
 export default function Code({ children, className }) {
   const language = className?.replace(/language-/, '');
   return (
-    <HStack spacing="0" my={4} justify="center" align="center">
-      <Highlight
-        {...defaultProps}
-        theme={theme}
-        code={children.trim()}
-        language={language}
-      >
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <Pre className={className} style={style}>
-            {tokens.map((line, i) => (
-              <Line key={i} {...getLineProps({ line, key: i })}>
-                <LineNo>{i + 1}</LineNo>
-                <LineContent>
-                  {line.map((token, key) => (
-                    <span key={key} {...getTokenProps({ token, key })} />
-                  ))}
-                </LineContent>
-              </Line>
-            ))}
-          </Pre>
-        )}
-      </Highlight>
-      <ActionContent>
-        <Box>
+    <>
+      <HStack spacing="0" my={4} justify="center" align="center">
+        <Highlight
+          {...defaultProps}
+          theme={theme}
+          code={children.trim()}
+          language={language}
+        >
+          {({ className, style, tokens, getLineProps, getTokenProps }) => (
+            <Pre className={className} style={style}>
+              {tokens.map((line, i) => (
+                <Line key={i} {...getLineProps({ line, key: i })}>
+                  <LineNo>{i + 1}</LineNo>
+                  <LineContent>
+                    {line.map((token, key) => (
+                      <span key={key} {...getTokenProps({ token, key })} />
+                    ))}
+                  </LineContent>
+                </Line>
+              ))}
+            </Pre>
+          )}
+        </Highlight>
+        <ActionContent>
           <CopyButton float="right" mr="1" my="1" value={children.trim()} />
-        </Box>
-      </ActionContent>
-    </HStack>
+        </ActionContent>
+      </HStack>
+      <ActionContentMobile>
+        <CopyButton
+          size="md"
+          float="right"
+          mr="1"
+          my="1"
+          value={children.trim()}
+        />
+      </ActionContentMobile>
+    </>
   );
 }
