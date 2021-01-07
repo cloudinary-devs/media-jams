@@ -8,11 +8,15 @@ import styled from '@emotion/styled';
 const Pre = styled.pre`
   text-align: left;
   margin: 0em 0em 0em;
-  padding: 0.5em;
+  padding: 0em;
   overflow: scroll;
   white-space: pre;
   max-width: 80ch;
   min-width: 40ch;
+  @media (min-width: 48em) {
+    padding: 0.5em;
+    width: '100%';
+  }
 `;
 
 const Line = styled.div`
@@ -86,10 +90,12 @@ export default function Code({ children, className }) {
             </Pre>
           )}
         </Highlight>
+        {/* In code copy button md size and larger*/}
         <ActionContent>
           <CopyButton float="right" mr="1" my="1" value={children.trim()} />
         </ActionContent>
       </HStack>
+      {/* Below code copy button up to md size */}
       <ActionContentMobile>
         <CopyButton
           size="md"
