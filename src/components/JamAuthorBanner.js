@@ -9,13 +9,23 @@ import {
   Image,
   VStack,
   HStack,
+  IconButton,
 } from '@chakra-ui/react';
+import { PhoneIcon, AddIcon, WarningIcon } from '@chakra-ui/icons';
+import { FaFacebook, FaTwitter, FaGlobe } from 'react-icons/fa';
 import BlockContent from '@sanity/block-content-to-react';
 import { useImage } from 'use-cloudinary';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const AuthorByline = styled(Text)`
   text-indent: 5px;
+`;
+
+const AuthorBio = styled.span`
+  p {
+    margin: 10px auto;
+  }
 `;
 
 export default function JamAuthorBanner({ author }) {
@@ -43,41 +53,63 @@ export default function JamAuthorBanner({ author }) {
       my={8}
     >
       {isMobile ? (
-        <Box backgroundColor="grey.900">
-          <VStack alignItems="stretch">
-            <HStack spacing="0px" mt={6}>
-              <Box
-                my={4}
-                backgroundColor="yellow.400"
-                w={10}
-                alignSelf="stretch"
-              />
+        <Box
+          height="50%"
+          width="100%"
+          backgroundColor="grey.900"
+          position="relative"
+        >
+          <Box
+            height="20%"
+            width="100vw"
+            backgroundColor="yellow.400"
+            position="absolute"
+            top="20%"
+            left="calc(-50vw + 50%)"
+            transform="translateY(-50%)"
+          >
+            <HStack
+              display="inline-flex"
+              alignItems="center"
+              justifyContent="center"
+              height="100%"
+            >
               <Image
-                fit="contain"
-                width="120px"
+                w="130px"
+                ml="15px"
+                mt="-10px"
+                alignSelf="start"
+                objectFit="cover"
                 src={author.image}
                 alt={author.name}
               />
-              <VStack mx="0" alignSelf="stretch">
-                <Box my={4} backgroundColor="yellow.400" alignSelf="stretch">
-                  <Heading
-                    as="h1"
-                    fontSize="4xl"
-                    textStyle="headline-card"
-                    textColor="grey.900"
-                  >
-                    {author.name}
-                  </Heading>
-                  <AuthorByline fontSize="xs">
-                    By Media Developer Expert, Developer 🥑
-                  </AuthorByline>
-                </Box>
-              </VStack>
+              <Box color="grey.900" my={4} pl={4}>
+                <Heading mt={4} fontSize="4xl" textStyle="headline-accent">
+                  {author.name}
+                </Heading>
+                <AuthorByline fontSize="xs">
+                  By Media Developer Expert, Developer 🥑
+                </AuthorByline>
+                <HStack spacing="0" direction="row" position="absolute" pt={4}>
+                  <Button
+                    colorScheme="grey.900"
+                    leftIcon={<FaFacebook />}
+                  ></Button>
+                  <Button
+                    colorScheme="grey.900"
+                    leftIcon={<FaGlobe />}
+                  ></Button>
+                  <Button
+                    colorScheme="grey.900"
+                    leftIcon={<FaTwitter />}
+                  ></Button>
+                </HStack>
+              </Box>
             </HStack>
-            <Text maxWidth="90%" textColor="white">
+            <Box textColor="white" background="grey.900" px={4} pb={8}>
               <BlockContent blocks={author.bio} />
-            </Text>
-          </VStack>
+            </Box>
+          </Box>
         </Box>
       ) : (
         <Box
