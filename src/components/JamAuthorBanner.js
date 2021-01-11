@@ -11,21 +11,13 @@ import {
   HStack,
   IconButton,
 } from '@chakra-ui/react';
-import { PhoneIcon, AddIcon, WarningIcon } from '@chakra-ui/icons';
 import { FaFacebook, FaTwitter, FaGlobe } from 'react-icons/fa';
 import BlockContent from '@sanity/block-content-to-react';
 import { useImage } from 'use-cloudinary';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const AuthorByline = styled(Text)`
   text-indent: 5px;
-`;
-
-const AuthorBio = styled.span`
-  p {
-    margin: 10px auto;
-  }
 `;
 
 export default function JamAuthorBanner({ author }) {
@@ -60,11 +52,11 @@ export default function JamAuthorBanner({ author }) {
           position="relative"
         >
           <Box
-            height="20%"
+            height="40%"
             width="100vw"
             backgroundColor="yellow.400"
             position="absolute"
-            top="20%"
+            top="30%"
             left="calc(-50vw + 50%)"
             transform="translateY(-50%)"
           >
@@ -106,7 +98,7 @@ export default function JamAuthorBanner({ author }) {
                 </HStack>
               </Box>
             </HStack>
-            <Box textColor="white" background="grey.900" px={4} pb={8}>
+            <Box textColor="white" background="grey.900" px={4} pb={8} pt={4}>
               <BlockContent blocks={author.bio} />
             </Box>
           </Box>

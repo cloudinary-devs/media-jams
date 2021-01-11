@@ -15,7 +15,7 @@ import Layout from '@components/Layout';
 
 const components = { code: Code, iframe: CodeSandbox, img: JamImage };
 
-import JamDetailHero from '@components/JamDetailHero';
+import JamContentHero from '@components/JamContentHero';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
 
@@ -45,29 +45,11 @@ export default function Post({ post, preview }) {
 
   return (
     <Layout>
-      <JamDetailHero>
-        <VStack align="stretch" flex={1}>
-          <Box backgroundColor="yellow.400" height="100%" py={4}>
-            <Box
-              backgroundColor="blue.200"
-              ml="-10%"
-              width="110%"
-              display="block"
-              py={4}
-            >
-              <Box color="grey.900" my={4} pl={4}>
-                <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
-                  {post.title}
-                </Heading>
-                <AuthorByline fontSize="xs">
-                  By {post.author?.name}
-                </AuthorByline>
-                <Text maxWidth="80%">{post.description}</Text>
-              </Box>
-            </Box>
-          </Box>
-        </VStack>
-      </JamDetailHero>
+      <JamContentHero
+        author={author}
+        description={post.description}
+        title={post.title}
+      ></JamContentHero>
       <JamContent textStyle="jam-content">{content}</JamContent>
       <JamAuthorBanner author={author}></JamAuthorBanner>
       <EmailSubscription />
