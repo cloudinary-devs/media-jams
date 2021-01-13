@@ -17,7 +17,8 @@ import styled from '@emotion/styled';
 
 const Content = chakra('div', {
   baseStyle: {
-    width: ['90%', null, '55%'],
+    width: ['90%', null, null, '65%'],
+    maxW: ['3xl'],
     'h1, h2': {
       margin: '0px auto 20px',
       fontFamily: 'Bangers, cursive',
