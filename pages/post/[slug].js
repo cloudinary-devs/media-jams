@@ -16,6 +16,7 @@ import Layout from '@components/Layout';
 const components = { code: Code, iframe: CodeSandbox, img: JamImage };
 
 import JamContentHero from '@components/JamContentHero';
+import JamContent from '@components/JamContent';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
 
@@ -25,12 +26,6 @@ import styled from '@emotion/styled';
 const AuthorByline = styled(Text)`
   text-indent: 5px;
 `;
-
-/**
- * Can override any general styles set for textStyle="jam-content"
- * in the `styled(Box)` -->
- * */
-const JamContent = styled(Box)``;
 
 export default function Post({ post, preview }) {
   const router = useRouter();
@@ -50,7 +45,7 @@ export default function Post({ post, preview }) {
         description={post.description}
         title={post.title}
       ></JamContentHero>
-      <JamContent textStyle="jam-content">{content}</JamContent>
+      <JamContent>{content}</JamContent>
       <JamAuthorBanner author={author}></JamAuthorBanner>
       <EmailSubscription />
     </Layout>

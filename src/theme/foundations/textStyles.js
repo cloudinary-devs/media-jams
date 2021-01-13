@@ -16,7 +16,7 @@ export default {
   'headline-accent': {
     fontFamily: 'Bangers, cursive',
     fontWeight: 'bold',
-    lineHeight: 'tall',
+    lineHeight: ['normal', 'tall'],
     letterSpacing: 'normal',
     fontSize: ['3xl'],
   },
@@ -32,7 +32,7 @@ export default {
     letterSpacing: 'normal',
     fontSize: ['lg'],
   },
-  'jam-content': {
+  'jam-content-body': {
     'h1, h2': {
       margin: '0px auto 20px',
       fontFamily: 'Bangers, cursive',
