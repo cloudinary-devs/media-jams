@@ -46,17 +46,19 @@ export default function JamContentHero({
   return (
     <>
       {isMobile ? (
-        <Flex direction="column" justifyContent="center" alignItems="center">
-          <Box
-            backgroundImage={`url(${generateImageUrl(imgConfig)})`}
-            backgroundSize="cover"
-          >
-            <Box backgroundColor="blue.200" opacity="90%">
-              <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
-                {title}
-              </Heading>
-              <Text maxWidth="80%">{description}</Text>
-            </Box>
+        <Flex
+          h="md"
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          backgroundImage={`url(${generateImageUrl(imgConfig)})`}
+          backgroundSize="cover"
+        >
+          <Box backgroundColor="blue.200" opacity="90%">
+            <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
+              {title}
+            </Heading>
+            <Text maxWidth="80%">{description}</Text>
           </Box>
         </Flex>
       ) : (
