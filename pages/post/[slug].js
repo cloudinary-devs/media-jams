@@ -15,7 +15,8 @@ import Layout from '@components/Layout';
 
 const components = { code: Code, iframe: CodeSandbox, img: JamImage };
 
-import JamDetailHero from '@components/JamDetailHero';
+import JamContentHero from '@components/JamContentHero';
+import JamContent from '@components/JamContent';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
 
@@ -25,12 +26,6 @@ import styled from '@emotion/styled';
 const AuthorByline = styled(Text)`
   text-indent: 5px;
 `;
-
-/**
- * Can override any general styles set for textStyle="jam-content"
- * in the `styled(Box)` -->
- * */
-const JamContent = styled(Box)``;
 
 export default function Post({ post, preview }) {
   const router = useRouter();
@@ -45,53 +40,13 @@ export default function Post({ post, preview }) {
 
   return (
     <Layout>
-      <JamDetailHero>
-        <VStack align="stretch" flex={1}>
-          <Box backgroundColor="yellow.400" height="100%" py={4}>
-            <Box
-              backgroundColor="blue.200"
-              ml="-10%"
-              width="110%"
-              display="block"
-              py={4}
-            >
-              <Box color="grey.900" my={4} pl={4}>
-                <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
-                  {post.title}
-                </Heading>
-                <AuthorByline fontSize="xs">
-                  By {post.author?.name}
-                </AuthorByline>
-                <Text maxWidth="80%">{post.description}</Text>
-              </Box>
-            </Box>
-          </Box>
-        </VStack>
-      </JamDetailHero>
-      <JamContent textStyle="jam-content">{content}</JamContent>
-      <JamAuthorBanner>
-        <Box boxSize="sm" overflow="hidden">
-          <Image
-            fit="contain"
-            width="100%"
-            src={author.image}
-            alt={author.name}
-          />
-        </Box>
-        <Box backgroundColor="blue.200" py={4} maxWidth="50%">
-          <Box color="grey.900" my={4} pl={4}>
-            <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
-              {author.name}
-            </Heading>
-            <AuthorByline fontSize="xs">
-              By Media Developer Expert, Developer 🥑
-            </AuthorByline>
-            <Text maxWidth="80%">
-              <BlockContent blocks={author.bio} />
-            </Text>
-          </Box>
-        </Box>
-      </JamAuthorBanner>
+      <JamContentHero
+        author={author}
+        description={post.description}
+        title={post.title}
+      ></JamContentHero>
+      <JamContent>{content}</JamContent>
+      <JamAuthorBanner author={author}></JamAuthorBanner>
       <EmailSubscription />
     </Layout>
   );

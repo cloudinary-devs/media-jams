@@ -28,7 +28,7 @@ export default function FeaturedJams({ posts = [] }) {
         Featured Jams
       </Heading>
 
-      <Wrap w="80%" spacing="50px" mb={8}>
+      <Wrap w={['90%']} justify="center" spacing="2rem" mb={8}>
         {posts?.map((post) => (
           <WrapItem key={post._id}>
             <JamCard key={post.slug} post={post} />
