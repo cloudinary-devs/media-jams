@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 // This import is only needed when checking authentication status directly from getServerSideProps
 import auth0 from '@lib/auth0';
-import { Flex, Text, Box, Link, Icon } from '@chakra-ui/react';
+import { Flex, Text, Box, Link, Icon, Button, Stack } from '@chakra-ui/react';
 import { Link as NextLink } from 'next/link';
+import { AiOutlineLogout, AiOutlineSetting } from 'react-icons/ai';
 import Layout from '@components/Layout';
 import { useFetchUser } from '@lib/user';
 
@@ -18,13 +19,26 @@ function ProfileCard({ user, sanitySession }) {
         <p>nickname: {user.nickname}</p>
         <p>name: {user.name}</p>
       </div>
-      <Link href={sanitySession} isExternal>
-        Media Jams Studio <Icon name="external-link" mx="2px" />
-      </Link>
-      )
-      <Link as={NextLink} px={2} href="/api/auth/logout">
-        Logout
-      </Link>
+      <Stack direction="row" spacing={4}>
+        <Button
+          leftIcon={<AiOutlineSetting />}
+          colorScheme="pink"
+          variant="solid"
+        >
+          <Link href={sanitySession} isExternal>
+            Media Jams Studio
+          </Link>
+        </Button>
+        <Button
+          rightIcon={<AiOutlineLogout />}
+          colorScheme="blue"
+          variant="outline"
+        >
+          <Link as={NextLink} px={2} href="/api/auth/logout">
+            Logout
+          </Link>
+        </Button>
+      </Stack>
     </>
   );
 }
