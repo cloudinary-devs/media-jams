@@ -1,14 +1,17 @@
 import { Flex, Box } from '@chakra-ui/react';
-import Navbar from '@components/Navbar';
 import Footer from '@components/Footer';
 import SEO from '@components/SEO';
-export default function Layout({ props, children }) {
+import SideNav from '@components/SideNav';
+
+export default function Layout({ props, children, navContent }) {
   return (
-    <Flex direction="column" minH="calc(100vh)" minW="100%">
-      <SEO {...props} />
-      <Navbar />
-      <Box flex={1}>{children}</Box>
-      <Footer />
+    <Flex minH="calc(100vh)" w="100%">
+      <SideNav>{navContent}</SideNav>
+      <Flex direction="column">
+        <SEO {...props} />
+        <Box flex={1}>{children}</Box>
+        <Footer />
+      </Flex>
     </Flex>
   );
 }

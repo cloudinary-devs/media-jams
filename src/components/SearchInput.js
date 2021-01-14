@@ -19,7 +19,7 @@ export default function SearchInput({ searchValue, setSearchValue, ...rest }) {
   };
 
   return (
-    <InputGroup size="md" w="35rem" mt={10} {...rest}>
+    <InputGroup size="md" mt={10} {...rest}>
       <Input
         variant="outline"
         placeholder="Search by tag, title, or keyword..."
@@ -31,11 +31,11 @@ export default function SearchInput({ searchValue, setSearchValue, ...rest }) {
         _placeholder={{
           color: 'black',
           lineSpacing: '4px',
-          fontSize: 'md',
+          fontSize: 'sm',
         }}
       />
-      <InputRightElement w="10rem" pr=".3rem">
-        <Button w="100%" size="sm" borderRadius="3px" colorScheme="blue">
+      <InputRightElement w="6rem" pr="">
+        <Button size="sm" borderRadius="3px" colorScheme="blue">
           Search
         </Button>
       </InputRightElement>

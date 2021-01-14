@@ -4,8 +4,6 @@ import { useFetchUser, useUser } from '@lib/user';
 import { allPosts, allTags, allCategories } from 'lib/api';
 
 import JamCard from '@components/JamCard';
-import SearchInput from '@components/SearchInput';
-import TagFilterSidebar from '@components/TagFilterSidebar';
 import Layout from '@components/Layout';
 import { Flex, WrapItem, Wrap, Heading, Center } from '@chakra-ui/react';
 
@@ -72,34 +70,11 @@ export default function Post({ posts, tags, categories }) {
   };
 
   return (
-    <Layout>
-      <Flex
-        h="5rem"
-        backgroundColor="grey.900"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Heading as="h1" textStyle="headline-page" color="yellow.900" mb="5rem">
-          Let's Jam
-        </Heading>
-      </Flex>
+    <Layout navContent={<p>nav content</p>}>
       <Flex h="100%">
-        <TagFilterSidebar
-          tags={tags}
-          categories={categories}
-          addTag={addTag}
-          removeTag={removeTag}
-          selectedFilters={selectedFilters}
-          setSelectedFilters={setSelectedFilters}
-        />
         <Flex direction="column" w="100%" mt={5} mb={20}>
-          <SearchInput
-            searchvalue={searchValue}
-            setSearchValue={setSearchValue}
-            alignSelf="center"
-          />
           <Center>
-            <Wrap width="90%" spacing="2rem" mt="30px">
+            <Wrap spacing="2rem" mt={30}>
               {filteredPosts.map((post) => (
                 <WrapItem key={post._id}>
                   <JamCard post={post} />
