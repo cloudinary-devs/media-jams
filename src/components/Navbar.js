@@ -55,6 +55,9 @@ export default function Navbar() {
         <NavLink ml={4} href="/post">
           Jams
         </NavLink>
+        <NavLink ml={4} href="/feedback">
+          Feedback
+        </NavLink>
         {user ? (
           <NavLink ml={4} href="/profile">
             Profile
