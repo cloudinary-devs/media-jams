@@ -7,7 +7,7 @@ import JamCard from '@components/JamCard';
 import SearchInput from '@components/SearchInput';
 import TagFilterSidebar from '@components/TagFilterSidebar';
 import Layout from '@components/Layout';
-import { Flex, WrapItem, Wrap, Heading } from '@chakra-ui/react';
+import { Flex, WrapItem, Wrap, Heading, Center } from '@chakra-ui/react';
 
 import Fuse from 'fuse.js';
 
@@ -27,11 +27,14 @@ export default function Post({ posts, tags, categories }) {
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const router = useRouter();
+  console.log(router.query.tags);
 
   const { user, loading } = useUser();
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
-    setSelectedFilters(router.query.tags?.title.split(',') || []);
+    const queryTags = router.query.tags?.split(',') || [];
+    queryTags.map(() => {});
+    setSelectedFilters(router.query.tags?.split(',') || []);
   }, [router.query]);
 
   // handle updating the filteredPosts with different search criteria
@@ -83,7 +86,7 @@ export default function Post({ posts, tags, categories }) {
           Let's Jam
         </Heading>
       </Flex>
-      <Flex w="100vw" h="100%">
+      <Flex h="100%">
         <TagFilterSidebar
           tags={tags}
           categories={categories}
@@ -92,20 +95,21 @@ export default function Post({ posts, tags, categories }) {
           selectedFilters={selectedFilters}
           setSelectedFilters={setSelectedFilters}
         />
-        <Flex w="100%" direction="column" mt={5}>
+        <Flex direction="column" w="100%" mt={5} mb={20}>
           <SearchInput
             searchvalue={searchValue}
             setSearchValue={setSearchValue}
             alignSelf="center"
           />
-
-          <Wrap w="100%" spacing="5.5rem" justify="center" my={8}>
-            {filteredPosts.map((post) => (
-              <WrapItem key={post._id}>
-                <JamCard post={post} />
-              </WrapItem>
-            ))}
-          </Wrap>
+          <Center>
+            <Wrap width="90%" spacing="2rem" mt="30px">
+              {filteredPosts.map((post) => (
+                <WrapItem key={post._id}>
+                  <JamCard post={post} />
+                </WrapItem>
+              ))}
+            </Wrap>
+          </Center>
         </Flex>
       </Flex>
     </Layout>

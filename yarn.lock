@@ -12714,10 +12714,10 @@ use-cloudinary@^3.1.7:
     react-intersection-observer "^8.26.2"
     react-query "^2.0.0"
 
-use-cloudinary@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/use-cloudinary/-/use-cloudinary-4.0.2.tgz#77502ccb747fa448704696481a9e75197b448f17"
-  integrity sha512-YUN3iWx/VV519+++ETUyyJqWqDi0yzgRqlYMCBQ8vPIcbdEweyNJ0rfz7JDLw9KPGxpue4DlBiFkPFnz/YGJlQ==
+use-cloudinary@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/use-cloudinary/-/use-cloudinary-4.1.0.tgz#afe2db21783ef8903a5194cadc65ad1f4f9168c0"
+  integrity sha512-8qhq7Ud1/aaADp+Aa/YIxIzFoK9q4O4AoPazoBsw8C81r5gZfijdpNndzxxNYQM0f0skLvrbbJi1WlKOyn/BLQ==
   dependencies:
     "@charlietango/use-native-lazy-loading" "^1.7.1"
     react-intersection-observer "^8.26.2"

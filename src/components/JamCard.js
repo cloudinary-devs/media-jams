@@ -12,6 +12,9 @@ import {
   TagLabel,
   Text,
   VStack,
+  Wrap,
+  WrapItem,
+  TagLeftIcon,
 } from '@chakra-ui/react';
 
 import { FaTag } from 'react-icons/fa';
@@ -19,7 +22,7 @@ import { motion } from 'framer-motion';
 
 function AnimatedLink({ children, ...rest }) {
   return (
-    <Link as={motion.a} {...rest}>
+    <Link minH="400px" as={motion.a} {...rest}>
       {children}
     </Link>
   );
@@ -37,9 +40,9 @@ export default function Card({ post }) {
       href={`/post/${post.slug}`}
       boxShadow="0px 9px 38px 0px rgba(0,0,0,0.75)"
       backgroundColor="white"
-      w={['700px', '500px', '400px']}
-      h="200px"
+      w={['320px', '300px']}
       borderRadius="8px"
+      justifyContent="space-between"
     >
       <HStack p={4} mt={0}>
         <VStack>
@@ -64,21 +67,33 @@ export default function Card({ post }) {
         }}
         backgroundColor="green.400"
         borderBottomRadius="8px"
+        height="280px"
       >
-        <VStack flexGrow={1}>
-          <Container centerContent maxWidth="80ch">
-            <Box fontSize="10px" maxW="xl" alignItems="center" color="white">
-              {post.description}
+        <VStack justifyContent="space-between" flexGrow={1}>
+          <Flex
+            as={Container}
+            direction="column"
+            centerContent
+            maxWidth="80ch"
+            justifyContent="space-between"
+            h="100%"
+          >
+            <Box maxW="lg" alignItems="center" color="white">
+              <Text fontWeight="bold" mt={10} noOfLines={5} fontSize="14px">
+                {post.description}
+              </Text>
             </Box>
-          </Container>
-          <HStack pb={4} spacing={4}>
-            {post.tags.map((t) => (
-              <Tag key={t} size="md" colorScheme="green">
-                <FaTag />
-                <TagLabel pl={2}>{t}</TagLabel>
-              </Tag>
-            ))}
-          </HStack>
+            <Wrap alignSelf="flex-start" mb={5}>
+              {post.tags.map((tag) => (
+                <WrapItem>
+                  <Tag colorScheme="green">
+                    <TagLeftIcon as={FaTag} />
+                    <TagLabel>{tag}</TagLabel>
+                  </Tag>
+                </WrapItem>
+              ))}
+            </Wrap>
+          </Flex>
         </VStack>
       </Flex>
     </Stack>

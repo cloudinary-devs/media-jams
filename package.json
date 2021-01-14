@@ -61,7 +61,7 @@
     "react-live": "^2.2.2",
     "remark-mdx-remove-exports": "^1.6.19",
     "remark-mdx-remove-imports": "^1.6.19",
-    "use-cloudinary": "^4.0.2"
+    "use-cloudinary": "^4.1.0"
   },
   "devDependencies": {
     "@babel/helper-validator-option": "^7.12.1",
