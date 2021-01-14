@@ -1,17 +1,8 @@
 import React from 'react';
-import {
-  Text,
-  Heading,
-  VStack,
-  Box,
-  Image,
-  chakra,
-  flexbox,
-} from '@chakra-ui/react';
-import styled from '@emotion/styled';
+import { VStack, chakra } from '@chakra-ui/react';
 
 /**
- * Can override any general styles set for textStyle="jam-content"
+ * Can override any general styles set for jam content"
  * in the `styled(Box)` -->
  * */
 
