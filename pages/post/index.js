@@ -5,7 +5,7 @@ import { allPosts, allTags, allCategories } from 'lib/api';
 
 import JamCard from '@components/JamCard';
 import Layout from '@components/Layout';
-import { Flex, WrapItem, Wrap, Heading, Center } from '@chakra-ui/react';
+import { Grid, Flex, WrapItem, Wrap, Heading, Center } from '@chakra-ui/react';
 
 import Fuse from 'fuse.js';
 
@@ -25,7 +25,6 @@ export default function Post({ posts, tags, categories }) {
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const router = useRouter();
-
   const { user, loading } = useUser();
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
@@ -71,19 +70,17 @@ export default function Post({ posts, tags, categories }) {
 
   return (
     <Layout navContent={<p>nav content</p>}>
-      <Flex h="100%">
-        <Flex direction="column" w="100%" mt={5} mb={20}>
-          <Center>
-            <Wrap spacing="2rem" mt={30}>
-              {filteredPosts.map((post) => (
-                <WrapItem key={post._id}>
-                  <JamCard post={post} />
-                </WrapItem>
-              ))}
-            </Wrap>
-          </Center>
-        </Flex>
-      </Flex>
+      <Grid
+        templateColumns={{
+          base: '1fr',
+          xl: 'repeat(3, 1fr)',
+        }}
+        gap={6}
+      >
+        {filteredPosts.map((post) => (
+          <JamCard key={post._id} post={post} />
+        ))}
+      </Grid>
     </Layout>
   );
 }

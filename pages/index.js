@@ -13,14 +13,16 @@ import {
   HStack,
   Box,
 } from '@chakra-ui/react';
-import Layout from '@components/Layout';
 import TabbedTagSelection from '@components/TabbedTagSelection';
 import Hero from '@components/Hero';
 import FeaturedJams from '@components/FeaturedJams';
 import ElementIcon from '@components/ElementIcon';
 import EmailSubscription from '@components/EmailSubscription';
+import Footer from '@components/Footer';
+import SEO from '@components/SEO';
+import Navbar from '@components/Navbar';
 
-export default function Index({ posts, categories, assets }) {
+export default function Index({ props, posts, categories, assets }) {
   const [searchTags, setSearchTags] = React.useState([]);
   const router = useRouter();
 
@@ -43,73 +45,80 @@ export default function Index({ posts, categories, assets }) {
     return setSearchTags((prev) => prev.filter((pt) => pt !== tag));
   }
   return (
-    <Layout>
-      <Hero heroImg={assets ? assets[0] : null} />
-
-      <VStack w="100%" mt={20} mb={40}>
-        <Center maxW="5xl" textAlign="center">
-          <Heading
-            fontSize="2.5rem"
-            mt="15rem"
-            as="h1"
-            textStyle="headline-intersitial"
-            lineHeight="sm"
-          >
-            Media Jams connect you with live code and experts to help solve
-            media problems in popular tech stacks and use cases
-          </Heading>
-        </Center>
-        <Flex w="100%">
-          <HStack justifyContent="space-around" flexGrow="2">
-            <VStack w="70%" alignItems="stretch" spacing={20}>
-              <ElementIcon phrase="speed" ml={20} />
-              <ElementIcon
-                phrase="flexibility"
-                alignItems="right"
-                alignSelf="center"
-              />
-              <ElementIcon phrase="power" alignSelf="flex-end" />
-            </VStack>
-          </HStack>
-
-          <VStack flexGrow="2">
-            <Box ml={50} alignSelf="flex-start" maxW="xl">
-              <Heading mt={16} as="h1" textStyle="headline">
-                Why Media Matters
-              </Heading>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et
-              ornare quam, ut scelerisque eros. Nunc urna lacus, pharetra in
-              nulla ac, suscipit malesuada augue. Maecenas ac ultrices enim.{' '}
-            </Box>
-            <Flex direction="column" pt={50}>
-              <TabbedTagSelection
-                tabs={categories}
-                addTag={addTag}
-                removeTag={removeTag}
-                searchTags={searchTags}
-              />
-              <Button
-                as={Link}
-                mt={10}
-                size="lg"
-                p={5}
-                colorScheme="blue"
-                onClick={() => addTagsToRoute(searchTags)}
-                _hover={{ textDecoration: 'none' }}
-                w={64}
-                alignSelf="center"
+    <Flex direction="column" minH="calc(100vh)" w="100%">
+      <Navbar />
+      <Flex direction="column">
+        <SEO {...props} />
+        <Box flex={1}>
+          <Hero heroImg={assets ? assets[0] : null} />
+          <VStack w="100%" mt={20} mb={40}>
+            <Center maxW="5xl" textAlign="center">
+              <Heading
+                fontSize="2.5rem"
+                mt="15rem"
+                as="h1"
+                textStyle="headline-intersitial"
+                lineHeight="sm"
               >
-                Search
-              </Button>
+                Media Jams connect you with live code and experts to help solve
+                media problems in popular tech stacks and use cases
+              </Heading>
+            </Center>
+            <Flex w="100%">
+              <HStack justifyContent="space-around" flexGrow="2">
+                <VStack w="70%" alignItems="stretch" spacing={20}>
+                  <ElementIcon phrase="speed" ml={20} />
+                  <ElementIcon
+                    phrase="flexibility"
+                    alignItems="right"
+                    alignSelf="center"
+                  />
+                  <ElementIcon phrase="power" alignSelf="flex-end" />
+                </VStack>
+              </HStack>
+
+              <VStack flexGrow="2">
+                <Box ml={50} alignSelf="flex-start" maxW="xl">
+                  <Heading mt={16} as="h1" textStyle="headline">
+                    Why Media Matters
+                  </Heading>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
+                  et ornare quam, ut scelerisque eros. Nunc urna lacus, pharetra
+                  in nulla ac, suscipit malesuada augue. Maecenas ac ultrices
+                  enim.{' '}
+                </Box>
+                <Flex direction="column" pt={50}>
+                  <TabbedTagSelection
+                    tabs={categories}
+                    addTag={addTag}
+                    removeTag={removeTag}
+                    searchTags={searchTags}
+                  />
+                  <Button
+                    as={Link}
+                    mt={10}
+                    size="lg"
+                    p={5}
+                    colorScheme="blue"
+                    onClick={() => addTagsToRoute(searchTags)}
+                    _hover={{ textDecoration: 'none' }}
+                    w={64}
+                    alignSelf="center"
+                  >
+                    Search
+                  </Button>
+                </Flex>
+              </VStack>
             </Flex>
           </VStack>
-        </Flex>
-      </VStack>
 
-      <FeaturedJams posts={posts} />
+          <FeaturedJams posts={posts} />
 
-      <EmailSubscription />
-    </Layout>
+          <EmailSubscription />
+        </Box>
+        <Footer />
+      </Flex>
+    </Flex>
   );
 }
 
