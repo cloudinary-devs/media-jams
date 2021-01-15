@@ -6,7 +6,11 @@ import { DefaultSeo } from 'next-seo';
 import { UserProvider, useUser } from '@lib/user';
 import { useImage } from 'use-cloudinary';
 
-const App = ({ Component, pageProps }) => {
+import { initSentry } from '@lib/sentry';
+//initialize Sentry
+initSentry();
+
+const App = ({ Component, pageProps, err }) => {
   const { user, loading } = useUser();
   const { generateImageUrl } = useImage('mediadevs');
 
@@ -34,7 +38,7 @@ const App = ({ Component, pageProps }) => {
               siteName: 'MediaJams',
             }}
           />
-          <Component {...pageProps} />
+          <Component {...pageProps} err={err} />
         </UserProvider>
       </ChakraProvider>
     </MixPanelProvider>

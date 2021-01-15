@@ -1,4 +1,7 @@
 import auth0 from '@lib/auth0';
+import { initSentry } from '@lib/sentry';
+//initialize Sentry
+initSentry();
 
 /**
  * TODO: if there is no origin url on the loging request,
