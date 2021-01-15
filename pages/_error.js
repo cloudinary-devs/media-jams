@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/node';
  * https://github.com/vercel/next.js/blob/canary/examples/with-sentry/pages/_error.js
  *
  * */
-const Error = ({ statusCode, hasGetInitialPropsRun, err }) => {
+const InternalError = ({ statusCode, hasGetInitialPropsRun, err }) => {
   if (!hasGetInitialPropsRun && err) {
     // getInitialProps is not called in case of
     // https://github.com/vercel/next.js/issues/8592. As a workaround, we pass
@@ -18,7 +18,7 @@ const Error = ({ statusCode, hasGetInitialPropsRun, err }) => {
   return <NextErrorComponent statusCode={statusCode} />;
 };
 
-Error.getInitialProps = async ({ res, err, asPath }) => {
+InternalError.getInitialProps = async ({ res, err, asPath }) => {
   const errorInitialProps = await NextErrorComponent.getInitialProps({
     res,
     err,
@@ -62,4 +62,4 @@ Error.getInitialProps = async ({ res, err, asPath }) => {
   return errorInitialProps;
 };
 
-export default Error;
+export default InternalError;
