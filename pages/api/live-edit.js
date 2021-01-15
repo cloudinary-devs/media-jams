@@ -1,4 +1,7 @@
 import { postBySlug } from '../../lib/api';
+import { initSentry } from '@lib/sentry';
+//initialize Sentry
+initSentry();
 
 export default async (req, res) => {
   // Check the secret and next parameters

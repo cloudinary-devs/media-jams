@@ -1,5 +1,8 @@
 import fetch from 'isomorphic-unfetch';
 import auth0 from '@lib/auth0';
+import { initSentry } from '@lib/sentry';
+//initialize Sentry
+initSentry();
 
 const studioURL = 'https://5ad74sb4.api.sanity.io/v1/auth/thirdParty/session';
 const role = {
