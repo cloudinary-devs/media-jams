@@ -5,7 +5,14 @@ import { allPosts, allTags, allCategories } from 'lib/api';
 
 import JamCard from '@components/JamCard';
 import Layout from '@components/Layout';
-import { Grid, Flex, WrapItem, Wrap, Heading, Center } from '@chakra-ui/react';
+import {
+  Center,
+  Grid,
+  IconButton,
+  useDisclosure,
+  useBreakpointValue,
+} from '@chakra-ui/react';
+import { FaBars } from 'react-icons/fa';
 
 import Fuse from 'fuse.js';
 
@@ -23,9 +30,11 @@ const fuseOptions = {
 export default function Post({ posts, tags, categories }) {
   const [filteredPosts, setFilteredPosts] = React.useState(posts);
   const [selectedFilters, setSelectedFilters] = React.useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchValue, setSearchValue] = React.useState('');
   const router = useRouter();
   const { user, loading } = useUser();
+
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
     setSelectedFilters(router.query.tags?.title.split(',') || []);
@@ -54,6 +63,11 @@ export default function Post({ posts, tags, categories }) {
     }
   }, [searchValue, selectedFilters]);
 
+  const isMobile = useBreakpointValue({
+    base: true,
+    md: false,
+  });
+
   const fuse = new Fuse(posts, fuseOptions);
 
   function addTag(tag) {
@@ -69,18 +83,36 @@ export default function Post({ posts, tags, categories }) {
   };
 
   return (
-    <Layout navContent={<p>nav content</p>}>
-      <Grid
-        templateColumns={{
-          base: '1fr',
-          xl: 'repeat(3, 1fr)',
-        }}
-        gap={6}
-      >
-        {filteredPosts.map((post) => (
-          <JamCard key={post._id} post={post} />
-        ))}
-      </Grid>
+    <Layout navContent={<p>nav content</p>} isOpen={isOpen} onClose={onClose}>
+      <Center w="100%" flexDirection="column">
+        {isMobile ? (
+          <IconButton
+            bg="none"
+            outline="none"
+            onClick={onOpen}
+            size="md"
+            icon={<FaBars />}
+            alignSelf="flex-start"
+          >
+            Menu
+          </IconButton>
+        ) : null}
+        <Grid
+          mt={20}
+          mb={20}
+          templateColumns={{
+            base: '1fr',
+            md: 'repeat(2, 1fr)',
+            lg: 'repeat(3, 1fr)',
+            xl: 'repeat(4, 1fr)',
+          }}
+          gap={20}
+        >
+          {filteredPosts.map((post) => (
+            <JamCard key={post._id} post={post} />
+          ))}
+        </Grid>
+      </Center>
     </Layout>
   );
 }
