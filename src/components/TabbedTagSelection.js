@@ -27,6 +27,7 @@ export default function TabbedTagSelection({
   return (
     <Tabs
       border="2px solid black"
+      alignSelf="center"
       borderRadius="6px"
       boxShadow={isMobile ? null : '0px 9px 38px 0px rgba(0,0,0,0.75)'}
       maxW={'42rem'}
