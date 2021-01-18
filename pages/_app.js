@@ -24,7 +24,7 @@ const App = ({ Component, pageProps }) => {
         <UserProvider value={{ user, loading }}>
           <DefaultSeo
             title="MediaJams"
-            description="The best spot on the web to learn how to take advantage of media the right way."
+            description="A developers' premier resource for using media in web and mobile apps"
             url="www.mediajams.dev"
             ogImage={{
               url: 'www.mediajams.dev',
