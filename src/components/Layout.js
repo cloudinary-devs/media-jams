@@ -11,13 +11,13 @@ export default function Layout({
   onClose,
 }) {
   return (
-    <Flex minH="100vh" minW="100%">
+    <Flex minW="100%">
+      <SEO {...props} />
       <SideNav isOpen={isOpen} onClose={onClose}>
         {navContent}
       </SideNav>
-      <Flex w="100%" direction="column" justifyContent="space-between">
-        <SEO {...props} />
-        <Center>{children}</Center>
+      <Flex flex="1" direction="column" justifyContent="space-between">
+        {children}
         <Footer />
       </Flex>
     </Flex>

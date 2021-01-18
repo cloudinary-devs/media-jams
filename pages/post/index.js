@@ -4,6 +4,7 @@ import { useFetchUser, useUser } from '@lib/user';
 import { allPosts, allTags, allCategories } from 'lib/api';
 
 import JamCard from '@components/JamCard';
+import SearchInput from '@components/SearchInput';
 import Layout from '@components/Layout';
 import {
   Center,
@@ -63,9 +64,11 @@ export default function Post({ posts, tags, categories }) {
     }
   }, [searchValue, selectedFilters]);
 
-  const isMobile = useBreakpointValue({
+  const isTabletOrMobile = useBreakpointValue({
     base: true,
-    md: false,
+    md: true,
+    lg: true,
+    xl: false,
   });
 
   const fuse = new Fuse(posts, fuseOptions);
@@ -83,9 +86,21 @@ export default function Post({ posts, tags, categories }) {
   };
 
   return (
-    <Layout navContent={<p>nav content</p>} isOpen={isOpen} onClose={onClose}>
-      <Center w="100%" flexDirection="column">
-        {isMobile ? (
+    <Layout
+      navContent={
+        <SearchInput
+          searchvalue={searchValue}
+          setSearchValue={setSearchValue}
+          alignSelf="center"
+          w="95%"
+          mb={5}
+        />
+      }
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <Center flex="1" flexDirection="column">
+        {isTabletOrMobile ? (
           <IconButton
             bg="none"
             outline="none"
@@ -104,9 +119,9 @@ export default function Post({ posts, tags, categories }) {
             base: '1fr',
             md: 'repeat(2, 1fr)',
             lg: 'repeat(3, 1fr)',
-            xl: 'repeat(4, 1fr)',
           }}
           gap={20}
+          overflow="auto"
         >
           {filteredPosts.map((post) => (
             <JamCard key={post._id} post={post} />

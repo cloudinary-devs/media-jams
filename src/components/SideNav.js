@@ -2,14 +2,20 @@ import React from 'react';
 import {
   HStack,
   Button,
+  Center,
   Flex,
   Image,
+  Link,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Avatar,
   Text,
   Drawer,
   DrawerOverlay,
   DrawerContent,
   useBreakpointValue,
-  Link,
 } from '@chakra-ui/react';
 
 import { Link as NextLink } from 'next/link';
@@ -88,11 +94,11 @@ export function NavLink({ children, isButton, ...props }) {
 }
 
 export default function SideNav({ children, isOpen, onOpen, onClose }) {
-  const [searchValue, setSearchValue] = React.useState('');
-
-  const isMobile = useBreakpointValue({
+  const isTabletOrMobile = useBreakpointValue({
     base: true,
-    md: false,
+    md: true,
+    lg: true,
+    xl: false,
   });
 
   const { generateImageUrl } = useImage('mediadevs');
@@ -108,16 +114,15 @@ export default function SideNav({ children, isOpen, onOpen, onClose }) {
 
   return (
     <>
-      {isMobile ? (
+      {isTabletOrMobile ? (
         <SideNavDrawer isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
           {children}
         </SideNavDrawer>
       ) : (
         <Flex
-          w={400}
+          w={{ base: '30%', md: '25%' }}
           direction="column"
-          border="2px solid black"
-          borderTopRightRadius="5px"
+          borderRight="1px solid black"
         >
           <Flex
             w="100%"
@@ -144,13 +149,31 @@ export default function SideNav({ children, isOpen, onOpen, onClose }) {
                 </Text>
               </HStack>
             </Flex>
-            <SearchInput
-              searchvalue={searchValue}
-              setSearchValue={setSearchValue}
-              alignSelf="center"
-              w="95%"
-              mb={5}
-            />
+            <Center>
+              <Flex
+                border="1px solid black"
+                borderRadius="4px"
+                justifyContent="space-between"
+                h="60px"
+                p="20px"
+                mb={5}
+                w={280}
+                alignItems="center"
+              >
+                <Avatar />
+                <Menu>
+                  <MenuButton as={Button} colorScheme="blue" w="125px">
+                    Menu
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem>Account</MenuItem>
+                    <MenuItem>Profile</MenuItem>
+                    <MenuItem>Bookmarks</MenuItem>
+                    <MenuItem>Jams</MenuItem>
+                  </MenuList>
+                </Menu>
+              </Flex>
+            </Center>
           </Flex>
           {children}
         </Flex>
