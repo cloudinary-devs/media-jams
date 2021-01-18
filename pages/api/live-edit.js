@@ -1,6 +1,9 @@
 import { postBySlug } from '../../lib/api';
+import { initSentry, sentryHandler } from '@lib/sentry';
+//initialize Sentry
+initSentry();
 
-export default async (req, res) => {
+export default sentryHandler(async (req, res) => {
   // Check the secret and next parameters
   // This secret should only be known to this API route and the CMS
   if (
@@ -26,4 +29,4 @@ export default async (req, res) => {
     Location: `/post/liveEdit/${post.slug}/${post._id}`,
   });
   res.end();
-};
+});

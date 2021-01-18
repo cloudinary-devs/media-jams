@@ -1,4 +1,7 @@
 import auth0 from '@lib/auth0';
+import { initSentry, sentryHandler } from '@lib/sentry';
+//initialize Sentry
+initSentry();
 
 /**
  * TODO: if there is no origin url on the loging request,
@@ -7,11 +10,11 @@ import auth0 from '@lib/auth0';
  * @param {Object} req incoming request
  * @param {Object} res outbound response
  */
-export default async function login(req, res) {
+export default sentryHandler(async function login(req, res) {
   try {
     await auth0.handleLogin(req, res);
   } catch (error) {
     console.error(error);
     res.status(error.status || 400).end(error.message);
   }
-}
+});

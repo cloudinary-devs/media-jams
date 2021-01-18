@@ -1,5 +1,8 @@
 import fetch from 'isomorphic-unfetch';
 import auth0 from '@lib/auth0';
+import { initSentry, sentryHandler } from '@lib/sentry';
+//initialize Sentry
+initSentry();
 
 const studioURL = 'https://5ad74sb4.api.sanity.io/v1/auth/thirdParty/session';
 const role = {
@@ -22,7 +25,7 @@ const sessionQuery = (data) => ({
   body: JSON.stringify(data),
 });
 
-const studioAuth = async (req, res) => {
+const studioAuth = sentryHandler(async (req, res) => {
   try {
     const { user } = await auth0.getSession(req);
     const studioSession = await generateSanitySession(user);
@@ -30,7 +33,7 @@ const studioAuth = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false });
   }
-};
+});
 
 export const generateSanitySession = async (user) => {
   const assignedRoles = user['https://mediajams-studio/roles'];
