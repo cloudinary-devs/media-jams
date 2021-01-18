@@ -1,9 +1,9 @@
 import { postBySlug } from '../../lib/api';
-import { initSentry } from '@lib/sentry';
+import { initSentry, sentryHandler } from '@lib/sentry';
 //initialize Sentry
 initSentry();
 
-export default async (req, res) => {
+export default sentryHandler(async (req, res) => {
   // Check the secret and next parameters
   // This secret should only be known to this API route and the CMS
   if (
@@ -27,4 +27,4 @@ export default async (req, res) => {
   // Redirect to the path from the fetched post
   res.writeHead(307, { Location: `/post/${post.slug}` });
   res.end();
-};
+});

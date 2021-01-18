@@ -1,10 +1,10 @@
 import auth0 from '../../../lib/auth0';
 import addQueryToUrl from '../../../lib/addQueryToUrl';
-import { initSentry } from '@lib/sentry';
+import { initSentry, sentryHandler } from '@lib/sentry';
 //initialize Sentry
 initSentry();
 
-export default async function callback(req, res) {
+export default sentryHandler(async function callback(req, res) {
   try {
     await auth0.handleCallback(req, res);
     return;
@@ -12,4 +12,4 @@ export default async function callback(req, res) {
     console.error(error);
     res.status(error.status || 400).end(error.message);
   }
-}
+});
