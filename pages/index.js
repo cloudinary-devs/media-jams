@@ -50,7 +50,7 @@ export default function Index({ posts, categories, assets }) {
         <Center maxW="5xl" textAlign="center">
           <Heading
             fontSize="2.5rem"
-            mt="15rem"
+            mt={['0rem', '15rem']}
             as="h1"
             textStyle="headline-intersitial"
             lineHeight="sm"
