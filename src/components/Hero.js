@@ -25,22 +25,15 @@ export default function Hero({ heroImg }) {
       alignItems="center"
     >
       <Heading
-        fontSize="6.5rem"
+        fontSize={['6xl', '8xl']}
         mt={16}
         as="h1"
         textStyle="headline-page"
         color="yellow.900"
       >
-        Putting Media to Work
+        Putting Media to Work Is Hard
       </Heading>
-      <Heading
-        fontSize="6.5rem"
-        as="h1"
-        textStyle="headline-page"
-        color="yellow.900"
-      >
-        IS HARD
-      </Heading>
+
       <Box
         pt="2rem"
         flex={{ sm: 1, base: 0 }}
