@@ -27,8 +27,8 @@ const App = ({ Component, pageProps, err }) => {
       <ChakraProvider resetCSS theme={theme}>
         <UserProvider value={{ user, loading }}>
           <DefaultSeo
-            title="MediaJams"
-            description="A developers' premier resource for using media in web and mobile apps"
+            title="Front End Developer Companion to Rich Media"
+            description="Media Jams offer numerous useful examples through which developers can sharpen their expertise in leveraging media for apps and tech stacks"
             url="www.mediajams.dev"
             ogImage={{
               url: 'www.mediajams.dev',
