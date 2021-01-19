@@ -1122,6 +1122,14 @@
     postcss-value-parser "^3.3.0"
     source-list-map "^2.0.0"
 
+"@sanity/dashboard@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.npmjs.org/@sanity/dashboard/-/dashboard-2.1.4.tgz#1e9ecd34161c78c399c5df38627cf5be35555866"
+  dependencies:
+    "@sanity/image-url" "^0.140.19"
+    lodash "^4.17.15"
+    rxjs "^6.5.3"
+
 "@sanity/data-aspects@2.1.4":
   version "2.1.4"
   resolved "https://registry.npmjs.org/@sanity/data-aspects/-/data-aspects-2.1.4.tgz#3235782fdf4637f356266cb8142c87209829917e"
@@ -7286,9 +7294,10 @@ react-refractor@^2.1.2:
     unist-util-filter "^2.0.2"
     unist-util-visit-parents "^3.0.2"
 
-react-select@^3.1.0:
+react-select@^3.2.0:
   version "3.2.0"
-  resolved "https://registry.npmjs.org/react-select/-/react-select-3.2.0.tgz#de9284700196f5f9b5277c5d850a9ce85f5c72fe"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-3.2.0.tgz#de9284700196f5f9b5277c5d850a9ce85f5c72fe"
+  integrity sha512-B/q3TnCZXEKItO0fFN/I0tWOX3WJvi/X2wtdffmwSQVRwg5BpValScTO1vdic9AxlUgmeSzib2hAZAwIUQUZGQ==
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@emotion/cache" "^10.0.9"
