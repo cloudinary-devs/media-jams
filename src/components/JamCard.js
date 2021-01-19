@@ -40,7 +40,7 @@ export default function Card({ post }) {
       href={`/post/${post.slug}`}
       boxShadow="0px 9px 38px 0px rgba(0,0,0,0.75)"
       backgroundColor="white"
-      w={['400px', '275px']}
+      w={['300px', '275px']}
       borderRadius="8px"
       justifyContent="space-between"
     >

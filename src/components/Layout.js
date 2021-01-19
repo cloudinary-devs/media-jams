@@ -18,7 +18,6 @@ export default function Layout({
       </SideNav>
       <Flex flex="1" direction="column" justifyContent="space-between">
         {children}
-        <Footer />
       </Flex>
     </Flex>
   );

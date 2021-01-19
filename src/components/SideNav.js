@@ -43,13 +43,17 @@ function SideNavDrawer({ children, isOpen, onClose }) {
           <Flex
             w="100%"
             direction="column"
-            height={200}
+            height={100}
             borderBottom="2px solid black"
             background="grey.900"
             justifyContent="space-between"
           >
-            <Flex justifyContent="space-between">
-              <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
+            <Flex justifyContent="space-between" mt={2}>
+              <Image
+                alt="MediaJams logo"
+                ml={2}
+                src={generateImageUrl(logoConfig)}
+              />
               <HStack spacing="2">
                 <Button colorScheme="blue">Log In</Button>
                 <Text mr={5} color="blue.400" as="u">
@@ -57,13 +61,6 @@ function SideNavDrawer({ children, isOpen, onClose }) {
                 </Text>
               </HStack>
             </Flex>
-            <SearchInput
-              searchvalue={searchValue}
-              setSearchValue={setSearchValue}
-              alignSelf="center"
-              w="95%"
-              mb={5}
-            />
           </Flex>
           {children}
         </DrawerContent>
@@ -120,19 +117,19 @@ export default function SideNav({ children, isOpen, onOpen, onClose }) {
         </SideNavDrawer>
       ) : (
         <Flex
-          w={{ base: '30%', md: '25%' }}
+          w={['25%', '20%']}
           direction="column"
           borderRight="1px solid black"
         >
           <Flex
             w="100%"
             direction="column"
-            height={200}
+            height={100}
             borderBottom="2px solid black"
             background="grey.900"
             justifyContent="space-between"
           >
-            <Flex justifyContent="space-between">
+            <Flex justifyContent="space-between" mt={3}>
               <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
               <HStack spacing="2">
                 <Button
@@ -149,31 +146,6 @@ export default function SideNav({ children, isOpen, onOpen, onClose }) {
                 </Text>
               </HStack>
             </Flex>
-            <Center>
-              <Flex
-                border="1px solid black"
-                borderRadius="4px"
-                justifyContent="space-between"
-                h="60px"
-                p="20px"
-                mb={5}
-                w={280}
-                alignItems="center"
-              >
-                <Avatar />
-                <Menu>
-                  <MenuButton as={Button} colorScheme="blue" w="125px">
-                    Menu
-                  </MenuButton>
-                  <MenuList>
-                    <MenuItem>Account</MenuItem>
-                    <MenuItem>Profile</MenuItem>
-                    <MenuItem>Bookmarks</MenuItem>
-                    <MenuItem>Jams</MenuItem>
-                  </MenuList>
-                </Menu>
-              </Flex>
-            </Center>
           </Flex>
           {children}
         </Flex>
