@@ -6,6 +6,9 @@ export default {
       name: 'sanity-tutorials',
     },
     {
+      name: 'airtable-list',
+    },
+    {
       name: 'document-list',
       options: {
         title: 'My Jams',

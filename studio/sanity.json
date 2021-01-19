@@ -17,7 +17,8 @@
     "markdown",
     "@sanity/code-input",
     "@sanity/dashboard",
-    "dashboard-widget-document-list"
+    "dashboard-widget-document-list",
+    "airtable-list"
   ],
   "env": {
     "development": {
