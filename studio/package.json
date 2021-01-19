@@ -10,7 +10,7 @@
     "dev": "NODE_OPTIONS='--inspect' sanity start",
     "start": "sanity start",
     "test": "sanity check",
-    "build": "SANITY_STUDIO_API_DATASET=$SANITY_STUDIO_API_DATASET  sanity build public -y",
+    "build": "sanity build public -y",
     "deploy": "sanity deploy",
     "deploy:gql": "sanity graphql deploy",
     "delete-metadata": "sanity exec --with-user-token app/scripts/deleteWorkflowDocs.js"
