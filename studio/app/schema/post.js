@@ -3,6 +3,7 @@ import { GoFile } from 'react-icons/go';
 import slugify from 'slugify';
 import { isUniqueSlug } from '../lib/utils/isUniqueSlug';
 import autoCompleteTags from '../components/autoCompleteTags';
+import JamPreviewWorkflow from '../components/jamPreviewWorkflow';
 
 /**
  * Defines a Media Jam
@@ -113,6 +114,7 @@ export default {
       title: 'title',
       author: 'author.name',
     },
+    component: JamPreviewWorkflow,
     prepare(selection) {
       let media = GoFile;
       const { author } = selection;
