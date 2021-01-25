@@ -9,14 +9,11 @@ export default {
       name: 'airtable-list',
     },
     {
-      name: 'document-list',
+      name: 'my-jams-list',
       options: {
         title: 'My Jams',
-        query: '*[_type == $type && author._ref == $authorId]',
-        queryParams: {
-          type: 'post',
-          authorId: `${id}-self`,
-        },
+        createButtonText: 'Create new Jam',
+        types: ['post'],
       },
     },
   ],

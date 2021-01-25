@@ -12,13 +12,15 @@
     "@sanity/components",
     "@sanity/default-layout",
     "@sanity/default-login",
+    "@sanity/dashboard",
     "@sanity/desk-tool",
     "@sanity/production-preview",
     "markdown",
     "@sanity/code-input",
-    "@sanity/dashboard",
     "dashboard-widget-document-list",
-    "airtable-list"
+    "airtable-list",
+    "asset-source-cloudinary",
+    "dashboard-widget-my-jams-list"
   ],
   "env": {
     "development": {
@@ -49,6 +51,10 @@
     {
       "implements": "part:@sanity/dashboard/config",
       "path": "app/config/dashboardConfig.js"
+    },
+    {
+      "implements": "part:@sanity/form-builder/input/image/asset-sources",
+      "path": "app/config/assetSources.js"
     },
     {
       "name": "part:@sanity/base/initial-value-templates",

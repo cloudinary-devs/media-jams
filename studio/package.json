@@ -38,6 +38,7 @@
     "react-icons": "^3.11.0",
     "react-select": "^3.2.0",
     "react-use-gesture": "^7.0.16",
+    "sanity-plugin-asset-source-cloudinary": "^0.1.0",
     "sanity-plugin-dashboard-widget-document-list": "^0.0.11",
     "sanity-plugin-markdown": "^1.0.1",
     "slugify": "^1.4.5",
@@ -47,6 +48,7 @@
     "@babel/core": "^7.11.6",
     "@sanity/cli": "^2.1.4",
     "dotenv": "^8.2.0",
+    "lodash": "^4.17.20",
     "r2": "^2.0.1"
   },
   "repository": "https://github.com/mediadevelopers/media-jams"
