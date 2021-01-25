@@ -22,7 +22,7 @@ import { motion } from 'framer-motion';
 
 function AnimatedLink({ children, ...rest }) {
   return (
-    <Link minH="400px" as={motion.a} {...rest}>
+    <Link minH="340px" as={motion.a} {...rest}>
       {children}
     </Link>
   );
@@ -38,9 +38,9 @@ export default function Card({ post }) {
       whileTap={{ scale: 0.99 }}
       _hover={{ textDecor: 'none' }}
       href={`/post/${post.slug}`}
-      boxShadow="0px 9px 38px 0px rgba(0,0,0,0.75)"
+      border="1px solid         black"
       backgroundColor="white"
-      w={['300px', '275px']}
+      w={['300px', '250px']}
       borderRadius="8px"
       justifyContent="space-between"
     >
@@ -67,7 +67,7 @@ export default function Card({ post }) {
         }}
         backgroundColor="green.400"
         borderBottomRadius="8px"
-        height="280px"
+        height="230px"
       >
         <VStack justifyContent="space-between" flexGrow={1}>
           <Flex

@@ -6,14 +6,16 @@ import { allPosts, allTags, allCategories } from 'lib/api';
 import JamCard from '@components/JamCard';
 import SearchInput from '@components/SearchInput';
 import Layout from '@components/Layout';
+
 import {
+  Flex,
   Center,
   Grid,
   IconButton,
   useDisclosure,
-  useBreakpointValue,
 } from '@chakra-ui/react';
-import { FaBars } from 'react-icons/fa';
+
+import { FaFilter } from 'react-icons/fa';
 
 import Fuse from 'fuse.js';
 
@@ -30,6 +32,7 @@ const fuseOptions = {
 
 export default function Post({ posts, tags, categories }) {
   const [filteredPosts, setFilteredPosts] = React.useState(posts);
+  const [showFilters, setShowFilters] = React.useState(false);
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchValue, setSearchValue] = React.useState('');
@@ -64,13 +67,6 @@ export default function Post({ posts, tags, categories }) {
     }
   }, [searchValue, selectedFilters]);
 
-  const isTabletOrMobile = useBreakpointValue({
-    base: true,
-    md: true,
-    lg: true,
-    xl: false,
-  });
-
   const fuse = new Fuse(posts, fuseOptions);
 
   function addTag(tag) {
@@ -86,48 +82,37 @@ export default function Post({ posts, tags, categories }) {
   };
 
   return (
-    <Layout
-      navContent={
+    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
+      <Flex mt={9} alignItems="center" justifyContent="center">
         <SearchInput
-          searchvalue={searchValue}
+          searchValue={searchValue}
           setSearchValue={setSearchValue}
-          alignSelf="center"
-          w="95%"
-          mb={5}
+          w="350px"
         />
-      }
-      isOpen={isOpen}
-      onClose={onClose}
-    >
-      <Center flex="1" flexDirection="column">
-        {isTabletOrMobile ? (
-          <IconButton
-            bg="none"
-            outline="none"
-            onClick={onOpen}
-            size="md"
-            icon={<FaBars />}
-            alignSelf="flex-start"
-          >
-            Menu
-          </IconButton>
-        ) : null}
-        <Grid
-          mt={20}
-          mb={20}
-          templateColumns={{
-            base: '1fr',
-            md: 'repeat(2, 1fr)',
-            lg: 'repeat(3, 1fr)',
-          }}
-          gap={20}
-          overflow="auto"
+        <IconButton
+          onClick={() => setShowFilters(!showFilters)}
+          ml={2}
+          icon={<FaFilter />}
         >
-          {filteredPosts.map((post) => (
-            <JamCard key={post._id} post={post} />
-          ))}
-        </Grid>
-      </Center>
+          Filter
+        </IconButton>
+      </Flex>
+
+      {showFilters && (
+        <Flex width="55%" mt="16px" border="2px solid black" h="350px"></Flex>
+      )}
+
+      <Grid
+        m={12}
+        w="80%"
+        templateColumns="repeat(auto-fit, minmax(250px, 1fr))"
+        gridColumnGap="25px"
+        gridRowGap="35px"
+      >
+        {filteredPosts.map((post) => (
+          <JamCard key={post._id} post={post} />
+        ))}
+      </Grid>
     </Layout>
   );
 }
@@ -147,3 +132,131 @@ export const getStaticProps = async () => {
     },
   };
 };
+
+const topTags = [
+  {
+    featured: true,
+    categories: [{ title: 'Operations' }],
+    title: 'lazy loading',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Operations' }],
+    title: 'accessibility',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Operations' }],
+    title: 'responsive',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Operations' }],
+    title: 'transcriptions',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Operations' }],
+    title: 'performance',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Elements' }],
+    title: 'image',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Elements' }],
+    title: 'video',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Elements' }],
+    title: 'audio',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Elements' }],
+    title: 'widget',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Elements' }],
+    title: 'api',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Frameworks' }],
+    title: 'react',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Frameworks' }],
+    title: 'vue',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Frameworks' }],
+    title: 'flutter',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Frameworks' }],
+    title: 'nextjs',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Frameworks' }],
+    title: 'nuxtjs',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Format' }],
+    title: 'webp',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Format' }],
+    title: 'mp4',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Format' }],
+    title: 'png',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Format' }],
+    title: 'jpeg',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Format' }],
+    title: 'rtmp',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Language' }],
+    title: 'javascript',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Language' }],
+    title: 'php',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Language' }],
+    title: 'ruby',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Language' }],
+    title: 'rails',
+  },
+  {
+    featured: true,
+    categories: [{ title: 'Language' }],
+    title: 'node',
+  },
+];
