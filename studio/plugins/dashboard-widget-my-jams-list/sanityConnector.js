@@ -25,7 +25,6 @@ const prepareDocumentList = async (incoming) => {
       ids,
     })
     .then((drafts) => {
-      console.log(drafts);
       const outgoing = documents.map((doc) => {
         const foundDraft = drafts.find((draft) => draft._id === draftId(doc));
         return foundDraft || doc;
@@ -52,7 +51,6 @@ const getSubscription = (query, params) =>
             sanityClient
               .fetch(query, params)
               .then((incoming) => {
-                console.log('incoming: ', incoming);
                 return prepareDocumentList(incoming);
               })
               .catch((error) => {

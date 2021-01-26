@@ -49,7 +49,6 @@ class MyJamList extends React.Component {
       return;
     }
     this.unsubscribe();
-    console.log(assembledQuery, params);
     this.subscription = getSubscription(assembledQuery, params).subscribe({
       next: (documents) =>
         this.setState({ documents: documents.slice(0, limit), loading: false }),
@@ -73,7 +72,6 @@ class MyJamList extends React.Component {
       return { assembledQuery: query, params: queryParams };
     }
     const { id: currentUserId } = await userStore.getUser('me');
-    console.log(currentUserId);
     return {
       assembledQuery: `*[_type == $type && author._ref == $currentUserId]  | order(${order}) [0...${
         limit * 2

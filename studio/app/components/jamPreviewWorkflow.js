@@ -3,18 +3,26 @@ import { useWorkflowMetadata } from '../lib/workflow/metadata';
 import { inferMetadataState } from '../lib/workflow/helpers';
 import { states } from '../config/workflow';
 
+import { Stack, Inline, Badge, Heading } from '@sanity/ui';
+
 function JamPreviewWorkflow({ value }) {
   if (!value) return null;
-  const docIds = value._id.split('.');
-  const document_id = docIds[0] === 'drafts' ? docIds[1] : docIds[0];
-  const metadata = useWorkflowMetadata(document_id, inferMetadataState(value));
+  // inorder to fetch the meta data we need to base doc id without prefix 'draft'
+  const doc_id = value._id.startsWith('drafts.')
+    ? value._id.split('.')[1]
+    : value._id;
+  const metadata = useWorkflowMetadata(doc_id, inferMetadataState(value));
   const state = states.find((s) => s.id === metadata.data.state);
-  console.log('metadata >>', metadata);
-  console.log('state>>>>>', state);
   return (
     <>
-      <h3>{value.title}</h3>
-      <span>{state.title}</span>
+      <Stack space={3} style={{ textAlign: 'left' }}>
+        <Heading as="h3" size={3}>
+          {value.title}
+        </Heading>
+        <Inline space={2}>
+          <Badge tone={state.badgeColor}>{state.title}</Badge>
+        </Inline>
+      </Stack>
     </>
   );
 }
