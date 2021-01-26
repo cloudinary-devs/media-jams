@@ -20,9 +20,9 @@ import {
 import { FaTag } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
-function AnimatedLink({ children, ...rest }) {
+function AnimatedLink({ children, ...props }) {
   return (
-    <Link minH="340px" as={motion.a} {...rest}>
+    <Link h={64} as={motion.a} {...props}>
       {children}
     </Link>
   );
@@ -40,61 +40,40 @@ export default function Card({ post }) {
       href={`/post/${post.slug}`}
       border="1px solid         black"
       backgroundColor="white"
-      w={['300px', '250px']}
-      borderRadius="8px"
+      w={{ base: '100%', md: '80%', lg: '100%' }}
+      borderRadius="lg"
       justifyContent="space-between"
     >
       <HStack p={4} mt={0}>
-        <VStack>
-          <Avatar
-            size="lg"
-            name={author.name}
-            mr={2}
-            src={author.image}
-            loading="lazy"
-          />
-        </VStack>
+        <Avatar
+          size="lg"
+          name={author.name}
+          mr={2}
+          src={author.image}
+          loading="lazy"
+        />
         <VStack align="start">
           <Heading textStyle="headline-card">{post.title}</Heading>
           <Text fontSize="sm">By {author.name}</Text>
         </VStack>
       </HStack>
       <Flex
-        pt={8}
-        style={{
-          clipPath:
-            'polygon(4.82% -0.53%, 27.8% 11.74%, 49.63% -0.5%, 78.39% 8.86%, 100.83% -1.05%, 101% 100%, 0px 101%, 0px 19.01%)',
-        }}
         backgroundColor="green.400"
         borderBottomRadius="8px"
-        height="230px"
+        alignItems="center"
+        justifyContent="center"
+        height="50%"
       >
-        <VStack justifyContent="space-between" flexGrow={1}>
-          <Flex
-            as={Container}
-            direction="column"
-            centerContent
-            maxWidth="80ch"
-            justifyContent="space-between"
-            h="100%"
-          >
-            <Box maxW="lg" alignItems="center" color="white">
-              <Text fontWeight="bold" mt={10} noOfLines={5} fontSize="14px">
-                {post.description}
-              </Text>
-            </Box>
-            <Wrap alignSelf="flex-start" mb={5}>
-              {post.tags.map((tag) => (
-                <WrapItem>
-                  <Tag colorScheme="green">
-                    <TagLeftIcon as={FaTag} />
-                    <TagLabel>{tag}</TagLabel>
-                  </Tag>
-                </WrapItem>
-              ))}
-            </Wrap>
-          </Flex>
-        </VStack>
+        <Wrap w="50%">
+          {post.tags.map((tag) => (
+            <WrapItem>
+              <Tag colorScheme="green">
+                <TagLeftIcon as={FaTag} />
+                <TagLabel>{tag}</TagLabel>
+              </Tag>
+            </WrapItem>
+          ))}
+        </Wrap>
       </Flex>
     </Stack>
   );

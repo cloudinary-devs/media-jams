@@ -16,7 +16,7 @@ import { FaHome, FaPhotoVideo } from 'react-icons/fa';
 
 import { useImage } from 'use-cloudinary';
 
-export default function SideNavDrawer({ isOpen, onClose }) {
+export default function SideNavDrawer({ isOpen, onClose, ...props }) {
   const { generateImageUrl } = useImage('mediadevs');
 
   const logoConfig = {
@@ -29,7 +29,7 @@ export default function SideNavDrawer({ isOpen, onClose }) {
   };
 
   return (
-    <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+    <Drawer {...props} isOpen={isOpen} placement="left" onClose={onClose}>
       <DrawerOverlay>
         <DrawerContent>
           <Flex
@@ -66,10 +66,10 @@ function NavLink({ children, ...props }) {
     <Link
       as={NextLink}
       display="flex"
-      _hover={{ boxShadow: 'inset 0px -1px 58px -16px rgba(36,33,33,1)' }}
+      _hover={{ background: 'blue.400', color: 'white' }}
       p="10px"
       minW="90%"
-      borderRadius="12px"
+      borderRadius="md"
       display="flex"
       alignItems="center"
       mb={2}

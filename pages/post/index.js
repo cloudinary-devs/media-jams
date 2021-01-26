@@ -99,15 +99,24 @@ export default function Post({ posts, tags, categories }) {
       </Flex>
 
       {showFilters && (
-        <Flex width="55%" mt="16px" border="2px solid black" h="350px"></Flex>
+        <Flex
+          alignSelf="center"
+          borderRadius="lg"
+          width="55%"
+          mt="16px"
+          border="2px solid black"
+          h="350px"
+        ></Flex>
       )}
 
       <Grid
-        m={12}
-        w="80%"
-        templateColumns="repeat(auto-fit, minmax(250px, 1fr))"
+        m={16}
+        w="auto"
+        templateColumns="repeat(auto-fit, minmax(300px, 1fr))"
         gridColumnGap="25px"
         gridRowGap="35px"
+        justifyItems="center"
+        alignItems="center"
       >
         {filteredPosts.map((post) => (
           <JamCard key={post._id} post={post} />

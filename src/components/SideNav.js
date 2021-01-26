@@ -14,7 +14,7 @@ import { Link as NextLink } from 'next/link';
 
 import { useImage } from 'use-cloudinary';
 
-export default function SideNav() {
+export default function SideNav(props) {
   const { generateImageUrl } = useImage('mediadevs');
 
   const logoConfig = {
@@ -30,29 +30,21 @@ export default function SideNav() {
     <Flex
       w={80}
       direction="column"
-      borderRadius="lg"
       boxShadow="5px 3px 10px -7px rgba(0,0,0,1)"
       minH="100vh"
       backgroundColor="blue.200"
+      {...props}
     >
       <Flex
-        w="100%"
         direction="column"
         height={100}
         background="grey.900"
         justifyContent="space-between"
-        borderTopRightRadius="3px"
       >
         <Flex justifyContent="space-between" mt={3}>
           <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
           <HStack spacing="2">
-            <Button
-              size="sm"
-              colorScheme="blue"
-              as={NavLink}
-              isButton
-              href="/api/auth/login"
-            >
+            <Button size="sm" colorScheme="blue">
               Log In
             </Button>
             <Text fontSize="md" mr={5} color="blue.400" as="u">
@@ -66,15 +58,15 @@ export default function SideNav() {
   );
 }
 
-function NavLink({ children, isButton, ...props }) {
+function NavLink({ children, ...props }) {
   return (
     <Link
       as={NextLink}
       display="flex"
-      _hover={{ boxShadow: 'inset 0px -1px 58px -16px rgba(36,33,33,1)' }}
+      _hover={{ background: 'blue.400', color: 'white' }}
       p="10px"
       minW="90%"
-      borderRadius="12px"
+      borderRadius="md"
       display="flex"
       alignItems="center"
       mb={2}
