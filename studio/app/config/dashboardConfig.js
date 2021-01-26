@@ -10,6 +10,10 @@ export default {
     },
     {
       name: 'my-jams-list',
+      layout: {
+        width: 'medium',
+        height: 'medium',
+      },
       options: {
         title: 'My Jams',
         createButtonText: 'Create new Jam',

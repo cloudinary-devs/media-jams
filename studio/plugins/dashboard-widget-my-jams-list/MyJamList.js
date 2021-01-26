@@ -34,7 +34,7 @@ class MyJamList extends React.Component {
 
   static defaultProps = {
     title: 'Last created',
-    order: '_createdAt desc',
+    order: '_createdAt asc',
     limit: 10,
     types: null,
     query: null,

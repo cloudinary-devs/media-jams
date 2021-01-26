@@ -1,6 +1,7 @@
 import { useWorkflowMetadata } from '../../lib/workflow/metadata';
 import { inferMetadataState } from '../../lib/workflow/helpers';
 import { states } from '../../config/workflow';
+import { console } from 'get-it/lib/util/global';
 
 function publishedBadge(docInfo) {
   if (!docInfo.published) {
@@ -15,9 +16,11 @@ function publishedBadge(docInfo) {
 }
 
 function workflowBadge(docInfo) {
+  console.log(docInfo);
   const metadata = useWorkflowMetadata(docInfo.id, inferMetadataState(docInfo));
   const state = states.find((s) => s.id === metadata.data.state);
-
+  console.log('metadata ', metadata);
+  console.log('state: ', state);
   if (!state) return null;
   // if (!docInfo.draft && state.id === 'published') return null
 
