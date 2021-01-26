@@ -20,24 +20,24 @@ function ProfileCard({ user, sanitySession }) {
         <p>name: {user.name}</p>
       </div>
       <Stack direction="row" spacing={4}>
-        <Button
-          leftIcon={<AiOutlineSetting />}
-          colorScheme="pink"
-          variant="solid"
-        >
-          <Link href={sanitySession} isExternal>
+        <Link href={sanitySession} isExternal>
+          <Button
+            leftIcon={<AiOutlineSetting />}
+            colorScheme="pink"
+            variant="solid"
+          >
             Media Jams Studio
-          </Link>
-        </Button>
-        <Button
-          rightIcon={<AiOutlineLogout />}
-          colorScheme="blue"
-          variant="outline"
-        >
-          <Link as={NextLink} px={2} href="/api/auth/logout">
+          </Button>
+        </Link>
+        <Link as={NextLink} px={2} href="/api/auth/logout">
+          <Button
+            rightIcon={<AiOutlineLogout />}
+            colorScheme="blue"
+            variant="outline"
+          >
             Logout
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </Stack>
     </>
   );

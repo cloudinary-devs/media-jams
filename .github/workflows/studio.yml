@@ -1,7 +1,8 @@
 name: Deploy Studio
+# Deployment is handled on Vercel. Studio is treated as a separate project.
 on:
   push:
-    branches: [master, development]
+    branches: []
 jobs:
   deploy:
     runs-on: ubuntu-latest

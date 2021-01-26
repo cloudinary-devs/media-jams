@@ -6,7 +6,7 @@ import { postBySlug, queryDraftPostBody } from '@lib/api';
 import { previewClient } from '@lib/sanity';
 
 import LiveMDX from '@components/LiveMDX';
-import Layout from '@components/Layout';
+import JamContent from '@components/JamContent';
 
 /**
  *
@@ -33,11 +33,9 @@ function LiveEdit({ user, data: { post } }) {
   }, []);
 
   return (
-    <Layout user={user}>
-      <Flex>
-        <LiveMDX content={content} />
-      </Flex>
-    </Layout>
+    <JamContent>
+      <LiveMDX content={content} />
+    </JamContent>
   );
 }
 
