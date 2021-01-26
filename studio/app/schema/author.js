@@ -28,6 +28,12 @@ export default {
       },
     },
     {
+      name: 'jobTitle',
+      title: 'Job Title',
+      type: 'string',
+      description: 'What would you say you do?',
+    },
+    {
       name: 'image',
       title: 'Image',
       type: 'image',
