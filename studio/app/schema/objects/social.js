@@ -1,5 +1,6 @@
 export default {
   name: 'socialHandles',
+  title: 'Social Handles',
   type: 'object',
   fields: [
     {
