@@ -36,6 +36,10 @@ export default {
       },
     },
     {
+      name: 'socialHandles',
+      type: 'socialHandles',
+    },
+    {
       name: 'bio',
       title: 'Bio',
       type: 'array',

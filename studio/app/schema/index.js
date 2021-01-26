@@ -2,10 +2,10 @@ import createSchema from 'part:@sanity/base/schema-creator';
 import schemaTypes from 'all:part:@sanity/base/schema-type';
 
 // Import workflow types
-import workflowMetadata from './workflow/metadata';
-
+import workflowMetadata from './objects/workflow/metadata';
 // We import object and document schemas
-import blockContent from './blockContent';
+import blockContent from './objects/blockContent';
+import socialHandles from './objects/social';
 import tag from './tag';
 import group from './group';
 import category from './category';
@@ -30,5 +30,6 @@ export default createSchema({
     // { type: 'typename' } in other document schemas
     blockContent,
     workflowMetadata,
+    socialHandles,
   ]),
 });

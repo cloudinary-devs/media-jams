@@ -16,11 +16,13 @@ function JamPreviewWorkflow({ value }) {
   return (
     <>
       <Stack space={3} style={{ textAlign: 'left' }}>
-        <Heading as="h3" size={3}>
+        <Heading as="h2" size={2}>
           {value.title}
         </Heading>
         <Inline space={2}>
-          <Badge tone={state.badgeColor}>{state.title}</Badge>
+          <Badge mode="outline" tone={state.badgeColor}>
+            {state.title}
+          </Badge>
         </Inline>
       </Stack>
     </>
