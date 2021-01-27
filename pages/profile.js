@@ -61,7 +61,7 @@ export async function getServerSideProps({ req, res }) {
   // however the page would be a serverless function, which is more expensive and
   // slower than a static page with client side authentication
   const session = await auth0.getSession(req);
-
+  console.log(session);
   if (!session || !session.user) {
     res.writeHead(302, {
       Location: '/api/auth/login',
