@@ -117,7 +117,7 @@ const topTags = [
 export default function Dashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Layout isOpen={isOpen} onClose={onClose}>
+    <Layout isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
       <Flex direction="column" h="auto" pt={10} overflow="auto">
         <Flex
           h="auto"

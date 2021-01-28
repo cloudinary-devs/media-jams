@@ -40,6 +40,7 @@ export default function Card({ post }) {
       boxShadow={boxShadow}
       backgroundColor="white"
       w={{ base: '100%', md: '80%', lg: '100%' }}
+      maxW="360px"
       borderRadius="lg"
       justifyContent="space-between"
       position="relative"
