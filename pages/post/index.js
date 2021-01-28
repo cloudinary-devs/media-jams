@@ -6,6 +6,7 @@ import { allPosts, allTags, allCategories } from 'lib/api';
 import JamCard from '@components/JamCard';
 import SearchInput from '@components/SearchInput';
 import Layout from '@components/Layout';
+import TagFilter from '@components/TagFilter';
 
 import {
   Flex,
@@ -102,11 +103,20 @@ export default function Post({ posts, tags, categories }) {
         <Flex
           alignSelf="center"
           borderRadius="lg"
-          width="55%"
+          width={{ base: '80%', lg: '70%', xl: '55%' }}
           mt="16px"
           border="2px solid black"
-          h="350px"
-        ></Flex>
+          h="auto"
+        >
+          <TagFilter
+            tags={tags}
+            categories={categories}
+            addTag={addTag}
+            removeTag={removeTag}
+            selectedFilters={selectedFilters}
+            setSelectedFilters={setSelectedFilters}
+          />
+        </Flex>
       )}
 
       <Grid
@@ -141,131 +151,3 @@ export const getStaticProps = async () => {
     },
   };
 };
-
-const topTags = [
-  {
-    featured: true,
-    categories: [{ title: 'Operations' }],
-    title: 'lazy loading',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Operations' }],
-    title: 'accessibility',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Operations' }],
-    title: 'responsive',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Operations' }],
-    title: 'transcriptions',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Operations' }],
-    title: 'performance',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Elements' }],
-    title: 'image',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Elements' }],
-    title: 'video',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Elements' }],
-    title: 'audio',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Elements' }],
-    title: 'widget',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Elements' }],
-    title: 'api',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Frameworks' }],
-    title: 'react',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Frameworks' }],
-    title: 'vue',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Frameworks' }],
-    title: 'flutter',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Frameworks' }],
-    title: 'nextjs',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Frameworks' }],
-    title: 'nuxtjs',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Format' }],
-    title: 'webp',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Format' }],
-    title: 'mp4',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Format' }],
-    title: 'png',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Format' }],
-    title: 'jpeg',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Format' }],
-    title: 'rtmp',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Language' }],
-    title: 'javascript',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Language' }],
-    title: 'php',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Language' }],
-    title: 'ruby',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Language' }],
-    title: 'rails',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Language' }],
-    title: 'node',
-  },
-];

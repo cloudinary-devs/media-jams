@@ -28,7 +28,7 @@ export default function SideNav(props) {
 
   return (
     <Flex
-      w={80}
+      w={72}
       direction="column"
       boxShadow="5px 3px 10px -7px rgba(0,0,0,1)"
       minH="100vh"
@@ -41,17 +41,21 @@ export default function SideNav(props) {
         background="grey.900"
         justifyContent="space-between"
       >
-        <Flex justifyContent="space-between" mt={3}>
-          <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
-          <HStack spacing="2">
-            <Button size="sm" colorScheme="blue">
-              Log In
-            </Button>
-            <Text fontSize="md" mr={5} color="blue.400" as="u">
-              Sign Up
-            </Text>
-          </HStack>
-        </Flex>
+        <Image
+          w="40%"
+          alt="MediaJams logo"
+          src={generateImageUrl(logoConfig)}
+        />
+        <Button
+          alignSelf="flex-end"
+          p={4}
+          size="md"
+          mb={3}
+          mr={3}
+          colorScheme="blue"
+        >
+          Log In
+        </Button>
       </Flex>
       <NavLinkGroup />
     </Flex>
@@ -65,7 +69,7 @@ function NavLink({ children, ...props }) {
       display="flex"
       _hover={{ background: 'blue.400', color: 'white' }}
       p="10px"
-      minW="90%"
+      minW="95%"
       borderRadius="md"
       display="flex"
       alignItems="center"

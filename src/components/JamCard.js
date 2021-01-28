@@ -2,11 +2,10 @@ import React from 'react';
 import {
   Stack,
   Flex,
+  Box,
   Heading,
   Link,
-  Box,
   Avatar,
-  Container,
   HStack,
   Tag,
   TagLabel,
@@ -19,6 +18,7 @@ import {
 
 import { FaTag } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { boxShadow } from '@utils/styles';
 
 function AnimatedLink({ children, ...props }) {
   return (
@@ -36,21 +36,43 @@ export default function Card({ post }) {
       as={AnimatedLink}
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.99 }}
-      _hover={{ textDecor: 'none' }}
       href={`/post/${post.slug}`}
-      border="1px solid         black"
+      boxShadow={boxShadow}
       backgroundColor="white"
       w={{ base: '100%', md: '80%', lg: '100%' }}
       borderRadius="lg"
       justifyContent="space-between"
+      position="relative"
+      role="group"
     >
+      <Box
+        position="absolute"
+        left="0"
+        right="0"
+        h="100%"
+        w="100%"
+        display="none"
+        borderRadius="lg"
+        _groupHover={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          background: 'rgba(0,0,0,0.9)',
+        }}
+      >
+        <Text color="white" noOfLines={6} w="80%">
+          {post.description}
+        </Text>
+      </Box>
       <HStack p={4} mt={0}>
         <Avatar
           size="lg"
           name={author.name}
           mr={2}
           src={author.image}
-          loading="lazy"
+          _groupHover={{
+            visibility: 'hidden',
+          }}
         />
         <VStack align="start">
           <Heading textStyle="headline-card">{post.title}</Heading>
