@@ -5,9 +5,12 @@ import { Flex, Text, Box, Link, Icon, Button, Stack } from '@chakra-ui/react';
 import { Link as NextLink } from 'next/link';
 import { AiOutlineLogout, AiOutlineSetting } from 'react-icons/ai';
 import Layout from '@components/Layout';
-import { useFetchUser } from '@lib/user';
+import { GraphQLClient, gql } from 'graphql-request';
+import { useQuery } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
 
 import { generateSanitySession } from './api/auth/studio';
+import { getBookmarks } from '@lib/queries/bookmarks';
 
 function ProfileCard({ user, sanitySession }) {
   return (
@@ -43,7 +46,33 @@ function ProfileCard({ user, sanitySession }) {
   );
 }
 
-function Profile({ user, sanitySession }) {
+function Profile({ user, sanitySession, accessToken }) {
+  const { status, data, error, isFetching } = useQuery(
+    'bookmarks',
+    async () => {
+      const query = gql`
+        {
+          bookmarks {
+            content_id
+          }
+        }
+      `;
+      const endpoint = 'https://stage-mediajam.hasura.app/v1/graphql';
+      const graphQLClient = new GraphQLClient(endpoint);
+      // Set a single header
+      graphQLClient.setHeaders({
+        Authorization: `Bearer ${accessToken}`,
+        'X-Hasura-Role': 'user',
+      });
+      try {
+        const data = await graphQLClient.request(query);
+        console.log(data);
+        return data;
+      } catch (error) {
+        throw error;
+      }
+    },
+  );
   return (
     <Layout>
       <ProfileCard user={user} sanitySession={sanitySession} />
@@ -61,7 +90,6 @@ export async function getServerSideProps({ req, res }) {
   // however the page would be a serverless function, which is more expensive and
   // slower than a static page with client side authentication
   const session = await auth0.getSession(req);
-  console.log(session);
   if (!session || !session.user) {
     res.writeHead(302, {
       Location: '/api/auth/login',
@@ -69,7 +97,7 @@ export async function getServerSideProps({ req, res }) {
     res.end();
     return;
   }
-  const { user } = session;
+  const { user, accessToken } = session;
   const sanitySession = (await generateSanitySession(user)) ?? null;
   // Match sanity studio url with environment from deployment
   const studioURL =
@@ -79,6 +107,7 @@ export async function getServerSideProps({ req, res }) {
   return {
     props: {
       user,
+      accessToken,
       // Build sanity session url with return uri in production or
       // to local running studio in development.
       sanitySession: `${sanitySession?.endUserClaimUrl}?origin=${
