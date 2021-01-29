@@ -81,7 +81,7 @@ export async function getServerSideProps({ req, res }) {
       user,
       // Build sanity session url with return uri in production or
       // to local running studio in development.
-      sanitySession: `${sanitySession.endUserClaimUrl}?origin=${
+      sanitySession: `${sanitySession?.endUserClaimUrl}?origin=${
         process.env.NODE_ENV == 'production'
           ? studioURL
           : 'http://localhost:3333'
