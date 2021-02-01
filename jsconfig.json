@@ -5,7 +5,8 @@
       "@theme": ["src/theme"],
       "@components/*": ["src/components/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@lib/*": ["lib/*"]
+      "@lib/*": ["lib/*"],
+      "@utils/*": ["src/utils/*"]
     }
   },
   "typeAcquisition": {

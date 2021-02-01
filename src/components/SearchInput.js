@@ -1,12 +1,24 @@
 import React from 'react';
-import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
-
+import {
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from '@chakra-ui/react';
+import { FaFilter } from 'react-icons/fa';
 import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig();
 import Mixpanel, { useMixPanel } from 'lib/mixpanel';
 import useDebounce from '../hooks/useDebounce';
 
-export default function SearchInput({ searchValue, setSearchValue, ...rest }) {
+export default function SearchInput({
+  searchValue,
+  setSearchValue,
+  showFilters,
+  setShowFilters,
+  width,
+  ...rest
+}) {
   const mixpanel = useMixPanel();
   const debounceSearchValue = useDebounce(searchValue, 500);
 
@@ -19,7 +31,7 @@ export default function SearchInput({ searchValue, setSearchValue, ...rest }) {
   };
 
   return (
-    <InputGroup size="md" w="35rem" mt={10} {...rest}>
+    <InputGroup w={width} {...rest}>
       <Input
         variant="outline"
         placeholder="Search by tag, title, or keyword..."
@@ -31,13 +43,15 @@ export default function SearchInput({ searchValue, setSearchValue, ...rest }) {
         _placeholder={{
           color: 'black',
           lineSpacing: '4px',
-          fontSize: 'md',
+          fontSize: 'sm',
         }}
       />
-      <InputRightElement w="10rem" pr=".3rem">
-        <Button w="100%" size="sm" borderRadius="3px" colorScheme="blue">
-          Search
-        </Button>
+      <InputRightElement>
+        <IconButton
+          onClick={() => setShowFilters(!showFilters)}
+          icon={<FaFilter />}
+          colorScheme="blue"
+        ></IconButton>
       </InputRightElement>
     </InputGroup>
   );
