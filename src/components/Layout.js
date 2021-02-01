@@ -29,7 +29,7 @@ export default function Layout({
         ml={2}
         mt={2}
         alignSelf="flex-start"
-        display={{ md: 'none' }}
+        display={{ md: 'none', lg: 'none', xl: 'none' }}
       />
       <SideNav display={{ base: 'none', md: 'flex' }} />
       <SideNavDrawer
