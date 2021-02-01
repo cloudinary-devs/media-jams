@@ -35,8 +35,11 @@ export default function Post({ posts, tags, categories }) {
   const { user, loading } = useUser();
 
   // check if there's any tag selections coming from the router and set them
+  //
   React.useEffect(() => {
-    setSelectedFilters(router.query.tags?.title.split(',') || []);
+    const routeTags = router.query.tags?.split(',') || [];
+    const queryTags = tags.filter((t) => routeTags.includes(t.title));
+    setSelectedFilters(queryTags);
   }, [router.query]);
 
   // handle updating the filteredPosts with different search criteria

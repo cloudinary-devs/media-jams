@@ -8,6 +8,7 @@ import {
   TabPanel,
   Wrap,
   WrapItem,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 
 import TagButton from '@components/TagButton';
@@ -19,19 +20,24 @@ export default function TabbedTagSelection({
   removeTag,
   searchTags,
 }) {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  // For Mobile display only 3 tabs vs 5 on desktop
+  // Ideally these will be wieghted and can be filtered on that
+  const tabList = isMobile ? tabs.slice(0, 3) : tabs;
   return (
     <Tabs
       border="2px solid black"
+      alignSelf="center"
       borderRadius="6px"
-      boxShadow="0px 9px 38px 0px rgba(0,0,0,0.75)"
-      isFitted
+      boxShadow={isMobile ? null : '0px 9px 38px 0px rgba(0,0,0,0.75)'}
+      maxW={'42rem'}
+      isFitted={!isMobile}
     >
       <TabList borderBottom="none" mb="1em">
-        {tabs?.map(
+        {tabList?.map(
           (tab) =>
-            tab.tags &&
-            tab.tags.length > 0 && (
-              <Tab fontSize={15} key={tab._id}>
+            tab.tags?.length > 0 && (
+              <Tab fontSize={[18, 15]} key={tab._id}>
                 {tab.title}
               </Tab>
             ),
@@ -41,13 +47,8 @@ export default function TabbedTagSelection({
         {tabs?.map(
           (category) =>
             category.tags?.length > 0 && (
-              <TabPanel key={category._id}>
-                <Wrap
-                  key={category._id}
-                  w="40rem"
-                  justify="center"
-                  spacing="10px"
-                >
+              <TabPanel alignSelf="center" key={category._id}>
+                <Wrap key={category._id} justify="center" spacing="10px">
                   {category.tags.map((tag) => (
                     <WrapItem key={tag._id}>
                       <TagButton

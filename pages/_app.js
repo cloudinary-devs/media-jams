@@ -6,7 +6,11 @@ import { DefaultSeo } from 'next-seo';
 import { UserProvider, useUser } from '@lib/user';
 import { useImage } from 'use-cloudinary';
 
-const App = ({ Component, pageProps }) => {
+import { initSentry } from '@lib/sentry';
+//initialize Sentry
+initSentry();
+
+const App = ({ Component, pageProps, err }) => {
   const { user, loading } = useUser();
   const { generateImageUrl } = useImage('mediadevs');
 
@@ -23,8 +27,8 @@ const App = ({ Component, pageProps }) => {
       <ChakraProvider resetCSS theme={theme}>
         <UserProvider value={{ user, loading }}>
           <DefaultSeo
-            title="MediaJams"
-            description="The best spot on the web to learn how to take advantage of media the right way."
+            title="Front End Developer Companion to Rich Media"
+            description="Media Jams offer numerous useful examples through which developers can sharpen their expertise in leveraging media for apps and tech stacks"
             url="www.mediajams.dev"
             ogImage={{
               url: 'www.mediajams.dev',
@@ -34,7 +38,7 @@ const App = ({ Component, pageProps }) => {
               siteName: 'MediaJams',
             }}
           />
-          <Component {...pageProps} />
+          <Component {...pageProps} err={err} />
         </UserProvider>
       </ChakraProvider>
     </MixPanelProvider>

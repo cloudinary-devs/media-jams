@@ -14,13 +14,11 @@ export default {
     fontSize: ['3xl', '5xl'],
   },
   'headline-accent': {
-    h2: {
-      fontFamily: 'Bangers, cursive',
-      fontWeight: 'bold',
-      lineHeight: 'tall',
-      letterSpacing: 'normal',
-      fontSize: ['3xl'],
-    },
+    fontFamily: 'Bangers, cursive',
+    fontWeight: 'bold',
+    lineHeight: ['normal', 'tall'],
+    letterSpacing: 'normal',
+    fontSize: ['3xl'],
   },
   'headline-intersitial': {
     fontWeight: 'bold',
@@ -34,7 +32,7 @@ export default {
     letterSpacing: 'normal',
     fontSize: ['lg'],
   },
-  'jam-content': {
+  'jam-content-body': {
     'h1, h2': {
       margin: '0px auto 20px',
       fontFamily: 'Bangers, cursive',

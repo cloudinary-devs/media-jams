@@ -48,13 +48,15 @@ export default function Navbar() {
       backgroundColor="grey.900"
       color="white"
     >
-      <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
+      <Link href="/">
+        <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
+      </Link>
       <Box>
-        <NavLink ml={4} href="/">
-          Home
-        </NavLink>
         <NavLink ml={4} href="/post">
           Jams
+        </NavLink>
+        <NavLink ml={4} href="/feedback">
+          Feedback
         </NavLink>
         {user ? (
           <NavLink ml={4} href="/profile">

@@ -3,6 +3,7 @@ import { GoFile } from 'react-icons/go';
 import slugify from 'slugify';
 import { isUniqueSlug } from '../lib/utils/isUniqueSlug';
 import autoCompleteTags from '../components/autoCompleteTags';
+import JamPreviewWorkflow from '../components/jamPreviewWorkflow';
 
 /**
  * Defines a Media Jam
@@ -10,6 +11,7 @@ import autoCompleteTags from '../components/autoCompleteTags';
  * @property {Object} post
  * @property {string} post.Title - title of media jam
  * @property {slug} post.Slug - unique value generated from the title
+ * @property {cover} post.Cover - image with post
  * @property {Object} post.Author - reference to Auther
  * @property {boolean} post.featured - to flag an article as featured for specific styling or display
  * @property {Tag[]} post.Tags - reference to Tag. One to many relationship
@@ -71,6 +73,11 @@ export default {
       },
     },
     {
+      title: 'Cover',
+      name: 'cover',
+      type: 'image',
+    },
+    {
       name: 'author',
       title: 'Author',
       type: 'reference',
@@ -107,6 +114,7 @@ export default {
       title: 'title',
       author: 'author.name',
     },
+    component: JamPreviewWorkflow,
     prepare(selection) {
       let media = GoFile;
       const { author } = selection;

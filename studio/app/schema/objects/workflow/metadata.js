@@ -1,4 +1,4 @@
-import { UserIdArrayField } from '../../components/userIdArrayField';
+import { UserIdArrayField } from '../../../components/userIdArrayField';
 
 export default {
   type: 'document',

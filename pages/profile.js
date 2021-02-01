@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 // This import is only needed when checking authentication status directly from getServerSideProps
 import auth0 from '@lib/auth0';
-import { Flex, Text, Box, Link, Icon } from '@chakra-ui/react';
+import { Flex, Text, Box, Link, Icon, Button, Stack } from '@chakra-ui/react';
 import { Link as NextLink } from 'next/link';
+import { AiOutlineLogout, AiOutlineSetting } from 'react-icons/ai';
 import Layout from '@components/Layout';
 import { useFetchUser } from '@lib/user';
 
@@ -18,20 +19,26 @@ function ProfileCard({ user, sanitySession }) {
         <p>nickname: {user.nickname}</p>
         <p>name: {user.name}</p>
       </div>
-      <Link
-        href={`${sanitySession.endUserClaimUrl}?origin=${
-          process.env.NODE_ENV == 'production'
-            ? 'https://mediajams.sanity.studio'
-            : 'http://localhost:3333'
-        }`}
-        isExternal
-      >
-        Media Jams Studio <Icon name="external-link" mx="2px" />
-      </Link>
-      )
-      <Link as={NextLink} px={2} href="/api/auth/logout">
-        Logout
-      </Link>
+      <Stack direction="row" spacing={4}>
+        <Link href={sanitySession} isExternal>
+          <Button
+            leftIcon={<AiOutlineSetting />}
+            colorScheme="pink"
+            variant="solid"
+          >
+            Media Jams Studio
+          </Button>
+        </Link>
+        <Link as={NextLink} px={2} href="/api/auth/logout">
+          <Button
+            rightIcon={<AiOutlineLogout />}
+            colorScheme="blue"
+            variant="outline"
+          >
+            Logout
+          </Button>
+        </Link>
+      </Stack>
     </>
   );
 }
@@ -64,8 +71,23 @@ export async function getServerSideProps({ req, res }) {
   }
   const { user } = session;
   const sanitySession = (await generateSanitySession(user)) ?? null;
-
-  return { props: { user, sanitySession } };
+  // Match sanity studio url with environment from deployment
+  const studioURL =
+    process.env.VERCEL_ENV === 'production'
+      ? 'https://studio.mediajams.dev'
+      : 'https://stage-studio.mediajams.dev';
+  return {
+    props: {
+      user,
+      // Build sanity session url with return uri in production or
+      // to local running studio in development.
+      sanitySession: `${sanitySession?.endUserClaimUrl}?origin=${
+        process.env.NODE_ENV == 'production'
+          ? studioURL
+          : 'http://localhost:3333'
+      }`,
+    },
+  };
 }
 
 export default Profile;
