@@ -1,4 +1,4 @@
-import { Flex, IconButton, useMediaQuery } from '@chakra-ui/react';
+import { Flex, Icon, useMediaQuery } from '@chakra-ui/react';
 import SEO from '@components/SEO';
 import SideNav from '@components/SideNav';
 import SideNavDrawer from '@components/SideNavDrawer';
@@ -10,17 +10,24 @@ export default function Layout({
   isOpen,
   onClose,
   onOpen,
+  ...rest
 }) {
   return (
-    <Flex minW="100%" height="100vh">
+    <Flex
+      minW="100%"
+      height="100vh"
+      direction={{ base: 'column', md: 'column', lg: 'row' }}
+    >
       <SEO {...seoProps} />
-      <IconButton
+      <Icon
         bg="none"
         outline="none"
-        mt="14px"
         onClick={onOpen}
         size="md"
-        icon={<FaBars />}
+        as={FaBars}
+        cursor="pointer"
+        ml={2}
+        mt={2}
         alignSelf="flex-start"
         display={{ md: 'none' }}
       />
@@ -30,7 +37,7 @@ export default function Layout({
         onClose={onClose}
         display={{ md: 'none' }}
       />
-      <Flex overflow="auto" flex="1" direction="column">
+      <Flex flex="1" direction="column" {...rest}>
         {children}
       </Flex>
     </Flex>

@@ -14,57 +14,32 @@ import {
   Wrap,
   WrapItem,
   TagLeftIcon,
+  Icon,
 } from '@chakra-ui/react';
+
+import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 
 import { FaTag } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { boxShadow } from '@utils/styles';
 
-function AnimatedLink({ children, ...props }) {
-  return (
-    <Link h={64} as={motion.a} {...props}>
-      {children}
-    </Link>
-  );
-}
-
 export default function Card({ post }) {
   const { author } = post;
+  const [bookmarked, setBookmarked] = React.useState(false);
 
   return (
     <Stack
-      as={AnimatedLink}
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.99 }}
       href={`/post/${post.slug}`}
       boxShadow={boxShadow}
       backgroundColor="white"
+      h={64}
       w={{ base: '100%', md: '80%', lg: '100%' }}
       maxW="360px"
       borderRadius="lg"
       justifyContent="space-between"
-      position="relative"
-      role="group"
     >
-      <Box
-        position="absolute"
-        left="0"
-        right="0"
-        h="100%"
-        w="100%"
-        display="none"
-        borderRadius="lg"
-        _groupHover={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          background: 'rgba(0,0,0,0.9)',
-        }}
-      >
-        <Text color="white" noOfLines={6} w="80%">
-          {post.description}
-        </Text>
-      </Box>
       <HStack p={4} mt={0}>
         <Avatar
           size="lg"
@@ -75,7 +50,7 @@ export default function Card({ post }) {
             visibility: 'hidden',
           }}
         />
-        <VStack align="start">
+        <VStack as={Link} align="start">
           <Heading textStyle="headline-card">{post.title}</Heading>
           <Text fontSize="sm">By {author.name}</Text>
         </VStack>
@@ -83,13 +58,12 @@ export default function Card({ post }) {
       <Flex
         backgroundColor="green.400"
         borderBottomRadius="8px"
-        alignItems="center"
-        justifyContent="center"
         height="50%"
+        w="100%"
       >
-        <Wrap w="50%">
+        <Wrap>
           {post.tags.map((tag) => (
-            <WrapItem>
+            <WrapItem justifySelf="center" alignSelf="center">
               <Tag colorScheme="green">
                 <TagLeftIcon as={FaTag} />
                 <TagLabel>{tag}</TagLabel>
@@ -97,6 +71,12 @@ export default function Card({ post }) {
             </WrapItem>
           ))}
         </Wrap>
+        <Icon
+          size="md"
+          justifySelf="flex-end"
+          alignSelf="flex-end"
+          as={bookmarked ? FaBookmark : FaRegBookmark}
+        />
       </Flex>
     </Stack>
   );
