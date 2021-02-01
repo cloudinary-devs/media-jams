@@ -1,4 +1,4 @@
-import { Flex, Icon, useMediaQuery } from '@chakra-ui/react';
+import { Flex, Box, Icon } from '@chakra-ui/react';
 import SEO from '@components/SEO';
 import SideNav from '@components/SideNav';
 import SideNavDrawer from '@components/SideNavDrawer';
@@ -19,18 +19,18 @@ export default function Layout({
       direction={{ base: 'column', md: 'column', lg: 'row' }}
     >
       <SEO {...seoProps} />
-      <Icon
-        bg="none"
-        outline="none"
-        onClick={onOpen}
-        size="md"
-        as={FaBars}
-        cursor="pointer"
-        ml={2}
-        mt={2}
-        alignSelf="flex-start"
-        display={{ md: 'none', lg: 'none', xl: 'none' }}
-      />
+      <Box display={{ md: 'none', lg: 'none', xl: 'none' }}>
+        <Icon
+          onClick={onOpen}
+          size="md"
+          as={FaBars}
+          cursor="pointer"
+          ml={2}
+          mt={2}
+          alignSelf="flex-start"
+        />
+      </Box>
+
       <SideNav display={{ base: 'none', md: 'flex' }} />
       <SideNavDrawer
         isOpen={isOpen}
