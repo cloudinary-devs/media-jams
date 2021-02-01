@@ -1,14 +1,7 @@
 import Layout from '@components/Layout';
 
-import {
-  Flex,
-  Box,
-  Grid,
-  Heading,
-  Text,
-  VStack,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Flex, Heading, useDisclosure } from '@chakra-ui/react';
+
 import JamAccordion from '@components/JamAccordion';
 import { boxShadow } from '@utils/styles';
 

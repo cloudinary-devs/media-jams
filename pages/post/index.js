@@ -11,8 +11,6 @@ import { boxShadow } from '@utils/styles';
 
 import { Flex, Heading, useDisclosure, Box } from '@chakra-ui/react';
 
-import { FaFilter } from 'react-icons/fa';
-
 import Fuse from 'fuse.js';
 import JamAccordian from '../../src/components/JamAccordion';
 
