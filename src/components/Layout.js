@@ -35,7 +35,7 @@ export default function Layout({
       <SideNavDrawer
         isOpen={isOpen}
         onClose={onClose}
-        display={{ md: 'none' }}
+        display={{ md: 'none', lg: 'none', xl: 'none' }}
       />
       <Flex flex="1" direction="column" {...rest}>
         {children}
