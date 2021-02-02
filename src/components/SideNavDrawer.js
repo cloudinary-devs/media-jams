@@ -10,7 +10,7 @@ import {
   DrawerContent,
 } from '@chakra-ui/react';
 import Image from '@components/Image';
-import { FaHome, FaPhotoVideo } from 'react-icons/fa';
+import { FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
 
 export default function SideNavDrawer({ isOpen, onClose, ...props }) {
   return (
@@ -70,6 +70,10 @@ function NavLinkGroup() {
       <NavLink href="/post">
         <Icon as={FaPhotoVideo} size="md" mr={2} />
         Jams
+      </NavLink>
+      <NavLink href="/bookmarks">
+        <Icon as={FaBookmark} size="md" mr={2} />
+        Bookmarks
       </NavLink>
     </Flex>
   );

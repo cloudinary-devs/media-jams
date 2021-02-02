@@ -1,7 +1,7 @@
 import React from 'react';
 import { boxShadow } from '@utils/styles';
 import { Button, Flex, Icon, Link, Text } from '@chakra-ui/react';
-import { FaHome, FaPhotoVideo } from 'react-icons/fa';
+import { FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
 import Image from '@components/Image';
 
 import { Link as NextLink } from 'next/link';
@@ -67,6 +67,10 @@ function NavLinkGroup() {
       <NavLink href="/post">
         <Icon as={FaPhotoVideo} size="md" mr={2} />
         Jams
+      </NavLink>
+      <NavLink href="/bookmarks">
+        <Icon as={FaBookmark} size="md" mr={2} />
+        Bookmarks
       </NavLink>
     </Flex>
   );

@@ -5,12 +5,8 @@ import { Flex, Text, Box, Link, Icon, Button, Stack } from '@chakra-ui/react';
 import { Link as NextLink } from 'next/link';
 import { AiOutlineLogout, AiOutlineSetting } from 'react-icons/ai';
 import Layout from '@components/Layout';
-import { GraphQLClient, gql } from 'graphql-request';
-import { useQuery } from 'react-query';
-import { dehydrate } from 'react-query/hydration';
 
 import { generateSanitySession } from './api/auth/studio';
-import { getBookmarks } from '@lib/queries/bookmarks';
 
 function ProfileCard({ user, sanitySession }) {
   return (
@@ -46,33 +42,7 @@ function ProfileCard({ user, sanitySession }) {
   );
 }
 
-function Profile({ user, sanitySession, accessToken }) {
-  const { status, data, error, isFetching } = useQuery(
-    'bookmarks',
-    async () => {
-      const query = gql`
-        {
-          bookmarks {
-            content_id
-          }
-        }
-      `;
-      const endpoint = 'https://stage-mediajam.hasura.app/v1/graphql';
-      const graphQLClient = new GraphQLClient(endpoint);
-      // Set a single header
-      graphQLClient.setHeaders({
-        Authorization: `Bearer ${accessToken}`,
-        'X-Hasura-Role': 'user',
-      });
-      try {
-        const data = await graphQLClient.request(query);
-        console.log(data);
-        return data;
-      } catch (error) {
-        throw error;
-      }
-    },
-  );
+function Profile({ user, sanitySession }) {
   return (
     <Layout>
       <ProfileCard user={user} sanitySession={sanitySession} />
@@ -97,7 +67,7 @@ export async function getServerSideProps({ req, res }) {
     res.end();
     return;
   }
-  const { user, accessToken } = session;
+  const { user } = session;
   const sanitySession = (await generateSanitySession(user)) ?? null;
   // Match sanity studio url with environment from deployment
   const studioURL =
@@ -107,7 +77,6 @@ export async function getServerSideProps({ req, res }) {
   return {
     props: {
       user,
-      accessToken,
       // Build sanity session url with return uri in production or
       // to local running studio in development.
       sanitySession: `${sanitySession?.endUserClaimUrl}?origin=${

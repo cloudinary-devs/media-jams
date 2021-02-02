@@ -7,6 +7,7 @@ const {
   SENTRY_AUTH_TOKEN,
   NODE_ENV,
   VERCEL_GITHUB_COMMIT_SHA,
+  HASURA_GRAPHQL_URL,
 } = process.env;
 
 const COMMIT_SHA = VERCEL_GITHUB_COMMIT_SHA;
@@ -32,6 +33,7 @@ module.exports = withMDX({
     AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
     AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
     AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
+    HASURA_GRAPHQL_URL: HASURA_GRAPHQL_URL,
   },
   images: {
     domains: ['res.cloudinary.com'],
