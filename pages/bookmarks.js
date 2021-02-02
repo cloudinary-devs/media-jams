@@ -6,15 +6,25 @@ import JamAccordion from '@components/JamAccordion';
 import { boxShadow } from '@utils/styles';
 
 import { bookmarks } from '@lib/queries/bookmarks';
-import { gql } from 'graphql-request';
-import fetchGraphQL from '@lib/featchGraphQL';
+import { jams } from '@lib/queries/jams';
 
 export default function Bookmarks() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { status, data, error, isFetching } = useQuery(
-    'getBookmarks',
+    'bookmarks',
     bookmarks.get,
   );
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const postIds = data?.bookmarks.map(({ content_id }) => content_id);
+
+  // Then get the user's projects
+  const { isIdle, data: allPost } = useQuery(
+    'bookmark jams',
+    jams.getByIds(postIds),
+    {
+      // The query will not execute until the userId exists
+      enabled: !!postIds,
+    },
+  );
   return (
     <Layout isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
       <Flex

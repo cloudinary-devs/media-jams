@@ -6,7 +6,6 @@ export default async function graphql(req, res) {
     // Get user acces_token IF available
     const tokenCache = auth0.tokenCache(req, res);
     const { accessToken } = await tokenCache.getAccessToken();
-    console.log(accessToken);
     const endpoint = process.env.HASURA_GRAPHQL_URL;
     const graphQLClient = new GraphQLClient(endpoint);
     // Set headers
@@ -20,7 +19,8 @@ export default async function graphql(req, res) {
         };
 
     graphQLClient.setHeaders(headers);
-    const data = await graphQLClient.request(req.body.query);
+    const { query, variables } = req.body;
+    const data = await graphQLClient.request(query, variables);
     res.send(data);
   } catch (error) {
     console.error(error);
