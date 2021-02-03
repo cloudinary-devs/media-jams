@@ -1,9 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { QueryClient, useQuery } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
 import { useFetchUser, useUser } from '@lib/user';
 import { allPosts, allTags, allCategories } from 'lib/api';
+import { jams } from '@lib/queries/jams';
 
-import JamAccordion from '@components/JamAccordion';
+import JamAccordion from '@components/JamAccordion_GQL';
 import SearchInput from '@components/SearchInput';
 import Layout from '@components/Layout';
 import TagFilter from '@components/TagFilter';
@@ -33,17 +36,23 @@ const fuseOptions = {
   keys: ['title', 'tags', 'author.name'],
 };
 
-export default function Post({ posts, tags, categories }) {
-  const [filteredPosts, setFilteredPosts] = React.useState(posts);
+export default function Post({ tags, categories }) {
+  //query
+  const { data, isLoading } = useQuery('allJams', jams.get());
+  const [filteredPosts, setFilteredPosts] = React.useState([]);
   const [showFilters, setShowFilters] = React.useState(false);
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchValue, setSearchValue] = React.useState('');
   const router = useRouter();
-  const { user, loading } = useUser();
+  React.useEffect(() => {
+    // do some checking here to ensure data exist
+    if (isLoading === false && data) {
+      setFilteredPosts(data.allPost);
+    }
+  }, [isLoading, data]);
 
   // check if there's any tag selections coming from the router and set them
-  //
   React.useEffect(() => {
     const routeTags = router.query.tags?.split(',') || [];
     const queryTags = tags.filter((t) => routeTags.includes(t.title));
@@ -53,7 +62,7 @@ export default function Post({ posts, tags, categories }) {
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
     if (searchValue === '' && selectedFilters.length === 0) {
-      handleFilter(posts);
+      handleFilter(data?.allPost);
     } else {
       // Allow for a search for tag
       const formattedTags = [
@@ -73,7 +82,7 @@ export default function Post({ posts, tags, categories }) {
     }
   }, [searchValue, selectedFilters]);
 
-  const fuse = new Fuse(posts, fuseOptions);
+  const fuse = new Fuse(data?.allPost, fuseOptions);
 
   function addTag(tag) {
     return setSelectedFilters((prev) => [...prev, tag]);
@@ -168,16 +177,14 @@ export default function Post({ posts, tags, categories }) {
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async () => {
-  const [posts, tags, categories] = await Promise.all([
-    allPosts(),
-    allTags(),
-    allCategories(),
-  ]);
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery('allJams', jams.get());
+  const [tags, categories] = await Promise.all([allTags(), allCategories()]);
   return {
     props: {
-      posts,
       tags,
       categories,
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };

@@ -33,7 +33,12 @@ export default function JamAccordion({ post, width }) {
       <AccordionItem p={3}>
         <Flex justifyContent="space-between">
           <Flex flex="1" textAlign="left">
-            <Avatar size="lg" name={author.name} mr={2} src={author.image} />
+            <Avatar
+              size="lg"
+              name={author.name}
+              mr={2}
+              src={author.image.asset.url}
+            />
             <Flex direction="column">
               <Heading
                 fontSize={{ base: '.8rem', md: '1rem', lg: '1.125rem' }}
@@ -71,7 +76,7 @@ export default function JamAccordion({ post, width }) {
             </Button>
             <IconButton
               icon={
-                postIds.includes(post._id) ? <FaBookmark /> : <FaRegBookmark />
+                postIds?.includes(post._id) ? <FaBookmark /> : <FaRegBookmark />
               }
             ></IconButton>
             <AccordionButton
