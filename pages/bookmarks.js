@@ -12,7 +12,7 @@ export default function Bookmarks() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { status, data, error, isFetching } = useQuery(
     'bookmarks',
-    bookmarks.get,
+    bookmarks.get(),
   );
   const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
 
