@@ -2,7 +2,7 @@ import Layout from '@components/Layout';
 import { useQuery } from 'react-query';
 import { Flex, Heading, useDisclosure } from '@chakra-ui/react';
 
-import JamAccordion from '@components/JamAccordion';
+import JamAccordion from '@components/JamAccordion_GQL';
 import { boxShadow } from '@utils/styles';
 
 import { bookmarks } from '@lib/queries/bookmarks';
@@ -14,14 +14,14 @@ export default function Bookmarks() {
     'bookmarks',
     bookmarks.get,
   );
-  const postIds = data?.bookmarks.map(({ content_id }) => content_id);
+  const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
 
-  // Then get the user's projects
-  const { isIdle, data: allPost } = useQuery(
+  // Then get the posts for this bookmark content_id's
+  const { isIdle, data: posts, isSuccess } = useQuery(
     'bookmark jams',
     jams.getByIds(postIds),
     {
-      // The query will not execute until the userId exists
+      // The query will not execute until the postIds exists
       enabled: !!postIds,
     },
   );
@@ -48,19 +48,20 @@ export default function Bookmarks() {
             Bookmarked Jams
           </Heading>
           <Flex direction="column" w="100%">
-            {/* {featuredPosts.map((post) => (
-              <JamAccordion
-                w={{ base: '100%', md: '90%', lg: '70%', xl: '50%' }}
-                key={post._id}
-                post={post}
-              />
-            ))} */}
+            {isSuccess &&
+              posts.allPost?.map((post) => (
+                <JamAccordion
+                  w={{ base: '100%', md: '90%', lg: '70%', xl: '50%' }}
+                  key={post._id}
+                  post={post}
+                />
+              ))}
           </Flex>
         </Flex>
 
         <Flex
           direction={{ base: 'row', md: 'row', lg: 'column', xl: 'column' }}
-          h={{ base: '30%', md: '40%', lg: '40%', xl: '80%' }}
+          h={{ base: '30%', md: '40%', lg: '40%', xl: '95%' }}
           w={{ base: '95%', md: '80%', lg: '90%', xl: '20%' }}
           border="1px solid black"
           borderRadius="md"
