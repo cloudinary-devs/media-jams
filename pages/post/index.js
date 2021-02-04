@@ -5,6 +5,7 @@ import { dehydrate } from 'react-query/hydration';
 import { useFetchUser, useUser } from '@lib/user';
 import { allPosts, allTags, allCategories } from 'lib/api';
 import { jams } from '@lib/queries/jams';
+import { tags as fetchTags } from '@lib/queries/tags';
 
 import JamAccordion from '@components/JamAccordion_GQL';
 import SearchInput from '@components/SearchInput';
@@ -36,9 +37,14 @@ const fuseOptions = {
   keys: ['title', 'tags', 'author.name'],
 };
 
-export default function Post({ tags, categories }) {
-  //query
+export default function Post({ categories }) {
+  // Query
   const { data, isLoading } = useQuery('allJams', jams.get());
+  const {
+    data: { allTag: dataTags },
+  } = useQuery('allTags', fetchTags.get());
+
+  // State
   const [filteredPosts, setFilteredPosts] = React.useState([]);
   const [showFilters, setShowFilters] = React.useState(false);
   const [selectedFilters, setSelectedFilters] = React.useState([]);
@@ -55,9 +61,11 @@ export default function Post({ tags, categories }) {
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
     const routeTags = router.query.tags?.split(',') || [];
-    const queryTags = tags.filter((t) => routeTags.includes(t.title));
-    setSelectedFilters(queryTags);
-  }, [router.query]);
+    if (dataTags && routeTags.length !== 0) {
+      const queryTags = dataTags.filter((t) => routeTags.includes(t.title));
+      setSelectedFilters(queryTags);
+    }
+  }, [router.query, dataTags]);
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
@@ -178,11 +186,11 @@ export default function Post({ tags, categories }) {
 // This function gets called at build time on server-side.
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('allJams', jams.get());
-  const [tags, categories] = await Promise.all([allTags(), allCategories()]);
+  // await queryClient.prefetchQuery('allJams', jams.get());
+  await queryClient.prefetchQuery('allTags', fetchTags.getStatic());
+  const [categories] = await Promise.all([allCategories()]);
   return {
     props: {
-      tags,
       categories,
       dehydratedState: dehydrate(queryClient),
     },
