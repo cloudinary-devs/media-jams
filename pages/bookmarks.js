@@ -2,7 +2,7 @@ import Layout from '@components/Layout';
 import { useQuery } from 'react-query';
 import { Flex, Heading, useDisclosure } from '@chakra-ui/react';
 
-import JamAccordion from '@components/JamAccordion_GQL';
+import JamAccordion from '@components/JamAccordion';
 import { boxShadow } from '@utils/styles';
 
 import { bookmarks } from '@lib/queries/bookmarks';

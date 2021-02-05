@@ -2,8 +2,6 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { useFetchUser, useUser } from '@lib/user';
-import { allPosts, allTags, allCategories } from 'lib/api';
 import { jams } from '@lib/queries/jams';
 import { tags as queryTags } from '@lib/queries/tags';
 import {
@@ -11,7 +9,7 @@ import {
   categoriesWithTags,
 } from '@lib/queries/categories';
 
-import JamAccordion from '@components/JamAccordion_GQL';
+import JamAccordion from '@components/JamAccordion';
 import SearchInput from '@components/SearchInput';
 import Layout from '@components/Layout';
 import TagFilter from '@components/TagFilter';

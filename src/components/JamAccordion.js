@@ -9,7 +9,11 @@ import {
   Text,
   Avatar,
   AccordionIcon,
+  IconButton,
 } from '@chakra-ui/react';
+import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { useQuery } from 'react-query';
+import { bookmarks } from '@lib/queries/bookmarks';
 
 import { boxShadow } from '@utils/styles';
 
@@ -21,7 +25,8 @@ export default function JamAccordion({
   ...rest
 }) {
   const { author } = post;
-
+  const { data } = useQuery('bookmarks', bookmarks.get());
+  const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
   return (
     <Accordion
       w={width}
@@ -41,7 +46,7 @@ export default function JamAccordion({
               size="lg"
               name={author.name}
               mr={4}
-              src={author.image}
+              src={author.image.asset.url}
             />
             <Flex direction="column">
               <Heading
@@ -61,7 +66,7 @@ export default function JamAccordion({
                     fontSize={{ base: '9px', md: '14px' }}
                     key={tag}
                   >
-                    # {tag}
+                    # {tag.title}
                   </Text>
                 ))}
               </Flex>
@@ -73,10 +78,15 @@ export default function JamAccordion({
               colorScheme={color}
               p={3}
               mr={2}
-              href={`/post/${post.slug}`}
+              href={`/post/${post.slug.current}`}
             >
               More
             </Button>
+            <IconButton
+              icon={
+                postIds?.includes(post._id) ? <FaBookmark /> : <FaRegBookmark />
+              }
+            ></IconButton>
             <AccordionButton
               as={Button}
               h="50%"

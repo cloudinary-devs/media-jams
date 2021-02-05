@@ -3,12 +3,8 @@ import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
-import { QueryClient, useQuery } from 'react-query';
-import BlockContent from '@sanity/block-content-to-react';
 import blocksToText from '@lib/blocksToText';
 
-import blocksToText from '@lib/blocksToText';
-import { postBySlug, postsWithSlug } from 'lib/api';
 import { jams as queryJams } from '@lib/queries/jams';
 
 import { Flex, Text, Image, useDisclosure } from '@chakra-ui/react';
