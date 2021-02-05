@@ -71,8 +71,8 @@ export default function JamAuthorBanner({ author }) {
                 ml="15px"
                 mt="-10px"
                 alignSelf="start"
-                cloudName="mediadevs"
-                publicId={author.image}
+                objectFit="cover"
+                src={author.image.asset.url}
                 alt={author.name}
               />
               <Box color="grey.900" my={4} pl={4}>
@@ -99,7 +99,7 @@ export default function JamAuthorBanner({ author }) {
               </Box>
             </HStack>
             <Box textColor="white" background="grey.900" px={4} pb={8} pt={4}>
-              <BlockContent blocks={author.bio} />
+              <BlockContent blocks={author.bioRaw} />
             </Box>
           </Box>
         </Box>
@@ -130,7 +130,7 @@ export default function JamAuthorBanner({ author }) {
                   objectFit="contain"
                   layout="fill"
                   cloudName="mediadevs"
-                  publicId={author.image}
+                  publicId={author.image.asset.url}
                   alt={author.name}
                 />
               </Box>
@@ -143,7 +143,7 @@ export default function JamAuthorBanner({ author }) {
                     By Media Developer Expert, Developer 🥑
                   </AuthorByline>
                   <Text maxWidth="80%">
-                    <BlockContent blocks={author.bio} />
+                    <BlockContent blocks={author.bioRaw} />
                   </Text>
                 </Box>
               </Box>

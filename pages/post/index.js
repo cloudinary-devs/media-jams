@@ -5,7 +5,7 @@ import { dehydrate } from 'react-query/hydration';
 import { useFetchUser, useUser } from '@lib/user';
 import { allPosts, allTags, allCategories } from 'lib/api';
 import { jams } from '@lib/queries/jams';
-import { tags as fetchTags } from '@lib/queries/tags';
+import { tags as queryTags } from '@lib/queries/tags';
 import {
   categories as queryCategories,
   categoriesWithTags,
@@ -46,7 +46,7 @@ export default function Post(props) {
   const { data, isLoading } = useQuery('allJams', jams.get());
   const {
     data: { jamTags },
-  } = useQuery('jamTags', fetchTags.get());
+  } = useQuery('jamTags', queryTags.get());
   const {
     data: { jamCategories, categoryTags },
   } = useQuery('jamCategories', queryCategories.get());
@@ -194,7 +194,7 @@ export default function Post(props) {
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
   // await queryClient.prefetchQuery('allJams', jams.get());
-  await queryClient.prefetchQuery('jamTags', fetchTags.getStatic());
+  await queryClient.prefetchQuery('jamTags', queryTags.getStatic());
   await queryClient.prefetchQuery('jamCategories', queryCategories.getStatic());
   return {
     props: {
