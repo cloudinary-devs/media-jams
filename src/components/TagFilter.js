@@ -38,7 +38,7 @@ export default function TagFilter({
 
   React.useEffect(() => {
     if (search === '') {
-      setFilteredTagResults(categories);
+      // setFilteredTagResults(categories);
     } else {
       const results = fuse.search(search).map((result) => result.item);
       setFilteredTagResults(results);
@@ -52,7 +52,7 @@ export default function TagFilter({
       <VStack my="1.5rem" alignItems="flex-start">
         <Flex direction="column" p={6}>
           {search.length > 0 &&
-            filteredTagResults.map((tag) => {
+            filteredTagResults?.map((tag) => {
               return (
                 <Box mb={10} key={tag._id}>
                   <Wrap spacing={2}>
@@ -76,7 +76,7 @@ export default function TagFilter({
             }}
           >
             {search === '' &&
-              filteredTagResults.map((cat) => {
+              filteredTagResults?.map((cat) => {
                 return (
                   <Box key={cat._id} mb={10}>
                     <Text color="red.400">{cat.title}</Text>

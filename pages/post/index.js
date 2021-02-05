@@ -6,7 +6,10 @@ import { useFetchUser, useUser } from '@lib/user';
 import { allPosts, allTags, allCategories } from 'lib/api';
 import { jams } from '@lib/queries/jams';
 import { tags as fetchTags } from '@lib/queries/tags';
-import { categories as queryCategories } from '@lib/queries/categories';
+import {
+  categories as queryCategories,
+  categoriesWithTags,
+} from '@lib/queries/categories';
 
 import JamAccordion from '@components/JamAccordion_GQL';
 import SearchInput from '@components/SearchInput';
@@ -45,7 +48,7 @@ export default function Post(props) {
     data: { jamTags },
   } = useQuery('jamTags', fetchTags.get());
   const {
-    data: { jamCategories },
+    data: { jamCategories, categoryTags },
   } = useQuery('jamCategories', queryCategories.get());
 
   // State
