@@ -1,6 +1,17 @@
 import Layout from '@components/Layout';
 
-import { Flex, Heading, useDisclosure } from '@chakra-ui/react';
+import {
+  Flex,
+  Box,
+  Text,
+  Link,
+  Grid,
+  Heading,
+  useDisclosure,
+  Icon,
+} from '@chakra-ui/react';
+import { FaDiscord } from 'react-icons/fa';
+import { Link as NextLink } from 'next/link';
 
 import JamAccordion from '@components/JamAccordion';
 import { boxShadow } from '@utils/styles';
@@ -87,74 +98,176 @@ export default function Dashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Layout isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
-      <Flex
-        overflow="auto"
-        alignItems="center"
-        pt={2}
-        justifyContent="space-around"
-        direction={{ base: 'column', md: 'column', lg: 'column', xl: 'row' }}
+      <Grid
+        height="100vh"
+        templateAreas={`
+          "featured paths ad"
+          "featured paths five"
+          "featured authors five"
+        `}
+        templateColumns="1.3fr 1fr 1fr"
+        templateRows="1fr 1fr 1fr"
+        gap={8}
+        p={8}
       >
+        {/* FEATURED */}
         <Flex
-          direction={{ base: 'row', md: 'row', lg: 'column', xl: 'column' }}
-          h={{ base: '30%', md: '40%', lg: '40%', xl: '80%' }}
-          width={{ base: '95%', md: '80%', lg: '90%', xl: '20%' }}
-          border="1px solid black"
-          borderRadius="md"
-          mb={{ base: 4, md: 4, lg: 4, xl: 0 }}
-          boxShadow={boxShadow}
-        ></Flex>
-
-        {/* HEADER */}
-        <Flex
+          gridArea="featured"
+          overflow="scroll"
+          bg="blue.200"
           direction="column"
-          boxShadow={boxShadow}
+          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
           borderRadius="lg"
-          h={{ base: '700px', md: '90%', lg: '90%', xl: '80%' }}
-          w={{ base: '100%', md: '90%', lg: '90%', xl: '50%' }}
           p={5}
-          overflow="auto"
         >
-          <Heading textStyle="headline-interstitial" color="red.400" mb={3}>
+          <Heading textStyle="headline-interstitial" color="blue.400" mb={3}>
             Featured Jams
           </Heading>
           <Flex direction="column" w="100%">
             {featuredPosts.map((post) => (
               <JamAccordion
-                w={{ base: '100%', md: '90%', lg: '70%', xl: '50%' }}
+                color="blue"
+                w="100%"
                 key={post._id}
                 post={post}
+                defaultIndex={[0]}
               />
             ))}
           </Flex>
         </Flex>
 
+        {/* AD */}
         <Flex
-          direction={{ base: 'row', md: 'row', lg: 'column', xl: 'column' }}
-          h={{ base: '30%', md: '40%', lg: '40%', xl: '80%' }}
-          w={{ base: '95%', md: '80%', lg: '90%', xl: '20%' }}
-          border="1px solid black"
-          borderRadius="md"
-          mt={{ base: 4, md: 4, lg: 4, xl: 0 }}
-          boxShadow={boxShadow}
-        ></Flex>
-      </Flex>
+          direction="column"
+          justify="center"
+          align="center"
+          bg="#7289DA"
+          borderRadius="8px"
+          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+          gridArea="ad"
+        >
+          <Icon as={FaDiscord} color="white" h={32} w={32} />
+          <Text color="white" fontSize="md">
+            Learn with others & meet our authors
+          </Text>
+          <Link
+            as={NextLink}
+            color="white"
+            _visited="white"
+            textDecor="underline"
+            href="https://discord.gg/mediadevs"
+          >
+            discord.gg/mediadevs
+          </Link>
+        </Flex>
 
-      {/* PATHS */}
-      <Flex
-        direction="column"
-        w={{ base: '95%', md: '80%', lg: '90%', xl: '95%' }}
-        alignSelf="center"
-        boxShadow={boxShadow}
-        height="300px"
-        borderRadius="lg"
-        border="1px solid black"
-        mt={{ base: 3, md: 3, lg: 3, xl: 0 }}
-        mb={4}
-      >
-        <Heading ml={4} textStyle="headline-page" color="red.400">
-          Paths
-        </Heading>
-      </Flex>
+        {/* AUTHORS */}
+        <Flex
+          w="100%"
+          align="center"
+          overflowX="auto"
+          flexWrap="nowrap"
+          borderRadius="8px"
+          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+          bg="green.200"
+          gridArea="authors"
+        >
+          <Flex
+            ml={8}
+            mr={8}
+            flex="0 0 auto"
+            bg="white"
+            w="150px"
+            height="200px"
+            borderRadius="8px"
+            boxSahdow={boxShadow}
+          ></Flex>
+          <Flex
+            mr={8}
+            flex="0 0 auto"
+            bg="white"
+            w="150px"
+            height="200px"
+            borderRadius="8px"
+            boxSahdow={boxShadow}
+          ></Flex>
+          <Flex
+            mr={8}
+            flex="0 0 auto"
+            bg="white"
+            w="150px"
+            height="200px"
+            borderRadius="8px"
+            boxSahdow={boxShadow}
+          ></Flex>
+          <Flex
+            mr={8}
+            flex="0 0 auto"
+            bg="white"
+            w="150px"
+            height="200px"
+            borderRadius="8px"
+            boxSahdow={boxShadow}
+          ></Flex>
+        </Flex>
+
+        {/* PATHS */}
+        <Flex
+          bg="#AAAAAA"
+          w="100%"
+          direction="column"
+          align="center"
+          borderRadius="8px"
+          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+          gridArea="paths"
+        >
+          <Heading
+            pl={4}
+            textStyle="headline-page"
+            color="white"
+            alignSelf="flex-start"
+          >
+            Paths
+          </Heading>
+          <Flex
+            flexGrow="1"
+            direction="column"
+            justify="space-evenly"
+            align="center"
+            width="100%"
+          >
+            <Box
+              w="95%"
+              h="30%"
+              bg="#D2D2D2"
+              borderRadius="8px"
+              boxShadow={boxShadow}
+            ></Box>
+            <Box
+              w="95%"
+              h="30%"
+              bg="#D2D2D2"
+              borderRadius="8px"
+              boxShadow={boxShadow}
+            ></Box>
+            <Box
+              w="95%"
+              h="30%"
+              bg="#D2D2D2"
+              borderRadius="8px"
+              boxShadow={boxShadow}
+            ></Box>
+          </Flex>
+        </Flex>
+
+        {/* FIVE */}
+        <Box
+          borderRadius="8px"
+          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+          bg="gray.200"
+          gridArea="five"
+        ></Box>
+      </Grid>
     </Layout>
   );
 }

@@ -9,10 +9,9 @@ import Layout from '@components/Layout';
 import TagFilter from '@components/TagFilter';
 import { boxShadow } from '@utils/styles';
 
-import { Flex, Heading, useDisclosure, Box } from '@chakra-ui/react';
+import { Flex, Grid, Heading, useDisclosure, Box } from '@chakra-ui/react';
 
 import Fuse from 'fuse.js';
-import JamAccordian from '../../src/components/JamAccordion';
 
 const fuseOptions = {
   threshold: 0.35,
@@ -80,28 +79,58 @@ export default function Post({ posts, tags, categories }) {
   };
 
   return (
-    <Layout
-      isOpen={isOpen}
-      onClose={onClose}
-      onOpen={onOpen}
-      p={{ base: 0, md: 5, lg: 10 }}
-    >
-      <Flex
-        overflow="auto"
-        w="100%"
-        justifyContent="space-around"
-        direction={{ base: 'column', md: 'column', lg: 'column', xl: 'row' }}
+    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
+      <Grid
+        height="100vh"
+        templateAreas={{
+          base: `
+            "one"
+            "one"
+            "two"            
+            "four"
+            "five"
+          `,
+          md: `
+          
+          `,
+          lg: `
+            "two one three "
+            "two one five"
+            "four one five"
+          `,
+          xl: `
+
+          `,
+        }}
+        templateColumns={{
+          base: '100%',
+          md: '',
+          lg: '.5fr 1fr .5fr',
+          xl: '1fr 2fr 1fr',
+        }}
+        gap={8}
+        p={{
+          base: 0,
+          md: '',
+          lg: '',
+          xl: 8,
+        }}
       >
-        {/* LIST ALL JAMS */}
         <Flex
-          alignSelf="center"
-          h={{ base: '100%', md: '95%' }}
+          gridArea="one"
           p={4}
+          bg={{
+            base: 'none',
+            md: '',
+            lg: 'red.200',
+          }}
           overflow="auto"
-          mt={4}
-          boxShadow={boxShadow}
+          borderRadius="8px"
+          boxShadow={{ base: 'none', lg: boxShadow }}
           direction="column"
-          w={{ base: '95%', md: '90%', lg: '95%', xl: '50%' }}
+          mt={{ base: 8, lg: 0 }}
+          w="100%"
+          maxH="100%"
         >
           <SearchInput
             searchValue={searchValue}
@@ -109,6 +138,7 @@ export default function Post({ posts, tags, categories }) {
             showFilters={showFilters}
             setShowFilters={setShowFilters}
             width="100%"
+            color="red"
             mb={3}
           />
           {showFilters && (
@@ -118,7 +148,6 @@ export default function Post({ posts, tags, categories }) {
               mb={5}
               mt="16px"
               border="2px solid black"
-              h="auto"
             >
               <TagFilter
                 tags={tags}
@@ -131,69 +160,38 @@ export default function Post({ posts, tags, categories }) {
             </Flex>
           )}
           {filteredPosts.map((post) => (
-            <JamAccordion width="100%" key={post._id} post={post} />
+            <JamAccordion color="red" width="100%" key={post._id} post={post} />
           ))}
         </Flex>
 
-        {/* BOOKMARK CTA  */}
-        <Flex
-          h="100%"
-          justifyContent="space-around"
-          alignSelf="center"
-          direction="column"
-          w={{ base: '90%', md: '90%', lg: '90%', xl: '35%' }}
-          mt={4}
-        >
-          <Flex
-            mb={{ base: 4, md: 4, lg: 0 }}
-            position="relative"
-            boxShadow={boxShadow}
-            borderRadius="md"
-            h={80}
-          >
-            <Box
-              left="0"
-              position="absolute"
-              top="0"
-              h="100%"
-              w="100%"
-              overflow="hidden"
-            >
-              <Box
-                left="-64px"
-                position="absolute"
-                top="32px"
-                height="32px"
-                width="206px"
-                transform="rotate(-45deg)"
-                backgroundColor="rgba(0,0,0,.3)"
-                textAlign="center"
-                color="red.400"
-                pt={1}
-              >
-                Sign up!
-              </Box>
-            </Box>
-          </Flex>
-          <Flex
-            mb={{ base: 4, md: 4, lg: 0 }}
-            mt={{ base: 4, md: 3, lg: 5, xl: 0 }}
-            p={4}
-            boxShadow={boxShadow}
-            borderRadius="md"
-            h={80}
-            direction="column"
-            overflow="auto"
-          >
-            <Heading textStyle="headline-interstitial" color="red.400" mb={3}>
-              Newest Jams
-            </Heading>
-            {newPosts.map((post) => (
-              <JamAccordian width="100%" key={post._id} post={post} />
-            ))}
-          </Flex>
-        </Flex>
-      </Flex>
+        <Box
+          borderRadius="8px"
+          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+          bg="yellow"
+          gridArea="two"
+        ></Box>
+
+        <Box
+          borderRadius="8px"
+          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+          bg="green.200"
+          gridArea="three"
+        ></Box>
+
+        <Box
+          borderRadius="8px"
+          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+          bg="blue.200"
+          gridArea="four"
+        ></Box>
+
+        <Box
+          borderRadius="8px"
+          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+          bg="blue.200"
+          gridArea="five"
+        ></Box>
+      </Grid>
     </Layout>
   );
 }

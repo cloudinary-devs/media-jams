@@ -10,7 +10,7 @@ export default function TagButton({ addTag, removeTag, searchTags, tag }) {
       fontSize={16}
       _hover={{
         cursor: 'pointer',
-        bg: 'blue.400',
+        bg: 'red.400',
         color: 'white',
       }}
       key={tag.toString()}
@@ -21,7 +21,7 @@ export default function TagButton({ addTag, removeTag, searchTags, tag }) {
       }
       bg={
         searchTags.some((selected) => selected.title === tag.title)
-          ? 'blue.400'
+          ? 'red.400'
           : 'none'
       }
     >
