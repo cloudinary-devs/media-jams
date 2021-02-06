@@ -87,7 +87,7 @@ export default function JamAccordion({ color, post, width, defaultIndex }) {
         </Flex>
         <AccordionPanel pt={4}>
           <Flex direction="column">
-            <Text>{post.description}</Text>
+            <Text fontSize={{ base: 'sm', xl: 'xl' }}>{post.description}</Text>
           </Flex>
         </AccordionPanel>
       </AccordionItem>
