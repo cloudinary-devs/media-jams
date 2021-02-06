@@ -220,14 +220,42 @@ export default function Dashboard() {
           borderRadius="8px"
           boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
           gridArea="paths"
+          position="relative"
+          overflow="hidden"
         >
+          <Box
+            position="absolute"
+            zIndex="2"
+            backgroundColor="rgba(0,0,0,0.7)"
+            height="100%"
+            width="100%"
+            top="0px"
+            left="0px"
+          />
+          <Box
+            position="absolute"
+            zIndex="4"
+            height="34px"
+            width="260px"
+            left="-64px"
+            top="50px"
+            transform="rotate(-40deg)"
+            backgroundColor="red.400"
+            textAlign="center"
+            color="white"
+          >
+            <Text size="md" fontWeight="bold" pt={1} letterSpacing="2px">
+              Coming Soon
+            </Text>
+          </Box>
           <Heading
             pl={4}
             textStyle="headline-page"
             color="white"
             alignSelf="flex-start"
+            fontSize="5xl"
           >
-            Paths
+            Learning Paths
           </Heading>
           <Flex
             flexGrow="1"
