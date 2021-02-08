@@ -1,7 +1,10 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { QueryClient, useQuery } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
 import { serializeArray, deserializeArray } from '@hooks/useQueryParameter';
 import { allPosts, allCategories } from '../lib/api';
+import { jams as queryJams } from '@lib/queries/jams';
 
 import {
   Flex,
@@ -22,9 +25,14 @@ import Footer from '@components/Footer';
 import SEO from '@components/SEO';
 import Navbar from '@components/Navbar';
 
-export default function Index({ props, posts, categories, assets }) {
+export default function Index({ posts, assets, ...props }) {
   const [searchTags, setSearchTags] = React.useState([]);
   const router = useRouter();
+  // Query
+  const {
+    data: { jams },
+    isLoading,
+  } = useQuery('allJams', queryJams.get);
 
   function addTagsToRoute(tags) {
     const tagsArr = [];
@@ -88,12 +96,6 @@ export default function Index({ props, posts, categories, assets }) {
                   enim.{' '}
                 </Box>
                 <Flex direction="column" pt={50}>
-                  <TabbedTagSelection
-                    tabs={categories}
-                    addTag={addTag}
-                    removeTag={removeTag}
-                    searchTags={searchTags}
-                  />
                   <Button
                     as={Link}
                     mt={10}
@@ -112,7 +114,7 @@ export default function Index({ props, posts, categories, assets }) {
             </Flex>
           </VStack>
 
-          <FeaturedJams posts={posts} />
+          <FeaturedJams posts={jams} />
 
           <EmailSubscription />
         </Box>
@@ -124,7 +126,9 @@ export default function Index({ props, posts, categories, assets }) {
 
 export async function getStaticProps() {
   const cloudinary = require('cloudinary').v2;
-  const [posts, categories] = await Promise.all([allPosts(), allCategories()]);
+  const queryClient = new QueryClient();
+  const [posts] = await Promise.all([allPosts()]);
+  await queryClient.prefetchQuery('allJams', queryJams.getStatic);
 
   cloudinary.config({
     cloud_name: 'mediadevs',
@@ -135,7 +139,8 @@ export async function getStaticProps() {
   return {
     props: {
       posts,
-      categories,
+      dehydratedState: dehydrate(queryClient),
+      assets,
     },
   };
 }

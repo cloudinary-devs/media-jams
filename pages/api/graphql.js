@@ -5,8 +5,9 @@ const endpoint = process.env.HASURA_GRAPHQL_URL;
 /**
  * Check req for auth token from session.
  * w/o it calls will have a 'pubic' role in the header
- * @param {*} req
- * @param {*} res
+ * calls to `tokenCache` throw on failure
+ * @param {Object} req request
+ * @param {Object} res response
  */
 const userRequestHeader = async (req, res) => {
   const headers = {};

@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { jams } from '@lib/queries/jams';
+import { jams as queryJams } from '@lib/queries/jams';
 import { tags as queryTags } from '@lib/queries/tags';
 import {
   categories as queryCategories,
@@ -41,7 +41,10 @@ const fuseOptions = {
 
 export default function Post(props) {
   // Query
-  const { data, isLoading } = useQuery('allJams', jams.get);
+  const {
+    data: { jams },
+    isLoading,
+  } = useQuery('allJams', queryJams.get);
   const {
     data: { jamTags },
   } = useQuery('jamTags', queryTags.get);
@@ -58,10 +61,10 @@ export default function Post(props) {
   const router = useRouter();
   React.useEffect(() => {
     // do some checking here to ensure data exist
-    if (isLoading === false && data) {
-      setFilteredPosts(data.allPost);
+    if (isLoading === false && jams) {
+      setFilteredPosts(jams);
     }
-  }, [isLoading, data]);
+  }, [isLoading, jams]);
 
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
@@ -75,7 +78,7 @@ export default function Post(props) {
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
     if (searchValue === '' && selectedFilters.length === 0) {
-      handleFilter(data?.allPost);
+      handleFilter(jams);
     } else {
       // Allow for a search for tag
       const formattedTags = [
@@ -95,7 +98,7 @@ export default function Post(props) {
     }
   }, [searchValue, selectedFilters]);
 
-  const fuse = new Fuse(data?.allPost, fuseOptions);
+  const fuse = new Fuse(jams, fuseOptions);
 
   function addTag(tag) {
     return setSelectedFilters((prev) => [...prev, tag]);

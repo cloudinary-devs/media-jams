@@ -31,7 +31,7 @@ export default function Card({ post }) {
     <Stack
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.99 }}
-      href={`/post/${post.slug}`}
+      href={`/post/${post.slug.current}`}
       boxShadow={boxShadow}
       backgroundColor="white"
       h={64}
@@ -45,7 +45,7 @@ export default function Card({ post }) {
           size="lg"
           name={author.name}
           mr={2}
-          src={author.image}
+          src={author.image.asset.url}
           _groupHover={{
             visibility: 'hidden',
           }}
@@ -66,7 +66,7 @@ export default function Card({ post }) {
             <WrapItem justifySelf="center" alignSelf="center">
               <Tag colorScheme="green">
                 <TagLeftIcon as={FaTag} />
-                <TagLabel>{tag}</TagLabel>
+                <TagLabel>{tag.title}</TagLabel>
               </Tag>
             </WrapItem>
           ))}
