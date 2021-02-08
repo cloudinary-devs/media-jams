@@ -3,23 +3,24 @@ import { useQuery } from 'react-query';
 import { Flex, Heading, useDisclosure } from '@chakra-ui/react';
 
 import JamAccordion from '@components/JamAccordion';
+import { withAuthRequired } from '@components/withAuth';
 import { boxShadow } from '@utils/styles';
 
 import { bookmarks } from '@lib/queries/bookmarks';
 import { jams } from '@lib/queries/jams';
 
-export default function Bookmarks() {
+function Bookmarks() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { status, data, error, isFetching } = useQuery(
     'bookmarks',
-    bookmarks.get(),
+    bookmarks.get,
   );
   const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
 
   // Then get the posts for this bookmark content_id's
   const { isIdle, data: posts, isSuccess } = useQuery(
     'bookmark jams',
-    jams.getByIds(postIds),
+    () => jams.getByIds(postIds),
     {
       // The query will not execute until the postIds exists
       enabled: !!postIds,
@@ -72,3 +73,5 @@ export default function Bookmarks() {
     </Layout>
   );
 }
+
+export default withAuthRequired(Bookmarks);

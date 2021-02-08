@@ -54,7 +54,7 @@ export default function Post({ post, preview }) {
 export const getStaticPaths = async () => {
   const {
     data: { jams },
-  } = await queryJams.getStaticWithSlug()();
+  } = await queryJams.getStaticWithSlug();
   return {
     paths:
       jams
@@ -72,7 +72,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params: { slug }, preview = false }) => {
   const {
     data: { jams },
-  } = await queryJams.getStaticBySlug(slug)();
+  } = await queryJams.getStaticBySlug(slug);
   const [jam] = jams;
   try {
     // Convert the body of Jam from sanity portable text to string

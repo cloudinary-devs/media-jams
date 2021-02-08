@@ -2,6 +2,12 @@ import auth0 from '@lib/auth0';
 import { GraphQLClient } from 'graphql-request';
 const endpoint = process.env.HASURA_GRAPHQL_URL;
 
+/**
+ * Check req for auth token from session.
+ * w/o it calls will have a 'pubic' role in the header
+ * @param {*} req
+ * @param {*} res
+ */
 const userRequestHeader = async (req, res) => {
   const headers = {};
   try {

@@ -11,9 +11,11 @@ import {
   AccordionIcon,
   IconButton,
 } from '@chakra-ui/react';
+import react, { useEffect, useState } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { useQuery } from 'react-query';
 import { bookmarks } from '@lib/queries/bookmarks';
+import { useFetchUser } from '@lib/user';
 
 import { boxShadow } from '@utils/styles';
 
@@ -25,8 +27,14 @@ export default function JamAccordion({
   ...rest
 }) {
   const { author } = post;
-  const { data } = useQuery('bookmarks', bookmarks.get());
-  const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
+  const { user, loading } = useFetchUser();
+  const [isBookmarked, setBookmark] = useState(false);
+  useEffect(() => {
+    if (!loading && user) {
+      const { data } = useQuery('bookmarks', bookmarks.get);
+      const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
+    }
+  }, [user, loading]);
   return (
     <Accordion
       w={width}
@@ -83,9 +91,7 @@ export default function JamAccordion({
               More
             </Button>
             <IconButton
-              icon={
-                postIds?.includes(post._id) ? <FaBookmark /> : <FaRegBookmark />
-              }
+              icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
             ></IconButton>
             <AccordionButton
               as={Button}

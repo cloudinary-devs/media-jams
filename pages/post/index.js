@@ -41,13 +41,13 @@ const fuseOptions = {
 
 export default function Post(props) {
   // Query
-  const { data, isLoading } = useQuery('allJams', jams.get());
+  const { data, isLoading } = useQuery('allJams', jams.get);
   const {
     data: { jamTags },
-  } = useQuery('jamTags', queryTags.get());
+  } = useQuery('jamTags', queryTags.get);
   const {
     data: { jamCategories, categoryTags },
-  } = useQuery('jamCategories', queryCategories.get());
+  } = useQuery('jamCategories', queryCategories.get);
 
   // State
   const [filteredPosts, setFilteredPosts] = React.useState([]);
@@ -192,8 +192,8 @@ export default function Post(props) {
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
   // await queryClient.prefetchQuery('allJams', jams.get());
-  await queryClient.prefetchQuery('jamTags', queryTags.getStatic());
-  await queryClient.prefetchQuery('jamCategories', queryCategories.getStatic());
+  await queryClient.prefetchQuery('jamTags', queryTags.getStatic);
+  await queryClient.prefetchQuery('jamCategories', queryCategories.getStatic);
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
