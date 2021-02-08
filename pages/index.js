@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { serializeArray, deserializeArray } from '@hooks/useQueryParameter';
-import { allPosts, allCategories } from '../lib/api';
 import { jams as queryJams } from '@lib/queries/jams';
 
 import {
@@ -25,7 +24,7 @@ import Footer from '@components/Footer';
 import SEO from '@components/SEO';
 import Navbar from '@components/Navbar';
 
-export default function Index({ posts, assets, ...props }) {
+export default function Index({ assets, ...props }) {
   const [searchTags, setSearchTags] = React.useState([]);
   const router = useRouter();
   // Query
@@ -127,7 +126,6 @@ export default function Index({ posts, assets, ...props }) {
 export async function getStaticProps() {
   const cloudinary = require('cloudinary').v2;
   const queryClient = new QueryClient();
-  const [posts] = await Promise.all([allPosts()]);
   await queryClient.prefetchQuery('allJams', queryJams.getStatic);
 
   cloudinary.config({
@@ -138,7 +136,6 @@ export async function getStaticProps() {
 
   return {
     props: {
-      posts,
       dehydratedState: dehydrate(queryClient),
       assets,
     },
