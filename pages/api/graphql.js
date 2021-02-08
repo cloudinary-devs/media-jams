@@ -1,23 +1,26 @@
 import auth0 from '@lib/auth0';
 import { GraphQLClient } from 'graphql-request';
+const endpoint = process.env.HASURA_GRAPHQL_URL;
+
+const userRequestHeader = async (req, res) => {
+  const headers = {};
+  try {
+    const tokenCache = auth0.tokenCache(req, res);
+    const { accessToken } = await tokenCache.getAccessToken();
+    headers['Authorization'] = `Bearer ${accessToken}`;
+  } catch (error) {
+    headers['X-Hasura-Role'] = 'public';
+  } finally {
+    return headers;
+  }
+};
 
 export default async function graphql(req, res) {
   try {
     // Get user acces_token IF available
-    const tokenCache = auth0.tokenCache(req, res);
-    const { accessToken } = await tokenCache.getAccessToken();
-    const endpoint = process.env.HASURA_GRAPHQL_URL;
-    const graphQLClient = new GraphQLClient(endpoint);
-    // Set headers
-    // either an accessToken or a 'X-Hasura-Role' of 'public'
-    const headers = accessToken
-      ? {
-          Authorization: `Bearer ${accessToken}`,
-        }
-      : {
-          'X-Hasura-Role': 'public',
-        };
+    const headers = await userRequestHeader(req, res);
 
+    const graphQLClient = new GraphQLClient(endpoint);
     graphQLClient.setHeaders(headers);
     const { query, variables } = req.body;
     const data = await graphQLClient.request(query, variables);
