@@ -48,7 +48,10 @@ export default function SearchInput({
           fontSize: 'sm',
         }}
       />
-      <InputRightElement p={3}>
+      <InputRightElement
+        display={{ base: 'inherit', lg: 'none', xl: 'none' }}
+        p={3}
+      >
         <IconButton
           onClick={() => setShowFilters(!showFilters)}
           icon={<FaFilter />}

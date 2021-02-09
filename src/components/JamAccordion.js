@@ -44,7 +44,7 @@ export default function JamAccordion({ color, post, width, defaultIndex }) {
               >
                 {post.title}
               </Heading>
-              <Text fontSize={{ base: '12px', md: 'sm' }}>
+              <Text fontSize={{ base: 'sm', md: 'sm', lg: 'md' }}>
                 By {author.name}
               </Text>
               <Flex flexWrap="wrap">
@@ -62,12 +62,10 @@ export default function JamAccordion({ color, post, width, defaultIndex }) {
           </Flex>
           <Flex justifyContent="space-around" width={36} alignItems="center">
             <Button
-              colorScheme={color}
-              size="sm"
-              w={16}
-              p="8px"
-              mr={2}
               as="a"
+              colorScheme={color}
+              size={{ base: 'lg', lg: 'lg' }}
+              mr={2}
               href={`/post/${post.slug}`}
             >
               More
@@ -87,7 +85,9 @@ export default function JamAccordion({ color, post, width, defaultIndex }) {
         </Flex>
         <AccordionPanel pt={4}>
           <Flex direction="column">
-            <Text fontSize={{ base: 'sm', xl: 'xl' }}>{post.description}</Text>
+            <Text fontSize={{ base: 'sm', lg: 'md', xl: 'md' }}>
+              {post.description}
+            </Text>
           </Flex>
         </AccordionPanel>
       </AccordionItem>

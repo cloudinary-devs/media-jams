@@ -23,8 +23,8 @@ export default function Dashboard() {
       <Grid
         height={{
           base: 'auto',
-          md: 'auto',
-          lg: 'auto',
+          md: '100%',
+          lg: '100%',
           xl: '100vh',
         }}
         templateAreas={{
@@ -61,13 +61,13 @@ export default function Dashboard() {
         }}
         templateRows={{
           base: 'repeat(5 , 500px)',
-          md: '3fr 1fr 1fr',
-          md: '3fr 1fr 1fr',
+          md: 'repeat(4, 300px)',
+          lg: 'repeat(4, 300px)',
           xl: '1fr 1fr 1fr',
         }}
         gap={8}
         p={8}
-        overflow={{ base: 'auto', lg: 'none' }}
+        overflow={{ md: 'auto', lg: 'auto', xl: 'none' }}
       >
         <Featured featuredPosts={featuredPosts} />
         <DiscordAd />

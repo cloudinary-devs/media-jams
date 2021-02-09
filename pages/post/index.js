@@ -84,92 +84,63 @@ export default function Post({ posts, tags, categories }) {
         height="100vh"
         templateAreas={{
           base: `
-            "one"
-            "one"
-            "two"            
+            "JamSearch"
+            "JamSearch"
+            "three"            
             "four"
             "five"
           `,
           md: `
-          
-          `,
-          lg: `
-            "two one three "
-            "two one five"
-            "four one five"
+            "JamSearch JamSearch"
+            "three three"
+            "four five"
           `,
           xl: `
-
+          "SearchFilters JamSearch three "
+          "four JamSearch three"
+          "four JamSearch five"
           `,
         }}
         templateColumns={{
           base: '100%',
-          md: '',
-          lg: '.5fr 1fr .5fr',
+          md: '1fr 1fr',
           xl: '1fr 2fr 1fr',
         }}
-        gap={8}
-        p={{
-          base: 0,
-          md: '',
-          lg: '',
-          xl: 8,
+        templateRows={{
+          base: '70% repeat(4, 300px)',
+          md: '80vh 200px 500px',
+          xl: 'auto',
         }}
+        gap={8}
+        p={8}
+        overflow={{ base: 'auto', xl: null }}
       >
-        <Flex
-          gridArea="one"
-          p={4}
-          bg={{
-            base: 'none',
-            md: '',
-            lg: 'red.200',
-          }}
-          overflow="auto"
-          borderRadius="8px"
-          boxShadow={{ base: 'none', lg: boxShadow }}
-          direction="column"
-          mt={{ base: 8, lg: 0 }}
-          w="100%"
-          maxH="100%"
-        >
-          <SearchInput
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-            showFilters={showFilters}
-            setShowFilters={setShowFilters}
-            width="100%"
-            color="red"
-            mb={3}
-          />
-          {showFilters && (
-            <Flex
-              borderRadius="lg"
-              w="100%"
-              mb={5}
-              mt="16px"
-              border="2px solid black"
-            >
-              <TagFilter
-                tags={tags}
-                categories={categories}
-                addTag={addTag}
-                removeTag={removeTag}
-                selectedFilters={selectedFilters}
-                setSelectedFilters={setSelectedFilters}
-              />
-            </Flex>
-          )}
-          {filteredPosts.map((post) => (
-            <JamAccordion color="red" width="100%" key={post._id} post={post} />
-          ))}
-        </Flex>
-
-        <Box
-          borderRadius="8px"
-          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
-          bg="yellow"
-          gridArea="two"
-        ></Box>
+        <JamSearch
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          showFilters={showFilters}
+          setShowFilters={setShowFilters}
+          tags={tags}
+          categories={categories}
+          addTag={addTag}
+          removeTag={removeTag}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          filteredPosts={filteredPosts}
+        />
+        <SearchFilters
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          showFilters={showFilters}
+          setShowFilters={setShowFilters}
+          tags={tags}
+          categories={categories}
+          addTag={addTag}
+          removeTag={removeTag}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          filteredPosts={filteredPosts}
+        />
 
         <Box
           borderRadius="8px"
@@ -211,6 +182,88 @@ export const getStaticProps = async () => {
     },
   };
 };
+
+function JamSearch({
+  searchValue,
+  setSearchValue,
+  showFilters,
+  setShowFilters,
+  tags,
+  categories,
+  addTag,
+  removeTag,
+  selectedFilters,
+  setSelectedFilters,
+  filteredPosts,
+}) {
+  return (
+    <Flex
+      gridArea="JamSearch"
+      p={4}
+      bg="red.200"
+      overflow="auto"
+      borderRadius="8px"
+      boxShadow={{ base: 'none', lg: boxShadow }}
+      direction="column"
+      w="100%"
+    >
+      <SearchInput
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        showFilters={showFilters}
+        setShowFilters={setShowFilters}
+        width="100%"
+        color="red"
+        mb={3}
+      />
+      {showFilters && (
+        <Flex
+          borderRadius="lg"
+          w="100%"
+          mb={5}
+          mt="16px"
+          border="2px solid black"
+        >
+          <TagFilter
+            tags={tags}
+            categories={categories}
+            addTag={addTag}
+            removeTag={removeTag}
+            selectedFilters={selectedFilters}
+            setSelectedFilters={setSelectedFilters}
+          />
+        </Flex>
+      )}
+      {filteredPosts.map((post) => (
+        <JamAccordion color="red" width="100%" key={post._id} post={post} />
+      ))}
+    </Flex>
+  );
+}
+
+function SearchFilters({
+  searchValue,
+  setSearchValue,
+  showFilters,
+  setShowFilters,
+  tags,
+  categories,
+  addTag,
+  removeTag,
+  selectedFilters,
+  setSelectedFilters,
+  filteredPosts,
+}) {
+  return (
+    <Flex
+      borderRadius="8px"
+      boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+      bg="white"
+      display={{ md: 'none', lg: 'flex', xl: 'flex' }}
+      gridArea="SearchFilters"
+    ></Flex>
+  );
+}
 
 const newPosts = [
   {
