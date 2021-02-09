@@ -25,9 +25,10 @@
     "@chakra-ui/react": "^1.0.1",
     "@chakra-ui/theme": "^1.1.0",
     "@chakra-ui/theme-tools": "^1.0.1",
+    "@charlietango/use-native-lazy-loading": "1.9.0",
+    "@cld-apis/utils": "0.1.3",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
-    "@mdnextjs/components": "^0.2.0",
     "@mdx-js/loader": "^1.6.19",
     "@mdx-js/mdx": "^1.6.19",
     "@mdx-js/react": "^1.6.19",
@@ -42,6 +43,7 @@
     "@sentry/webpack-plugin": "^1.14.0",
     "@zeit/next-css": "^1.0.1",
     "cloudinary": "^1.23.0",
+    "cloudinary-build-url": "0.2.1",
     "codemirror": "^5.58.2",
     "css-loader": "^5.0.0",
     "fast-glob": "^3.2.4",
@@ -62,10 +64,10 @@
     "react-codemirror2": "^7.2.1",
     "react-dom": "^16.14.0",
     "react-icons": "^3.11.0",
+    "react-intersection-observer": "8.31.0",
     "react-live": "^2.2.2",
     "remark-mdx-remove-exports": "^1.6.19",
-    "remark-mdx-remove-imports": "^1.6.19",
-    "use-cloudinary": "^4.1.0"
+    "remark-mdx-remove-imports": "^1.6.19"
   },
   "devDependencies": {
     "@babel/helper-validator-option": "^7.12.1",

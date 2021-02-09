@@ -11,20 +11,13 @@ import {
 import { FaHome, FaPhotoVideo } from 'react-icons/fa';
 
 import { Link as NextLink } from 'next/link';
-
-import { useImage } from 'use-cloudinary';
+import { buildImageUrl } from 'cloudinary-build-url';
 
 export default function SideNav(props) {
-  const { generateImageUrl } = useImage('mediadevs');
-
-  const logoConfig = {
-    delivery: {
-      publicId: 'mediajams/logo',
-    },
-    transformation: {
-      height: 0.6,
-    },
-  };
+  const logo = buildImageUrl('mediajams/logo', {
+    cloud: { cloudName: 'mediadevs' },
+    transformations: { resize: { height: 0.7 } },
+  });
 
   return (
     <Flex
@@ -41,11 +34,7 @@ export default function SideNav(props) {
         background="grey.900"
         justifyContent="space-between"
       >
-        <Image
-          w="40%"
-          alt="MediaJams logo"
-          src={generateImageUrl(logoConfig)}
-        />
+        <Image w="40%" alt="MediaJams logo" src={logo} />
         <Button
           alignSelf="flex-end"
           p={4}

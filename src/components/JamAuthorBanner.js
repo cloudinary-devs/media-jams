@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { FaFacebook, FaTwitter, FaGlobe } from 'react-icons/fa';
 import BlockContent from '@sanity/block-content-to-react';
-import { useImage } from 'use-cloudinary';
+import { buildImageUrl } from 'cloudinary-build-url';
 import styled from '@emotion/styled';
 
 const AuthorByline = styled(Text)`
@@ -26,7 +26,17 @@ export default function JamAuthorBanner({ author }) {
     md: false,
   });
 
-  const { generateImageUrl } = useImage('mediadevs');
+  const placeholder = buildImageUrl('mediajams/placeholder', {
+    cloud: {
+      cloudName: 'mediadevs',
+    },
+    transformations: {
+      resize: {
+        height: 0.8,
+      },
+    },
+  });
+
   const imgConfig = {
     delivery: {
       publicId: 'mediajams/placeholder',

@@ -14,19 +14,19 @@ import {
 } from '@chakra-ui/react';
 import { FaHome, FaPhotoVideo } from 'react-icons/fa';
 
-import { useImage } from 'use-cloudinary';
+import { buildImageUrl } from 'cloudinary-build-url';
 
 export default function SideNavDrawer({ isOpen, onClose, ...props }) {
-  const { generateImageUrl } = useImage('mediadevs');
-
-  const logoConfig = {
-    delivery: {
-      publicId: 'mediajams/logo',
+  const logo = buildImageUrl('mediajams/logo', {
+    cloud: {
+      cloudName: 'mediadevs',
     },
-    transformation: {
-      height: 0.7,
+    transformations: {
+      resize: {
+        height: 0.7,
+      },
     },
-  };
+  });
 
   return (
     <Drawer {...props} isOpen={isOpen} placement="left" onClose={onClose}>
@@ -41,11 +41,7 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
             justifyContent="space-between"
           >
             <Flex justifyContent="space-between" mt={2}>
-              <Image
-                alt="MediaJams logo"
-                ml={2}
-                src={generateImageUrl(logoConfig)}
-              />
+              <Image alt="MediaJams logo" ml={2} src={logo} />
               <HStack spacing="2">
                 <Button colorScheme="blue">Log In</Button>
                 <Text mr={5} color="blue.400" as="u">

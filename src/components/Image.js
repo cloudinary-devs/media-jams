@@ -1,6 +1,20 @@
-import React from 'react';
+import NextImage from 'next/image';
 import { Image as ChakraImage } from '@chakra-ui/react';
-import { useImage } from 'use-cloudinary';
+import { buildImageUrl } from 'cloudinary-build-url';
+import useBlurredPlaceholder from '../hooks/useBlurredPlaceholder';
+
+const isUrl = (string) =>
+  string.match(
+    /^(ht|f)tps?:\/\/[a-z0-9-.]+\.[a-z]{2,4}\/?([^\s<>#%",{}\\|\\^[\]`]+)?$/,
+  );
+
+function decideStorageDefault(string) {
+  if (isUrl(string)) {
+    return 'fetch';
+  } else {
+    return 'upload';
+  }
+}
 
 export default function Image({
   src,
@@ -9,87 +23,73 @@ export default function Image({
   transforms,
   width,
   height,
-  whileLoading,
+  quality,
+  storageType,
+  alt,
   lazy,
-  ...props
+  ...rest
 }) {
   const {
-    generateImageUrl,
     blurredPlaceholderUrl,
-    ref,
     supportsLazyLoading,
+    ref,
     inView,
-  } = useImage(cloudName || null);
+  } = useBlurredPlaceholder(cloudName ? cloudName : '');
 
-  const imageConfig = {
-    delivery: {
-      publicId,
-    },
-    transformation: {
-      ...transforms,
-    },
-  };
+  const cloudinaryUrl =
+    cloudName &&
+    buildImageUrl(publicId, {
+      cloud: {
+        cloudName,
+        storageType: storageType ? storageType : decideStorageDefault(publicId),
+      },
+      transformations: {
+        resize: (width || height) && {
+          width: width ? width : null,
+          height: height ? height : null,
+        },
+        ...transforms,
+      },
+    });
 
-  // Not using Cloudinary
-  if (!publicId) {
-    // Try to lazy load all images when { lazy === true }
-    if (lazy) {
-      return (
-        <div
-          ref={!supportsLazyLoading ? ref : undefined}
-          style={{
-            width: `${width}px`,
-            height: `${height}px`,
-          }}
-        >
-          {inView ||
-            (supportsLazyLoading && (
-              <ChakraImage src={src} loading="lazy" width="100%" {...props} />
-            ))}
-        </div>
-      );
-    } else {
-      // Otherwise, just use the Chakra image component
-      return <ChakraImage src={src} {...props} />;
-    }
-
-    // Or if you are using Cloudinary, it will move to here
+  if (lazy) {
+    return (
+      <div
+        ref={!supportsLazyLoading ? ref : undefined}
+        style={{
+          width: 'auto',
+          background: `no-repeat url(${blurredPlaceholderUrl({
+            publicId,
+            width,
+            height,
+          })})`,
+        }}
+      >
+        {inView ||
+          (supportsLazyLoading && (
+            <ChakraImage
+              as={NextImage}
+              src={cloudName ? cloudinaryUrl : src}
+              width={width}
+              height={height}
+              quality={quality || 'auto'}
+              alt={alt}
+              {...rest}
+            />
+          ))}
+      </div>
+    );
   } else {
-    // lazy load w/ a blurred placeholder of the image that's loading
-    if (lazy) {
-      return (
-        <div
-          ref={!supportsLazyLoading ? ref : undefined}
-          style={{
-            width: `${width}px`,
-            height: `${height}px`,
-            background: `no-repeat url(${blurredPlaceholderUrl(
-              publicId,
-              width,
-              height,
-            )})`,
-          }}
-        >
-          {inView ||
-            (supportsLazyLoading && (
-              <ChakraImage
-                src={generateImageUrl(imageConfig)}
-                loading="lazy"
-                width="100%"
-                {...props}
-              />
-            ))}
-        </div>
-      );
-    } else {
-      // Just render the image
-      return (
-        <ChakraImage
-          src={generateImageUrl(imageConfig)}
-          width="100%"
-          {...props}
-        />
-      );
-    }
+    return (
+      <ChakraImage
+        as={NextImage}
+        src={cloudName ? cloudinaryUrl : src}
+        width={width}
+        height={height}
+        quality={quality || 'auto'}
+        alt={alt}
+        {...rest}
+      />
+    );
   }
 }

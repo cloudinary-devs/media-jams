@@ -4,7 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
 import { UserProvider, useUser } from '@lib/user';
-import { useImage } from 'use-cloudinary';
+import { buildImageUrl } from 'cloudinary-build-url';
 
 import { initSentry } from '@lib/sentry';
 //initialize Sentry
@@ -12,14 +12,9 @@ initSentry();
 
 const App = ({ Component, pageProps, err }) => {
   const { user, loading } = useUser();
-  const { generateImageUrl } = useImage('mediadevs');
-
-  // this doesn't exist in our cloudinary yet, but will plugin once it does
-  const ogImageConfig = {
-    delivery: {
-      publicId: 'mediajams/og-image',
-    },
-  };
+  const ogImage = buildImageUrl('mediajams/og-image', {
+    cloud: { cloudName: 'mediadevs' },
+  });
 
   React.useEffect(() => {}, []);
   return (
@@ -34,7 +29,7 @@ const App = ({ Component, pageProps, err }) => {
               url: 'www.mediajams.dev',
               title: 'Putting Media to work is hard',
               description: '',
-              image: generateImageUrl(ogImageConfig),
+              image: ogImage,
               siteName: 'MediaJams',
             }}
           />

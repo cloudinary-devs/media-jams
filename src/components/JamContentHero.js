@@ -11,7 +11,7 @@ import {
   HStack,
   VStack,
 } from '@chakra-ui/react';
-import { useImage } from 'use-cloudinary';
+import { buildImageUrl } from 'cloudinary-build-url';
 import styled from '@emotion/styled';
 
 const AuthorByline = styled(Text)`
@@ -33,15 +33,16 @@ export default function JamContentHero({
     lg: false,
   });
 
-  const { generateImageUrl } = useImage('mediadevs');
-  const imgConfig = {
-    delivery: {
-      publicId: 'mediajams/placeholder',
+  const placeholder = buildImageUrl('mediajams/placeholder', {
+    cloud: {
+      cloudName: 'mediadevs',
     },
-    transformation: {
-      height: 0.8,
+    transformations: {
+      resize: {
+        height: 0.8,
+      },
     },
-  };
+  });
 
   return (
     <>
@@ -51,7 +52,7 @@ export default function JamContentHero({
           direction="column"
           justifyContent="center"
           alignItems="center"
-          backgroundImage={`url(${generateImageUrl(imgConfig)})`}
+          backgroundImage={`url(${placeholder})`}
           backgroundSize="cover"
         >
           <Box backgroundColor="blue.200" opacity="90%">
@@ -69,11 +70,7 @@ export default function JamContentHero({
           alignItems="center"
         >
           <Box flex={{ sm: 1, base: 0 }} overflow="hidden">
-            <Image
-              maxWidth="100%"
-              alt="Feature Image"
-              src={generateImageUrl(imgConfig)}
-            />
+            <Image maxWidth="100%" alt="Feature Image" src={placeholder} />
           </Box>
           <HStack height="100%" width="100%" flex={2}>
             <VStack align="stretch" flex={1}>
