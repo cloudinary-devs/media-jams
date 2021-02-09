@@ -28,10 +28,7 @@ export default function Index({ assets, ...props }) {
   const [searchTags, setSearchTags] = React.useState([]);
   const router = useRouter();
   // Query
-  const {
-    data: { jams },
-    isLoading,
-  } = useQuery('allJams', queryJams.get);
+  const { data: jamData, isLoading } = useQuery('allJams', queryJams.get);
 
   function addTagsToRoute(tags) {
     const tagsArr = [];
@@ -113,7 +110,7 @@ export default function Index({ assets, ...props }) {
             </Flex>
           </VStack>
 
-          <FeaturedJams posts={jams} />
+          <FeaturedJams posts={jamData?.jams} />
 
           <EmailSubscription />
         </Box>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, act, waitFor } from 'test-utils';
 import Index from '../../pages/index.js';
 
 // we don't need sanity api to initialize.

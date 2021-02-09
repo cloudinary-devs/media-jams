@@ -41,7 +41,7 @@ const fuseOptions = {
 
 export default function Post(props) {
   // Query
-  const { data, isLoading } = useQuery('allJams', queryJams.get);
+  const { data: jamData, isLoading } = useQuery('allJams', queryJams.get);
   const {
     data: { jamTags },
   } = useQuery('jamTags', queryTags.get);
@@ -59,10 +59,10 @@ export default function Post(props) {
 
   React.useEffect(() => {
     // do some checking here to ensure data exist
-    if (isLoading === false && data?.jams) {
-      setFilteredPosts(data.jams);
+    if (isLoading === false && jamData?.jams) {
+      setFilteredPosts(jamData.jams);
     }
-  }, [isLoading, data]);
+  }, [isLoading, jamData]);
 
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
@@ -76,7 +76,7 @@ export default function Post(props) {
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
     if (searchValue === '' && selectedFilters.length === 0) {
-      handleFilter(data?.jams);
+      handleFilter(jamData?.jams);
     } else {
       // Allow for a search for tag
       const formattedTags = [
@@ -97,7 +97,7 @@ export default function Post(props) {
   }, [searchValue, selectedFilters]);
 
   // Set Fuse
-  const fuse = new Fuse(data?.jams, fuseOptions);
+  const fuse = new Fuse(jamData?.jams, fuseOptions);
 
   function addTag(tag) {
     return setSelectedFilters((prev) => [...prev, tag]);
