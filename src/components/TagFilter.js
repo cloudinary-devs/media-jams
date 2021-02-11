@@ -61,7 +61,6 @@ export default function TagFilter({
                         addTag={addTag}
                         removeTag={removeTag}
                         searchTags={selectedFilters}
-                        icon={<FaTag />}
                         tag={tag}
                       />
                     </WrapItem>
@@ -89,7 +88,6 @@ export default function TagFilter({
                               addTag={addTag}
                               removeTag={removeTag}
                               searchTags={selectedFilters}
-                              icon={<FaTag />}
                               tag={tag}
                             />
                           </WrapItem>

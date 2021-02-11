@@ -1,7 +1,7 @@
-import { Flex, Text, Box, Link, Button, Image } from '@chakra-ui/react';
+import { Flex, Text, Box, Link, Button } from '@chakra-ui/react';
+import Image from '@components/Image';
 import { Link as NextLink } from 'next/link';
 import { useFetchUser } from '@lib/user';
-import { useImage } from 'use-cloudinary';
 
 export function NavLink({ children, isButton, ...props }) {
   return (
@@ -26,16 +26,6 @@ export function NavLink({ children, isButton, ...props }) {
 
 export default function Navbar() {
   const { user, loading } = useFetchUser();
-  const { generateImageUrl } = useImage('mediadevs');
-
-  const logoConfig = {
-    delivery: {
-      publicId: 'mediajams/logo',
-    },
-    transformation: {
-      height: 0.7,
-    },
-  };
 
   return (
     <Flex
@@ -49,7 +39,13 @@ export default function Navbar() {
       color="white"
     >
       <Link href="/">
-        <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
+        <Image
+          cloudName="mediadevs"
+          publicId="mediajams/logo"
+          height={60}
+          width={120}
+          alt="MediaJams logo"
+        />
       </Link>
       <Box>
         <NavLink ml={4} href="/post">

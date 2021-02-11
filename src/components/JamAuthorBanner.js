@@ -6,14 +6,12 @@ import {
   Text,
   Flex,
   Box,
-  Image,
-  VStack,
   HStack,
-  IconButton,
 } from '@chakra-ui/react';
+import Image from '@components/Image';
 import { FaFacebook, FaTwitter, FaGlobe } from 'react-icons/fa';
 import BlockContent from '@sanity/block-content-to-react';
-import { useImage } from 'use-cloudinary';
+import { buildImageUrl } from 'cloudinary-build-url';
 import styled from '@emotion/styled';
 
 const AuthorByline = styled(Text)`
@@ -26,15 +24,16 @@ export default function JamAuthorBanner({ author }) {
     md: false,
   });
 
-  const { generateImageUrl } = useImage('mediadevs');
-  const imgConfig = {
-    delivery: {
-      publicId: 'mediajams/placeholder',
+  const placeholder = buildImageUrl('mediajams/placeholder', {
+    cloud: {
+      cloudName: 'mediadevs',
     },
-    transformation: {
-      height: 0.8,
+    transformations: {
+      resize: {
+        height: 0.8,
+      },
     },
-  };
+  });
 
   return (
     <Flex
@@ -67,12 +66,13 @@ export default function JamAuthorBanner({ author }) {
               height="100%"
             >
               <Image
-                w="130px"
+                width="130px"
+                height="auto"
                 ml="15px"
                 mt="-10px"
                 alignSelf="start"
-                objectFit="cover"
-                src={author.image}
+                cloudName="mediadevs"
+                publicId={author.image}
                 alt={author.name}
               />
               <Box color="grey.900" my={4} pl={4}>
@@ -127,9 +127,10 @@ export default function JamAuthorBanner({ author }) {
             >
               <Box boxSize="sm" overflow="hidden">
                 <Image
-                  fit="contain"
-                  width="100%"
-                  src={author.image}
+                  objectFit="contain"
+                  layout="fill"
+                  cloudName="mediadevs"
+                  publicId={author.image}
                   alt={author.name}
                 />
               </Box>

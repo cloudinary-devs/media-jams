@@ -7,11 +7,10 @@ import {
   Text,
   Flex,
   Box,
-  Image,
   HStack,
   VStack,
 } from '@chakra-ui/react';
-import { useImage } from 'use-cloudinary';
+import Image from '@components/Image';
 import styled from '@emotion/styled';
 
 const AuthorByline = styled(Text)`
@@ -20,6 +19,7 @@ const AuthorByline = styled(Text)`
 
 import Container from '@components/Container';
 import RawkButton from '@components/RawkButton';
+import { buildImageUrl } from 'cloudinary-build-url';
 
 export default function JamContentHero({
   description,
@@ -33,15 +33,14 @@ export default function JamContentHero({
     lg: false,
   });
 
-  const { generateImageUrl } = useImage('mediadevs');
-  const imgConfig = {
-    delivery: {
-      publicId: 'mediajams/placeholder',
+  const placeholderUrl = buildImageUrl('mediajams/placeholder', {
+    cloud: { cloudName: 'mediadevs' },
+    transformations: {
+      resize: {
+        height: 0.6,
+      },
     },
-    transformation: {
-      height: 0.8,
-    },
-  };
+  });
 
   return (
     <>
@@ -51,7 +50,7 @@ export default function JamContentHero({
           direction="column"
           justifyContent="center"
           alignItems="center"
-          backgroundImage={`url(${generateImageUrl(imgConfig)})`}
+          backgroundImage={`url(${placeholderUrl})`}
           backgroundSize="cover"
         >
           <Box backgroundColor="blue.200" opacity="90%">
@@ -68,14 +67,19 @@ export default function JamContentHero({
           justifyContent="center"
           alignItems="center"
         >
-          <Box flex={{ sm: 1, base: 0 }} overflow="hidden">
-            <Image
-              maxWidth="100%"
-              alt="Feature Image"
-              src={generateImageUrl(imgConfig)}
-            />
-          </Box>
-          <HStack height="100%" width="100%" flex={2}>
+          <Image
+            cloudName="mediadevs"
+            publicId="mediajams/placeholder"
+            objectFit="contain"
+            layout="fill"
+            alt="Feature Image"
+            styles={{
+              flexGrow: 1,
+              position: 'relative',
+              height: 300,
+            }}
+          />
+          <HStack height="100%" width="100%" flex={2} zIndex={{ xl: 3 }}>
             <VStack align="stretch" flex={1}>
               <Box backgroundColor="yellow.400" height="100%" py={4}>
                 <Box

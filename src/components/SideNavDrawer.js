@@ -1,58 +1,40 @@
 import React from 'react';
 import { Link as NextLink } from 'next/link';
 import {
-  HStack,
   Button,
   Flex,
-  Image,
   Link,
   Icon,
-  Text,
   Drawer,
   DrawerOverlay,
   DrawerContent,
 } from '@chakra-ui/react';
+import Image from '@components/Image';
 import { FaHome, FaPhotoVideo } from 'react-icons/fa';
 
-import { useImage } from 'use-cloudinary';
-
 export default function SideNavDrawer({ isOpen, onClose, ...props }) {
-  const { generateImageUrl } = useImage('mediadevs');
-
-  const logoConfig = {
-    delivery: {
-      publicId: 'mediajams/logo',
-    },
-    transformation: {
-      height: 0.7,
-    },
-  };
-
   return (
     <Drawer {...props} isOpen={isOpen} placement="left" onClose={onClose}>
       <DrawerOverlay>
-        <DrawerContent>
-          <Flex
-            w="100%"
-            direction="column"
-            height={100}
-            borderBottom="2px solid black"
-            background="grey.900"
-            justifyContent="space-between"
-          >
-            <Flex justifyContent="space-between" mt={2}>
-              <Image
-                alt="MediaJams logo"
-                ml={2}
-                src={generateImageUrl(logoConfig)}
-              />
-              <HStack spacing="2">
-                <Button colorScheme="blue">Log In</Button>
-                <Text mr={5} color="blue.400" as="u">
-                  Sign Up
-                </Text>
-              </HStack>
-            </Flex>
+        <DrawerContent bg="grey.900">
+          <Flex w="100%" justifyContent="space-between" p={4}>
+            <Image
+              cloudName="mediadevs"
+              publicId="mediajams/logo"
+              height={60}
+              width={130}
+              alt="MediaJams logo"
+            />
+            <Button
+              alignSelf="flex-end"
+              p={4}
+              size="md"
+              mb={3}
+              mr={3}
+              colorScheme="blue"
+            >
+              Log In
+            </Button>
           </Flex>
           <NavLinkGroup />
         </DrawerContent>
@@ -68,11 +50,9 @@ function NavLink({ children, ...props }) {
       display="flex"
       _hover={{ background: 'blue.400', color: 'white' }}
       p="10px"
-      minW="90%"
-      borderRadius="md"
+      minW="100%"
       display="flex"
       alignItems="center"
-      mb={2}
       {...props}
     >
       {children}
@@ -82,7 +62,7 @@ function NavLink({ children, ...props }) {
 
 function NavLinkGroup() {
   return (
-    <Flex mt={4} direction="column" alignItems="center">
+    <Flex mt={4} direction="column" alignItems="center" color="white">
       <NavLink href="/dashboard">
         <Icon as={FaHome} size="md" mr={2} />
         Dashboard

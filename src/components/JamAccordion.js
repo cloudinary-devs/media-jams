@@ -13,21 +13,36 @@ import {
 
 import { boxShadow } from '@utils/styles';
 
-export default function JamAccordion({ post, width }) {
+export default function JamAccordion({
+  color,
+  post,
+  width,
+  defaultIndex,
+  ...rest
+}) {
   const { author } = post;
 
   return (
     <Accordion
       w={width}
-      borderRadius="md"
+      borderRadius="lg"
       boxShadow={boxShadow}
       mb={3}
+      borderColor="none"
+      bg="white"
       allowToggle
+      defaultIndex={defaultIndex ? defaultIndex : null}
     >
-      <AccordionItem p={3}>
+      <AccordionItem p={3} borderRadius="lg">
         <Flex justifyContent="space-between">
           <Flex flex="1" textAlign="left">
-            <Avatar size="lg" name={author.name} mr={2} src={author.image} />
+            <Avatar
+              boxShadow={boxShadow}
+              size="lg"
+              name={author.name}
+              mr={4}
+              src={author.image}
+            />
             <Flex direction="column">
               <Heading
                 fontSize={{ base: '.8rem', md: '1rem', lg: '1.125rem' }}
@@ -35,15 +50,16 @@ export default function JamAccordion({ post, width }) {
               >
                 {post.title}
               </Heading>
-              <Text fontSize={{ base: '12px', md: 'sm' }}>
+              <Text fontSize={{ base: 'sm', md: 'sm', lg: 'md' }}>
                 By {author.name}
               </Text>
               <Flex flexWrap="wrap">
                 {post.tags.map((tag) => (
                   <Text
                     mr={2}
-                    color="red.400"
+                    color={`${color}.400`}
                     fontSize={{ base: '9px', md: '14px' }}
+                    key={tag}
                   >
                     # {tag}
                   </Text>
@@ -51,22 +67,22 @@ export default function JamAccordion({ post, width }) {
               </Flex>
             </Flex>
           </Flex>
-          <Flex justifyContent="space-around" width="20%" alignItems="center">
+          <Flex justifyContent="space-around" width={36} alignItems="center">
             <Button
-              colorScheme="blue"
-              size="sm"
-              w={16}
-              p="8px"
-              mr={2}
               as="a"
+              colorScheme={color}
+              size={{ base: 'lg', lg: 'lg' }}
+              mr={2}
               href={`/post/${post.slug}`}
             >
               More
             </Button>
             <AccordionButton
+              as={Button}
               h="50%"
               alignSelf="center"
               borderRadius="lg"
+              variant={color}
               w="30px"
               justifyContent="center"
             >
@@ -74,9 +90,11 @@ export default function JamAccordion({ post, width }) {
             </AccordionButton>
           </Flex>
         </Flex>
-        <AccordionPanel>
+        <AccordionPanel pt={4}>
           <Flex direction="column">
-            <Text>{post.description}</Text>
+            <Text fontSize={{ base: 'sm', lg: 'md', xl: 'md' }}>
+              {post.description}
+            </Text>
           </Flex>
         </AccordionPanel>
       </AccordionItem>

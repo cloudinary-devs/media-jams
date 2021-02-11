@@ -1,55 +1,33 @@
 import React from 'react';
-import {
-  HStack,
-  Button,
-  Flex,
-  Image,
-  Icon,
-  Link,
-  Text,
-} from '@chakra-ui/react';
+import { boxShadow } from '@utils/styles';
+import { Button, Flex, Icon, Link, Text } from '@chakra-ui/react';
 import { FaHome, FaPhotoVideo } from 'react-icons/fa';
+import Image from '@components/Image';
 
 import { Link as NextLink } from 'next/link';
 
-import { useImage } from 'use-cloudinary';
-
 export default function SideNav(props) {
-  const { generateImageUrl } = useImage('mediadevs');
-
-  const logoConfig = {
-    delivery: {
-      publicId: 'mediajams/logo',
-    },
-    transformation: {
-      height: 0.6,
-    },
-  };
-
   return (
     <Flex
       w={72}
       direction="column"
-      boxShadow="5px 3px 10px -7px rgba(0,0,0,1)"
-      minH="100vh"
-      backgroundColor="blue.200"
+      boxShadow={boxShadow}
+      minH="100%"
+      backgroundColor="grey.900"
       {...props}
     >
-      <Flex
-        direction="column"
-        height={100}
-        background="grey.900"
-        justifyContent="space-between"
-      >
+      <Flex w="100%" justifyContent="space-between" p={4}>
         <Image
-          w="40%"
+          cloudName="mediadevs"
+          publicId="mediajams/logo"
+          height={50}
+          width={100}
           alt="MediaJams logo"
-          src={generateImageUrl(logoConfig)}
         />
         <Button
           alignSelf="flex-end"
-          p={4}
-          size="md"
+          p={5}
+          size="sm"
           mb={3}
           mr={3}
           colorScheme="blue"
@@ -68,12 +46,10 @@ function NavLink({ children, ...props }) {
       as={NextLink}
       display="flex"
       _hover={{ background: 'blue.400', color: 'white' }}
-      p="10px"
-      minW="95%"
-      borderRadius="md"
+      p="12px"
+      minW="100%"
       display="flex"
       alignItems="center"
-      mb={2}
       {...props}
     >
       {children}
@@ -83,7 +59,7 @@ function NavLink({ children, ...props }) {
 
 function NavLinkGroup() {
   return (
-    <Flex mt={4} direction="column" alignItems="center">
+    <Flex mt={4} direction="column" alignItems="center" color="white">
       <NavLink href="/dashboard">
         <Icon as={FaHome} size="md" mr={2} />
         Dashboard

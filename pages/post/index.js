@@ -8,11 +8,19 @@ import SearchInput from '@components/SearchInput';
 import Layout from '@components/Layout';
 import TagFilter from '@components/TagFilter';
 import { boxShadow } from '@utils/styles';
+import { FaQuestionCircle, FaLock } from 'react-icons/fa';
 
-import { Flex, Heading, useDisclosure, Box } from '@chakra-ui/react';
+import {
+  Flex,
+  Grid,
+  Heading,
+  Icon,
+  useDisclosure,
+  Box,
+  Tooltip,
+} from '@chakra-ui/react';
 
 import Fuse from 'fuse.js';
-import JamAccordian from '../../src/components/JamAccordion';
 
 const fuseOptions = {
   threshold: 0.35,
@@ -80,120 +88,80 @@ export default function Post({ posts, tags, categories }) {
   };
 
   return (
-    <Layout
-      isOpen={isOpen}
-      onClose={onClose}
-      onOpen={onOpen}
-      p={{ base: 0, md: 5, lg: 10 }}
-    >
-      <Flex
-        overflow="auto"
-        w="100%"
-        justifyContent="space-around"
-        direction={{ base: 'column', md: 'column', lg: 'column', xl: 'row' }}
+    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
+      <Grid
+        height="100vh"
+        templateAreas={{
+          base: `
+            "JamSearch"
+            "JamSearch"
+            "Bookmarks"            
+            "Notes  "
+            "five"
+          `,
+          md: `
+            "JamSearch JamSearch"
+            "Bookmarks Bookmarks"
+            "Notes five"
+          `,
+          xl: `
+          "SearchFilters JamSearch Bookmarks "
+          "Notes JamSearch Bookmarks"
+          "Notes JamSearch five"
+          `,
+        }}
+        templateColumns={{
+          base: '100%',
+          md: '1fr 1fr',
+          xl: '1fr 2fr 1fr',
+        }}
+        templateRows={{
+          base: '70% repeat(4, 300px)',
+          md: '80vh 200px 500px',
+          xl: '2.5fr 200px 2fr',
+        }}
+        gap={8}
+        p={8}
+        ml={-3}
+        overflow={{ base: 'auto', xl: null }}
       >
-        {/* LIST ALL JAMS */}
-        <Flex
-          alignSelf="center"
-          h={{ base: '100%', md: '95%' }}
-          p={4}
-          overflow="auto"
-          mt={4}
-          boxShadow={boxShadow}
-          direction="column"
-          w={{ base: '95%', md: '90%', lg: '95%', xl: '50%' }}
-        >
-          <SearchInput
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-            showFilters={showFilters}
-            setShowFilters={setShowFilters}
-            width="100%"
-            mb={3}
-          />
-          {showFilters && (
-            <Flex
-              borderRadius="lg"
-              w="100%"
-              mb={5}
-              mt="16px"
-              border="2px solid black"
-              h="auto"
-            >
-              <TagFilter
-                tags={tags}
-                categories={categories}
-                addTag={addTag}
-                removeTag={removeTag}
-                selectedFilters={selectedFilters}
-                setSelectedFilters={setSelectedFilters}
-              />
-            </Flex>
-          )}
-          {filteredPosts.map((post) => (
-            <JamAccordion width="100%" key={post._id} post={post} />
-          ))}
-        </Flex>
+        <JamSearch
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          showFilters={showFilters}
+          setShowFilters={setShowFilters}
+          tags={tags}
+          categories={categories}
+          addTag={addTag}
+          removeTag={removeTag}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          filteredPosts={filteredPosts}
+        />
+        <SearchFilters
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          showFilters={showFilters}
+          setShowFilters={setShowFilters}
+          tags={tags}
+          categories={categories}
+          addTag={addTag}
+          removeTag={removeTag}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          filteredPosts={filteredPosts}
+        />
 
-        {/* BOOKMARK CTA  */}
-        <Flex
-          h="100%"
-          justifyContent="space-around"
-          alignSelf="center"
-          direction="column"
-          w={{ base: '90%', md: '90%', lg: '90%', xl: '35%' }}
-          mt={4}
-        >
-          <Flex
-            mb={{ base: 4, md: 4, lg: 0 }}
-            position="relative"
-            boxShadow={boxShadow}
-            borderRadius="md"
-            h={80}
-          >
-            <Box
-              left="0"
-              position="absolute"
-              top="0"
-              h="100%"
-              w="100%"
-              overflow="hidden"
-            >
-              <Box
-                left="-64px"
-                position="absolute"
-                top="32px"
-                height="32px"
-                width="206px"
-                transform="rotate(-45deg)"
-                backgroundColor="rgba(0,0,0,.3)"
-                textAlign="center"
-                color="red.400"
-                pt={1}
-              >
-                Sign up!
-              </Box>
-            </Box>
-          </Flex>
-          <Flex
-            mb={{ base: 4, md: 4, lg: 0 }}
-            mt={{ base: 4, md: 3, lg: 5, xl: 0 }}
-            p={4}
-            boxShadow={boxShadow}
-            borderRadius="md"
-            h={80}
-            direction="column"
-            overflow="auto"
-          >
-            <Heading textStyle="headline-interstitial" color="red.400" mb={3}>
-              Newest Jams
-            </Heading>
-            {newPosts.map((post) => (
-              <JamAccordian width="100%" key={post._id} post={post} />
-            ))}
-          </Flex>
-        </Flex>
-      </Flex>
+        <Bookmarks />
+        <Notes />
+
+        <Box
+          borderRadius="8px"
+          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+          bg="blue.200"
+          gridArea="five"
+        ></Box>
+      </Grid>
     </Layout>
   );
 }
@@ -213,6 +181,150 @@ export const getStaticProps = async () => {
     },
   };
 };
+
+function JamSearch({
+  searchValue,
+  setSearchValue,
+  showFilters,
+  setShowFilters,
+  tags,
+  categories,
+  addTag,
+  removeTag,
+  selectedFilters,
+  setSelectedFilters,
+  filteredPosts,
+}) {
+  return (
+    <Flex
+      gridArea="JamSearch"
+      p={4}
+      bg="red.200"
+      overflow="auto"
+      borderRadius="8px"
+      boxShadow={{ base: 'none', lg: boxShadow }}
+      direction="column"
+      w="100%"
+    >
+      <SearchInput
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        showFilters={showFilters}
+        setShowFilters={setShowFilters}
+        width="100%"
+        color="red"
+        mb={3}
+      />
+      {showFilters && (
+        <Flex
+          borderRadius="lg"
+          w="100%"
+          mb={5}
+          mt="16px"
+          border="2px solid black"
+        >
+          <TagFilter
+            tags={tags}
+            categories={categories}
+            addTag={addTag}
+            removeTag={removeTag}
+            selectedFilters={selectedFilters}
+            setSelectedFilters={setSelectedFilters}
+          />
+        </Flex>
+      )}
+      {filteredPosts.map((post) => (
+        <JamAccordion color="red" width="100%" key={post._id} post={post} />
+      ))}
+    </Flex>
+  );
+}
+
+function SearchFilters({
+  searchValue,
+  setSearchValue,
+  showFilters,
+  setShowFilters,
+  tags,
+  categories,
+  addTag,
+  removeTag,
+  selectedFilters,
+  setSelectedFilters,
+  filteredPosts,
+}) {
+  return (
+    <Flex
+      borderRadius="8px"
+      boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+      bg="blue.200"
+      display={{ md: 'none', lg: 'flex', xl: 'flex' }}
+      gridArea="SearchFilters"
+    ></Flex>
+  );
+}
+
+function Notes() {
+  return (
+    <Flex
+      borderRadius="8px"
+      boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+      bg="gray.600"
+      gridArea="Notes"
+      direction="column"
+      height="100%"
+      width="100%"
+    >
+      <Flex w="100%" justify="space-between" p={3}>
+        <Heading color="gray.400">Notes</Heading>
+        <Tooltip
+          hasArrow
+          label="Access this feature by logging in"
+          placement="bottom"
+        >
+          <span>
+            <Icon _hover={{ color: 'gray.400' }} as={FaQuestionCircle} />
+          </span>
+        </Tooltip>
+      </Flex>
+      <Flex justify="center" align="center" flexGrow="1">
+        <span>
+          <Icon as={FaLock} boxSize={20} />
+        </span>
+      </Flex>
+    </Flex>
+  );
+}
+
+function Bookmarks() {
+  return (
+    <Flex
+      borderRadius="8px"
+      boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+      bg="gray.600"
+      gridArea="Bookmarks"
+      direction="column"
+      height="100%"
+      width="100%"
+    >
+      <Flex w="100%" justify="space-between" p={3}>
+        <Heading color="gray.400">Bookmarks</Heading>
+        <Tooltip
+          hasArrow
+          label="Access this feature by logging in"
+          placement="bottom"
+        >
+          <span>
+            <Icon _hover={{ color: 'gray.400' }} as={FaQuestionCircle} />
+          </span>
+        </Tooltip>
+      </Flex>
+      <Flex justify="center" align="center" flexGrow="1">
+        <Icon as={FaLock} boxSize={20} />
+      </Flex>
+    </Flex>
+  );
+}
 
 const newPosts = [
   {

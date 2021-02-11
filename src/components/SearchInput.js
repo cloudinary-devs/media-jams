@@ -17,6 +17,7 @@ export default function SearchInput({
   showFilters,
   setShowFilters,
   width,
+  color,
   ...rest
 }) {
   const mixpanel = useMixPanel();
@@ -33,24 +34,29 @@ export default function SearchInput({
   return (
     <InputGroup w={width} {...rest}>
       <Input
+        colorScheme={color}
         variant="outline"
         placeholder="Search by tag, title, or keyword..."
         padding="1.2rem 0 1.2rem 1rem"
         value={searchValue}
         onChange={onChange}
-        borderColor="blue.200"
-        backgroundColor="blue.200"
+        borderColor={color}
+        backgroundColor={`${color}.400`}
         _placeholder={{
-          color: 'black',
+          color: 'white ',
           lineSpacing: '4px',
           fontSize: 'sm',
         }}
       />
-      <InputRightElement>
+      <InputRightElement
+        display={{ base: 'inherit', lg: 'none', xl: 'none' }}
+        p={3}
+      >
         <IconButton
           onClick={() => setShowFilters(!showFilters)}
           icon={<FaFilter />}
-          colorScheme="blue"
+          colorScheme="red"
+          size="sm"
         ></IconButton>
       </InputRightElement>
     </InputGroup>

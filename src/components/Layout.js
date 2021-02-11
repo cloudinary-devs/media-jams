@@ -16,7 +16,7 @@ export default function Layout({
     <Flex
       minW="100%"
       height="100vh"
-      direction={{ base: 'column', md: 'column', lg: 'row' }}
+      direction={{ base: 'column', md: 'row', lg: 'row' }}
     >
       <SEO {...seoProps} />
       <Box display={{ md: 'none', lg: 'none', xl: 'none' }}>
