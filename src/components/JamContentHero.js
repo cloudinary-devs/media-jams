@@ -19,6 +19,7 @@ const AuthorByline = styled(Text)`
 
 import Container from '@components/Container';
 import RawkButton from '@components/RawkButton';
+import { buildImageUrl } from 'cloudinary-build-url';
 
 export default function JamContentHero({
   description,
