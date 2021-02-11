@@ -67,6 +67,7 @@ export default function Dashboard() {
         }}
         gap={8}
         p={8}
+        ml={-3}
         overflow={{ md: 'auto', lg: 'auto', xl: 'none' }}
       >
         <Featured featuredPosts={featuredPosts} />

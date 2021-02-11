@@ -35,6 +35,11 @@ export default function JamContentHero({
 
   const placeholderUrl = buildImageUrl('mediajams/placeholder', {
     cloud: { cloudName: 'mediadevs' },
+    transformations: {
+      resize: {
+        height: 0.6,
+      },
+    },
   });
 
   return (
@@ -62,16 +67,19 @@ export default function JamContentHero({
           justifyContent="center"
           alignItems="center"
         >
-          <Box flex={{ sm: 1, base: 0 }} overflow="hidden">
-            <Image
-              cloudName="mediadevs"
-              publicId="mediajams/placeholder"
-              layout="fill"
-              maxWidth="100%"
-              alt="Feature Image"
-            />
-          </Box>
-          <HStack height="100%" width="100%" flex={2}>
+          <Image
+            cloudName="mediadevs"
+            publicId="mediajams/placeholder"
+            objectFit="contain"
+            layout="fill"
+            alt="Feature Image"
+            styles={{
+              flexGrow: 1,
+              position: 'relative',
+              height: 300,
+            }}
+          />
+          <HStack height="100%" width="100%" flex={2} zIndex={{ xl: 3 }}>
             <VStack align="stretch" flex={1}>
               <Box backgroundColor="yellow.400" height="100%" py={4}>
                 <Box

@@ -35,15 +35,6 @@ export default function JamAuthorBanner({ author }) {
     },
   });
 
-  const imgConfig = {
-    delivery: {
-      publicId: 'mediajams/placeholder',
-    },
-    transformation: {
-      height: 0.8,
-    },
-  };
-
   return (
     <Flex
       h="md"
@@ -80,8 +71,8 @@ export default function JamAuthorBanner({ author }) {
                 ml="15px"
                 mt="-10px"
                 alignSelf="start"
-                objectFit="cover"
-                src={author.image}
+                cloudName="mediadevs"
+                publicId={author.image}
                 alt={author.name}
               />
               <Box color="grey.900" my={4} pl={4}>
@@ -136,9 +127,10 @@ export default function JamAuthorBanner({ author }) {
             >
               <Box boxSize="sm" overflow="hidden">
                 <Image
-                  fit="contain"
+                  objectFit="contain"
                   layout="fill"
-                  src={author.image}
+                  cloudName="mediadevs"
+                  publicId={author.image}
                   alt={author.name}
                 />
               </Box>

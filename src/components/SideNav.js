@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, HStack, Button, Flex, Icon, Link, Text } from '@chakra-ui/react';
+import { boxShadow } from '@utils/styles';
+import { Button, Flex, Icon, Link, Text } from '@chakra-ui/react';
 import { FaHome, FaPhotoVideo } from 'react-icons/fa';
 import Image from '@components/Image';
 
@@ -10,31 +11,23 @@ export default function SideNav(props) {
     <Flex
       w={72}
       direction="column"
-      boxShadow="5px 3px 10px -7px rgba(0,0,0,1)"
-      minH="100vh"
-      backgroundColor="blue.200"
+      boxShadow={boxShadow}
+      minH="100%"
+      backgroundColor="grey.900"
       {...props}
     >
-      <Flex
-        w="100%"
-        direction="column"
-        justifyContent="space-between"
-        background="grey.900"
-      >
+      <Flex w="100%" justifyContent="space-between" p={4}>
         <Image
           cloudName="mediadevs"
           publicId="mediajams/logo"
-          height={60}
-          width={130}
+          height={50}
+          width={100}
           alt="MediaJams logo"
-          styles={{
-            marginLeft: 2,
-          }}
         />
         <Button
           alignSelf="flex-end"
-          p={4}
-          size="md"
+          p={5}
+          size="sm"
           mb={3}
           mr={3}
           colorScheme="blue"
@@ -53,12 +46,10 @@ function NavLink({ children, ...props }) {
       as={NextLink}
       display="flex"
       _hover={{ background: 'blue.400', color: 'white' }}
-      p="10px"
-      minW="95%"
-      borderRadius="md"
+      p="12px"
+      minW="100%"
       display="flex"
       alignItems="center"
-      mb={2}
       {...props}
     >
       {children}
@@ -68,7 +59,7 @@ function NavLink({ children, ...props }) {
 
 function NavLinkGroup() {
   return (
-    <Flex mt={4} direction="column" alignItems="center">
+    <Flex mt={4} direction="column" alignItems="center" color="white">
       <NavLink href="/dashboard">
         <Icon as={FaHome} size="md" mr={2} />
         Dashboard

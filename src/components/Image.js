@@ -1,7 +1,8 @@
 import NextImage from 'next/image';
+
 import { Box } from '@chakra-ui/react';
 import { buildImageUrl } from 'cloudinary-build-url';
-import useBlurredPlaceholder from '../hooks/useBlurredPlaceholder';
+import useBlurredPlaceholder from '@hooks/useBlurredPlaceholder';
 
 const isUrl = (string) =>
   string.match(

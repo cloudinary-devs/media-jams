@@ -3,31 +3,23 @@ import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
-import BlockContent from '@sanity/block-content-to-react';
-import blocksToText from '@lib/blocksToText';
 
+import blocksToText from '@lib/blocksToText';
 import { postBySlug, postsWithSlug } from 'lib/api';
 
+import { Flex, Text, Image, useDisclosure } from '@chakra-ui/react';
 import Code from '@components/Code';
 import CodeSandbox from '@components/CodeSandbox';
-import JamImage from '@components/Image';
 import Layout from '@components/Layout';
-
-const components = { code: Code, iframe: CodeSandbox, img: JamImage };
-
 import JamContentHero from '@components/JamContentHero';
 import JamContent from '@components/JamContent';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
 
-import { Text, Heading, VStack, Box, Image } from '@chakra-ui/react';
-import styled from '@emotion/styled';
-
-const AuthorByline = styled(Text)`
-  text-indent: 5px;
-`;
+const components = { code: Code, iframe: CodeSandbox, img: Image };
 
 export default function Post({ post, preview }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />;
@@ -39,15 +31,17 @@ export default function Post({ post, preview }) {
   const { author } = post;
 
   return (
-    <Layout>
-      <JamContentHero
-        author={author}
-        description={post.description}
-        title={post.title}
-      ></JamContentHero>
-      <JamContent>{content}</JamContent>
-      <JamAuthorBanner author={author}></JamAuthorBanner>
-      <EmailSubscription />
+    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
+      <Flex direction="column" width="100%" height="100%" overflow="auto">
+        <JamContentHero
+          author={author}
+          description={post.description}
+          title={post.title}
+        ></JamContentHero>
+        <JamContent>{content}</JamContent>
+        <JamAuthorBanner author={author}></JamAuthorBanner>
+        <EmailSubscription />
+      </Flex>
     </Layout>
   );
 }

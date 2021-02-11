@@ -8,8 +8,16 @@ import SearchInput from '@components/SearchInput';
 import Layout from '@components/Layout';
 import TagFilter from '@components/TagFilter';
 import { boxShadow } from '@utils/styles';
+import { FaQuestionCircle, FaLock } from 'react-icons/fa';
 
-import { Flex, Grid, Heading, useDisclosure, Box } from '@chakra-ui/react';
+import {
+  Flex,
+  Grid,
+  Heading,
+  Icon,
+  useDisclosure,
+  Box,
+} from '@chakra-ui/react';
 
 import Fuse from 'fuse.js';
 
@@ -86,19 +94,19 @@ export default function Post({ posts, tags, categories }) {
           base: `
             "JamSearch"
             "JamSearch"
-            "three"            
-            "four"
+            "Bookmarks"            
+            "Notes  "
             "five"
           `,
           md: `
             "JamSearch JamSearch"
-            "three three"
-            "four five"
+            "Bookmarks Bookmarks"
+            "Notes five"
           `,
           xl: `
-          "SearchFilters JamSearch three "
-          "four JamSearch three"
-          "four JamSearch five"
+          "SearchFilters JamSearch Bookmarks "
+          "Notes JamSearch Bookmarks"
+          "Notes JamSearch five"
           `,
         }}
         templateColumns={{
@@ -109,10 +117,11 @@ export default function Post({ posts, tags, categories }) {
         templateRows={{
           base: '70% repeat(4, 300px)',
           md: '80vh 200px 500px',
-          xl: 'auto',
+          xl: '2.5fr 200px 2fr',
         }}
         gap={8}
         p={8}
+        ml={-3}
         overflow={{ base: 'auto', xl: null }}
       >
         <JamSearch
@@ -142,19 +151,8 @@ export default function Post({ posts, tags, categories }) {
           filteredPosts={filteredPosts}
         />
 
-        <Box
-          borderRadius="8px"
-          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
-          bg="green.200"
-          gridArea="three"
-        ></Box>
-
-        <Box
-          borderRadius="8px"
-          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
-          bg="blue.200"
-          gridArea="four"
-        ></Box>
+        <Bookmarks />
+        <Notes />
 
         <Box
           borderRadius="8px"
@@ -258,10 +256,54 @@ function SearchFilters({
     <Flex
       borderRadius="8px"
       boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
-      bg="white"
+      bg="blue.200"
       display={{ md: 'none', lg: 'flex', xl: 'flex' }}
       gridArea="SearchFilters"
     ></Flex>
+  );
+}
+
+function Notes() {
+  return (
+    <Flex
+      borderRadius="8px"
+      boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+      bg="gray.600"
+      gridArea="Notes"
+      direction="column"
+      height="100%"
+      width="100%"
+    >
+      <Flex w="100%" justify="space-between" p={3}>
+        <Heading color="gray.400">Notes</Heading>
+        <Icon _hover={{ color: 'gray.400' }} as={FaQuestionCircle} />
+      </Flex>
+      <Flex justify="center" align="center" flexGrow="1">
+        <Icon as={FaLock} boxSize={20} />
+      </Flex>
+    </Flex>
+  );
+}
+
+function Bookmarks() {
+  return (
+    <Flex
+      borderRadius="8px"
+      boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+      bg="gray.600"
+      gridArea="Bookmarks"
+      direction="column"
+      height="100%"
+      width="100%"
+    >
+      <Flex w="100%" justify="space-between" p={3}>
+        <Heading color="gray.400">Bookmarks</Heading>
+        <Icon _hover={{ color: 'gray.400' }} as={FaQuestionCircle} />
+      </Flex>
+      <Flex justify="center" align="center" flexGrow="1">
+        <Icon as={FaLock} boxSize={20} />
+      </Flex>
+    </Flex>
   );
 }
 
