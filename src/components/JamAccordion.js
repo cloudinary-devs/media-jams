@@ -13,7 +13,13 @@ import {
 
 import { boxShadow } from '@utils/styles';
 
-export default function JamAccordion({ color, post, width, defaultIndex }) {
+export default function JamAccordion({
+  color,
+  post,
+  width,
+  defaultIndex,
+  ...rest
+}) {
   const { author } = post;
 
   return (
@@ -53,6 +59,7 @@ export default function JamAccordion({ color, post, width, defaultIndex }) {
                     mr={2}
                     color={`${color}.400`}
                     fontSize={{ base: '9px', md: '14px' }}
+                    key={tag}
                   >
                     # {tag}
                   </Text>

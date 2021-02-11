@@ -6,11 +6,9 @@ import {
   Text,
   Flex,
   Box,
-  Image,
-  VStack,
   HStack,
-  IconButton,
 } from '@chakra-ui/react';
+import Image from '@components/Image';
 import { FaFacebook, FaTwitter, FaGlobe } from 'react-icons/fa';
 import BlockContent from '@sanity/block-content-to-react';
 import { buildImageUrl } from 'cloudinary-build-url';
@@ -77,7 +75,8 @@ export default function JamAuthorBanner({ author }) {
               height="100%"
             >
               <Image
-                w="130px"
+                width="130px"
+                height="auto"
                 ml="15px"
                 mt="-10px"
                 alignSelf="start"
@@ -138,7 +137,7 @@ export default function JamAuthorBanner({ author }) {
               <Box boxSize="sm" overflow="hidden">
                 <Image
                   fit="contain"
-                  width="100%"
+                  layout="fill"
                   src={author.image}
                   alt={author.name}
                 />

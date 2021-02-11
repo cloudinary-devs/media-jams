@@ -4,7 +4,6 @@ import {
   HStack,
   Button,
   Flex,
-  Image,
   Link,
   Icon,
   Text,
@@ -12,22 +11,10 @@ import {
   DrawerOverlay,
   DrawerContent,
 } from '@chakra-ui/react';
+import Image from '@components/Image';
 import { FaHome, FaPhotoVideo } from 'react-icons/fa';
 
-import { buildImageUrl } from 'cloudinary-build-url';
-
 export default function SideNavDrawer({ isOpen, onClose, ...props }) {
-  const logo = buildImageUrl('mediajams/logo', {
-    cloud: {
-      cloudName: 'mediadevs',
-    },
-    transformations: {
-      resize: {
-        height: 0.7,
-      },
-    },
-  });
-
   return (
     <Drawer {...props} isOpen={isOpen} placement="left" onClose={onClose}>
       <DrawerOverlay>
@@ -41,7 +28,13 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
             justifyContent="space-between"
           >
             <Flex justifyContent="space-between" mt={2}>
-              <Image alt="MediaJams logo" ml={2} src={logo} />
+              <Image
+                cloudName="mediadevs"
+                publicId="mediajams/logo"
+                height={50}
+                width={50}
+                alt="MediaJams logo"
+              />
               <HStack spacing="2">
                 <Button colorScheme="blue">Log In</Button>
                 <Text mr={5} color="blue.400" as="u">

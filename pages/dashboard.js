@@ -7,8 +7,8 @@ import {
   Link,
   Grid,
   Heading,
-  useDisclosure,
   Icon,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { FaDiscord } from 'react-icons/fa';
 import { Link as NextLink } from 'next/link';
@@ -160,7 +160,7 @@ function Authors() {
         w="150px"
         height="200px"
         borderRadius="8px"
-        boxSahdow={boxShadow}
+        boxShadow={boxShadow}
       ></Flex>
       <Flex
         mr={8}
@@ -169,7 +169,7 @@ function Authors() {
         w="150px"
         height="200px"
         borderRadius="8px"
-        boxSahdow={boxShadow}
+        boxShadow={boxShadow}
       ></Flex>
       <Flex
         mr={8}
@@ -178,7 +178,7 @@ function Authors() {
         w="150px"
         height="200px"
         borderRadius="8px"
-        boxSahdow={boxShadow}
+        boxShadow={boxShadow}
       ></Flex>
       <Flex
         mr={8}
@@ -187,7 +187,7 @@ function Authors() {
         w="150px"
         height="200px"
         borderRadius="8px"
-        boxSahdow={boxShadow}
+        boxShadow={boxShadow}
       ></Flex>
     </Flex>
   );
@@ -276,7 +276,6 @@ function Paths() {
 function Five() {
   return (
     <Box
-      Box
       borderRadius="8px"
       boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
       bg="red.200"

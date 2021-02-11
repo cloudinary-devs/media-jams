@@ -1,5 +1,5 @@
 import NextImage from 'next/image';
-import { Image as ChakraImage } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { buildImageUrl } from 'cloudinary-build-url';
 import useBlurredPlaceholder from '../hooks/useBlurredPlaceholder';
 
@@ -23,10 +23,10 @@ export default function Image({
   transforms,
   width,
   height,
-  quality,
   storageType,
   alt,
-  lazy,
+  blurPlaceholder,
+  styles,
   ...rest
 }) {
   const {
@@ -44,52 +44,48 @@ export default function Image({
         storageType: storageType ? storageType : decideStorageDefault(publicId),
       },
       transformations: {
-        resize: (width || height) && {
-          width: width ? width : null,
-          height: height ? height : null,
-        },
         ...transforms,
       },
     });
 
-  if (lazy) {
+  if (blurPlaceholder) {
     return (
-      <div
+      <Box
         ref={!supportsLazyLoading ? ref : undefined}
-        style={{
+        sx={{
           width: 'auto',
           background: `no-repeat url(${blurredPlaceholderUrl({
             publicId,
             width,
             height,
           })})`,
+          ...styles,
         }}
       >
         {inView ||
           (supportsLazyLoading && (
-            <ChakraImage
-              as={NextImage}
+            <NextImage
               src={cloudName ? cloudinaryUrl : src}
               width={width}
               height={height}
-              quality={quality || 'auto'}
+              quality={quality || '100'}
               alt={alt}
               {...rest}
             />
           ))}
-      </div>
+      </Box>
     );
   } else {
     return (
-      <ChakraImage
-        as={NextImage}
-        src={cloudName ? cloudinaryUrl : src}
-        width={width}
-        height={height}
-        quality={quality || 'auto'}
-        alt={alt}
-        {...rest}
-      />
+      <Box sx={{ ...styles }}>
+        <NextImage
+          src={cloudName ? cloudinaryUrl : src}
+          width={width}
+          height={height}
+          alt={alt}
+          {...rest}
+        />
+      </Box>
     );
   }
 }

@@ -9,13 +9,7 @@ import {
 } from '@chakra-ui/react';
 import Image from '@components/Image';
 
-export default function Hero({ heroImg }) {
-  const headings = useBreakpointValue({
-    base: 'md',
-    md: 'xl',
-    lg: '2xl',
-  });
-
+export default function Hero() {
   return (
     <Flex
       h="xl"
@@ -40,7 +34,13 @@ export default function Hero({ heroImg }) {
         boxSize="40rem"
         width={['100%', '40rem']}
       >
-        <Image alt="Feature Image" src={heroImg} />
+        <Image
+          cloudName="mediadevs"
+          publicId="mediajams/hero"
+          alt="Feature Image"
+          height={300}
+          width={600}
+        />
       </Box>
       <Spacer backgroundColor="white" />
     </Flex>

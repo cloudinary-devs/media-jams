@@ -50,7 +50,7 @@ export default function Index({ props, posts, categories, assets }) {
       <Flex direction="column">
         <SEO {...props} />
         <Box flex={1}>
-          <Hero heroImg={assets ? assets[0] : null} />
+          <Hero />
           <VStack w="100%" mt={20} mb={40}>
             <Center maxW="5xl" textAlign="center">
               <Heading
@@ -132,24 +132,10 @@ export async function getStaticProps() {
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
 
-  const config = [
-    {
-      publicId: 'mediajams/hero',
-      transforms: {},
-    },
-  ];
-
-  const assets = [];
-
-  config.map((pid) =>
-    assets.push(cloudinary.url(pid.publicId, pid.transforms)),
-  );
-
   return {
     props: {
       posts,
       categories,
-      assets,
     },
   };
 }

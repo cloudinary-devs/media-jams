@@ -1,24 +1,11 @@
 import React from 'react';
-import {
-  HStack,
-  Button,
-  Flex,
-  Image,
-  Icon,
-  Link,
-  Text,
-} from '@chakra-ui/react';
+import { Box, HStack, Button, Flex, Icon, Link, Text } from '@chakra-ui/react';
 import { FaHome, FaPhotoVideo } from 'react-icons/fa';
+import Image from '@components/Image';
 
 import { Link as NextLink } from 'next/link';
-import { buildImageUrl } from 'cloudinary-build-url';
 
 export default function SideNav(props) {
-  const logo = buildImageUrl('mediajams/logo', {
-    cloud: { cloudName: 'mediadevs' },
-    transformations: { resize: { height: 0.7 } },
-  });
-
   return (
     <Flex
       w={72}
@@ -29,12 +16,21 @@ export default function SideNav(props) {
       {...props}
     >
       <Flex
+        w="100%"
         direction="column"
-        height={100}
-        background="grey.900"
         justifyContent="space-between"
+        background="grey.900"
       >
-        <Image w="40%" alt="MediaJams logo" src={logo} />
+        <Image
+          cloudName="mediadevs"
+          publicId="mediajams/logo"
+          height={60}
+          width={130}
+          alt="MediaJams logo"
+          styles={{
+            marginLeft: 2,
+          }}
+        />
         <Button
           alignSelf="flex-end"
           p={4}

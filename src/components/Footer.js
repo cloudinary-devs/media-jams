@@ -1,12 +1,7 @@
-import { buildImageUrl } from 'cloudinary-build-url';
-import { Flex, Image } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
+import Image from '@components/Image';
 
 export default function Footer() {
-  const logo = buildImageUrl('mediajams/logo', {
-    cloud: { cloudName: 'mediadevs' },
-    transformations: { resize: { height: 0.7 } },
-  });
-
   return (
     <Flex
       minW="100%;"
@@ -18,7 +13,13 @@ export default function Footer() {
       backgroundColor="red.900"
       alignSelf="flex-end"
     >
-      <Image alt="MediaJams logo" src={logo} />
+      <Image
+        cloudName="mediadevs"
+        publicId="mediajams/logo"
+        height={60}
+        width={120}
+        alt="MediaJams logo"
+      />
     </Flex>
   );
 }
