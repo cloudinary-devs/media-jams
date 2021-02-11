@@ -71,7 +71,7 @@ export default function JamAccordion({
             <Button
               as="a"
               colorScheme={color}
-              size={{ base: 'lg', lg: 'lg' }}
+              p={3}
               mr={2}
               href={`/post/${post.slug}`}
             >
