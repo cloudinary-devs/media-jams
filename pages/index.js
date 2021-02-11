@@ -24,7 +24,7 @@ import Footer from '@components/Footer';
 import SEO from '@components/SEO';
 import Navbar from '@components/Navbar';
 
-export default function Index({ assets, ...props }) {
+export default function Index(props) {
   const [searchTags, setSearchTags] = React.useState([]);
   const router = useRouter();
   // Query
@@ -134,7 +134,6 @@ export async function getStaticProps() {
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
-      assets,
     },
   };
 }

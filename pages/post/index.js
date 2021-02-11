@@ -155,8 +155,8 @@ export default function Post(props) {
           setSearchValue={setSearchValue}
           showFilters={showFilters}
           setShowFilters={setShowFilters}
-          tags={tags}
-          categories={categories}
+          tags={jamTagData?.tags}
+          categories={jamCategoryData}
           addTag={addTag}
           removeTag={removeTag}
           selectedFilters={selectedFilters}
@@ -168,8 +168,8 @@ export default function Post(props) {
           setSearchValue={setSearchValue}
           showFilters={showFilters}
           setShowFilters={setShowFilters}
-          tags={tags}
-          categories={categories}
+          tags={jamTagData?.tags}
+          categories={jamCategoryData}
           addTag={addTag}
           removeTag={removeTag}
           selectedFilters={selectedFilters}
@@ -246,8 +246,8 @@ function JamSearch({
           border="2px solid black"
         >
           <TagFilter
-            tags={tags}
-            categories={categories}
+            tags={jamTagData?.tags}
+            categories={jamCategoryData}
             addTag={addTag}
             removeTag={removeTag}
             selectedFilters={selectedFilters}
@@ -255,7 +255,7 @@ function JamSearch({
           />
         </Flex>
       )}
-      {filteredPosts.map((post) => (
+      {filteredPosts?.map((post) => (
         <JamAccordion color="red" width="100%" key={post._id} post={post} />
       ))}
     </Flex>

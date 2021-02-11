@@ -2,6 +2,8 @@ import React from 'react';
 import { MixPanelProvider } from '@lib/mixpanel';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Hydrate } from 'react-query/hydration';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
 import { UserProvider, useUser } from '@lib/user';
@@ -34,7 +36,7 @@ const App = ({ Component, pageProps, err }) => {
                   url: 'www.mediajams.dev',
                   title: 'Putting Media to work is hard',
                   description: '',
-                  image: generateImageUrl(ogImageConfig),
+                  image: ogImage,
                   siteName: 'MediaJams',
                 }}
               />
