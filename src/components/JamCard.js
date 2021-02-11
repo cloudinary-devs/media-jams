@@ -29,8 +29,8 @@ export default function Card({ post }) {
 
   return (
     <Stack
-      whileHover={{ scale: 1.01 }}
-      whileTap={{ scale: 0.99 }}
+      whilehover={{ scale: 1.01 }}
+      whiletap={{ scale: 0.99 }}
       href={`/post/${post.slug.current}`}
       boxShadow={boxShadow}
       backgroundColor="white"
@@ -63,7 +63,7 @@ export default function Card({ post }) {
       >
         <Wrap>
           {post.tags.map((tag) => (
-            <WrapItem justifySelf="center" alignSelf="center">
+            <WrapItem key={tag._id} justifySelf="center" alignSelf="center">
               <Tag colorScheme="green">
                 <TagLeftIcon as={FaTag} />
                 <TagLabel>{tag.title}</TagLabel>
