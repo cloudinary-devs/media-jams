@@ -42,12 +42,11 @@ const fuseOptions = {
 export default function Post(props) {
   // Query
   const { data: jamData, isLoading } = useQuery('allJams', queryJams.get);
-  const {
-    data: { jamTags },
-  } = useQuery('jamTags', queryTags.get);
-  const {
-    data: { jamCategories, categoryTags },
-  } = useQuery('jamCategories', queryCategories.get);
+  const { data: jamTagData } = useQuery('jamTags', queryTags.get);
+  const { data: jamCategoryData } = useQuery(
+    'jamCategories',
+    queryCategories.get,
+  );
 
   // State
   const [filteredPosts, setFilteredPosts] = React.useState([]);
@@ -67,11 +66,13 @@ export default function Post(props) {
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
     const routeTags = router.query.tags?.split(',') || [];
-    if (jamTags && routeTags.length !== 0) {
-      const queryTags = jamTags.filter((t) => routeTags.includes(t.title));
+    if (jamTagData?.tags && routeTags.length !== 0) {
+      const queryTags = jamTagData?.tags.filter((t) =>
+        routeTags.includes(t.title),
+      );
       setSelectedFilters(queryTags);
     }
-  }, [router.query, jamTags]);
+  }, [router.query, jamTagData]);
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {

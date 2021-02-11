@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, act, waitFor, debug } from 'test-utils';
-import { getStaticProps } from '../../pages/post/';
+import { renderHook } from '@testing-library/react-hooks';
+import Post, { getStaticProps } from '../../pages/post/';
 
 test('`getStaticProps` should prefetch query tags & categories', async () => {
   const response = await getStaticProps();
@@ -19,3 +20,13 @@ test('`getStaticProps` should prefetch query tags & categories', async () => {
     }),
   );
 });
+
+// test('post index should render w/o error', async () => {
+//   const response = await getStaticProps();
+//   const { props } = response;
+
+//   act(() => {
+//     render(<Post {...props} />);
+//     expect(true).toBeTruthy();
+//   });
+// });

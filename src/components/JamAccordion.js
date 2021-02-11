@@ -30,6 +30,7 @@ export default function JamAccordion({
   const { user, loading } = useFetchUser();
   const [isBookmarked, setBookmark] = useState(false);
   useEffect(() => {
+    console.log(user, loading);
     if (!loading && user) {
       const { data } = useQuery('bookmarks', bookmarks.get);
       const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
@@ -69,6 +70,7 @@ export default function JamAccordion({
               <Flex flexWrap="wrap">
                 {post.tags.map((tag) => (
                   <Text
+                    key={tag._id}
                     mr={2}
                     color={`${color}.400`}
                     fontSize={{ base: '9px', md: '14px' }}
