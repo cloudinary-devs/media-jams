@@ -22,29 +22,29 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
           <Flex
             w="100%"
             direction="column"
-            height={100}
-            borderBottom="2px solid black"
-            background="grey.900"
             justifyContent="space-between"
+            background="grey.900"
           >
-            <Flex justifyContent="space-between" mt={2}>
-              <Image
-                cloudName="mediadevs"
-                publicId="mediajams/logo"
-                height={60}
-                width={130}
-                alt="MediaJams logo"
-                styles={{
-                  marginLeft: 2,
-                }}
-              />
-              <HStack spacing="2">
-                <Button colorScheme="blue">Log In</Button>
-                <Text mr={5} color="blue.400" as="u">
-                  Sign Up
-                </Text>
-              </HStack>
-            </Flex>
+            <Image
+              cloudName="mediadevs"
+              publicId="mediajams/logo"
+              height={60}
+              width={130}
+              alt="MediaJams logo"
+              styles={{
+                marginLeft: 2,
+              }}
+            />
+            <Button
+              alignSelf="flex-end"
+              p={4}
+              size="md"
+              mb={3}
+              mr={3}
+              colorScheme="blue"
+            >
+              Log In
+            </Button>
           </Flex>
           <NavLinkGroup />
         </DrawerContent>
