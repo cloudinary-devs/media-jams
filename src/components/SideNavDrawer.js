@@ -31,9 +31,12 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
               <Image
                 cloudName="mediadevs"
                 publicId="mediajams/logo"
-                height={50}
-                width={50}
+                height={60}
+                width={130}
                 alt="MediaJams logo"
+                styles={{
+                  marginLeft: 2,
+                }}
               />
               <HStack spacing="2">
                 <Button colorScheme="blue">Log In</Button>
