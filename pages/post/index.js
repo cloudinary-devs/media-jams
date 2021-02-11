@@ -17,6 +17,7 @@ import {
   Icon,
   useDisclosure,
   Box,
+  Tooltip,
 } from '@chakra-ui/react';
 
 import Fuse from 'fuse.js';
@@ -276,10 +277,20 @@ function Notes() {
     >
       <Flex w="100%" justify="space-between" p={3}>
         <Heading color="gray.400">Notes</Heading>
-        <Icon _hover={{ color: 'gray.400' }} as={FaQuestionCircle} />
+        <Tooltip
+          hasArrow
+          label="Access this feature by logging in"
+          placement="bottom"
+        >
+          <span>
+            <Icon _hover={{ color: 'gray.400' }} as={FaQuestionCircle} />
+          </span>
+        </Tooltip>
       </Flex>
       <Flex justify="center" align="center" flexGrow="1">
-        <Icon as={FaLock} boxSize={20} />
+        <span>
+          <Icon as={FaLock} boxSize={20} />
+        </span>
       </Flex>
     </Flex>
   );
@@ -298,7 +309,15 @@ function Bookmarks() {
     >
       <Flex w="100%" justify="space-between" p={3}>
         <Heading color="gray.400">Bookmarks</Heading>
-        <Icon _hover={{ color: 'gray.400' }} as={FaQuestionCircle} />
+        <Tooltip
+          hasArrow
+          label="Access this feature by logging in"
+          placement="bottom"
+        >
+          <span>
+            <Icon _hover={{ color: 'gray.400' }} as={FaQuestionCircle} />
+          </span>
+        </Tooltip>
       </Flex>
       <Flex justify="center" align="center" flexGrow="1">
         <Icon as={FaLock} boxSize={20} />
