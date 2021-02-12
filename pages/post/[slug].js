@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
-
 import blocksToText from '@lib/blocksToText';
-import { postBySlug, postsWithSlug } from 'lib/api';
+
+import { jams as queryJams } from '@lib/queries/jams';
 
 import { Flex, Text, Image, useDisclosure } from '@chakra-ui/react';
 import Code from '@components/Code';
@@ -46,20 +46,22 @@ export default function Post({ post, preview }) {
   );
 }
 /**
- * Get all posts w/slug to pre-render url path
- * Filter out any posts that might not have a slug set
- * @returns {Object} paths based on post slug, and fallback true to live-preview drafts
+ * Get the paths we want to pre-render based on jams
+ * filter out any jams that may not have a slug
+ * map over jams and wrap slug in a `params` Object that will get passed to `getStaticProps` on build
+ * @returns {Object} paths based on jam slug, and fallback true to live-preview drafts
  */
 export const getStaticPaths = async () => {
-  // Get the paths we want to pre-render based on posts
-  const posts = await postsWithSlug();
+  const {
+    data: { jams },
+  } = await queryJams.getStaticWithSlug();
   return {
     paths:
-      posts
-        ?.filter((post) => post?.slug)
-        .map(({ slug }) => ({
+      jams
+        ?.filter((jam) => jam?.slug?.current)
+        .map(({ slug: { current } }) => ({
           params: {
-            slug,
+            slug: current,
           },
         })) || [],
     fallback: true,
@@ -68,23 +70,22 @@ export const getStaticPaths = async () => {
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async ({ params: { slug }, preview = false }) => {
-  const { title, body, slug: slug_current, ...post } = await postBySlug(
-    slug,
-    preview,
-  );
+  const {
+    data: { jams },
+  } = await queryJams.getStaticBySlug(slug);
+  const [jam] = jams;
   try {
     // Convert the body of Jam from sanity portable text to string
     // Then serialize to mdx formated string for hydration in components.
-    const bodyToString = blocksToText(body);
+    const bodyToString = blocksToText(jam.bodyRaw);
     const mdx = await renderToString(bodyToString, { components }, null);
     return {
       props: {
         preview,
         post: {
           content: mdx,
-          title: title,
-          slug: slug_current,
-          ...post,
+          slug: slug,
+          ...jam,
         },
       },
     };

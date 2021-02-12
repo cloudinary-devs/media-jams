@@ -41,6 +41,7 @@
     "@sentry/integrations": "^5.30.0",
     "@sentry/node": "^5.30.0",
     "@sentry/webpack-plugin": "^1.14.0",
+    "@testing-library/react-hooks": "^5.0.3",
     "@zeit/next-css": "^1.0.1",
     "cloudinary": "^1.23.0",
     "cloudinary-build-url": "0.2.1",
@@ -50,6 +51,8 @@
     "fathom-client": "^3.0.0",
     "framer-motion": "^2.6.13",
     "fuse.js": "^6.4.1",
+    "graphql": "^15.5.0",
+    "graphql-request": "^3.4.0",
     "gray-matter": "^4.0.2",
     "groq": "^2.0.9",
     "isomorphic-unfetch": "^3.1.0",
@@ -66,6 +69,8 @@
     "react-icons": "^3.11.0",
     "react-intersection-observer": "8.31.0",
     "react-live": "^2.2.2",
+    "react-query": "^3.6.0",
+    "react-test-renderer": "^17.0.1",
     "remark-mdx-remove-exports": "^1.6.19",
     "remark-mdx-remove-imports": "^1.6.19"
   },
@@ -92,6 +97,7 @@
     "jest-dom": "^4.0.0",
     "jest-svg-transformer": "^1.0.0",
     "lint-staged": "^10.2.11",
+    "msw": "^0.26.2",
     "prettier": "^2.2.1",
     "rewire": "^5.0.0"
   },

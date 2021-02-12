@@ -10,7 +10,8 @@ import {
   DrawerContent,
 } from '@chakra-ui/react';
 import Image from '@components/Image';
-import { FaHome, FaPhotoVideo } from 'react-icons/fa';
+import { FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
+import { useFetchUser } from '@lib/user';
 
 export default function SideNavDrawer({ isOpen, onClose, ...props }) {
   return (
@@ -61,6 +62,7 @@ function NavLink({ children, ...props }) {
 }
 
 function NavLinkGroup() {
+  const { user, loading } = useFetchUser();
   return (
     <Flex mt={4} direction="column" alignItems="center" color="white">
       <NavLink href="/dashboard">
@@ -71,6 +73,13 @@ function NavLinkGroup() {
         <Icon as={FaPhotoVideo} size="md" mr={2} />
         Jams
       </NavLink>
+      {/* Authenticated Users */}
+      {user && (
+        <NavLink href="/bookmarks">
+          <Icon as={FaBookmark} size="md" mr={2} />
+          Bookmarks
+        </NavLink>
+      )}
     </Flex>
   );
 }

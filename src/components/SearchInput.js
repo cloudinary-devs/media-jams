@@ -6,9 +6,7 @@ import {
   InputRightElement,
 } from '@chakra-ui/react';
 import { FaFilter } from 'react-icons/fa';
-import getConfig from 'next/config';
-const { publicRuntimeConfig } = getConfig();
-import Mixpanel, { useMixPanel } from 'lib/mixpanel';
+import { useMixPanel } from '@lib/mixpanel';
 import useDebounce from '../hooks/useDebounce';
 
 export default function SearchInput({

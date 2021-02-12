@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import auth0 from '@lib/auth0';
+import { useFetchUser } from '@lib/user';
 import createLoginUrl from '@lib/login-url';
 
 /**
@@ -27,5 +28,28 @@ export function withAuthServerSideProps(getServerSidePropsFunc) {
       };
     }
     return { props: { user, data: { props: { user } } } };
+  };
+}
+
+export function withAuthRequired(Component, options = {}) {
+  return function withAuthRequired(props) {
+    const router = useRouter();
+    const {
+      returnTo = router.asPath,
+      onRedirecting = () => <div>Redirecting you to the login...</div>,
+    } = options;
+    const { user, loading } = useFetchUser();
+
+    useEffect(() => {
+      if (user && !loading) return;
+
+      (async () => {
+        await router.push(createLoginUrl());
+      })();
+    }, [user, loading]);
+
+    if (user) return <Component {...props} />;
+
+    return onRedirecting();
   };
 }

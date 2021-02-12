@@ -9,7 +9,13 @@ import {
   Text,
   Avatar,
   AccordionIcon,
+  IconButton,
 } from '@chakra-ui/react';
+import react, { useEffect, useState } from 'react';
+import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { useQuery } from 'react-query';
+import { bookmarks } from '@lib/queries/bookmarks';
+import { useFetchUser } from '@lib/user';
 
 import { boxShadow } from '@utils/styles';
 
@@ -21,7 +27,15 @@ export default function JamAccordion({
   ...rest
 }) {
   const { author } = post;
-
+  const { user, loading } = useFetchUser();
+  const [isBookmarked, setBookmark] = useState(false);
+  useEffect(() => {
+    console.log(user, loading);
+    if (!loading && user) {
+      const { data } = useQuery('bookmarks', bookmarks.get);
+      const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
+    }
+  }, [user, loading]);
   return (
     <Accordion
       w={width}
@@ -41,7 +55,7 @@ export default function JamAccordion({
               size="lg"
               name={author.name}
               mr={4}
-              src={author.image}
+              src={author.image.asset.url}
             />
             <Flex direction="column">
               <Heading
@@ -56,12 +70,13 @@ export default function JamAccordion({
               <Flex flexWrap="wrap">
                 {post.tags.map((tag) => (
                   <Text
+                    key={tag._id}
                     mr={2}
                     color={`${color}.400`}
                     fontSize={{ base: '9px', md: '14px' }}
                     key={tag}
                   >
-                    # {tag}
+                    # {tag.title}
                   </Text>
                 ))}
               </Flex>
@@ -73,10 +88,13 @@ export default function JamAccordion({
               colorScheme={color}
               p={3}
               mr={2}
-              href={`/post/${post.slug}`}
+              href={`/post/${post.slug.current}`}
             >
               More
             </Button>
+            <IconButton
+              icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
+            ></IconButton>
             <AccordionButton
               as={Button}
               h="50%"

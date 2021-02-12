@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act, waitFor } from '@testing-library/react';
+import { render, screen, act, waitFor } from 'test-utils';
 import categoriesMock from '../../__mocks__/categoriesMock';
 import TabbedTagSelection from '@components/TabbedTagSelection';
 const addTag = jest.fn();
@@ -15,8 +15,8 @@ test('renders tablist categories w/o error', () => {
       removeTag={removeTag}
     />,
   );
-  const categoryTabs = screen.getByRole('tablist');
-  expect(categoryTabs).toBeInTheDocument();
+  const [firstTab] = screen.getAllByRole('tablist');
+  expect(firstTab).toBeInTheDocument();
 });
 
 test('select category titles shows relivent tags', () => {

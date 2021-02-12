@@ -1,7 +1,13 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useFetchUser, useUser } from '@lib/user';
-import { allPosts, allTags, allCategories } from 'lib/api';
+import { QueryClient, useQuery } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
+import { jams as queryJams } from '@lib/queries/jams';
+import { tags as queryTags } from '@lib/queries/tags';
+import {
+  categories as queryCategories,
+  categoriesWithTags,
+} from '@lib/queries/categories';
 
 import JamAccordion from '@components/JamAccordion';
 import SearchInput from '@components/SearchInput';
@@ -30,30 +36,48 @@ const fuseOptions = {
   shouldSort: true,
   includeScore: true,
   useExtendedSearch: true,
-  keys: ['title', 'tags', 'author.name'],
+  keys: ['title', 'tags.title', 'author.name'],
 };
 
-export default function Post({ posts, tags, categories }) {
-  const [filteredPosts, setFilteredPosts] = React.useState(posts);
+export default function Post(props) {
+  // Query
+  const { data: jamData, isLoading } = useQuery('allJams', queryJams.get);
+  const { data: jamTagData } = useQuery('jamTags', queryTags.get);
+  const { data: jamCategoryData } = useQuery(
+    'jamCategories',
+    queryCategories.get,
+  );
+
+  // State
+  const [filteredPosts, setFilteredPosts] = React.useState([]);
   const [showFilters, setShowFilters] = React.useState(false);
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchValue, setSearchValue] = React.useState('');
   const router = useRouter();
-  const { user, loading } = useUser();
+
+  React.useEffect(() => {
+    // do some checking here to ensure data exist
+    if (isLoading === false && jamData?.jams) {
+      setFilteredPosts(jamData.jams);
+    }
+  }, [isLoading, jamData]);
 
   // check if there's any tag selections coming from the router and set them
-  //
   React.useEffect(() => {
     const routeTags = router.query.tags?.split(',') || [];
-    const queryTags = tags.filter((t) => routeTags.includes(t.title));
-    setSelectedFilters(queryTags);
-  }, [router.query]);
+    if (jamTagData?.tags && routeTags.length !== 0) {
+      const queryTags = jamTagData?.tags.filter((t) =>
+        routeTags.includes(t.title),
+      );
+      setSelectedFilters(queryTags);
+    }
+  }, [router.query, jamTagData]);
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
     if (searchValue === '' && selectedFilters.length === 0) {
-      handleFilter(posts);
+      handleFilter(jamData?.jams);
     } else {
       // Allow for a search for tag
       const formattedTags = [
@@ -73,7 +97,8 @@ export default function Post({ posts, tags, categories }) {
     }
   }, [searchValue, selectedFilters]);
 
-  const fuse = new Fuse(posts, fuseOptions);
+  // Set Fuse
+  const fuse = new Fuse(jamData?.jams, fuseOptions);
 
   function addTag(tag) {
     return setSelectedFilters((prev) => [...prev, tag]);
@@ -130,8 +155,8 @@ export default function Post({ posts, tags, categories }) {
           setSearchValue={setSearchValue}
           showFilters={showFilters}
           setShowFilters={setShowFilters}
-          tags={tags}
-          categories={categories}
+          tags={jamTagData?.tags}
+          categories={jamCategoryData}
           addTag={addTag}
           removeTag={removeTag}
           selectedFilters={selectedFilters}
@@ -143,8 +168,8 @@ export default function Post({ posts, tags, categories }) {
           setSearchValue={setSearchValue}
           showFilters={showFilters}
           setShowFilters={setShowFilters}
-          tags={tags}
-          categories={categories}
+          tags={jamTagData?.tags}
+          categories={jamCategoryData}
           addTag={addTag}
           removeTag={removeTag}
           selectedFilters={selectedFilters}
@@ -168,16 +193,13 @@ export default function Post({ posts, tags, categories }) {
 
 // This function gets called at build time on server-side.
 export const getStaticProps = async () => {
-  const [posts, tags, categories] = await Promise.all([
-    allPosts(),
-    allTags(),
-    allCategories(),
-  ]);
+  const queryClient = new QueryClient();
+  // await queryClient.prefetchQuery('allJams', jams.get());
+  await queryClient.prefetchQuery('jamTags', queryTags.getStatic);
+  await queryClient.prefetchQuery('jamCategories', queryCategories.getStatic);
   return {
     props: {
-      posts,
-      tags,
-      categories,
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };
@@ -224,8 +246,8 @@ function JamSearch({
           border="2px solid black"
         >
           <TagFilter
-            tags={tags}
-            categories={categories}
+            tags={jamTagData?.tags}
+            categories={jamCategoryData}
             addTag={addTag}
             removeTag={removeTag}
             selectedFilters={selectedFilters}
@@ -233,7 +255,7 @@ function JamSearch({
           />
         </Flex>
       )}
-      {filteredPosts.map((post) => (
+      {filteredPosts?.map((post) => (
         <JamAccordion color="red" width="100%" key={post._id} post={post} />
       ))}
     </Flex>
@@ -330,8 +352,15 @@ const newPosts = [
   {
     author: {
       name: 'Domitrius Clark',
-      image:
-        'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+      image: {
+        asset: {
+          url:
+            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+        },
+      },
+    },
+    slug: {
+      current: 'it-a-post',
     },
     title: 'Responsive images in React',
     description:
@@ -341,8 +370,15 @@ const newPosts = [
   {
     author: {
       name: 'Domitrius Clark',
-      image:
-        'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+      image: {
+        asset: {
+          url:
+            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+        },
+      },
+    },
+    slug: {
+      current: 'it-a-post',
     },
     title: 'Responsive images in React',
     description:
@@ -352,8 +388,15 @@ const newPosts = [
   {
     author: {
       name: 'Domitrius Clark',
-      image:
-        'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+      image: {
+        asset: {
+          url:
+            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+        },
+      },
+    },
+    slug: {
+      current: 'it-a-post',
     },
     title: 'Responsive images in React',
     description:
@@ -363,8 +406,15 @@ const newPosts = [
   {
     author: {
       name: 'Domitrius Clark',
-      image:
-        'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+      image: {
+        asset: {
+          url:
+            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+        },
+      },
+    },
+    slug: {
+      current: 'it-a-post',
     },
     title: 'Responsive images in React',
     description:
@@ -374,8 +424,33 @@ const newPosts = [
   {
     author: {
       name: 'Domitrius Clark',
-      image:
-        'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+      image: {
+        asset: {
+          url:
+            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+        },
+      },
+    },
+    slug: {
+      current: 'it-a-post',
+    },
+    title: 'Responsive images in React',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
+    tags: ['react'],
+  },
+  {
+    author: {
+      name: 'Domitrius Clark',
+      image: {
+        asset: {
+          url:
+            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+        },
+      },
+    },
+    slug: {
+      current: 'it-a-post',
     },
     title: 'Responsive images in React',
     description:

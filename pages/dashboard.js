@@ -289,8 +289,15 @@ const featuredPosts = [
   {
     author: {
       name: 'Domitrius Clark',
-      image:
-        'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+      image: {
+        asset: {
+          url:
+            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+        },
+      },
+    },
+    slug: {
+      current: 'it-a-post',
     },
     title: 'Responsive images in React',
     description:
@@ -300,8 +307,15 @@ const featuredPosts = [
   {
     author: {
       name: 'Domitrius Clark',
-      image:
-        'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+      image: {
+        asset: {
+          url:
+            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+        },
+      },
+    },
+    slug: {
+      current: 'it-a-post',
     },
     title: 'Responsive images in React',
     description:
@@ -311,8 +325,15 @@ const featuredPosts = [
   {
     author: {
       name: 'Domitrius Clark',
-      image:
-        'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+      image: {
+        asset: {
+          url:
+            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+        },
+      },
+    },
+    slug: {
+      current: 'it-a-post',
     },
     title: 'Responsive images in React',
     description:
@@ -322,8 +343,15 @@ const featuredPosts = [
   {
     author: {
       name: 'Domitrius Clark',
-      image:
-        'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+      image: {
+        asset: {
+          url:
+            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+        },
+      },
+    },
+    slug: {
+      current: 'it-a-post',
     },
     title: 'Responsive images in React',
     description:
@@ -333,8 +361,15 @@ const featuredPosts = [
   {
     author: {
       name: 'Domitrius Clark',
-      image:
-        'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+      image: {
+        asset: {
+          url:
+            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+        },
+      },
+    },
+    slug: {
+      current: 'it-a-post',
     },
     title: 'Responsive images in React',
     description:
@@ -344,8 +379,15 @@ const featuredPosts = [
   {
     author: {
       name: 'Domitrius Clark',
-      image:
-        'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+      image: {
+        asset: {
+          url:
+            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+        },
+      },
+    },
+    slug: {
+      current: 'it-a-post',
     },
     title: 'Responsive images in React',
     description:
