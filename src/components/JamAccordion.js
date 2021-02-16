@@ -30,7 +30,6 @@ export default function JamAccordion({
   const { user, loading } = useFetchUser();
   const [isBookmarked, setBookmark] = useState(false);
   useEffect(() => {
-    console.log(user, loading);
     if (!loading && user) {
       const { data } = useQuery('bookmarks', bookmarks.get);
       const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
