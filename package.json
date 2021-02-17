@@ -20,7 +20,7 @@
     "format:src": "prettier --write \"src/**/*.{js,md,mdx}\""
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^0.16.0",
+    "@auth0/nextjs-auth0": "^1.0.0",
     "@chakra-ui/icons": "^1.0.1",
     "@chakra-ui/react": "^1.0.1",
     "@chakra-ui/theme": "^1.1.0",
