@@ -13,8 +13,8 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
-import { useQuery } from 'react-query';
-import { bookmarks } from '@lib/queries/bookmarks';
+import { useQuery, useMutation } from 'react-query';
+import { bookmarks as bookmarksQuery } from '@lib/queries/bookmarks';
 import { useUser } from '@auth0/nextjs-auth0';
 
 import { boxShadow } from '@utils/styles';
@@ -27,11 +27,27 @@ export default function JamAccordion({
   ...rest
 }) {
   const { author } = post;
-  const { user, loading } = useUser();
+  const { user } = useUser();
   const [isBookmarked, setBookmark] = useState(false);
+  const addBookmark = useMutation(
+    (content_id) => bookmarksQuery.add(content_id),
+    {
+      onSuccess: () => {
+        setBookmark(true);
+      },
+    },
+  );
+  const removeBookmark = useMutation(
+    (content_id) => bookmarksQuery.remove(content_id),
+    {
+      onSuccess: () => {
+        setBookmark(false);
+      },
+    },
+  );
   const { data: dataBookmarks, isLoading } = useQuery(
     'bookmarks',
-    bookmarks.get,
+    bookmarksQuery.get,
     {
       enabled: !loading && !!user,
     },
@@ -44,6 +60,11 @@ export default function JamAccordion({
       setBookmark(postIds.includes(post._id));
     }
   }, [dataBookmarks, isLoading]);
+
+  const handleBookmarkOnClick = () => {
+    const toggleBookmark = isBookmarked ? removeBookmark : addBookmark;
+    toggleBookmark.mutate(post._id);
+  };
   return (
     <Accordion
       w={width}
@@ -101,6 +122,7 @@ export default function JamAccordion({
             </Button>
             <IconButton
               icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
+              onClick={handleBookmarkOnClick}
             ></IconButton>
             <AccordionButton
               as={Button}
