@@ -27,7 +27,7 @@ export default function JamAccordion({
   ...rest
 }) {
   const { author } = post;
-  const { user } = useUser();
+  const { user, loading } = useUser();
   const [isBookmarked, setBookmark] = useState(false);
   const addBookmark = useMutation(
     (content_id) => bookmarksQuery.add(content_id),
