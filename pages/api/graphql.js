@@ -12,8 +12,7 @@ const endpoint = process.env.HASURA_GRAPHQL_URL;
 const userRequestHeader = async (req, res) => {
   const headers = {};
   try {
-    const tokenCache = auth0.tokenCache(req, res);
-    const { accessToken } = await tokenCache.getAccessToken();
+    const { accessToken } = await auth0.getAccessToken(req, res);
     headers['Authorization'] = `Bearer ${accessToken}`;
   } catch (error) {
     headers['X-Hasura-Role'] = 'public';

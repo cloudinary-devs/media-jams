@@ -1,7 +1,7 @@
 import { Flex, Text, Box, Link, Button } from '@chakra-ui/react';
 import Image from '@components/Image';
 import { Link as NextLink } from 'next/link';
-import { useFetchUser } from '@lib/user';
+import { useUser } from '@auth0/nextjs-auth0';
 
 export function NavLink({ children, isButton, ...props }) {
   return (
@@ -25,7 +25,7 @@ export function NavLink({ children, isButton, ...props }) {
 }
 
 export default function Navbar() {
-  const { user, loading } = useFetchUser();
+  const { user, error, isLoading } = useUser();
 
   return (
     <Flex
