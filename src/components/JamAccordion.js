@@ -11,7 +11,7 @@ import {
   AccordionIcon,
   IconButton,
 } from '@chakra-ui/react';
-import react, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { useQuery } from 'react-query';
 import { bookmarks } from '@lib/queries/bookmarks';
@@ -29,12 +29,21 @@ export default function JamAccordion({
   const { author } = post;
   const { user, loading } = useFetchUser();
   const [isBookmarked, setBookmark] = useState(false);
+  const { data: dataBookmarks, isLoading } = useQuery(
+    'bookmarks',
+    bookmarks.get,
+    {
+      enabled: !loading && !!user,
+    },
+  );
   useEffect(() => {
-    if (!loading && user) {
-      const { data } = useQuery('bookmarks', bookmarks.get);
-      const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
+    if (user && dataBookmarks) {
+      const postIds = dataBookmarks?.bookmarks?.map(
+        ({ content_id }) => content_id,
+      );
+      setBookmark(postIds.includes(post._id));
     }
-  }, [user, loading]);
+  }, [dataBookmarks, isLoading]);
   return (
     <Accordion
       w={width}
@@ -44,7 +53,7 @@ export default function JamAccordion({
       borderColor="none"
       bg="white"
       allowToggle
-      defaultIndex={defaultIndex ? defaultIndex : null}
+      defaultIndex={defaultIndex || null}
     >
       <AccordionItem p={3} borderRadius="lg">
         <Flex justifyContent="space-between">
@@ -73,7 +82,6 @@ export default function JamAccordion({
                     mr={2}
                     color={`${color}.400`}
                     fontSize={{ base: '9px', md: '14px' }}
-                    key={tag}
                   >
                     # {tag.title}
                   </Text>

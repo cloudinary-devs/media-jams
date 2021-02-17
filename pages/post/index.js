@@ -246,8 +246,8 @@ function JamSearch({
           border="2px solid black"
         >
           <TagFilter
-            tags={jamTagData?.tags}
-            categories={jamCategoryData}
+            tags={tags}
+            categories={categories}
             addTag={addTag}
             removeTag={removeTag}
             selectedFilters={selectedFilters}
