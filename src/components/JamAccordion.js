@@ -15,7 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { useQuery } from 'react-query';
 import { bookmarks } from '@lib/queries/bookmarks';
-import { useFetchUser } from '@lib/user';
+import { useUser } from '@auth0/nextjs-auth0';
 
 import { boxShadow } from '@utils/styles';
 
@@ -27,7 +27,7 @@ export default function JamAccordion({
   ...rest
 }) {
   const { author } = post;
-  const { user, loading } = useFetchUser();
+  const { user, loading } = useUser();
   const [isBookmarked, setBookmark] = useState(false);
   const { data: dataBookmarks, isLoading } = useQuery(
     'bookmarks',

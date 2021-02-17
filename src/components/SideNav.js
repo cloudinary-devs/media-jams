@@ -3,7 +3,7 @@ import { boxShadow } from '@utils/styles';
 import { Button, Flex, Icon, Link, Text } from '@chakra-ui/react';
 import { FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
 import Image from '@components/Image';
-import { useFetchUser } from '@lib/user';
+import { useUser } from '@auth0/nextjs-auth0';
 import { Link as NextLink } from 'next/link';
 
 export default function SideNav(props) {
@@ -58,7 +58,7 @@ function NavLink({ children, ...props }) {
 }
 
 function NavLinkGroup() {
-  const { user, loading } = useFetchUser();
+  const { user, loading } = useUser();
   return (
     <Flex mt={4} direction="column" alignItems="center" color="white">
       <NavLink href="/dashboard">
