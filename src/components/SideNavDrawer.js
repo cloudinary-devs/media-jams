@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import Image from '@components/Image';
 import { FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
-import { useFetchUser } from '@lib/user';
+import { useUser } from '@auth0/nextjs-auth0';
 
 export default function SideNavDrawer({ isOpen, onClose, ...props }) {
   return (
@@ -62,7 +62,7 @@ function NavLink({ children, ...props }) {
 }
 
 function NavLinkGroup() {
-  const { user, loading } = useFetchUser();
+  const { user, loading } = useUser();
   return (
     <Flex mt={4} direction="column" alignItems="center" color="white">
       <NavLink href="/dashboard">

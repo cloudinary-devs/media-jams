@@ -18,8 +18,19 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react'],
+  plugins: ['react', 'react-hooks'],
   rules: {
-    'react-in-jsx-scope': off,
+    'react-in-jsx-scope': 'off',
+    'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
+    'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
   },
+  camelcase: ['error', { properties: 'never' }],
+  overrides: [
+    {
+      files: ['__test__/*.test.js', '__mock__/*.js'],
+      rules: {
+        'require-jsdoc': 'off',
+      },
+    },
+  ],
 };

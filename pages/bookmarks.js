@@ -1,9 +1,9 @@
 import Layout from '@components/Layout';
 import { useQuery } from 'react-query';
 import { Flex, Heading, useDisclosure } from '@chakra-ui/react';
+import auth0 from '@lib/auth0';
 
 import JamAccordion from '@components/JamAccordion';
-import { withAuthRequired } from '@components/withAuth';
 import { boxShadow } from '@utils/styles';
 
 import { bookmarks } from '@lib/queries/bookmarks';
@@ -74,4 +74,5 @@ function Bookmarks() {
   );
 }
 
-export default withAuthRequired(Bookmarks);
+export default Bookmarks;
+export const getServerSideProps = auth0.withPageAuthRequired();

@@ -12,11 +12,11 @@ import {
   AccordionIcon,
   IconButton,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
-import { useQuery } from 'react-query';
-import { bookmarks } from '@lib/queries/bookmarks';
-import { useFetchUser } from '@lib/user';
+import { useQuery, useMutation } from 'react-query';
+import { bookmarks as bookmarksQuery } from '@lib/queries/bookmarks';
+import { useUser } from '@auth0/nextjs-auth0';
 
 import { boxShadow } from '@utils/styles';
 
@@ -28,14 +28,44 @@ export default function JamAccordion({
   ...rest
 }) {
   const { author } = post;
-  const { user, loading } = useFetchUser();
+  const { user, loading } = useUser();
   const [isBookmarked, setBookmark] = useState(false);
+  const addBookmark = useMutation(
+    (content_id) => bookmarksQuery.add(content_id),
+    {
+      onSuccess: () => {
+        setBookmark(true);
+      },
+    },
+  );
+  const removeBookmark = useMutation(
+    (content_id) => bookmarksQuery.remove(content_id),
+    {
+      onSuccess: () => {
+        setBookmark(false);
+      },
+    },
+  );
+  const { data: dataBookmarks, isLoading } = useQuery(
+    'bookmarks',
+    bookmarksQuery.get,
+    {
+      enabled: !loading && !!user,
+    },
+  );
   useEffect(() => {
-    if (!loading && user) {
-      const { data } = useQuery('bookmarks', bookmarks.get);
-      const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
+    if (user && dataBookmarks) {
+      const postIds = dataBookmarks?.bookmarks?.map(
+        ({ content_id }) => content_id,
+      );
+      setBookmark(postIds.includes(post._id));
     }
-  }, [user, loading]);
+  }, [dataBookmarks, isLoading]);
+
+  const handleBookmarkOnClick = () => {
+    const toggleBookmark = isBookmarked ? removeBookmark : addBookmark;
+    toggleBookmark.mutate(post._id);
+  };
   return (
     <Accordion
       w={width}
@@ -45,8 +75,7 @@ export default function JamAccordion({
       borderColor="none"
       bg="white"
       allowToggle
-      defaultIndex={defaultIndex ? defaultIndex : null}
-      {...rest}
+      defaultIndex={defaultIndex || null}
     >
       <AccordionItem p={3} borderRadius="lg">
         <Flex justifyContent="space-between">
@@ -70,7 +99,6 @@ export default function JamAccordion({
                     key={tag._id}
                     mr={2}
                     fontSize={{ base: '9px', md: '14px' }}
-                    key={tag}
                   >
                     # {tag.title}
                   </Text>
@@ -91,7 +119,8 @@ export default function JamAccordion({
             <IconButton
               size="sm"
               icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
-            />
+              onClick={handleBookmarkOnClick}
+            ></IconButton>
             <AccordionButton
               as={Button}
               h="50%"

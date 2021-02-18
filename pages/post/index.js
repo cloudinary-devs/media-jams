@@ -61,7 +61,7 @@ export default function Post() {
     if (isLoading === false && jamData?.jams) {
       setFilteredPosts(jamData.jams);
     }
-  }, [isLoading, jamData]);
+  }, [isLoading, jamData?.jams]);
 
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
@@ -72,7 +72,7 @@ export default function Post() {
       );
       setSelectedFilters(queryTags);
     }
-  }, [router.query, jamTagData]);
+  }, [router.query, jamTagData?.tags]);
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
