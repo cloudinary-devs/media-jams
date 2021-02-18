@@ -87,7 +87,10 @@ export default function Post() {
           { title: searchValue },
           { author: searchValue },
           {
-            $and: [{ $path: 'tags.title', $val: formattedTags[0] }],
+            $and:
+              formattedTags.length > 0
+                ? [{ $path: 'tags.title', $val: formattedTags[0] }]
+                : [],
           },
         ],
       };
