@@ -5,13 +5,14 @@ import {
   AccordionPanel,
   Button,
   Flex,
+  Link,
   Heading,
   Text,
   Avatar,
   AccordionIcon,
   IconButton,
 } from '@chakra-ui/react';
-import react, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { useQuery } from 'react-query';
 import { bookmarks } from '@lib/queries/bookmarks';
@@ -30,7 +31,6 @@ export default function JamAccordion({
   const { user, loading } = useFetchUser();
   const [isBookmarked, setBookmark] = useState(false);
   useEffect(() => {
-    console.log(user, loading);
     if (!loading && user) {
       const { data } = useQuery('bookmarks', bookmarks.get);
       const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
@@ -46,25 +46,22 @@ export default function JamAccordion({
       bg="white"
       allowToggle
       defaultIndex={defaultIndex ? defaultIndex : null}
+      {...rest}
     >
       <AccordionItem p={3} borderRadius="lg">
         <Flex justifyContent="space-between">
-          <Flex flex="1" textAlign="left">
+          <Flex ml={4} align="center" flex="1" textAlign="left" mt={3}>
             <Avatar
-              boxShadow={boxShadow}
               size="lg"
               name={author.name}
               mr={4}
               src={author.image.asset.url}
             />
-            <Flex direction="column">
-              <Heading
-                fontSize={{ base: '.8rem', md: '1rem', lg: '1.125rem' }}
-                textStyle="headline-card"
-              >
-                {post.title}
-              </Heading>
-              <Text fontSize={{ base: 'sm', md: 'sm', lg: 'md' }}>
+            <Flex justift="center" direction="column" color={`${color}.400`}>
+              <Link href={`/post/${post.slug.current}`}>
+                <Heading textStyle="headline-card">{post.title}</Heading>
+              </Link>
+              <Text fontSize={{ base: 'sm', md: 'sm', lg: 'sm' }}>
                 By {author.name}
               </Text>
               <Flex flexWrap="wrap">
@@ -72,7 +69,6 @@ export default function JamAccordion({
                   <Text
                     key={tag._id}
                     mr={2}
-                    color={`${color}.400`}
                     fontSize={{ base: '9px', md: '14px' }}
                     key={tag}
                   >
@@ -86,15 +82,16 @@ export default function JamAccordion({
             <Button
               as="a"
               colorScheme={color}
-              p={3}
-              mr={2}
+              size="sm"
+              mr="3px"
               href={`/post/${post.slug.current}`}
             >
               More
             </Button>
             <IconButton
+              size="sm"
               icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
-            ></IconButton>
+            />
             <AccordionButton
               as={Button}
               h="50%"
@@ -110,9 +107,7 @@ export default function JamAccordion({
         </Flex>
         <AccordionPanel pt={4}>
           <Flex direction="column">
-            <Text fontSize={{ base: 'sm', lg: 'md', xl: 'md' }}>
-              {post.description}
-            </Text>
+            <Text fontSize="sm">{post.description}</Text>
           </Flex>
         </AccordionPanel>
       </AccordionItem>

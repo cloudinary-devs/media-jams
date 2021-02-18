@@ -1,26 +1,14 @@
-import React from 'react';
 import Fuse from 'fuse.js';
-import {
-  Box,
-  Button,
-  VStack,
-  Input,
-  Flex,
-  Text,
-  Wrap,
-  Grid,
-  WrapItem,
-} from '@chakra-ui/react';
-import { FaTag } from 'react-icons/fa';
+import { Box, Button, Input, Flex, Text, Spacer } from '@chakra-ui/react';
 import TagButton from '@components/TagButton';
 
 export default function TagFilter({
   tags,
-  categories,
-  addTag,
-  removeTag,
   selectedFilters,
   setSelectedFilters,
+  addTag,
+  removeTag,
+  color,
 }) {
   const [search, setSearch] = React.useState('');
   const [filteredTagResults, setFilteredTagResults] = React.useState([]);
@@ -48,239 +36,126 @@ export default function TagFilter({
   const fuse = new Fuse(tags, fuseOptions);
 
   return (
-    <Flex w="100%">
-      <VStack my="1.5rem" alignItems="flex-start">
-        <Flex direction="column" p={6}>
-          {search.length > 0 &&
-            filteredTagResults?.map((tag) => {
-              return (
-                <Box mb={10} key={tag._id}>
-                  <Wrap spacing={2}>
-                    <WrapItem>
-                      <TagButton
-                        addTag={addTag}
-                        removeTag={removeTag}
-                        searchTags={selectedFilters}
-                        tag={tag}
-                      />
-                    </WrapItem>
-                  </Wrap>
-                </Box>
-              );
-            })}
-          <Grid
-            templateColumns={{
-              base: 'repeat(2, 1fr)',
-              md: 'repeat(2, 1fr)',
-              lg: 'repeat(3, 1fr)',
-            }}
-          >
-            {search === '' &&
-              filteredTagResults?.map((cat) => {
+    <Flex h="100%" w="100%" direction="column" justifyContent="space-between">
+      <Box>
+        <TagSearchInput color={color} setSearch={setSearch} mb={2} />
+        <Flex
+          mt={2}
+          wrap="wrap"
+          margin=" -2px 0 0 -2px"
+          width="calc(100% + 12px)"
+        >
+          {search.length > 0
+            ? filteredTagResults?.map((tag) => {
                 return (
-                  <Box key={cat._id} mb={10}>
-                    <Text color="red.400">{cat.title}</Text>
-                    <Wrap spacing={2}>
-                      {cat.tags?.slice(0, 5).map((tag) => {
-                        return (
-                          <WrapItem key={tag.title}>
-                            <TagButton
-                              addTag={addTag}
-                              removeTag={removeTag}
-                              searchTags={selectedFilters}
-                              tag={tag}
-                            />
-                          </WrapItem>
-                        );
-                      })}
-                    </Wrap>
-                  </Box>
+                  <TagButton
+                    key={tag._id}
+                    addTag={addTag}
+                    removeTag={removeTag}
+                    searchTags={selectedFilters}
+                    tag={tag}
+                    color={color}
+                    margin=" 2px 0 0 2px"
+                  />
                 );
+              })
+            : tags?.map((tag) => {
+                return tag.featured === true ? (
+                  <TagButton
+                    addTag={addTag}
+                    removeTag={removeTag}
+                    searchTags={selectedFilters}
+                    tag={tag}
+                    key={tag._id}
+                    color={color}
+                    margin=" 2px 0 0 2px"
+                  />
+                ) : null;
               })}
-          </Grid>
         </Flex>
-      </VStack>
+      </Box>
+      <CurrentFilterGroup
+        color={color}
+        selectedFilters={selectedFilters}
+        addTag={addTag}
+        removeTag={removeTag}
+        searchTags={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+      />
     </Flex>
   );
 }
 
-function TagSearchInput({ setSearch }) {
+function TagSearchInput({ setSearch, color, ...rest }) {
   return (
     <Input
       size="sm"
-      fontSize=".6rem"
+      padding={3}
+      fontSize={10}
+      alignSelf="center"
       placeholder="Filter tags..."
+      borderColor={color ? `${color}.400` : 'blue.400'}
+      borderWidth="1px"
+      color={color ? `${color}.600` : 'blue.600'}
       onChange={(e) => setSearch(e.target.value)}
+      {...rest}
     />
   );
 }
 
-function CurrentFilterGroup() {
+function CurrentFilterGroup({
+  selectedFilters,
+  setSelectedFilters,
+  addTag,
+  removeTag,
+  searchTags,
+  color,
+  ...rest
+}) {
   return (
-    <>
-      <Text fontSize="xs" as="i">
-        Current Filters
-      </Text>
-      <Wrap>
+    <Flex w="100%" direction="column" {...rest}>
+      <Flex mb={2} align="center" justify="center">
+        <Text fontSize="xs" as="i">
+          Current Filters
+        </Text>
+        <Spacer />
+        <ClearTagsButton setSelectedFilters={setSelectedFilters} />
+      </Flex>
+      <Flex
+        mt={2}
+        wrap="wrap"
+        margin=" -2px 0 0 -2px"
+        width="calc(100% + 12px)"
+      >
         {selectedFilters ? (
           selectedFilters.map((tag) => (
-            <WrapItem key={tag._id}>
-              <TagButton
-                addTag={addTag}
-                removeTag={removeTag}
-                searchTags={selectedFilters}
-                icon={<FaTag />}
-                tag={tag}
-              />
-            </WrapItem>
+            <TagButton
+              addTag={addTag}
+              removeTag={removeTag}
+              searchTags={selectedFilters}
+              tag={tag}
+              key={tag._id}
+              color={color}
+              margin="2px 0 0 2px"
+            />
           ))
         ) : (
           <Box />
         )}
-      </Wrap>
-    </>
+      </Flex>
+    </Flex>
   );
 }
 
-function ClearTagsButton({ setSelectedFilters }) {
+function ClearTagsButton({ setSelectedFilters, color }) {
   return (
     <Button
-      p={2}
-      mt={2}
-      mb={3}
-      variant="outline"
-      fontSize="10px"
+      colorScheme={color ? color : 'red'}
+      size="sm"
+      variant="solid"
       onClick={() => setSelectedFilters([])}
     >
-      Clear Tags
+      Clear
     </Button>
   );
 }
-
-const topTags = [
-  {
-    featured: true,
-    categories: [{ title: 'Operations' }],
-    title: 'lazy loading',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Operations' }],
-    title: 'accessibility',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Operations' }],
-    title: 'responsive',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Operations' }],
-    title: 'transcriptions',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Operations' }],
-    title: 'performance',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Elements' }],
-    title: 'image',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Elements' }],
-    title: 'video',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Elements' }],
-    title: 'audio',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Elements' }],
-    title: 'widget',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Elements' }],
-    title: 'api',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Frameworks' }],
-    title: 'react',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Frameworks' }],
-    title: 'vue',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Frameworks' }],
-    title: 'flutter',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Frameworks' }],
-    title: 'nextjs',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Frameworks' }],
-    title: 'nuxtjs',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Format' }],
-    title: 'webp',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Format' }],
-    title: 'mp4',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Format' }],
-    title: 'png',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Format' }],
-    title: 'jpeg',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Format' }],
-    title: 'rtmp',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Language' }],
-    title: 'javascript',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Language' }],
-    title: 'php',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Language' }],
-    title: 'ruby',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Language' }],
-    title: 'rails',
-  },
-  {
-    featured: true,
-    categories: [{ title: 'Language' }],
-    title: 'node',
-  },
-];
