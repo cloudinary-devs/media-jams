@@ -30,7 +30,7 @@ export default {
     fontWeight: 'bold',
     lineHeight: 'normal',
     letterSpacing: 'normal',
-    fontSize: ['lg'],
+    fontSize: ['md'],
   },
   'jam-content-body': {
     'h1, h2': {

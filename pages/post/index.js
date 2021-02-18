@@ -39,7 +39,7 @@ const fuseOptions = {
   keys: ['title', 'tags.title', 'author.name'],
 };
 
-export default function Post(props) {
+export default function Post() {
   // Query
   const { data: jamData, isLoading } = useQuery('allJams', queryJams.get);
   const { data: jamTagData } = useQuery('jamTags', queryTags.get);
@@ -80,15 +80,14 @@ export default function Post(props) {
       handleFilter(jamData?.jams);
     } else {
       // Allow for a search for tag
-      const formattedTags = [
-        ...selectedFilters.map((item) => ({ tags: item.title })),
-      ];
+      const formattedTags = selectedFilters.map((item) => item.title);
+      console.log(formattedTags);
       const queries = {
         $or: [
           { title: searchValue },
           { author: searchValue },
           {
-            $and: [...formattedTags],
+            $and: [{ $path: 'tags.title', $val: formattedTags[0] }],
           },
         ],
       };
@@ -121,18 +120,17 @@ export default function Post(props) {
             "JamSearch"
             "JamSearch"
             "Bookmarks"            
-            "Notes  "
-            "five"
+            "Notes  "            
           `,
           md: `
             "JamSearch JamSearch"
             "Bookmarks Bookmarks"
-            "Notes five"
+            "Notes Notes"
           `,
           xl: `
           "SearchFilters JamSearch Bookmarks "
           "Notes JamSearch Bookmarks"
-          "Notes JamSearch five"
+          "Notes JamSearch Bookmarks"
           `,
         }}
         templateColumns={{
@@ -179,13 +177,6 @@ export default function Post(props) {
 
         <Bookmarks />
         <Notes />
-
-        <Box
-          borderRadius="8px"
-          boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
-          bg="blue.200"
-          gridArea="five"
-        ></Box>
       </Grid>
     </Layout>
   );
@@ -238,20 +229,15 @@ function JamSearch({
         mb={3}
       />
       {showFilters && (
-        <Flex
-          borderRadius="lg"
-          w="100%"
-          mb={5}
-          mt="16px"
-          border="2px solid black"
-        >
+        <Flex borderRadius="lg" w="100%" mb={5} mt="16px" h={64}>
           <TagFilter
-            tags={jamTagData?.tags}
-            categories={jamCategoryData}
+            tags={tags}
+            categories={categories}
             addTag={addTag}
             removeTag={removeTag}
             selectedFilters={selectedFilters}
             setSelectedFilters={setSelectedFilters}
+            color="red"
           />
         </Flex>
       )}
@@ -278,11 +264,23 @@ function SearchFilters({
   return (
     <Flex
       borderRadius="8px"
-      boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+      boxShadow={boxShadow}
       bg="blue.200"
       display={{ md: 'none', lg: 'flex', xl: 'flex' }}
+      height="auto"
       gridArea="SearchFilters"
-    ></Flex>
+      overflow="auto"
+      p={2}
+    >
+      <TagFilter
+        tags={tags}
+        categories={categories}
+        addTag={addTag}
+        removeTag={removeTag}
+        selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+      />
+    </Flex>
   );
 }
 
@@ -347,114 +345,3 @@ function Bookmarks() {
     </Flex>
   );
 }
-
-const newPosts = [
-  {
-    author: {
-      name: 'Domitrius Clark',
-      image: {
-        asset: {
-          url:
-            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-        },
-      },
-    },
-    slug: {
-      current: 'it-a-post',
-    },
-    title: 'Responsive images in React',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
-    tags: ['react'],
-  },
-  {
-    author: {
-      name: 'Domitrius Clark',
-      image: {
-        asset: {
-          url:
-            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-        },
-      },
-    },
-    slug: {
-      current: 'it-a-post',
-    },
-    title: 'Responsive images in React',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
-    tags: ['react'],
-  },
-  {
-    author: {
-      name: 'Domitrius Clark',
-      image: {
-        asset: {
-          url:
-            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-        },
-      },
-    },
-    slug: {
-      current: 'it-a-post',
-    },
-    title: 'Responsive images in React',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
-    tags: ['react'],
-  },
-  {
-    author: {
-      name: 'Domitrius Clark',
-      image: {
-        asset: {
-          url:
-            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-        },
-      },
-    },
-    slug: {
-      current: 'it-a-post',
-    },
-    title: 'Responsive images in React',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
-    tags: ['react'],
-  },
-  {
-    author: {
-      name: 'Domitrius Clark',
-      image: {
-        asset: {
-          url:
-            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-        },
-      },
-    },
-    slug: {
-      current: 'it-a-post',
-    },
-    title: 'Responsive images in React',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
-    tags: ['react'],
-  },
-  {
-    author: {
-      name: 'Domitrius Clark',
-      image: {
-        asset: {
-          url:
-            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-        },
-      },
-    },
-    slug: {
-      current: 'it-a-post',
-    },
-    title: 'Responsive images in React',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
-    tags: ['react'],
-  },
-];

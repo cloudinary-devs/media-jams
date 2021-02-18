@@ -39,9 +39,7 @@ export default function SearchInput({
         value={searchValue}
         onChange={onChange}
         borderColor={color}
-        backgroundColor={`${color}.400`}
         _placeholder={{
-          color: 'white ',
           lineSpacing: '4px',
           fontSize: 'sm',
         }}
