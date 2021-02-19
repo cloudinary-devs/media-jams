@@ -7,16 +7,13 @@ import {
   Flex,
   Box,
   HStack,
+  Img,
 } from '@chakra-ui/react';
-import Image from '@components/Image';
 import { FaFacebook, FaTwitter, FaGlobe } from 'react-icons/fa';
 import BlockContent from '@sanity/block-content-to-react';
 import { buildImageUrl } from 'cloudinary-build-url';
 import styled from '@emotion/styled';
-
-const AuthorByline = styled(Text)`
-  text-indent: 5px;
-`;
+import Image from '@components/Image';
 
 export default function JamAuthorBanner({ author }) {
   const isMobile = useBreakpointValue({
@@ -79,9 +76,9 @@ export default function JamAuthorBanner({ author }) {
                 <Heading mt={4} fontSize="4xl" textStyle="headline-accent">
                   {author.name}
                 </Heading>
-                <AuthorByline fontSize="xs">
+                <Text fontSize="xs">
                   By Media Developer Expert, Developer 🥑
-                </AuthorByline>
+                </Text>
                 <HStack spacing="0" direction="row" position="absolute" pt={4}>
                   <Button
                     colorScheme="grey.900"
@@ -110,45 +107,34 @@ export default function JamAuthorBanner({ author }) {
           backgroundColor="black"
           position="relative"
         >
-          <Box
-            height="50%"
-            width="100vw"
-            backgroundColor="yellow.400"
-            position="absolute"
-            top="50%"
-            left="calc(-50vw + 50%)"
-            transform="translateY(-50%)"
+          <Flex
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
           >
-            <Flex
-              display="inline-flex"
-              alignItems="center"
-              justifyContent="center"
-              height="100%"
-            >
-              <Box boxSize="sm" overflow="hidden">
-                <Image
-                  objectFit="contain"
-                  layout="fill"
-                  cloudName="mediadevs"
-                  publicId={author.image.asset.url}
-                  alt={author.name}
-                />
+            <Img
+              objectFit="cover"
+              width={{ md: 72 }}
+              height={{ md: 72 }}
+              flex="1 1 auto"
+              src={author.image.asset.url}
+              alt={author.name}
+            />
+            <Box backgroundColor="blue.200" my={4} flex="2 1 auto">
+              <Box color="grey.900" my={2} ml={{ md: 6 }}>
+                <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
+                  {author.name}
+                </Heading>
+                <Text pb={4} fontSize="xs">
+                  By Media Developer Expert, Developer 🥑
+                </Text>
+                <Text maxWidth="90%">
+                  <BlockContent blocks={author.bioRaw} />
+                </Text>
               </Box>
-              <Box backgroundColor="blue.200" py={4} maxWidth="50%">
-                <Box color="grey.900" my={4} pl={4}>
-                  <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
-                    {author.name}
-                  </Heading>
-                  <AuthorByline fontSize="xs">
-                    By Media Developer Expert, Developer 🥑
-                  </AuthorByline>
-                  <Text maxWidth="80%">
-                    <BlockContent blocks={author.bioRaw} />
-                  </Text>
-                </Box>
-              </Box>
-            </Flex>
-          </Box>
+            </Box>
+          </Flex>
         </Box>
       )}
     </Flex>
