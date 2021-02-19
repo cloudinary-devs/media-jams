@@ -8,8 +8,16 @@ import {
   Box,
   HStack,
   Img,
+  ButtonGroup,
+  IconButton,
 } from '@chakra-ui/react';
-import { FaFacebook, FaTwitter, FaGlobe } from 'react-icons/fa';
+import {
+  FaFacebook,
+  FaGithub,
+  FaLinkedin,
+  FaGlobe,
+  FaTwitter,
+} from 'react-icons/fa';
 import BlockContent from '@sanity/block-content-to-react';
 import { buildImageUrl } from 'cloudinary-build-url';
 import styled from '@emotion/styled';
@@ -107,12 +115,7 @@ export default function JamAuthorBanner({ author }) {
           backgroundColor="black"
           position="relative"
         >
-          <Flex
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            height="100%"
-          >
+          <Flex alignItems="center" justifyContent="center" height="100%">
             <Img
               objectFit="cover"
               width={{ md: 72 }}
@@ -122,10 +125,41 @@ export default function JamAuthorBanner({ author }) {
               alt={author.name}
             />
             <Box backgroundColor="blue.200" my={4} flex="2 1 auto">
-              <Box color="grey.900" my={2} ml={{ md: 6 }}>
-                <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
+              <Flex color="grey.900" my={2} ml={{ md: 6 }}>
+                <Heading
+                  flexBasis="50%"
+                  as="h1"
+                  fontSize="4xl"
+                  textStyle="headline-accent"
+                >
                   {author.name}
                 </Heading>
+                <ButtonGroup
+                  marginStart={{ md: 'auto' }}
+                  color="gray.600"
+                  variant="ghost"
+                >
+                  <IconButton
+                    as="a"
+                    href="www.google.com"
+                    aria-label="LinkedIn"
+                    icon={<FaLinkedin />}
+                  />
+                  <IconButton
+                    as="a"
+                    href="www.google.com"
+                    aria-label="LinkedIn"
+                    icon={<FaGithub />}
+                  />
+                  <IconButton
+                    as="a"
+                    href="www.google.com"
+                    aria-label="LinkedIn"
+                    icon={<FaTwitter />}
+                  />
+                </ButtonGroup>
+              </Flex>
+              <Box color="grey.900" my={2} ml={{ md: 6 }}>
                 <Text pb={4} fontSize="xs">
                   By Media Developer Expert, Developer 🥑
                 </Text>
