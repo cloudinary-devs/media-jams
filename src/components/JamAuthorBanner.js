@@ -25,28 +25,7 @@ import {
 import BlockContent from '@sanity/block-content-to-react';
 import { buildImageUrl } from 'cloudinary-build-url';
 
-const SocialGroup = () => (
-  <>
-    <IconButton
-      as="a"
-      href="www.google.com"
-      aria-label="LinkedIn"
-      icon={<FaLinkedin />}
-    />
-    <IconButton
-      as="a"
-      href="www.google.com"
-      aria-label="LinkedIn"
-      icon={<FaGithub />}
-    />
-    <IconButton
-      as="a"
-      href="www.google.com"
-      aria-label="LinkedIn"
-      icon={<FaTwitter />}
-    />
-  </>
-);
+import SocialGroup from '@components/SocialGroup';
 
 export default function JamAuthorBanner({ author }) {
   const isMobile = useBreakpointValue({
