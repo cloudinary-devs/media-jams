@@ -134,11 +134,7 @@ export default function JamAuthorBanner({ author }) {
                 >
                   {author.name}
                 </Heading>
-                <ButtonGroup
-                  marginStart={{ md: 'auto' }}
-                  color="gray.600"
-                  variant="ghost"
-                >
+                <ButtonGroup ml="auto" color="gray.600" variant="ghost">
                   <IconButton
                     as="a"
                     href="www.google.com"
