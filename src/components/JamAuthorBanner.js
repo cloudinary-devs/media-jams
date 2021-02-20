@@ -8,8 +8,11 @@ import {
   Box,
   HStack,
   Img,
+  Image,
   ButtonGroup,
   IconButton,
+  Avatar,
+  Spacer,
 } from '@chakra-ui/react';
 import {
   FaFacebook,
@@ -21,7 +24,7 @@ import {
 import BlockContent from '@sanity/block-content-to-react';
 import { buildImageUrl } from 'cloudinary-build-url';
 import styled from '@emotion/styled';
-import Image from '@components/Image';
+// import Image from '@components/Image';
 
 export default function JamAuthorBanner({ author }) {
   const isMobile = useBreakpointValue({
@@ -109,32 +112,27 @@ export default function JamAuthorBanner({ author }) {
           </Box>
         </Box>
       ) : (
-        <Box
-          height="100%"
-          width="80%"
-          backgroundColor="black"
-          position="relative"
-        >
+        <Box height="100%" width="80%" position="relative">
           <Flex alignItems="center" justifyContent="center" height="100%">
-            <Img
-              objectFit="cover"
-              width={{ md: 72 }}
-              height={{ md: 72 }}
-              flex="1 1 auto"
-              src={author.image.asset.url}
-              alt={author.name}
-            />
-            <Box backgroundColor="blue.200" my={4} flex="2 1 auto">
-              <Flex color="grey.900" my={2} ml={{ md: 6 }}>
-                <Heading
-                  flexBasis="50%"
-                  as="h1"
-                  fontSize="4xl"
-                  textStyle="headline-accent"
+            <Avatar size="2xl" alt={author.name} src={author.image.asset.url} />
+            <Box mt={4} ml={{ md: 6 }} flex="2 1 auto">
+              <Heading
+                flexBasis="50%"
+                as="h1"
+                fontSize="4xl"
+                textStyle="headline-accent"
+              >
+                {author.name}
+              </Heading>
+              <Flex color="grey.900" my={2}>
+                <Text mr={2} alignSelf="center" fontSize="xs">
+                  By Media Developer Expert, Developer 🥑
+                </Text>
+                <ButtonGroup
+                  alignSelf="center"
+                  color="gray.600"
+                  variant="ghost"
                 >
-                  {author.name}
-                </Heading>
-                <ButtonGroup ml="auto" color="gray.600" variant="ghost">
                   <IconButton
                     as="a"
                     href="www.google.com"
@@ -155,10 +153,7 @@ export default function JamAuthorBanner({ author }) {
                   />
                 </ButtonGroup>
               </Flex>
-              <Box color="grey.900" my={2} ml={{ md: 6 }}>
-                <Text pb={4} fontSize="xs">
-                  By Media Developer Expert, Developer 🥑
-                </Text>
+              <Box color="grey.900" my={2}>
                 <Text maxWidth="90%">
                   <BlockContent blocks={author.bioRaw} />
                 </Text>
