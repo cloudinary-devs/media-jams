@@ -13,6 +13,7 @@ import {
   IconButton,
   Avatar,
   Spacer,
+  VStack,
 } from '@chakra-ui/react';
 import {
   FaFacebook,
@@ -23,8 +24,29 @@ import {
 } from 'react-icons/fa';
 import BlockContent from '@sanity/block-content-to-react';
 import { buildImageUrl } from 'cloudinary-build-url';
-import styled from '@emotion/styled';
-// import Image from '@components/Image';
+
+const SocialGroup = () => (
+  <>
+    <IconButton
+      as="a"
+      href="www.google.com"
+      aria-label="LinkedIn"
+      icon={<FaLinkedin />}
+    />
+    <IconButton
+      as="a"
+      href="www.google.com"
+      aria-label="LinkedIn"
+      icon={<FaGithub />}
+    />
+    <IconButton
+      as="a"
+      href="www.google.com"
+      aria-label="LinkedIn"
+      icon={<FaTwitter />}
+    />
+  </>
+);
 
 export default function JamAuthorBanner({ author }) {
   const isMobile = useBreakpointValue({
@@ -44,72 +66,24 @@ export default function JamAuthorBanner({ author }) {
   });
 
   return (
-    <Flex
-      h="md"
-      direction="row"
-      justifyContent="center"
-      alignItems="center"
-      my={8}
-    >
+    <Flex h="md" justifyContent="center" alignItems="center" my={8}>
       {isMobile ? (
-        <Box
-          height="50%"
-          width="100%"
-          backgroundColor="grey.900"
-          position="relative"
-        >
-          <Box
-            height="40%"
-            width="100vw"
-            backgroundColor="yellow.400"
-            position="absolute"
-            top="30%"
-            left="calc(-50vw + 50%)"
-            transform="translateY(-50%)"
-          >
-            <HStack
-              display="inline-flex"
-              alignItems="center"
-              justifyContent="center"
-              height="100%"
-            >
-              <Image
-                width="130px"
-                height="auto"
-                ml="15px"
-                mt="-10px"
-                alignSelf="start"
-                objectFit="cover"
-                src={author.image.asset.url}
-                alt={author.name}
-              />
-              <Box color="grey.900" my={4} pl={4}>
-                <Heading mt={4} fontSize="4xl" textStyle="headline-accent">
-                  {author.name}
-                </Heading>
-                <Text fontSize="xs">
-                  By Media Developer Expert, Developer 🥑
-                </Text>
-                <HStack spacing="0" direction="row" position="absolute" pt={4}>
-                  <Button
-                    colorScheme="grey.900"
-                    leftIcon={<FaFacebook />}
-                  ></Button>
-                  <Button
-                    colorScheme="grey.900"
-                    leftIcon={<FaGlobe />}
-                  ></Button>
-                  <Button
-                    colorScheme="grey.900"
-                    leftIcon={<FaTwitter />}
-                  ></Button>
-                </HStack>
-              </Box>
-            </HStack>
-            <Box textColor="white" background="grey.900" px={4} pb={8} pt={4}>
-              <BlockContent blocks={author.bioRaw} />
-            </Box>
-          </Box>
+        <Box>
+          <HStack align="start" color="grey.900" my={4} px={4}>
+            <Avatar size="2xl" alt={author.name} src={author.image.asset.url} />
+            <VStack spacing="0" pt={4}>
+              <Heading mt={4} fontSize="4xl" textStyle="headline-accent">
+                {author.name}
+              </Heading>
+              <Text fontSize="xs">Media Developer Expert, Developer 🥑</Text>
+              <ButtonGroup alignSelf="start" color="gray.600" variant="ghost">
+                <SocialGroup />
+              </ButtonGroup>
+            </VStack>
+          </HStack>
+          <VStack align="center" px={4}>
+            <BlockContent blocks={author.bioRaw} />
+          </VStack>
         </Box>
       ) : (
         <Box height="100%" width="80%" position="relative">
@@ -133,24 +107,7 @@ export default function JamAuthorBanner({ author }) {
                   color="gray.600"
                   variant="ghost"
                 >
-                  <IconButton
-                    as="a"
-                    href="www.google.com"
-                    aria-label="LinkedIn"
-                    icon={<FaLinkedin />}
-                  />
-                  <IconButton
-                    as="a"
-                    href="www.google.com"
-                    aria-label="LinkedIn"
-                    icon={<FaGithub />}
-                  />
-                  <IconButton
-                    as="a"
-                    href="www.google.com"
-                    aria-label="LinkedIn"
-                    icon={<FaTwitter />}
-                  />
+                  <SocialGroup />
                 </ButtonGroup>
               </Flex>
               <Box color="grey.900" my={2}>
