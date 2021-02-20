@@ -11,13 +11,7 @@ export default function CopyButton({ value, ...props }) {
       onClick={onCopy}
       {...props}
     >
-      {hasCopied ? (
-        <>
-          Copied <CheckIcon color="green.500" />
-        </>
-      ) : (
-        'Copy'
-      )}
+      {hasCopied ? 'Copied' : 'Copy'}
     </Button>
   );
 }

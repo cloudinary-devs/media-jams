@@ -11,11 +11,10 @@ const Pre = styled.pre`
   padding: 0em;
   overflow: scroll;
   white-space: pre;
-  max-width: 80ch;
-  min-width: 40ch;
+  width: 80ch;
   @media (min-width: 48em) {
     padding: 0.5em;
-    width: '100%';
+    width: 80ch;
   }
 `;
 
