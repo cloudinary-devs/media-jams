@@ -15,12 +15,12 @@
     "@sanity/dashboard",
     "@sanity/desk-tool",
     "@sanity/production-preview",
-    "markdown",
     "@sanity/code-input",
     "dashboard-widget-document-list",
     "airtable-list",
     "asset-source-cloudinary",
-    "dashboard-widget-my-jams-list"
+    "dashboard-widget-my-jams-list",
+    "mdide"
   ],
   "env": {
     "development": {
