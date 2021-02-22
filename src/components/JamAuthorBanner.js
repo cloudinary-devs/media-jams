@@ -89,10 +89,8 @@ export default function JamAuthorBanner({ author }) {
                   <SocialGroup />
                 </ButtonGroup>
               </Flex>
-              <Box color="grey.900" my={2}>
-                <Text maxWidth="90%">
-                  <BlockContent blocks={author.bioRaw} />
-                </Text>
+              <Box color="grey.900" my={2} maxWidth="90%">
+                <BlockContent blocks={author.bioRaw} />
               </Box>
             </Box>
           </Flex>

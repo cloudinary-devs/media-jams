@@ -22,7 +22,8 @@ export default function Layout({
       <Box display={{ md: 'none', lg: 'none', xl: 'none' }}>
         <Icon
           onClick={onOpen}
-          size="md"
+          w={6}
+          h={6}
           as={FaBars}
           cursor="pointer"
           ml={2}
