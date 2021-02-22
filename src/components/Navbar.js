@@ -48,30 +48,25 @@ export default function Navbar() {
         />
       </Link>
       <Box>
-        <NavLink ml={4} href="/post">
-          Jams
-        </NavLink>
-        <NavLink ml={4} href="/feedback">
-          Feedback
-        </NavLink>
         {user ? (
           <NavLink ml={4} href="/profile">
             Profile
           </NavLink>
         ) : (
-          <Button
-            as={NavLink}
+          <NavLink
             isButton
+            as={Button}
             href="/api/auth/login"
-            borderRadius="3px"
-            colorScheme="blue"
-            ml={4}
-            size="sm"
-            w="100px"
+            outline="black"
+            background="grey.700"
+            color="yellow.400"
           >
             Login
-          </Button>
+          </NavLink>
         )}
+        <NavLink ml={4} href="/dashboard">
+          Dashboard
+        </NavLink>
       </Box>
     </Flex>
   );

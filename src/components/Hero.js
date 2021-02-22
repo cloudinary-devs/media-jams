@@ -1,48 +1,51 @@
 import React from 'react';
 
-import {
-  useBreakpointValue,
-  Heading,
-  Spacer,
-  Flex,
-  Box,
-} from '@chakra-ui/react';
-import Image from '@components/Image';
+import { Heading, Flex, Text, Button, Box } from '@chakra-ui/react';
 
 export default function Hero() {
   return (
     <Flex
-      h="xl"
       direction="column"
       backgroundColor="grey.900"
-      justifyContent="space-between"
       alignItems="center"
+      height="100vh"
     >
-      <Heading
-        fontSize={['6xl', '8xl']}
-        mt={16}
-        as="h1"
-        textStyle="headline-page"
-        color="yellow.900"
-      >
-        Putting Media to Work Is Hard
-      </Heading>
-
-      <Box
-        pt="2rem"
-        flex={{ sm: 1, base: 0 }}
-        boxSize="40rem"
-        width={['100%', '40rem']}
-      >
-        <Image
-          cloudName="mediadevs"
-          publicId="mediajams/hero"
-          alt="Feature Image"
-          height={300}
-          width={600}
-        />
-      </Box>
-      <Spacer backgroundColor="white" />
+      <Flex direction="column" w={{ base: '100%', md: '30%' }} mt={10}>
+        <Heading
+          fontSize={['6xl', '8xl']}
+          as="h1"
+          textStyle="headline-page"
+          color="yellow.900"
+          textAlign="center"
+          lineHeight={1}
+        >
+          Unlock Media <span style={{ color: 'white' }}>in your apps</span>
+        </Heading>
+        <Text
+          color="white"
+          textAlign="center"
+          mt={6}
+          w="80%"
+          alignSelf="center"
+        >
+          Media Jams provide the knowledge you need to level up your websites
+          with top tools and practices
+        </Text>
+        <Button
+          bg="grey.700"
+          color="yellow.400"
+          w="20%"
+          alignSelf="center"
+          mt={6}
+        >
+          Browse
+        </Button>
+      </Flex>
+      <FeaturedCarousel />
     </Flex>
   );
+}
+
+function FeaturedCarousel() {
+  return <Box h="420px" w="50%" bg="white" mt={8}></Box>;
 }

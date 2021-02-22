@@ -217,6 +217,8 @@ function Featured({ featuredPosts }) {
             key={post._id}
             post={post}
             defaultIndex={[0]}
+            borderRadius="lg"
+            mb={3}
           />
         ))}
       </Flex>
@@ -238,8 +240,8 @@ function DiscordAd() {
       <Icon
         as={FaDiscord}
         color="white"
-        h={{ base: 64, xl: 32 }}
-        w={{ base: 64, xl: 32 }}
+        h={{ base: 64, md: 32, xl: 32 }}
+        w={{ base: 64, md: 32, xl: 32 }}
       />
       <Text
         textAlign="center"

@@ -4,10 +4,7 @@ import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { jams as queryJams } from '@lib/queries/jams';
 import { tags as queryTags } from '@lib/queries/tags';
-import {
-  categories as queryCategories,
-  categoriesWithTags,
-} from '@lib/queries/categories';
+import { categories as queryCategories } from '@lib/queries/categories';
 
 import JamAccordion from '@components/JamAccordion';
 import SearchInput from '@components/SearchInput';
@@ -22,7 +19,6 @@ import {
   Heading,
   Icon,
   useDisclosure,
-  Box,
   Tooltip,
 } from '@chakra-ui/react';
 
@@ -123,7 +119,9 @@ export default function Post() {
             "JamSearch"
             "JamSearch"
             "Bookmarks"            
-            "Notes  "            
+            "Bookmarks"            
+            "Notes"
+            "Notes"            
           `,
           md: `
             "JamSearch JamSearch"
@@ -245,7 +243,14 @@ function JamSearch({
         </Flex>
       )}
       {filteredPosts?.map((post) => (
-        <JamAccordion color="red" width="100%" key={post._id} post={post} />
+        <JamAccordion
+          borderRadius="lg"
+          mb={3}
+          color="red"
+          width="100%"
+          key={post._id}
+          post={post}
+        />
       ))}
     </Flex>
   );
@@ -269,7 +274,7 @@ function SearchFilters({
       borderRadius="8px"
       boxShadow={boxShadow}
       bg="blue.200"
-      display={{ md: 'none', lg: 'flex', xl: 'flex' }}
+      display={{ base: 'none', md: 'none', lg: 'flex', xl: 'flex' }}
       height="auto"
       gridArea="SearchFilters"
       overflow="auto"

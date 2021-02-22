@@ -39,16 +39,14 @@ export default function JamAccordion({
   return (
     <Accordion
       w={width}
-      borderRadius="lg"
       boxShadow={boxShadow}
-      mb={3}
       borderColor="none"
       bg="white"
       allowToggle
       defaultIndex={defaultIndex ? defaultIndex : null}
       {...rest}
     >
-      <AccordionItem p={3} borderRadius="lg">
+      <AccordionItem p={3}>
         <Flex justifyContent="space-between">
           <Flex ml={4} align="center" flex="1" textAlign="left" mt={3}>
             <Avatar
