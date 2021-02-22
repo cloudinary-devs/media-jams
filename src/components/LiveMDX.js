@@ -67,8 +67,7 @@ const generateOutputs = (src) => {
   return { jsx, mdast, hast };
 };
 
-const LiveMDX = ({ content: blockContent, scope = {}, ...props }) => {
-  const content = blocksToText(blockContent);
+const LiveMDX = ({ content, scope = {}, ...props }) => {
   const theme = useContext(ThemeContext);
   const { jsx, mdast, hast, error } = generateOutputs(content);
 

@@ -85,7 +85,7 @@ export default function JamContentHero({
           <Image
             cloudName="mediadevs"
             publicId="mediajams/placeholder"
-            objectFit="contain"
+            objectfit="contain"
             layout="fill"
             alt="Feature Image"
             styles={{
