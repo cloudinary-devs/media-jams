@@ -85,17 +85,6 @@ export default {
       readOnly: true,
     },
     {
-      name: 'publishedAt',
-      title: 'Published at',
-      type: 'datetime',
-      readOnly: true,
-    },
-    {
-      name: 'featured',
-      title: 'Featured',
-      type: 'boolean',
-    },
-    {
       name: 'tags',
       title: 'Tags',
       type: 'array',
@@ -106,6 +95,16 @@ export default {
         layout: 'tags',
         isHighlighted: true,
       },
+    },
+    {
+      name: 'publishedAt',
+      title: 'Published at',
+      type: 'datetime',
+      readOnly: true,
+    },
+    {
+      name: 'postMetadata',
+      type: 'postMetadata',
     },
   ],
 
