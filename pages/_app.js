@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
-import { UserProvider, useUser } from '@lib/user';
+import { UserProvider } from '@auth0/nextjs-auth0';
 import { buildImageUrl } from 'cloudinary-build-url';
 
 //initialize Sentry
@@ -16,18 +16,17 @@ initSentry();
 const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps, err }) => {
-  const { user, loading } = useUser();
   const ogImage = buildImageUrl('mediajams/og-image', {
     cloud: { cloudName: 'mediadevs' },
   });
 
-  React.useEffect(() => {}, []);
+  const { user } = pageProps;
   return (
     <MixPanelProvider>
       <ChakraProvider resetCSS theme={theme}>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
-            <UserProvider value={{ user, loading }}>
+            <UserProvider user={user}>
               <DefaultSeo
                 title="Front End Developer Companion to Rich Media"
                 description="Media Jams offer numerous useful examples through which developers can sharpen their expertise in leveraging media for apps and tech stacks"

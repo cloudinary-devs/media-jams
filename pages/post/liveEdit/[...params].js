@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Flex } from '@chakra-ui/react';
-import { withAuthServerSideProps } from '@components/withAuth';
+import auth0 from '@lib/auth0';
 import { postBySlug, queryDraftPostBody } from '@lib/api';
 import { previewClient } from '@lib/sanity';
 
@@ -39,7 +39,7 @@ function LiveEdit({ user, data: { post } }) {
   );
 }
 
-export const getServerSideProps = withAuthServerSideProps(
+export const getServerSideProps = auth0.withPageAuthRequired(
   async ({
     params: {
       params: [slug, draftPostId],
