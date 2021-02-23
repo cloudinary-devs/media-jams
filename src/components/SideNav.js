@@ -17,13 +17,15 @@ export default function SideNav(props) {
       {...props}
     >
       <Flex w="100%" justifyContent="space-between" p={4}>
-        <Image
-          cloudName="mediadevs"
-          publicId="mediajams/logo"
-          height={50}
-          width={100}
-          alt="MediaJams logo"
-        />
+        <Link href="/">
+          <Image
+            cloudName="mediadevs"
+            publicId="mediajams/logo"
+            height={50}
+            width={100}
+            alt="MediaJams logo"
+          />
+        </Link>
         <Button
           alignSelf="flex-end"
           p={5}

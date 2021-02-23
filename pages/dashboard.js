@@ -218,7 +218,7 @@ function Featured({ featuredPosts }) {
             post={post}
             defaultIndex={[0]}
             borderRadius="lg"
-            mb={3}
+            mb={4}
           />
         ))}
       </Flex>

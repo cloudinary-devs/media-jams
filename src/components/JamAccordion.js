@@ -74,6 +74,7 @@ export default function JamAccordion({
       bg="white"
       allowToggle
       defaultIndex={defaultIndex || null}
+      {...rest}
     >
       <AccordionItem p={3}>
         <Flex justifyContent="space-between">

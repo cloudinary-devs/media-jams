@@ -46,13 +46,6 @@ export default function Index(props) {
     });
   }
 
-  function addTag(tag) {
-    return setSearchTags((prev) => [...prev, tag]);
-  }
-
-  function removeTag(tag) {
-    return setSearchTags((prev) => prev.filter((pt) => pt !== tag));
-  }
   return (
     <Flex direction="column" minH="calc(100vh)" w="100%">
       <Navbar />
