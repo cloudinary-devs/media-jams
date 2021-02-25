@@ -37,6 +37,11 @@ export default {
         _ref: self,
         _type: 'reference',
       },
+      postMetadata: {
+        _type: 'postMetadata',
+        featured: false,
+        paid_content: false,
+      },
     };
   },
   fields: [
