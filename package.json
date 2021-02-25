@@ -43,7 +43,7 @@
     "@sentry/webpack-plugin": "^1.14.0",
     "@testing-library/react-hooks": "^5.0.3",
     "@zeit/next-css": "^1.0.1",
-    "cloudinary": "^1.23.0",
+    "cloudinary": "^1.25.0",
     "cloudinary-build-url": "0.2.1",
     "codemirror": "^5.58.2",
     "css-loader": "^5.0.0",
@@ -72,7 +72,8 @@
     "react-query": "^3.6.0",
     "react-test-renderer": "^17.0.1",
     "remark-mdx-remove-exports": "^1.6.19",
-    "remark-mdx-remove-imports": "^1.6.19"
+    "remark-mdx-remove-imports": "^1.6.19",
+    "streamifier": "^0.1.1"
   },
   "devDependencies": {
     "@babel/helper-validator-option": "^7.12.1",

@@ -17,9 +17,11 @@
     "@sanity/production-preview",
     "@sanity/code-input",
     "dashboard-widget-document-list",
+    "dashboard-image-upload",
     "airtable-list",
     "asset-source-cloudinary",
     "dashboard-widget-my-jams-list",
+    "asset-source-unsplash",
     "mdide"
   ],
   "env": {

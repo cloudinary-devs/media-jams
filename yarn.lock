@@ -4639,10 +4639,10 @@ cloudinary-core@^2.10.2:
   resolved "https://registry.yarnpkg.com/cloudinary-core/-/cloudinary-core-2.11.3.tgz#1440f61c6280485094aac87021b7e10f746dc69e"
   integrity sha512-ZRnpjSgvx+LbSf+aEz5NKzxDB4Z0436aY/0BSDa90kAHiwAyd84VyEi95I74SE80e15Ri9t5S2xtksTXpzk9Xw==
 
-cloudinary@^1.23.0:
-  version "1.23.0"
-  resolved "https://registry.yarnpkg.com/cloudinary/-/cloudinary-1.23.0.tgz#27885567cf698e4ed5f5cc8d57974cb4b16db52b"
-  integrity sha512-akOxzroonvwWkuSVq7BI50nYpZPRXc5DbQIYETCVeKX9ZoToH2Gvc3MdUH63UtKiszuGYE51q2B+jQsJkBp2AQ==
+cloudinary@^1.25.0:
+  version "1.25.0"
+  resolved "https://registry.yarnpkg.com/cloudinary/-/cloudinary-1.25.0.tgz#c6c92fb126f15f3f4858a928724bc0a760fe3f61"
+  integrity sha512-OwpRleb6cy/PQRHqgrRhaiK/lbppnFUXVygAq8l8ku3Cphmjk5ukQZGdMG9CzLatObzgT5hA6M8OG+GZ71zPZw==
   dependencies:
     cloudinary-core "^2.10.2"
     core-js "3.6.5"
@@ -11673,6 +11673,11 @@ stream-shift@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/stream-shift/-/stream-shift-1.0.1.tgz#d7088281559ab2778424279b0877da3c392d5a3d"
   integrity sha512-AiisoFqQ0vbGcZgQPY1cdP2I76glaVA/RauYR4G4thNFgkTqr90yXTo4LYX60Jl+sIlPNHHdGSwo01AvbKUSVQ==
+
+streamifier@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/streamifier/-/streamifier-0.1.1.tgz#97e98d8fa4d105d62a2691d1dc07e820db8dfc4f"
+  integrity sha1-l+mNj6TRBdYqJpHR3AfoINuN/E8=
 
 strict-event-emitter@^0.1.0:
   version "0.1.0"
