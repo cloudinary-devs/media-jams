@@ -184,17 +184,6 @@ export default function Post() {
 }
 
 // This function gets called at build time on server-side.
-export const getStaticProps = async () => {
-  const queryClient = new QueryClient();
-  // await queryClient.prefetchQuery('allJams', jams.get());
-  await queryClient.prefetchQuery('jamTags', queryTags.getStatic);
-  await queryClient.prefetchQuery('jamCategories', queryCategories.getStatic);
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
 
 function JamSearch({
   searchValue,
@@ -353,3 +342,14 @@ function Bookmarks() {
     </Flex>
   );
 }
+
+export const getStaticProps = async () => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery('jamTags', queryTags.getStatic);
+  await queryClient.prefetchQuery('jamCategories', queryCategories.getStatic);
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};

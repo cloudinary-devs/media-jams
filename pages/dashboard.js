@@ -1,7 +1,14 @@
 import Layout from '@components/Layout';
 
+import { QueryClient, useQuery } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
+
+import AuthorCard from '@components/AuthorCard';
+
+import { authors as queryAuthors } from '@lib/queries/authors';
+import { jams as queryJams } from '@lib/queries/jams';
+
 import {
-  Avatar,
   Flex,
   Box,
   Text,
@@ -11,124 +18,23 @@ import {
   Icon,
   useDisclosure,
 } from '@chakra-ui/react';
-import { FaDiscord, FaTwitter, FaGithub } from 'react-icons/fa';
+import { FaDiscord } from 'react-icons/fa';
 import { Link as NextLink } from 'next/link';
 
 import JamAccordion from '@components/JamAccordion';
 import { boxShadow } from '@utils/styles';
 
 export default function Dashboard() {
-  const featuredPosts = [
-    {
-      author: {
-        name: 'Domitrius Clark',
-        image: {
-          asset: {
-            url:
-              'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-          },
-        },
-      },
-      slug: {
-        current: 'it-a-post',
-      },
-      title: 'Responsive images in React',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
-      tags: ['react'],
-    },
-    {
-      author: {
-        name: 'Domitrius Clark',
-        image: {
-          asset: {
-            url:
-              'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-          },
-        },
-      },
-      slug: {
-        current: 'it-a-post',
-      },
-      title: 'Responsive images in React',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
-      tags: ['react'],
-    },
-    {
-      author: {
-        name: 'Domitrius Clark',
-        image: {
-          asset: {
-            url:
-              'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-          },
-        },
-      },
-      slug: {
-        current: 'it-a-post',
-      },
-      title: 'Responsive images in React',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
-      tags: ['react'],
-    },
-    {
-      author: {
-        name: 'Domitrius Clark',
-        image: {
-          asset: {
-            url:
-              'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-          },
-        },
-      },
-      slug: {
-        current: 'it-a-post',
-      },
-      title: 'Responsive images in React',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
-      tags: ['react'],
-    },
-    {
-      author: {
-        name: 'Domitrius Clark',
-        image: {
-          asset: {
-            url:
-              'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-          },
-        },
-      },
-      slug: {
-        current: 'it-a-post',
-      },
-      title: 'Responsive images in React',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
-      tags: ['react'],
-    },
-    {
-      author: {
-        name: 'Domitrius Clark',
-        image: {
-          asset: {
-            url:
-              'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-          },
-        },
-      },
-      slug: {
-        current: 'it-a-post',
-      },
-      title: 'Responsive images in React',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
-      tags: ['react'],
-    },
-  ];
+  const { data: authors } = useQuery('authors', queryAuthors.get);
+  const { data: featuredJams } = useQuery(
+    'featuredJams',
+    queryJams.getFeaturedJams,
+  );
+
+  console.log({ authors, featuredJams });
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Layout isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
       <Grid
@@ -181,9 +87,9 @@ export default function Dashboard() {
         ml={-3}
         overflow={{ md: 'auto', lg: 'auto', xl: 'none' }}
       >
-        <Featured featuredPosts={featuredPosts} />
+        {/* <Featured featuredJams={featuredJams.data.allPost} /> */}
         <DiscordAd />
-        <Authors />
+        {/* <Authors authors={authors.data.allAuthor} /> */}
         <Paths />
         <GettingStarted />
       </Grid>
@@ -266,57 +172,7 @@ function DiscordAd() {
   );
 }
 
-function Authors() {
-  const authors = [
-    {
-      name: 'Bryan Robinson',
-      occupation: 'Developer Advocate @ Sanity',
-      twitter: 'https://twitter.com/bryanlrobinson',
-      github: 'https://twitter.com/bryanlrobinson',
-      image: {
-        asset: {
-          url:
-            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-        },
-      },
-    },
-    {
-      name: 'Bryan Robinson',
-      occupation: 'Developer Advocate @ Sanity',
-      twitter: 'https://twitter.com/bryanlrobinson',
-      github: 'https://twitter.com/bryanlrobinson',
-      image: {
-        asset: {
-          url:
-            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-        },
-      },
-    },
-    {
-      name: 'Bryan Robinson',
-      occupation: 'Developer Advocate @ Sanity',
-      twitter: 'https://twitter.com/bryanlrobinson',
-      github: 'https://twitter.com/bryanlrobinson',
-      image: {
-        asset: {
-          url:
-            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-        },
-      },
-    },
-    {
-      name: 'Bryan Robinson',
-      occupation: 'Developer Advocate @ Sanity',
-      twitter: 'https://twitter.com/bryanlrobinson',
-      github: 'https://twitter.com/bryanlrobinson',
-      image: {
-        asset: {
-          url:
-            'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
-        },
-      },
-    },
-  ];
+function Authors({ authors }) {
   return (
     <Flex
       w="100%"
@@ -329,29 +185,7 @@ function Authors() {
       gridArea="Authors"
     >
       {authors.map((author) => (
-        <Flex
-          ml={8}
-          mr={8}
-          flex="0 0 auto"
-          bg="white"
-          direction="column"
-          w="150px"
-          height="200px"
-          justify="space-evenly"
-          align="center"
-          borderRadius="8px"
-          p={3}
-          boxShadow={boxShadow}
-        >
-          <Avatar src={author.image.asset.url} />
-          <Heading size="sm">{author.name}</Heading>
-          <Text textAlign="center" fontSize="13px">
-            {author.occupation}
-          </Text>
-          <Flex>
-            <Icon as={FaTwitter} mr={3} /> <Icon as={FaGithub} />
-          </Flex>
-        </Flex>
+        <AuthorCard author={author} />
       ))}
     </Flex>
   );
@@ -456,3 +290,19 @@ const topTags = [
   'CDN',
   'responsive',
 ];
+
+export async function getStaticProps() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(
+    'featuredJams',
+    queryJams.getStaticFeaturedJams,
+  );
+  await queryClient.prefetchQuery('authors', queryAuthors.getStatic);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}

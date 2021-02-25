@@ -1,40 +1,127 @@
-import { Heading, Flex, Text, Button } from '@chakra-ui/react';
-import Carousel from '@components/Carousel';
+import { Box, Heading, Flex, Text, Button } from '@chakra-ui/react';
+import { Carousel, Slide } from '@components/Carousel';
+import Image from '@components/Image';
 
 import Link from 'next/link';
 
 export default function Hero() {
-  function SlideOne() {
-    return (
-      <Flex w="100%" h="100%" justify="center" align="center" bg="blue.200">
-        <Text fontSize="2xl" color="blue.600">
-          This is the first slide
-        </Text>
-      </Flex>
-    );
+  const featuredPosts = [
+    {
+      author: {
+        name: 'Domitrius Clark',
+        image: {
+          asset: {
+            url:
+              'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+          },
+        },
+      },
+      slug: {
+        current: 'it-a-post',
+      },
+      title: 'Responsive images in React',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
+      tags: ['react'],
+    },
+    {
+      author: {
+        name: 'Domitrius Clark',
+        image: {
+          asset: {
+            url:
+              'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+          },
+        },
+      },
+      slug: {
+        current: 'it-a-post',
+      },
+      title: 'Responsive images in React',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
+      tags: ['react'],
+    },
+    {
+      author: {
+        name: 'Domitrius Clark',
+        image: {
+          asset: {
+            url:
+              'https://cdn.sanity.io/images/5ad74sb4/stage/e5809d2c25c5ee4512190d436c366ef18eb48c75-2316x3088.jpg',
+          },
+        },
+      },
+      slug: {
+        current: 'it-a-post',
+      },
+      title: 'Responsive images in React',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Morbi in ipsum sit amet pede facilisis laoreet.',
+      tags: ['react'],
+    },
+  ];
+
+  function createSlides(jams) {
+    const slides = [];
+
+    const colors = ['blue', 'red', 'green'];
+
+    function pickRandomColor(arr) {
+      return Math.floor(Math.random() * arr.length);
+    }
+
+    jams.map((jam) => {
+      const color = colors[pickRandomColor(colors)];
+      let Component = () => (
+        <Slide colorScheme={color} justify="space-between">
+          <Flex
+            w="60%"
+            p={4}
+            alignSelf="flex-start"
+            justifySelf="flex-end"
+            direction="column"
+            h="100%"
+            justify="space-between"
+          >
+            <Button
+              size="sm"
+              alignSelf="flex-start"
+              width="10%"
+              colorScheme={color}
+            >
+              Learn
+            </Button>
+            <Box>
+              <Heading color={`${color}.600`}>{jam.author.name}</Heading>
+              <Heading size="md" as="h6" color={`${color}.600`}>
+                {jam.title}
+              </Heading>
+              <Text color={`${color}.400`}>{jam.description}</Text>
+            </Box>
+          </Flex>
+          <Image
+            container={{
+              height: '100%',
+              width: '40%',
+              position: 'relative',
+              alignSelf: 'flex-end',
+              borderRadius: '8px',
+            }}
+            layout="fill"
+            objectFit="cover"
+            cloudName="mediadevs"
+            publicId={jam.author.image.asset.url}
+            style={{ borderRadius: '8px' }}
+          />
+        </Slide>
+      );
+      return slides.push(Component);
+    });
+
+    return slides;
   }
 
-  function SlideTwo() {
-    return (
-      <Flex w="100%" h="100%" justify="center" align="center" bg="red.200">
-        <Text color="red.600" fontSize="2xl">
-          This is the second slide
-        </Text>
-      </Flex>
-    );
-  }
-
-  function SlideThree() {
-    return (
-      <Flex w="100%" h="100%" justify="center" align="center" bg="green.200">
-        <Text fontSize="2xl" color="green.600">
-          This is the third slide
-        </Text>
-      </Flex>
-    );
-  }
-
-  const slides = [<SlideOne />, <SlideTwo />, <SlideThree />];
   return (
     <Flex
       direction="column"
@@ -74,7 +161,7 @@ export default function Hero() {
           <Link href="/post">Browse</Link>
         </Button>
       </Flex>
-      <Carousel slides={slides} interval={3000} />
+      <Carousel slides={createSlides(featuredPosts)} interval={10000} />
     </Flex>
   );
 }
