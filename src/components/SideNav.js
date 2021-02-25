@@ -64,17 +64,17 @@ function NavLinkGroup() {
   return (
     <Flex mt={4} direction="column" alignItems="center" color="white">
       <NavLink href="/dashboard">
-        <Icon as={FaHome} size="md" mr={2} />
+        <Icon as={FaHome} w={6} h={6} mr={2} />
         Dashboard
       </NavLink>
       <NavLink href="/post">
-        <Icon as={FaPhotoVideo} size="md" mr={2} />
+        <Icon as={FaPhotoVideo} w={6} h={6} mr={2} />
         Jams
       </NavLink>
       {/* Authenticated Users */}
       {user && (
         <NavLink href="/bookmarks">
-          <Icon as={FaBookmark} size="md" mr={2} />
+          <Icon as={FaBookmark} w={6} h={6} mr={2} />
           Bookmarks
         </NavLink>
       )}

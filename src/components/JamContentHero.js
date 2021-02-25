@@ -9,9 +9,11 @@ import {
   Box,
   HStack,
   VStack,
+  Avatar,
 } from '@chakra-ui/react';
 import Image from '@components/Image';
 import styled from '@emotion/styled';
+import SocialGroup from '@components/SocialGroup';
 
 const AuthorByline = styled(Text)`
   text-indent: 5px;
@@ -46,19 +48,32 @@ export default function JamContentHero({
     <>
       {isMobile ? (
         <Flex
-          h="md"
-          direction="column"
+          h={{ base: 'lg', md: 'lg' }}
+          direction={{ base: 'column', md: 'row', lg: 'row' }}
           justifyContent="center"
           alignItems="center"
           backgroundImage={`url(${placeholderUrl})`}
           backgroundSize="cover"
         >
-          <Box backgroundColor="blue.200" opacity="90%">
-            <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
+          <VStack align="center" backgroundColor="blue.200" opacity="90%">
+            <Heading as="h1" fontSize="4xl" textStyle="headline-accent" pt={4}>
               {title}
             </Heading>
             <Text maxWidth="80%">{description}</Text>
-          </Box>
+            <HStack align="start" color="grey.900" my={4} px={4}>
+              <Avatar
+                size="md"
+                alt={author.name}
+                src={author.image.asset.url}
+              />
+              <VStack spacing="0">
+                <Heading mt={4} fontSize="md" textStyle="headline-accent">
+                  {author.name}
+                </Heading>
+                <Text fontSize="xs">Media Developer Expert, Developer 🥑</Text>
+              </VStack>
+            </HStack>
+          </VStack>
         </Flex>
       ) : (
         <Flex
@@ -70,7 +85,7 @@ export default function JamContentHero({
           <Image
             cloudName="mediadevs"
             publicId="mediajams/placeholder"
-            objectFit="contain"
+            objectfit="contain"
             layout="fill"
             alt="Feature Image"
             styles={{

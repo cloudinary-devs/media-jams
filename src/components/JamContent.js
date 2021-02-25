@@ -8,8 +8,7 @@ import { VStack, chakra } from '@chakra-ui/react';
 
 const Content = chakra('div', {
   baseStyle: {
-    width: ['90%', null, null, '65%'],
-    maxW: ['3xl'],
+    width: ['90%', null, null, '75%'],
     'h1, h2': {
       margin: '0px auto 20px',
       fontFamily: 'Bangers, cursive',

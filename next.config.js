@@ -36,7 +36,7 @@ module.exports = withMDX({
     HASURA_GRAPHQL_URL: HASURA_GRAPHQL_URL,
   },
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: ['res.cloudinary.com', 'cdn.sanity.io'],
   },
   publicRuntimeConfig: {
     // Will be available on both server and client

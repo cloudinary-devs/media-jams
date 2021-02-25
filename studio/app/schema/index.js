@@ -6,6 +6,7 @@ import workflowMetadata from './objects/workflow/metadata';
 // We import object and document schemas
 import blockContent from './objects/blockContent';
 import socialHandles from './objects/social';
+import postMetadata from './objects/postMetadata';
 import tag from './tag';
 import group from './group';
 import category from './category';
@@ -31,5 +32,6 @@ export default createSchema({
     blockContent,
     workflowMetadata,
     socialHandles,
+    postMetadata,
   ]),
 });
