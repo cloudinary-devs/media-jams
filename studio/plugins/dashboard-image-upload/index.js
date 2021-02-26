@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
+import r2 from 'r2';
 import jsonResponse from 'get-it/lib/middleware/jsonResponse';
 import promise from 'get-it/lib/middleware/promise';
 import Button from 'part:@sanity/components/buttons/default';
@@ -37,13 +38,18 @@ const MediaPortal = () => {
     setFileToUpload(acceptedFiles[0]);
   }
 
-  function onSubmit(file, options) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      // Add your method of upload here
-    });
+  async function handleOnClick() {
+    console.log('click');
+    var formdata = new FormData();
+    formdata.append('image', fileToUpload);
+    var requestOptions = {
+      method: 'POST',
+      body: formdata,
+    };
 
-    reader.readAsDataURL(file);
+    fetch('http://localhost:3000/api/media-portal', requestOptions)
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error));
   }
   return (
     <Container width={6}>
@@ -69,7 +75,7 @@ const MediaPortal = () => {
             <input {...getInputProps()} />
             <p>Choose file to upload...</p>
           </Flex>
-          <Button size="lg" variant="outline" mt={4}>
+          <Button size="lg" variant="outline" mt={4} onClick={handleOnClick}>
             Upload Photo
           </Button>
         </Stack>

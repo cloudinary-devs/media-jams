@@ -21,16 +21,6 @@ cloudinary.config({
 });
 
 export default async (req, res) => {
-  // File upload
-  let cloudinaryUploadStream = cloudinary.uploader.upload_stream(
-    {
-      folder: `sample`,
-    },
-    function (error, result) {
-      console.log(error, result);
-    },
-  );
-  console.log(req);
   upload.single('image')(req, {}, (err) => {
     // do error handling here
     console.log(req.file); // do something with the files here
