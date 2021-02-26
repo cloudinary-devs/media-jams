@@ -22,7 +22,6 @@ function LiveEdit({ post }) {
     updateContent(post.content);
   }, [post]);
   useEffect(() => {
-    console.log(user);
     if (!loading && user) {
       const subscription = previewClient(user['https://mediajams-studio'].token)
         .listen(queryDraftPostBody, { postId: post._id })

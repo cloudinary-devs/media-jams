@@ -77,7 +77,7 @@ export default function Post() {
     } else {
       // Allow for a search for tag
       const formattedTags = selectedFilters.map((item) => item.title);
-      console.log(formattedTags);
+
       const queries = {
         $or: [
           { title: searchValue },

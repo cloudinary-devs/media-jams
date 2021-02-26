@@ -132,7 +132,6 @@ function Authors() {
 
 function FrameworkJams() {
   const { data: jams } = useQuery('jams', queryJams.get);
-  console.log(jams);
   const [yellow900] = useToken('colors', ['yellow.900']);
 
   const reactJams = jams.jams?.filter((jam) =>
