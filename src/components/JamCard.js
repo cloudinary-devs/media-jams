@@ -62,7 +62,7 @@ export default function Card({ post }) {
         w="100%"
       >
         <Wrap>
-          {post.tags.map((tag) => (
+          {post.tags?.map((tag) => (
             <WrapItem key={tag._id} justifySelf="center" alignSelf="center">
               <Tag colorScheme="green">
                 <TagLeftIcon as={FaTag} />
