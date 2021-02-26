@@ -46,6 +46,7 @@
     "cloudinary": "^1.25.0",
     "cloudinary-build-url": "0.2.1",
     "codemirror": "^5.58.2",
+    "cors": "^2.8.5",
     "css-loader": "^5.0.0",
     "fast-glob": "^3.2.4",
     "fathom-client": "^3.0.0",

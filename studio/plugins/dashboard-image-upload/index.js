@@ -48,6 +48,7 @@ const MediaPortal = () => {
     };
 
     fetch('http://localhost:3000/api/media-portal', requestOptions)
+      .then((resp) => resp.json())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
   }
