@@ -27,11 +27,14 @@ import { intersection } from 'lodash';
 
 import styles from './DashboardImageUpload.css';
 import useUpload from './hooks/useUpload';
+import { useCurrentUser } from './hooks/getCurrentUser';
 
+// TODO: generate status object with icon, name, message
 const MediaPortal = () => {
   const [fileToUpload, setFileToUpload] = React.useState(null);
   const [cloudiaryFile, setCloudinaryFile] = React.useState(null);
   const [uploadStatus, setStatus] = React.useState('idle');
+  const { id } = useCurrentUser();
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
@@ -46,17 +49,20 @@ const MediaPortal = () => {
     setStatus('uploading');
     var formdata = new FormData();
     formdata.append('image', fileToUpload.file);
+    formdata.append('folder', id);
     var requestOptions = {
       method: 'POST',
       body: formdata,
     };
 
-    fetch('http://localhost:3000/api/media-portal', requestOptions)
+    fetch(
+      'https://mediajams-7z2otb2sw-mediajams.vercel.app/api/media-portal',
+      requestOptions,
+    )
       .then((resp) => resp.json())
       .then((result) => {
         setStatus('idle');
         setCloudinaryFile(result);
-        console.log(result);
       })
       .catch((error) => setStatus(`Error: ${error}`));
   }
@@ -80,6 +86,7 @@ const MediaPortal = () => {
             <input {...getInputProps()} />
             <p>Choose file to upload...</p>
           </div>
+          {uploadStatus.startsWith('Error') && <span>{uploadStatus}</span>}
           {fileToUpload && (
             <Flex direction="column" marginTop={16}>
               <div className={styles.thumbImage}>
