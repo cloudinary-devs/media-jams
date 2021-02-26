@@ -4,25 +4,24 @@ import { useDropzone } from 'react-dropzone';
 import r2 from 'r2';
 import jsonResponse from 'get-it/lib/middleware/jsonResponse';
 import promise from 'get-it/lib/middleware/promise';
-import Button from 'part:@sanity/components/buttons/default';
+// import Button from 'part:@sanity/components/buttons/default';
 import { IntentLink } from 'part:@sanity/base/router';
 import Spinner from 'part:@sanity/components/loading/spinner';
 import schema from 'part:@sanity/base/schema';
 import IntentButton from 'part:@sanity/components/buttons/intent';
 import { List, Item } from 'part:@sanity/components/lists/default';
 import { getPublishedId } from 'part:@sanity/base/util/draft-utils';
+import { MdPublish, MdClear } from 'react-icons/md';
 import {
   Container,
   Card,
-  Grid,
   Heading,
   Stack,
   Box,
   Flex,
   Text,
-  TextInput,
-  Label,
-  Switch,
+  Inline,
+  Button,
 } from '@sanity/ui';
 import { intersection } from 'lodash';
 
@@ -30,18 +29,23 @@ import styles from './DashboardImageUpload.css';
 import useUpload from './hooks/useUpload';
 
 const MediaPortal = () => {
-  const [fileToUpload, setFileToUpload] = React.useState({});
+  const [fileToUpload, setFileToUpload] = React.useState(null);
+  const [cloudiaryFile, setCloudinaryFile] = React.useState(null);
+  const [uploadStatus, setStatus] = React.useState('idle');
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   function onDrop(acceptedFiles) {
-    setFileToUpload(acceptedFiles[0]);
+    setFileToUpload({
+      file: acceptedFiles[0],
+      preview: URL.createObjectURL(acceptedFiles[0]),
+    });
   }
 
   async function handleOnClick() {
-    console.log('click');
+    setStatus('uploading');
     var formdata = new FormData();
-    formdata.append('image', fileToUpload);
+    formdata.append('image', fileToUpload.file);
     var requestOptions = {
       method: 'POST',
       body: formdata,
@@ -49,23 +53,23 @@ const MediaPortal = () => {
 
     fetch('http://localhost:3000/api/media-portal', requestOptions)
       .then((resp) => resp.json())
-      .then((result) => console.log(result))
-      .catch((error) => console.log('error', error));
+      .then((result) => {
+        setStatus('idle');
+        setCloudinaryFile(result);
+        console.log(result);
+      })
+      .catch((error) => setStatus(`Error: ${error}`));
   }
   return (
     <Container width={6}>
       <Card margin={3} padding={4}>
         <Stack space={3}>
           <Heading as="h2" size={5}>
-            Media Portal
+            Media
           </Heading>
-          <Stack w="80%" spacing={2}>
-            <TextInput w="92%" size="sm" fontSize="sm" placeholder="Title" />
-          </Stack>
-          <Flex
-            rounded="md"
-            border="2px solid black"
-            cursor="pointer"
+
+          <div
+            className={styles.dropzone}
             h="200px"
             width="80%"
             alignSelf="center"
@@ -75,10 +79,38 @@ const MediaPortal = () => {
           >
             <input {...getInputProps()} />
             <p>Choose file to upload...</p>
-          </Flex>
-          <Button size="lg" variant="outline" mt={4} onClick={handleOnClick}>
-            Upload Photo
-          </Button>
+          </div>
+          {fileToUpload && (
+            <Flex direction="column" marginTop={16}>
+              <div className={styles.thumbImage}>
+                <img className={styles.img} src={fileToUpload.preview} />
+              </div>
+              {cloudiaryFile && <Text>{cloudiaryFile.secure_url}</Text>}
+            </Flex>
+          )}
+          <Inline space={[3, 3, 4]} style={{ textAlign: 'center' }}>
+            <Button
+              fontSize={[2, 2, 3]}
+              icon={MdClear}
+              mode="ghost"
+              padding={[3, 3, 4]}
+              text="Clear"
+              onClick={() => {
+                setFileToUpload(null);
+                setCloudinaryFile(null);
+                setStatus('idle');
+              }}
+            />
+            <Button
+              fontSize={[2, 2, 3]}
+              icon={uploadStatus == 'idle' ? MdPublish : Spinner}
+              padding={[3, 3, 4]}
+              text={uploadStatus == 'idle' ? 'Upload' : 'Processing...'}
+              tone="primary"
+              disabled={!fileToUpload}
+              onClick={handleOnClick}
+            />
+          </Inline>
         </Stack>
       </Card>
     </Container>

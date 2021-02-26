@@ -11,6 +11,10 @@ export default {
         title: 'Image Upload',
         createButtonText: 'Add Image',
       },
+      layout: {
+        width: 'medium',
+        height: 'small',
+      },
     },
     {
       name: 'my-jams-list',

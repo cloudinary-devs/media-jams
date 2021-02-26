@@ -1,16 +1,15 @@
-
 @import 'part:@sanity/base/theme/variables-style';
 
 .container {
-  composes: container from "part:@sanity/dashboard/widget-styles";
+  composes: container from 'part:@sanity/dashboard/widget-styles';
 }
 
 .header {
-  composes: header from "part:@sanity/dashboard/widget-styles";
+  composes: header from 'part:@sanity/dashboard/widget-styles';
 }
 
 .title {
-  composes: title from "part:@sanity/dashboard/widget-styles";
+  composes: title from 'part:@sanity/dashboard/widget-styles';
 }
 
 .content {
@@ -36,5 +35,41 @@
 
 .img {
   display: block;
-  width: 100%;
+  width: auto;
+  height: 100%;
+}
+
+.dropzone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: #504c4c;
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border 0.24s ease-in-out;
+}
+
+.thumbContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.thumbImage {
+  display: inline-flex;
+  border-radius: 2px;
+  border: 1px solid #eaeaea;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  width: 150px;
+  height: 150px;
+  padding: 4px;
+  box-sizing: border-box;
 }
