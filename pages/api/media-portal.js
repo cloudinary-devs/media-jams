@@ -47,10 +47,10 @@ export default async (req, res) => {
     streamifier.createReadStream(req.file.buffer).pipe(
       cloudinary.uploader.upload_stream(
         {
-          folder: 'sample',
+          folder: req.body.folder,
         },
         function (error, result) {
-          console.log(error, result);
+          if (error) res.status(500).send(error);
           res.status(200).send(result);
         },
       ),
