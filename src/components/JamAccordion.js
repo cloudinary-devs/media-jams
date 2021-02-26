@@ -25,6 +25,9 @@ export default function JamAccordion({
   post,
   width,
   defaultIndex,
+  borderRadius,
+  w,
+  shadow,
   ...rest
 }) {
   const { author } = post;
@@ -68,15 +71,16 @@ export default function JamAccordion({
   };
   return (
     <Accordion
-      w={width}
-      boxShadow={boxShadow}
+      w={width || w}
+      boxShadow={shadow ? boxShadow : 'none'}
       borderColor="none"
       bg="white"
       allowToggle
+      borderRadius={borderRadius || 'none'}
       defaultIndex={defaultIndex || null}
       {...rest}
     >
-      <AccordionItem p={3}>
+      <AccordionItem borderRadius={borderRadius || 'none'} p={3}>
         <Flex justifyContent="space-between">
           <Flex ml={4} align="center" flex="1" textAlign="left" mt={3}>
             <Avatar
@@ -93,7 +97,7 @@ export default function JamAccordion({
                 By {author.name}
               </Text>
               <Flex flexWrap="wrap">
-                {post.tags.map((tag) => (
+                {post.tags?.map((tag) => (
                   <Text
                     key={tag._id}
                     mr={2}
@@ -133,7 +137,7 @@ export default function JamAccordion({
             </AccordionButton>
           </Flex>
         </Flex>
-        <AccordionPanel pt={4}>
+        <AccordionPanel borderRadius={borderRadius || 'none'} pt={4}>
           <Flex direction="column">
             <Text fontSize="sm">{post.description}</Text>
           </Flex>

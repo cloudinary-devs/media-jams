@@ -29,10 +29,10 @@ export default function Navbar() {
 
   return (
     <Flex
-      minW="100%;"
-      height="7rem"
-      px={5}
-      py={4}
+      minW="100%"
+      height="8rem"
+      py={8}
+      px={20}
       justifyContent="space-between"
       alignItems="flex-start"
       backgroundColor="grey.900"
@@ -48,6 +48,9 @@ export default function Navbar() {
         />
       </Link>
       <Box>
+        <NavLink mr={4} href="/dashboard">
+          Dashboard
+        </NavLink>
         {user ? (
           <NavLink ml={4} href="/profile">
             Profile
@@ -64,9 +67,6 @@ export default function Navbar() {
             Login
           </NavLink>
         )}
-        <NavLink ml={4} href="/dashboard">
-          Dashboard
-        </NavLink>
       </Box>
     </Flex>
   );

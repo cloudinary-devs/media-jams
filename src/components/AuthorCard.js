@@ -1,11 +1,7 @@
 import { Flex, Icon, Avatar, Heading, Text, Tooltip } from '@chakra-ui/react';
-
 import { keyframes } from '@emotion/react';
-
 import { IoMdHand } from 'react-icons/io';
-
 import { FaTwitter, FaGithub } from 'react-icons/fa';
-
 import { boxShadow } from '@utils/styles';
 
 export default function AuthorCard({ author, ...rest }) {
@@ -27,13 +23,15 @@ export default function AuthorCard({ author, ...rest }) {
       justify="space-evenly"
       boxShadow={boxShadow}
       direction="column"
+      textAlign="center"
       {...rest}
     >
-      <Avatar size="xl" src={author.image.asset.url} />
+      <Avatar size="xl" src={author.image?.asset.url} />
       <Heading fontSize="xl">{author.name}</Heading>
-      <Text fontSize="xs">{author.occupation}</Text>
+      <Text fontSize="xs">{author.jobTitle}</Text>
       <Flex mt={3}>
-        <Icon as={FaTwitter} mr={3} /> <Icon as={FaGithub} />
+        <Icon as={FaTwitter} mr={3} />
+        <Icon as={FaGithub} />
       </Flex>
       <Tooltip
         label="Some bio about the author. This could honestly be something that the author writes specifically for the learners."

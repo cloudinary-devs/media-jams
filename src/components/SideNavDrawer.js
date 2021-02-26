@@ -27,14 +27,14 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
               alt="MediaJams logo"
             />
             <Button
-              alignSelf="flex-end"
-              p={4}
+              as={NextLink}
+              href="/api/auth/login"
+              outline="black"
+              background="grey.700"
+              color="yellow.400"
               size="md"
-              mb={3}
-              mr={3}
-              colorScheme="blue"
             >
-              Log In
+              Login
             </Button>
           </Flex>
           <NavLinkGroup />
@@ -49,10 +49,11 @@ function NavLink({ children, ...props }) {
     <Link
       as={NextLink}
       display="flex"
-      _hover={{ background: 'blue.400', color: 'white' }}
-      p="10px"
+      _hover={{ background: 'yellow.400', color: 'black' }}
+      p="12px"
       minW="100%"
       display="flex"
+      color="yellow.400"
       alignItems="center"
       {...props}
     >

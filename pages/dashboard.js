@@ -1,13 +1,5 @@
-import Layout from '@components/Layout';
-
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-
-import AuthorCard from '@components/AuthorCard';
-
-import { authors as queryAuthors } from '@lib/queries/authors';
-import { jams as queryJams } from '@lib/queries/jams';
-
 import {
   Flex,
   Box,
@@ -21,18 +13,14 @@ import {
 import { FaDiscord } from 'react-icons/fa';
 import { Link as NextLink } from 'next/link';
 
+import { authors as queryAuthors } from '@lib/queries/authors';
+import { jams as queryJams } from '@lib/queries/jams';
+import Layout from '@components/Layout';
 import JamAccordion from '@components/JamAccordion';
+import AuthorCard from '@components/AuthorCard';
 import { boxShadow } from '@utils/styles';
 
 export default function Dashboard() {
-  const { data: authors } = useQuery('authors', queryAuthors.get);
-  const { data: featuredJams } = useQuery(
-    'featuredJams',
-    queryJams.getFeaturedJams,
-  );
-
-  console.log({ authors, featuredJams });
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -87,9 +75,9 @@ export default function Dashboard() {
         ml={-3}
         overflow={{ md: 'auto', lg: 'auto', xl: 'none' }}
       >
-        {/* <Featured featuredJams={featuredJams.data.allPost} /> */}
+        <Featured />
         <DiscordAd />
-        {/* <Authors authors={authors.data.allAuthor} /> */}
+        <Authors />
         <Paths />
         <GettingStarted />
       </Grid>
@@ -97,7 +85,9 @@ export default function Dashboard() {
   );
 }
 
-function Featured({ featuredPosts }) {
+function Featured() {
+  const { data } = useQuery('featuredJams', queryJams.getFeaturedJams);
+
   return (
     <Flex
       gridArea="Featured"
@@ -116,9 +106,10 @@ function Featured({ featuredPosts }) {
         Featured Jams
       </Heading>
       <Flex direction="column" w="100%">
-        {featuredPosts.map((post) => (
+        {data.allPost?.map((post) => (
           <JamAccordion
             color="blue"
+            shadow
             w="100%"
             key={post._id}
             post={post}
@@ -172,7 +163,8 @@ function DiscordAd() {
   );
 }
 
-function Authors({ authors }) {
+function Authors() {
+  const { data } = useQuery('authors', queryAuthors.get);
   return (
     <Flex
       w="100%"
@@ -183,9 +175,10 @@ function Authors({ authors }) {
       boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
       bg="green.200"
       gridArea="Authors"
+      px={5}
     >
-      {authors.map((author) => (
-        <AuthorCard author={author} />
+      {data.allAuthor?.map((author) => (
+        <AuthorCard minH="90%" maxH="90%" minW={60} mr={4} author={author} />
       ))}
     </Flex>
   );
@@ -281,16 +274,6 @@ function GettingStarted() {
     ></Box>
   );
 }
-
-const topTags = [
-  'react',
-  'nextjs',
-  'a11y',
-  'lazy loading',
-  'CDN',
-  'responsive',
-];
-
 export async function getStaticProps() {
   const queryClient = new QueryClient();
 

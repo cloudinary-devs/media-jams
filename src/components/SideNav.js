@@ -1,10 +1,11 @@
 import React from 'react';
-import { boxShadow } from '@utils/styles';
+import { Link as NextLink } from 'next/link';
 import { Button, Flex, Icon, Link, Text } from '@chakra-ui/react';
 import { FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
+
+import { boxShadow } from '@utils/styles';
 import Image from '@components/Image';
 import { useUser } from '@auth0/nextjs-auth0';
-import { Link as NextLink } from 'next/link';
 
 export default function SideNav(props) {
   return (
@@ -27,14 +28,14 @@ export default function SideNav(props) {
           />
         </Link>
         <Button
-          alignSelf="flex-end"
-          p={5}
-          size="sm"
-          mb={3}
-          mr={3}
-          colorScheme="blue"
+          as={NextLink}
+          href="/api/auth/login"
+          outline="black"
+          background="grey.700"
+          color="yellow.400"
+          size="md"
         >
-          Log In
+          Login
         </Button>
       </Flex>
       <NavLinkGroup />
@@ -47,10 +48,11 @@ function NavLink({ children, ...props }) {
     <Link
       as={NextLink}
       display="flex"
-      _hover={{ background: 'blue.400', color: 'white' }}
+      _hover={{ background: 'yellow.400', color: 'black' }}
       p="12px"
       minW="100%"
       display="flex"
+      color="yellow.400"
       alignItems="center"
       {...props}
     >

@@ -27,9 +27,6 @@ import AuthorCard from '@components/AuthorCard';
 export default function Index() {
   const router = useRouter();
 
-  const { data: jams } = useQuery('jams', queryJams.get);
-  const { data: authors } = useQuery('authors', queryAuthors.get);
-
   function addTagsToRoute(tags) {
     const tagsArr = [];
     tags.map((tag) => tagsArr.push(tag.title));
@@ -48,8 +45,8 @@ export default function Index() {
         <Box flex={1}>
           <Hero />
           <Features />
-          <Authors authors={authors.allAuthor} />
-          <FrameworkJams jams={jams.jams} />
+          <Authors />
+          <FrameworkJams />
           <EmailSubscription />
         </Box>
       </Flex>
@@ -62,71 +59,99 @@ function Features() {
   return (
     <Flex
       alignItems="center"
-      justify="space-evenly"
+      justify="center"
       height="300px"
-      bg="green.200"
+      w="100%"
+      color="white"
+      bgGradient="linear(to-r, green.200, green.400)"
     >
-      <Flex w="15%" align="center" justify="center" direction="column">
-        <Icon color="green.600" as={FaChalkboardTeacher} boxSize="3em" />
-        <Text textAlign="center">
-          Learn media best practices from our media experts
-        </Text>
-      </Flex>
-      <Flex
-        w="15%"
-        align="center"
-        justify="center"
-        direction="column"
-        alignSelf="flex-end"
-      >
-        <Icon color="green.600" as={FaStickyNote} boxSize="3em" />
-        <Text textAlign="center" mb={10}>
-          Create notes as you learn without leaving the site
-        </Text>
-      </Flex>
-      <Flex w="15%" align="center" justify="center" direction="column">
-        <Icon color="green.600" as={FaBookmark} boxSize="3em" />
-        <Text textAlign="center">
-          Boomark and curate the important Jams you know you'll be coming back
-          to
-        </Text>
+      <Flex justify="space-around" w="60%">
+        <Flex p={4} align="center" justify="center" direction="column">
+          <Icon color="white.600" as={FaChalkboardTeacher} boxSize="3em" />
+          <Text textAlign="center">
+            Learn media best practices from our media experts
+          </Text>
+        </Flex>
+        <Flex
+          align="center"
+          justify="center"
+          direction="column"
+          alignSelf="flex-end"
+          mt={5}
+          p={4}
+        >
+          <Icon color="white.600" as={FaStickyNote} boxSize="3em" />
+          <Text textAlign="center">
+            Create notes as you learn without leaving the site
+          </Text>
+        </Flex>
+        <Flex p={4} align="center" justify="center" direction="column">
+          <Icon color="white.600" as={FaBookmark} boxSize="3em" />
+          <Text textAlign="center">
+            Boomark and curate the important Jams you know you'll be coming back
+            to
+          </Text>
+        </Flex>
       </Flex>
     </Flex>
   );
 }
 
-function Authors({ authors }) {
+function Authors() {
+  const { data: authors } = useQuery('authors', queryAuthors.get);
   return (
-    <Flex alignItems="center" justify="center" h="5xl" direction="column">
+    <Flex alignItems="center" justify="center" minH="6xl" direction="column">
       <Heading textStyle="headline-page">Meet our Authors</Heading>
       <Text fontSize="xl" width="20%" textAlign="center">
         Media Jam authors are from all around the globe. Get to know them!
       </Text>
-      <Flex justify="space-evenly" w="100%" mt={12} wrap="wrap">
-        {authors?.map((author) => (
+      <Grid
+        gap={5}
+        templateRows={{
+          base: 'none',
+          md: 'none',
+          lg: 'repeat(2, 1fr)',
+          xl: 'repeat(2, 1fr)',
+        }}
+        templateColumns={{
+          base: 'repeat(2, 1fr)',
+          md: 'repeat(2, 1fr)',
+          lg: 'repeat(3, 1fr)',
+          xl: 'repeat(4, 1fr)',
+        }}
+        w="70%"
+        mt={12}
+      >
+        {authors.allAuthor?.map((author) => (
           <AuthorCard h={72} w={64} author={author} />
         ))}
-      </Flex>
+      </Grid>
     </Flex>
   );
 }
 
-function FrameworkJams({ jams }) {
+function FrameworkJams() {
+  const { data: jams } = useQuery('jams', queryJams.get);
+  console.log(jams);
   const [yellow900] = useToken('colors', ['yellow.900']);
 
-  const reactJams = jams?.filter((jam) =>
-    jam.tags.some(
+  const reactJams = jams.jams?.filter((jam) =>
+    jam.tags?.some(
       (tag) =>
         tag.title === 'React' ||
         tag.title === 'NextJS' ||
         tag.title === 'Gatsby',
     ),
   );
-  const vueJams = jams?.filter((jam) =>
-    jam.tags.some((tag) => tag.title === 'Vue' || tag.title === 'NuxtJS'),
+  const vueJams = jams.jams?.filter((jam) =>
+    jam.tags?.some((tag) => tag.title === 'Vue' || tag.title === 'NuxtJS'),
   );
-  const svelteJams = jams?.filter((jam) =>
-    jam.tags.some((tag) => tag.title === 'Svelte'),
+  const svelteJams = jams.jams?.filter((jam) =>
+    jam.tags?.some((tag) => tag.title === 'Svelte'),
+  );
+
+  const angularJams = jams.jams?.filter((jam) =>
+    jam.tags?.some((tag) => tag.title === 'Angular'),
   );
 
   return (
@@ -150,10 +175,11 @@ function FrameworkJams({ jams }) {
       </Heading>
       <Grid
         templateAreas='
-          "React Vue Vue"
-          "React Svelte Svelte" 
+          "React Vue Svelte Angular"
+          "React Vue Svelte Angular" 
         '
-        w="60%"
+        templateColumns="repeat(4, 1fr)"
+        w="80%"
         h="60%"
         gap={4}
       >
@@ -162,7 +188,6 @@ function FrameworkJams({ jams }) {
           borderRadius="8px"
           direction="column"
           bg="white"
-          boxShadow={boxShadow}
           gridArea="React"
         >
           <Flex
@@ -175,7 +200,12 @@ function FrameworkJams({ jams }) {
             <Heading color="blue.200">React</Heading>
           </Flex>
           {reactJams?.map((post) => (
-            <JamAccordion color="blue" w="100%" key={post._id} post={post} />
+            <JamAccordion
+              color="blue"
+              width="100%"
+              key={post._id}
+              post={post}
+            />
           ))}
         </Flex>
         <Flex
@@ -218,6 +248,27 @@ function FrameworkJams({ jams }) {
           </Flex>
           {svelteJams?.map((post) => (
             <JamAccordion color="red" w="100%" key={post._id} post={post} />
+          ))}
+        </Flex>
+        <Flex
+          overflow="auto"
+          borderRadius="8px"
+          direction="column"
+          bg="white"
+          boxShadow={boxShadow}
+          gridArea="Angular"
+        >
+          <Flex
+            borderTopRadius="8px"
+            p={2}
+            justify="space-between"
+            w="100%"
+            bg="gray.400"
+          >
+            <Heading color="gray.200">Angular</Heading>
+          </Flex>
+          {angularJams?.map((post) => (
+            <JamAccordion color="gray" w="100%" key={post._id} post={post} />
           ))}
         </Flex>
       </Grid>
