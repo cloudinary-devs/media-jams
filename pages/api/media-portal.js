@@ -1,5 +1,6 @@
 import { initSentry, sentryHandler } from '@lib/sentry';
 import initMiddleware from '@lib/init-middleware';
+import auth0 from '@lib/auth0';
 import multer from 'multer';
 import streamifier from 'streamifier';
 import Cors from 'cors';
@@ -41,7 +42,6 @@ const cors = initMiddleware(
 
 export default async (req, res) => {
   // Run cors-middle
-  await cors(req, res);
   upload.single('image')(req, {}, (err) => {
     // do error handling here
     streamifier.createReadStream(req.file.buffer).pipe(

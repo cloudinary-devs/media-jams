@@ -47,6 +47,23 @@ module.exports = withMDX({
     return [
       {
         // enabling CORs for in studio subscription to changes
+        source: '/api/media-portal/:path*',
+        headers: [
+          { key: 'Access-Control-Allow-Credentials', value: 'true' },
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'POST',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value:
+              'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+          },
+        ],
+      },
+      {
+        // enabling CORs for in studio subscription to changes
         source: '/post/liveEdit/:path*',
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
