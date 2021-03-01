@@ -1,41 +1,62 @@
 import React from 'react';
+import { Link as NextLink } from 'next/link';
+import { Button, Flex, Icon, IconButton, Link, Text } from '@chakra-ui/react';
+import { FaRegFlag, FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
+
 import { boxShadow } from '@utils/styles';
-import { Button, Flex, Icon, Link, Text } from '@chakra-ui/react';
-import { FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
 import Image from '@components/Image';
 import { useUser } from '@auth0/nextjs-auth0';
-import { Link as NextLink } from 'next/link';
 
 export default function SideNav(props) {
   return (
     <Flex
-      w={72}
+      w={60}
       direction="column"
       boxShadow={boxShadow}
       minH="100%"
       backgroundColor="grey.900"
       {...props}
     >
-      <Flex w="100%" justifyContent="space-between" p={4}>
-        <Image
-          cloudName="mediadevs"
-          publicId="mediajams/logo"
-          height={50}
-          width={100}
-          alt="MediaJams logo"
-        />
+      <Flex direction="column">
+        <Flex w="100%" justifyContent="space-between" p={4}>
+          <Link href="/">
+            <Image
+              cloudName="mediadevs"
+              publicId="mediajams/logo"
+              height={50}
+              width={100}
+              alt="MediaJams logo"
+            />
+          </Link>
+          <Link as={NextLink} href="/api/auth/login" passHref>
+            <Button outline="black" background="grey.700" color="yellow.400">
+              Login
+            </Button>
+          </Link>
+        </Flex>
+        <NavLinkGroup />
+      </Flex>
+      <Flex
+        h="100%"
+        width="100%"
+        justify="flex-end"
+        align="flex-end"
+        pr={4}
+        pb={4}
+      >
         <Button
-          alignSelf="flex-end"
-          p={5}
+          as={Link}
+          target="_blank"
+          href="/feedback"
+          textDecoration="none"
+          hover={{ textDecoration: 'none' }}
           size="sm"
-          mb={3}
-          mr={3}
-          colorScheme="blue"
+          bg="grey.700"
+          color="yellow.400"
         >
-          Log In
+          Feedback <Icon ml={1} as={FaRegFlag} />
         </Button>
       </Flex>
-      <NavLinkGroup />
     </Flex>
   );
 }
@@ -45,10 +66,11 @@ function NavLink({ children, ...props }) {
     <Link
       as={NextLink}
       display="flex"
-      _hover={{ background: 'blue.400', color: 'white' }}
+      _hover={{ background: 'yellow.400', color: 'black' }}
       p="12px"
       minW="100%"
       display="flex"
+      color="white"
       alignItems="center"
       {...props}
     >

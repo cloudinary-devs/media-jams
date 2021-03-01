@@ -88,7 +88,7 @@ export default function JamContentHero({
             objectfit="contain"
             layout="fill"
             alt="Feature Image"
-            styles={{
+            container={{
               flexGrow: 1,
               position: 'relative',
               height: 300,

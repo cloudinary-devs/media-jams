@@ -25,6 +25,9 @@ export default function JamAccordion({
   post,
   width,
   defaultIndex,
+  borderRadius,
+  w,
+  shadow,
   ...rest
 }) {
   const { author } = post;
@@ -68,17 +71,18 @@ export default function JamAccordion({
   };
   return (
     <Accordion
-      w={width}
-      borderRadius="lg"
-      boxShadow={boxShadow}
-      mb={3}
+      w={width || w}
+      boxShadow={shadow ? boxShadow : 'none'}
       borderColor="none"
       bg="white"
       allowToggle
+      borderRadius={borderRadius || 'none'}
       defaultIndex={defaultIndex || null}
+      p="0px"
+      {...rest}
     >
-      <AccordionItem p={3} borderRadius="lg">
-        <Flex justifyContent="space-between">
+      <AccordionItem borderRadius={borderRadius || 'none'}>
+        <Flex justifyContent="space-between" p={4}>
           <Flex ml={4} align="center" flex="1" textAlign="left" mt={3}>
             <Avatar
               size="lg"
@@ -88,13 +92,13 @@ export default function JamAccordion({
             />
             <Flex justift="center" direction="column" color={`${color}.400`}>
               <Link href={`/post/${post.slug.current}`}>
-                <Heading textStyle="headline-card">{post.title}</Heading>
+                <Heading fontSize="lg">{post.title}</Heading>
               </Link>
               <Text fontSize={{ base: 'sm', md: 'sm', lg: 'sm' }}>
                 By {author.name}
               </Text>
               <Flex flexWrap="wrap">
-                {post.tags.map((tag) => (
+                {post.tags?.map((tag) => (
                   <Text
                     key={tag._id}
                     mr={2}
@@ -106,38 +110,57 @@ export default function JamAccordion({
               </Flex>
             </Flex>
           </Flex>
-          <Flex justifyContent="space-around" width={36} alignItems="center">
-            <Button
-              as="a"
-              colorScheme={color}
-              size="sm"
-              mr="3px"
-              href={`/post/${post.slug.current}`}
-            >
-              More
-            </Button>
-            <IconButton
-              size="sm"
-              icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
-              onClick={handleBookmarkOnClick}
-            ></IconButton>
+          <Flex justifyContent="space-around" width={24} alignItems="center">
+            {user ? (
+              <IconButton
+                size="sm"
+                outline="none"
+                bg="none"
+                _hover={{
+                  bg: 'none',
+                }}
+                icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
+                onClick={handleBookmarkOnClick}
+              ></IconButton>
+            ) : null}
+
             <AccordionButton
               as={Button}
               h="50%"
+              bg="none"
+              outline="none"
               alignSelf="center"
               borderRadius="lg"
               variant={color}
-              w="30px"
+              w="5px"
               justifyContent="center"
+              _hover={{
+                bg: 'none',
+              }}
             >
               <AccordionIcon />
             </AccordionButton>
           </Flex>
         </Flex>
-        <AccordionPanel pt={4}>
-          <Flex direction="column">
+        <AccordionPanel borderRadius={borderRadius || 'none'} p="0px">
+          <Flex p={4} direction="column">
             <Text fontSize="sm">{post.description}</Text>
           </Flex>
+          <Button
+            as={Link}
+            href={`/post/${post.slug.current}`}
+            minW="100%"
+            borderTopRightRadius="0px"
+            borderTopLeftRadius="0px"
+            colorScheme={color}
+            color="white"
+            textDecoration="none"
+            _hover={{
+              textDecoration: 'none',
+            }}
+          >
+            Learn
+          </Button>
         </AccordionPanel>
       </AccordionItem>
     </Accordion>

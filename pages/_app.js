@@ -12,19 +12,24 @@ import { buildImageUrl } from 'cloudinary-build-url';
 //initialize Sentry
 import { initSentry } from '@lib/sentry';
 initSentry();
-// Create a new query client
-const queryClient = new QueryClient();
 
+// Create a new query client
 const App = ({ Component, pageProps, err }) => {
+  const queryClientRef = React.useRef();
+  if (!queryClientRef.current) {
+    queryClientRef.current = new QueryClient();
+  }
+
   const ogImage = buildImageUrl('mediajams/og-image', {
     cloud: { cloudName: 'mediadevs' },
   });
 
   const { user } = pageProps;
+
   return (
     <MixPanelProvider>
       <ChakraProvider resetCSS theme={theme}>
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClientRef.current}>
           <Hydrate state={pageProps.dehydratedState}>
             <UserProvider user={user}>
               <DefaultSeo

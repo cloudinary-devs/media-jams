@@ -27,7 +27,7 @@ export default function Image({
   storageType,
   alt,
   blurPlaceholder,
-  styles,
+  container,
   ...rest
 }) {
   const {
@@ -60,7 +60,7 @@ export default function Image({
             width,
             height,
           })})`,
-          ...styles,
+          ...container,
         }}
       >
         {inView ||
@@ -78,7 +78,7 @@ export default function Image({
     );
   } else {
     return (
-      <Box sx={{ ...styles }}>
+      <Box sx={{ ...container }}>
         <NextImage
           src={cloudName ? cloudinaryUrl : src}
           width={width}

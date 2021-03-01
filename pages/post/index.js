@@ -4,10 +4,7 @@ import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { jams as queryJams } from '@lib/queries/jams';
 import { tags as queryTags } from '@lib/queries/tags';
-import {
-  categories as queryCategories,
-  categoriesWithTags,
-} from '@lib/queries/categories';
+import { categories as queryCategories } from '@lib/queries/categories';
 
 import JamAccordion from '@components/JamAccordion';
 import SearchInput from '@components/SearchInput';
@@ -22,7 +19,6 @@ import {
   Heading,
   Icon,
   useDisclosure,
-  Box,
   Tooltip,
 } from '@chakra-ui/react';
 
@@ -81,13 +77,16 @@ export default function Post() {
     } else {
       // Allow for a search for tag
       const formattedTags = selectedFilters.map((item) => item.title);
-      console.log(formattedTags);
+
       const queries = {
         $or: [
           { title: searchValue },
           { author: searchValue },
           {
-            $and: [{ $path: 'tags.title', $val: formattedTags[0] }],
+            $and:
+              formattedTags.length > 0
+                ? [{ $path: 'tags.title', $val: formattedTags[0] }]
+                : [],
           },
         ],
       };
@@ -120,7 +119,9 @@ export default function Post() {
             "JamSearch"
             "JamSearch"
             "Bookmarks"            
-            "Notes  "            
+            "Bookmarks"            
+            "Notes"
+            "Notes"            
           `,
           md: `
             "JamSearch JamSearch"
@@ -136,16 +137,15 @@ export default function Post() {
         templateColumns={{
           base: '100%',
           md: '1fr 1fr',
-          xl: '1fr 2fr 1fr',
+          xl: '1fr 2fr 1.5fr',
         }}
         templateRows={{
           base: '70% repeat(4, 300px)',
           md: '80vh 200px 500px',
           xl: '2.5fr 200px 2fr',
         }}
-        gap={8}
-        p={8}
-        ml={-3}
+        gap={6}
+        p={6}
         overflow={{ base: 'auto', xl: null }}
       >
         <JamSearch
@@ -183,17 +183,6 @@ export default function Post() {
 }
 
 // This function gets called at build time on server-side.
-export const getStaticProps = async () => {
-  const queryClient = new QueryClient();
-  // await queryClient.prefetchQuery('allJams', jams.get());
-  await queryClient.prefetchQuery('jamTags', queryTags.getStatic);
-  await queryClient.prefetchQuery('jamCategories', queryCategories.getStatic);
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
 
 function JamSearch({
   searchValue,
@@ -242,7 +231,14 @@ function JamSearch({
         </Flex>
       )}
       {filteredPosts?.map((post) => (
-        <JamAccordion color="red" width="100%" key={post._id} post={post} />
+        <JamAccordion
+          borderRadius="lg"
+          mb={3}
+          color="red"
+          width="100%"
+          key={post._id}
+          post={post}
+        />
       ))}
     </Flex>
   );
@@ -266,7 +262,7 @@ function SearchFilters({
       borderRadius="8px"
       boxShadow={boxShadow}
       bg="blue.200"
-      display={{ md: 'none', lg: 'flex', xl: 'flex' }}
+      display={{ base: 'none', md: 'none', lg: 'none', xl: 'flex' }}
       height="auto"
       gridArea="SearchFilters"
       overflow="auto"
@@ -345,3 +341,14 @@ function Bookmarks() {
     </Flex>
   );
 }
+
+export const getStaticProps = async () => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery('jamTags', queryTags.getStatic);
+  await queryClient.prefetchQuery('jamCategories', queryCategories.getStatic);
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
