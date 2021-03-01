@@ -29,10 +29,10 @@ export default function Navbar() {
 
   return (
     <Flex
-      minW="100%;"
-      height="7rem"
-      px={5}
-      py={4}
+      minW="100%"
+      height="8rem"
+      py={8}
+      px={10}
       justifyContent="space-between"
       alignItems="flex-start"
       backgroundColor="grey.900"
@@ -48,29 +48,24 @@ export default function Navbar() {
         />
       </Link>
       <Box>
-        <NavLink ml={4} href="/post">
-          Jams
-        </NavLink>
-        <NavLink ml={4} href="/feedback">
-          Feedback
+        <NavLink mr={4} href="/dashboard">
+          Dashboard
         </NavLink>
         {user ? (
           <NavLink ml={4} href="/profile">
             Profile
           </NavLink>
         ) : (
-          <Button
-            as={NavLink}
+          <NavLink
             isButton
+            as={Button}
             href="/api/auth/login"
-            borderRadius="3px"
-            colorScheme="blue"
-            ml={4}
-            size="sm"
-            w="100px"
+            outline="black"
+            background="grey.700"
+            color="yellow.400"
           >
             Login
-          </Button>
+          </NavLink>
         )}
       </Box>
     </Flex>

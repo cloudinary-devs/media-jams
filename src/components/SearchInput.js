@@ -33,12 +33,12 @@ export default function SearchInput({
     <InputGroup w={width} {...rest}>
       <Input
         colorScheme={color}
+        bg="white"
         variant="outline"
         placeholder="Search by tag, title, or keyword..."
         padding="1.2rem 0 1.2rem 1rem"
         value={searchValue}
         onChange={onChange}
-        borderColor={color}
         _placeholder={{
           lineSpacing: '4px',
           fontSize: 'sm',

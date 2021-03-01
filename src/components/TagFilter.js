@@ -94,9 +94,10 @@ function TagSearchInput({ setSearch, color, ...rest }) {
       fontSize={10}
       alignSelf="center"
       placeholder="Filter tags..."
-      borderColor={color ? `${color}.400` : 'blue.400'}
       borderWidth="1px"
       color={color ? `${color}.600` : 'blue.600'}
+      bg="white"
+      borderRadius="8px"
       onChange={(e) => setSearch(e.target.value)}
       {...rest}
     />
