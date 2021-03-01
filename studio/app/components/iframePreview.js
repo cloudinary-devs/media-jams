@@ -34,7 +34,7 @@ const IframePreview = ({ document }) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
+        width: '80%',
         height: '100%',
       }}
     >

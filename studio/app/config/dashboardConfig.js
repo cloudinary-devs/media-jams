@@ -6,7 +6,15 @@ export default {
       name: 'sanity-tutorials',
     },
     {
-      name: 'airtable-list',
+      name: 'dashboard-image-upload',
+      options: {
+        title: 'Image Upload',
+        createButtonText: 'Add Image',
+      },
+      layout: {
+        width: 'medium',
+        height: 'small',
+      },
     },
     {
       name: 'my-jams-list',

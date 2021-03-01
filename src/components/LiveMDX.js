@@ -72,7 +72,7 @@ const LiveMDX = ({ content, scope = {}, ...props }) => {
   const { jsx, mdast, hast, error } = generateOutputs(content);
 
   return (
-    <Box width={'50%'}>
+    <Box>
       <LiveProvider
         {...props}
         code={content}
