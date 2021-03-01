@@ -28,7 +28,7 @@ export default function SideNav(props) {
               alt="MediaJams logo"
             />
           </Link>
-          <Link as={NextLink} href="/api/auth/login" passHref>
+          <Link as={NextLink} href="/api/auth/login">
             <Button outline="black" background="grey.700" color="yellow.400">
               Login
             </Button>

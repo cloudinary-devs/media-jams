@@ -55,10 +55,7 @@ const MediaPortal = () => {
       body: formdata,
     };
 
-    fetch(
-      'https://mediajams-7z2otb2sw-mediajams.vercel.app/api/media-portal',
-      requestOptions,
-    )
+    fetch('http://localhost:3000/api/media-portal', requestOptions)
       .then((resp) => resp.json())
       .then((result) => {
         setStatus('idle');
@@ -110,9 +107,9 @@ const MediaPortal = () => {
             />
             <Button
               fontSize={[2, 2, 3]}
-              icon={uploadStatus == 'idle' ? MdPublish : Spinner}
+              icon={uploadStatus == 'uploading' ? Spinner : MdPublish}
               padding={[3, 3, 4]}
-              text={uploadStatus == 'idle' ? 'Upload' : 'Processing...'}
+              text={uploadStatus == 'uploading' ? 'Processing...' : 'Upload'}
               tone="primary"
               disabled={!fileToUpload}
               onClick={handleOnClick}
