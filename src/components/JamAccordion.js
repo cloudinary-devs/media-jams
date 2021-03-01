@@ -111,16 +111,19 @@ export default function JamAccordion({
             </Flex>
           </Flex>
           <Flex justifyContent="space-around" width={24} alignItems="center">
-            <IconButton
-              size="sm"
-              outline="none"
-              bg="none"
-              _hover={{
-                bg: 'none',
-              }}
-              icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
-              onClick={handleBookmarkOnClick}
-            ></IconButton>
+            {user ? (
+              <IconButton
+                size="sm"
+                outline="none"
+                bg="none"
+                _hover={{
+                  bg: 'none',
+                }}
+                icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
+                onClick={handleBookmarkOnClick}
+              ></IconButton>
+            ) : null}
+
             <AccordionButton
               as={Button}
               h="50%"

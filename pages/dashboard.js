@@ -175,7 +175,7 @@ function Authors() {
       boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
       bg="green.200"
       gridArea="Authors"
-      px={5}
+      px={4}
     >
       {data.allAuthor?.map((author) => (
         <AuthorCard
@@ -231,10 +231,14 @@ function Paths() {
       </Box>
       <Heading
         pl={4}
-        textStyle="headline-page"
+        fontFamily="Bangers, cursive"
+        letterSpacing="wide"
+        lineHeight="base"
+        lineHeight={1}
         color="white"
         alignSelf="flex-start"
-        fontSize="5xl"
+        fontSize="6xl"
+        mt={1}
       >
         Learning Paths
       </Heading>

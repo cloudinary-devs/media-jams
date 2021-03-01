@@ -36,6 +36,7 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
                 background="grey.700"
                 color="yellow.400"
                 size="md"
+                href="/api/auth/login"
               >
                 Login
               </Button>
@@ -50,7 +51,13 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
             pr={4}
             pb={4}
           >
-            <Button size="sm" bg="grey.700" color="yellow.400">
+            <Button
+              as={Link}
+              target="_blank"
+              size="sm"
+              bg="grey.700"
+              color="yellow.400"
+            >
               Feedback <Icon ml={1} as={FaRegFlag} />
             </Button>
           </Flex>
