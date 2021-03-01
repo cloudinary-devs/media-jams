@@ -2,15 +2,7 @@
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import r2 from 'r2';
-import jsonResponse from 'get-it/lib/middleware/jsonResponse';
-import promise from 'get-it/lib/middleware/promise';
-// import Button from 'part:@sanity/components/buttons/default';
-import { IntentLink } from 'part:@sanity/base/router';
 import Spinner from 'part:@sanity/components/loading/spinner';
-import schema from 'part:@sanity/base/schema';
-import IntentButton from 'part:@sanity/components/buttons/intent';
-import { List, Item } from 'part:@sanity/components/lists/default';
-import { getPublishedId } from 'part:@sanity/base/util/draft-utils';
 import { MdPublish, MdClear } from 'react-icons/md';
 import {
   Container,
@@ -23,11 +15,17 @@ import {
   Inline,
   Button,
 } from '@sanity/ui';
-import { intersection } from 'lodash';
 
 import styles from './DashboardImageUpload.css';
 import useUpload from './hooks/useUpload';
 import { useCurrentUser } from './hooks/getCurrentUser';
+
+const baseAPIUrl =
+  process.env.NODE_ENV === 'production'
+    ? process.env.VERCEL_ENV === 'production'
+      ? `https://mediajams.dev`
+      : `https://mediajams-qsgnaf9yq-mediajams.vercel.app/`
+    : `http://localhost:3000`;
 
 // TODO: generate status object with icon, name, message
 const MediaPortal = () => {
@@ -50,12 +48,11 @@ const MediaPortal = () => {
     var formdata = new FormData();
     formdata.append('image', fileToUpload.file);
     formdata.append('folder', id);
-    var requestOptions = {
+
+    fetch(`${baseAPIUrl}/api/media-portal`, {
       method: 'POST',
       body: formdata,
-    };
-
-    fetch('http://localhost:3000/api/media-portal', requestOptions)
+    })
       .then((resp) => resp.json())
       .then((result) => {
         setStatus('idle');
