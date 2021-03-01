@@ -10,7 +10,7 @@ import {
   DrawerContent,
 } from '@chakra-ui/react';
 import Image from '@components/Image';
-import { FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
+import { FaRegFlag, FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
 import { useUser } from '@auth0/nextjs-auth0';
 
 export default function SideNavDrawer({ isOpen, onClose, ...props }) {
@@ -18,26 +18,42 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
     <Drawer {...props} isOpen={isOpen} placement="left" onClose={onClose}>
       <DrawerOverlay>
         <DrawerContent bg="grey.900">
-          <Flex w="100%" justifyContent="space-between" p={4}>
-            <Image
-              cloudName="mediadevs"
-              publicId="mediajams/logo"
-              height={60}
-              width={130}
-              alt="MediaJams logo"
-            />
-            <Button
-              as={NextLink}
-              href="/api/auth/login"
-              outline="black"
-              background="grey.700"
-              color="yellow.400"
-              size="md"
-            >
-              Login
+          <Flex direction="column">
+            <Flex w="100%" justifyContent="space-between" p={4}>
+              <Link href="/">
+                <Image
+                  cloudName="mediadevs"
+                  publicId="mediajams/logo"
+                  height={50}
+                  width={100}
+                  alt="MediaJams logo"
+                />
+              </Link>
+              <Button
+                as={NextLink}
+                href="/api/auth/login"
+                outline="black"
+                background="grey.700"
+                color="yellow.400"
+                size="md"
+              >
+                Login
+              </Button>
+            </Flex>
+            <NavLinkGroup />
+          </Flex>
+          <Flex
+            h="100%"
+            width="100%"
+            justify="flex-end"
+            align="flex-end"
+            pr={4}
+            pb={4}
+          >
+            <Button size="sm" bg="grey.700" color="yellow.400">
+              Feedback <Icon ml={1} as={FaRegFlag} />
             </Button>
           </Flex>
-          <NavLinkGroup />
         </DrawerContent>
       </DrawerOverlay>
     </Drawer>
@@ -53,7 +69,7 @@ function NavLink({ children, ...props }) {
       p="12px"
       minW="100%"
       display="flex"
-      color="yellow.400"
+      color="white"
       alignItems="center"
       {...props}
     >

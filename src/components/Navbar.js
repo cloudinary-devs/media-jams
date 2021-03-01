@@ -32,7 +32,7 @@ export default function Navbar() {
       minW="100%"
       height="8rem"
       py={8}
-      px={20}
+      px={10}
       justifyContent="space-between"
       alignItems="flex-start"
       backgroundColor="grey.900"

@@ -39,7 +39,7 @@ export default function Index() {
   }
 
   return (
-    <Flex direction="column" minH="calc(100vh)" w="100%">
+    <Flex direction="column" minH="calc(100vh - 50px)" w="100%">
       <Navbar />
       <Flex direction="column">
         <Box flex={1}>
@@ -65,9 +65,13 @@ function Features() {
       color="white"
       bgGradient="linear(to-r, green.200, green.400)"
     >
-      <Flex justify="space-around" w="60%">
+      <Flex justify="space-around" w={{ base: '100%', lg: '60%' }}>
         <Flex p={4} align="center" justify="center" direction="column">
-          <Icon color="white.600" as={FaChalkboardTeacher} boxSize="3em" />
+          <Icon
+            color="white.600"
+            as={FaChalkboardTeacher}
+            boxSize={{ base: '2em', lg: '3em' }}
+          />
           <Text textAlign="center">
             Learn media best practices from our media experts
           </Text>
@@ -80,13 +84,21 @@ function Features() {
           mt={5}
           p={4}
         >
-          <Icon color="white.600" as={FaStickyNote} boxSize="3em" />
+          <Icon
+            color="white.600"
+            as={FaStickyNote}
+            boxSize={{ base: '2em', lg: '3em' }}
+          />
           <Text textAlign="center">
             Create notes as you learn without leaving the site
           </Text>
         </Flex>
         <Flex p={4} align="center" justify="center" direction="column">
-          <Icon color="white.600" as={FaBookmark} boxSize="3em" />
+          <Icon
+            color="white.600"
+            as={FaBookmark}
+            boxSize={{ base: '2em', lg: '3em' }}
+          />
           <Text textAlign="center">
             Boomark and curate the important Jams you know you'll be coming back
             to
@@ -100,9 +112,32 @@ function Features() {
 function Authors() {
   const { data: authors } = useQuery('authors', queryAuthors.get);
   return (
-    <Flex alignItems="center" justify="center" minH="6xl" direction="column">
-      <Heading textStyle="headline-page">Meet our Authors</Heading>
-      <Text fontSize="xl" width="20%" textAlign="center">
+    <Flex
+      alignItems="center"
+      justify="center"
+      minH={{ base: '8xl', lg: '6xl' }}
+      direction="column"
+    >
+      <Heading
+        as="h1"
+        fontFamily="Bangers, cursive"
+        fontSize={{ base: '6xl', lg: '8xl' }}
+        letterSpacing="wide"
+        lineHeight="base"
+        textAlign="center"
+        w={{ base: '90%' }}
+        lineHeight={1}
+        mt={{ base: 10 }}
+      >
+        Meet our Authors
+      </Heading>
+      <Text
+        mt={{ base: 5, lg: 0 }}
+        mb={{ base: 10, lg: 0 }}
+        width={{ base: '80%', lg: '20%' }}
+        textAlign="center"
+        w="60%"
+      >
         Media Jam authors are from all around the globe. Get to know them!
       </Text>
       <Grid
@@ -114,16 +149,19 @@ function Authors() {
           xl: 'repeat(2, 1fr)',
         }}
         templateColumns={{
-          base: 'repeat(2, 1fr)',
+          base: 'repeat(1, 100%)',
           md: 'repeat(2, 1fr)',
           lg: 'repeat(3, 1fr)',
           xl: 'repeat(4, 1fr)',
         }}
-        w="70%"
-        mt={12}
+        w={{ base: '100%', lg: '70%' }}
+        mt={{ base: 0, lg: 12 }}
+        mb={{ base: 10, lg: 0 }}
+        p={{ base: 1, lg: 'none' }}
+        justifyItems={{ base: 'center', lg: 'none' }}
       >
         {authors.allAuthor?.map((author) => (
-          <AuthorCard h={72} w={64} author={author} />
+          <AuthorCard h={72} w={{ base: '90%', lg: 64 }} author={author} />
         ))}
       </Grid>
     </Flex>
@@ -142,9 +180,11 @@ function FrameworkJams() {
         tag.title === 'Gatsby',
     ),
   );
+
   const vueJams = jams.jams?.filter((jam) =>
     jam.tags?.some((tag) => tag.title === 'Vue' || tag.title === 'NuxtJS'),
   );
+
   const svelteJams = jams.jams?.filter((jam) =>
     jam.tags?.some((tag) => tag.title === 'Svelte'),
   );
@@ -155,31 +195,49 @@ function FrameworkJams() {
 
   return (
     <Flex
-      h="1200px"
+      h={{ base: 'auto', lg: '1200px' }}
+      pt={{ base: 10, lg: 0 }}
+      pb={{ base: 10, lg: 0 }}
       direction="column"
       bg="red.200"
       align="center"
       justify="center"
     >
       <Heading
-        textStyle="headline-page"
-        fontSize="6xl"
-        textAlign="center"
-        width="30%"
+        as="h1"
+        fontFamily="Bangers, cursive"
+        fontSize={{ base: '6xl', lg: '8xl' }}
+        letterSpacing="wide"
+        lineHeight="base"
         color="white"
+        textAlign="center"
         lineHeight={1}
+        letterSpacing="wide"
         mb={20}
       >
         <span style={{ color: yellow900 }}>Jam</span> in your favorite Framework
       </Heading>
       <Grid
-        templateAreas='
-          "React Vue Svelte Angular"
-          "React Vue Svelte Angular" 
-        '
-        templateColumns="repeat(4, 1fr)"
-        w="80%"
-        h="60%"
+        templateAreas={{
+          base: `
+            "React React"
+            "Vue Vue"
+            "Svelte Svelte"
+            "Angular Angular"
+          `,
+          lg: `
+            "React Vue Svelte Angular"
+            "React Vue Svelte Angular" 
+          `,
+        }}
+        templateColumns={{ base: '1fr', md: '1fr', lg: 'repeat(4, 2fr)' }}
+        templateRows={{
+          base: 'repeat(4, 1fr)',
+          md: 'repeat(4, 1fr)',
+          lg: 'none',
+        }}
+        w={{ base: '90%' }}
+        h={{ base: '100%', base: '100%', lg: '60%' }}
         gap={4}
       >
         <Flex
@@ -279,6 +337,10 @@ export async function getStaticProps() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery('jams', queryJams.getStatic);
   await queryClient.prefetchQuery('authors', queryAuthors.getStatic);
+  await queryClient.prefetchQuery(
+    'featuredJams',
+    queryJams.getStaticFeaturedJams,
+  );
   return {
     props: {
       dehydratedState: dehydrate(queryClient),

@@ -178,7 +178,14 @@ function Authors() {
       px={5}
     >
       {data.allAuthor?.map((author) => (
-        <AuthorCard minH="90%" maxH="90%" minW={60} mr={4} author={author} />
+        <AuthorCard
+          minH="90%"
+          bg="white"
+          maxH="90%"
+          minW={60}
+          mr={4}
+          author={author}
+        />
       ))}
     </Flex>
   );

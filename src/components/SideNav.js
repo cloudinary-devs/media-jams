@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link as NextLink } from 'next/link';
-import { Button, Flex, Icon, Link, Text } from '@chakra-ui/react';
-import { FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
+import { Button, Flex, Icon, IconButton, Link, Text } from '@chakra-ui/react';
+import { FaRegFlag, FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
 
 import { boxShadow } from '@utils/styles';
 import Image from '@components/Image';
@@ -17,28 +17,42 @@ export default function SideNav(props) {
       backgroundColor="grey.900"
       {...props}
     >
-      <Flex w="100%" justifyContent="space-between" p={4}>
-        <Link href="/">
-          <Image
-            cloudName="mediadevs"
-            publicId="mediajams/logo"
-            height={50}
-            width={100}
-            alt="MediaJams logo"
-          />
-        </Link>
-        <Button
-          as={NextLink}
-          href="/api/auth/login"
-          outline="black"
-          background="grey.700"
-          color="yellow.400"
-          size="md"
-        >
-          Login
+      <Flex direction="column">
+        <Flex w="100%" justifyContent="space-between" p={4}>
+          <Link href="/">
+            <Image
+              cloudName="mediadevs"
+              publicId="mediajams/logo"
+              height={50}
+              width={100}
+              alt="MediaJams logo"
+            />
+          </Link>
+          <Button
+            as={NextLink}
+            href="/api/auth/login"
+            outline="black"
+            background="grey.700"
+            color="yellow.400"
+            size="md"
+          >
+            Login
+          </Button>
+        </Flex>
+        <NavLinkGroup />
+      </Flex>
+      <Flex
+        h="100%"
+        width="100%"
+        justify="flex-end"
+        align="flex-end"
+        pr={4}
+        pb={4}
+      >
+        <Button size="sm" bg="grey.700" color="yellow.400">
+          Feedback <Icon ml={1} as={FaRegFlag} />
         </Button>
       </Flex>
-      <NavLinkGroup />
     </Flex>
   );
 }
@@ -52,7 +66,7 @@ function NavLink({ children, ...props }) {
       p="12px"
       minW="100%"
       display="flex"
-      color="yellow.400"
+      color="white"
       alignItems="center"
       {...props}
     >

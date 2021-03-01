@@ -85,7 +85,7 @@ export function Carousel({
       >
         <CurrentSlide interval={interval} />
       </Flex>
-      <Flex mt={3}>
+      {/* <Flex mt={3}>
         <IconButton
           mr={7}
           icon={<FaArrowLeft />}
@@ -99,7 +99,7 @@ export function Carousel({
         >
           Next
         </IconButton>
-      </Flex>
+      </Flex> */}
     </>
   );
 }
