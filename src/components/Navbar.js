@@ -56,16 +56,11 @@ export default function Navbar() {
             Profile
           </NavLink>
         ) : (
-          <NavLink
-            isButton
-            as={Button}
-            href="/api/auth/login"
-            outline="black"
-            background="grey.700"
-            color="yellow.400"
-          >
-            Login
-          </NavLink>
+          <Link as={NextLink} href="/api/auth/login">
+            <Button outline="black" background="grey.700" color="yellow.400">
+              Login
+            </Button>
+          </Link>
         )}
       </Box>
     </Flex>
