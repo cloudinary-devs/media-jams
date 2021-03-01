@@ -52,10 +52,7 @@ const MediaPortal = () => {
     fetch(`${baseAPIUrl}/api/media-portal`, {
       method: 'POST',
       body: formdata,
-      headers: [
-        ['Content-Type', 'application/json'],
-        ['Content-Type', 'text/plain'],
-      ],
+      headers: { 'Content-Key': 'application/json' },
     })
       .then((resp) => resp.json())
       .then((result) => {

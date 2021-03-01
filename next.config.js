@@ -46,24 +46,6 @@ module.exports = withMDX({
   async headers() {
     return [
       {
-        // enable CORs for image upload from sanity studio
-        source: '/api/media-portal',
-        headers: [
-          { key: 'Access-Control-Allow-Credentials', value: 'true' },
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-          {
-            key: 'Access-Control-Allow-Methods',
-            value: 'POST',
-          },
-          // enabling CORs for in studio subscription to changes
-          {
-            key: 'Access-Control-Allow-Headers',
-            value:
-              'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
-          },
-        ],
-      },
-      {
         // enabling CORs for in studio subscription to changes
         source: '/post/liveEdit/:path*',
         headers: [
