@@ -70,7 +70,7 @@ export default function Dashboard() {
           lg: 'repeat(4, 300px)',
           xl: '1fr 1fr 1fr',
         }}
-        gap={8}
+        gap={6}
         p={8}
         ml={-3}
         overflow={{ md: 'auto', lg: 'auto', xl: 'none' }}

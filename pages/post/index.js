@@ -137,16 +137,15 @@ export default function Post() {
         templateColumns={{
           base: '100%',
           md: '1fr 1fr',
-          xl: '1fr 2fr 1fr',
+          xl: '1fr 2fr 1.5fr',
         }}
         templateRows={{
           base: '70% repeat(4, 300px)',
           md: '80vh 200px 500px',
           xl: '2.5fr 200px 2fr',
         }}
-        gap={8}
-        p={8}
-        ml={-3}
+        gap={6}
+        p={6}
         overflow={{ base: 'auto', xl: null }}
       >
         <JamSearch
@@ -263,7 +262,7 @@ function SearchFilters({
       borderRadius="8px"
       boxShadow={boxShadow}
       bg="blue.200"
-      display={{ base: 'none', md: 'none', lg: 'flex', xl: 'flex' }}
+      display={{ base: 'none', md: 'none', lg: 'none', xl: 'flex' }}
       height="auto"
       gridArea="SearchFilters"
       overflow="auto"

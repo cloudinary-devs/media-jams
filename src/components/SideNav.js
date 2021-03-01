@@ -10,7 +10,7 @@ import { useUser } from '@auth0/nextjs-auth0';
 export default function SideNav(props) {
   return (
     <Flex
-      w={72}
+      w={60}
       direction="column"
       boxShadow={boxShadow}
       minH="100%"
