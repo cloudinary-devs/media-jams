@@ -28,16 +28,11 @@ export default function SideNav(props) {
               alt="MediaJams logo"
             />
           </Link>
-          <Button
-            as={NextLink}
-            href="/api/auth/login"
-            outline="black"
-            background="grey.700"
-            color="yellow.400"
-            size="md"
-          >
-            Login
-          </Button>
+          <Link as={NextLink} href="/api/auth/login" passHref>
+            <Button outline="black" background="grey.700" color="yellow.400">
+              Login
+            </Button>
+          </Link>
         </Flex>
         <NavLinkGroup />
       </Flex>
