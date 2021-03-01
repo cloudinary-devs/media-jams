@@ -73,3 +73,12 @@
   padding: 4px;
   box-sizing: border-box;
 }
+.textArea {
+  border: none;
+  outline: none;
+  resize: none;
+  color: #ffffff;
+  background-color: transparent;
+  width: 100%;
+  padding: 10px 10px 10px 10px;
+}
