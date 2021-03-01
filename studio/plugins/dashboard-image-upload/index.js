@@ -24,7 +24,7 @@ const baseAPIUrl =
   process.env.NODE_ENV === 'production'
     ? process.env.VERCEL_ENV === 'production'
       ? `https://mediajams.dev`
-      : `https://mediajams-qsgnaf9yq-mediajams.vercel.app/`
+      : `https://mediajams-git-studio-creator-input-mediajams.vercel.app`
     : `http://localhost:3000`;
 
 // TODO: generate status object with icon, name, message
