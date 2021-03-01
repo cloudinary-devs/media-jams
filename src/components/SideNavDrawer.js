@@ -14,6 +14,7 @@ import { FaRegFlag, FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
 import { useUser } from '@auth0/nextjs-auth0';
 
 export default function SideNavDrawer({ isOpen, onClose, ...props }) {
+  const { user, loading } = useUser();
   return (
     <Drawer {...props} isOpen={isOpen} placement="left" onClose={onClose}>
       <DrawerOverlay>
@@ -29,19 +30,29 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
                   alt="MediaJams logo"
                 />
               </Link>
-              <Button
-                as={NextLink}
-                href="/api/auth/login"
-                outline="black"
-                background="grey.700"
-                color="yellow.400"
-                size="md"
-                href="/api/auth/login"
-              >
-                Login
-              </Button>
+              {user ? (
+                <Link as={NextLink} href="/api/auth/logout" passHref>
+                  <Button
+                    outline="black"
+                    background="grey.700"
+                    color="yellow.400"
+                  >
+                    Log Out
+                  </Button>
+                </Link>
+              ) : (
+                <Link as={NextLink} href="/api/auth/login" passHref>
+                  <Button
+                    outline="black"
+                    background="grey.700"
+                    color="yellow.400"
+                  >
+                    Login
+                  </Button>
+                </Link>
+              )}
             </Flex>
-            <NavLinkGroup />
+            <NavLinkGroup user={user} />
           </Flex>
           <Flex
             h="100%"
@@ -85,8 +96,7 @@ function NavLink({ children, ...props }) {
   );
 }
 
-function NavLinkGroup() {
-  const { user, loading } = useUser();
+function NavLinkGroup({ user }) {
   return (
     <Flex mt={4} direction="column" alignItems="center" color="white">
       <NavLink href="/dashboard">
