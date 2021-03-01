@@ -47,7 +47,7 @@ module.exports = withMDX({
     return [
       {
         // enable CORs for image upload from sanity studio
-        source: '/api/media-portal/',
+        source: '/api/media-portal',
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           { key: 'Access-Control-Allow-Origin', value: '*' },
