@@ -26,28 +26,25 @@ cloudinary.config({
   api_secret: '2zOS-xYzT4apnP4UtyK4d6EM4kY',
 });
 
-const whitelist = ['https://*.vercel.app'];
-// Initialize the cors middleware
-const cors = initMiddleware(
-  // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
-  Cors({
-    methods: ['Options', 'POST'],
-    function(origin, callback) {
-      // allow requests with no origin
-      if (!origin) return callback(null, true);
-      if (!whitelist.includes(origin)) {
-        var message = `The CORS policy for this origin doesn't allow access from the particular origin.`;
-        return callback(new Error(message), false);
-      }
-      return callback(null, true);
-    },
-  }),
-);
+const allowCors = (fn) => async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+  );
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5,Content-Key, Content-Type, Date, X-Api-Version',
+  );
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+  return await fn(req, res);
+};
 
-export default async (req, res) => {
-  // Run cors-middle
-  await cors(req, res);
-
+const handler = async (req, res) => {
   upload.single('image')(req, {}, async (err) => {
     // do error handling here
     streamifier.createReadStream(req.file.buffer).pipe(
@@ -65,6 +62,7 @@ export default async (req, res) => {
   });
 };
 
+export default allowCors(handler);
 export const config = {
   api: {
     bodyParser: false,
