@@ -34,6 +34,6 @@ describe('/api/webhook handler', () => {
     });
     let results = await response.json();
     expect(response.status).toBe(200);
-    expect(results).toEqual(sanityMockPayload);
+    expect(results).toEqual({ status: 'success' });
   });
 });
