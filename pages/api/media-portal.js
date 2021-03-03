@@ -15,15 +15,10 @@ let upload = multer({
 // initialize Sentry
 initSentry();
 // cloudinary intialization
-// cloudinary.config({
-//   cloud_name: process.env.CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
 cloudinary.config({
-  cloud_name: 'jesse-thisdot',
-  api_key: '152712524636259',
-  api_secret: '2zOS-xYzT4apnP4UtyK4d6EM4kY',
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const allowCors = (fn) => async (req, res) => {
