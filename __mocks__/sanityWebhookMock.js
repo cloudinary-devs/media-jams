@@ -1,7 +1,7 @@
 export default {
   transactionId: '28711ce3-07c4-4c8f-8577-fc8f3c4cbde0',
   projectId: '3do82whm',
-  dataset: 'production',
+  dataset: 'testing',
   ids: {
     created: [],
     deleted: [],
