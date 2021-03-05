@@ -21,7 +21,7 @@ beforeEach(async () => {
 afterEach(() => server.close());
 
 describe('/api/webhook handler', () => {
-  test('responds 404 GET', async () => {
+  test('responds 405 GET', async () => {
     expect.assertions(1);
     let response = await fetch(url);
     expect(response.status).toBe(405);
