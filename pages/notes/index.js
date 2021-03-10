@@ -18,7 +18,11 @@ export default function Notes() {
 
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      <Flex p={6}>
+      <Flex
+        p={6}
+        direction={{ base: 'column', xl: 'row' }}
+        align={{ base: 'center', xl: 'none' }}
+      >
         {data?.notes.map((data) => (
           <Note mr={4} note={data} />
         ))}

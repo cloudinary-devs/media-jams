@@ -27,7 +27,11 @@ function Bookmarks() {
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
       <Flex overflow="scroll" align="center" p={5}>
-        <Flex w="40%" direction="column">
+        <Flex
+          w={{ base: '100%', xl: '40%' }}
+          direction="column"
+          align={{ base: 'center', xl: 'none' }}
+        >
           {posts?.allPost?.map((post) => (
             <JamAccordion
               color="blue"

@@ -8,9 +8,17 @@ import {
   Drawer,
   DrawerOverlay,
   DrawerContent,
+  IconButton,
+  Text,
 } from '@chakra-ui/react';
 import Image from '@components/Image';
-import { FaRegFlag, FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
+import {
+  FaStickyNote,
+  FaRegFlag,
+  FaHome,
+  FaPhotoVideo,
+  FaBookmark,
+} from 'react-icons/fa';
 import { useUser } from '@auth0/nextjs-auth0';
 
 export default function SideNavDrawer({ isOpen, onClose, ...props }) {
@@ -62,15 +70,20 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
             pr={4}
             pb={4}
           >
-            <Button
+            <IconButton
               as={Link}
+              icon={<FaRegFlag />}
               target="_blank"
-              size="sm"
+              href="/feedback"
+              textDecoration="none"
+              outline="none"
+              size="md"
+              borderRadius="full"
               bg="grey.700"
               color="yellow.400"
-            >
-              Feedback <Icon ml={1} as={FaRegFlag} />
-            </Button>
+              hover={{ textDecoration: 'none', bg: 'none', outline: 'none' }}
+              _active={{ bg: 'none', outline: 'none' }}
+            />
           </Flex>
         </DrawerContent>
       </DrawerOverlay>
@@ -96,23 +109,30 @@ function NavLink({ children, ...props }) {
   );
 }
 
-function NavLinkGroup({ user }) {
+function NavLinkGroup() {
+  const { user, loading } = useUser();
   return (
     <Flex mt={4} direction="column" alignItems="center" color="white">
       <NavLink href="/dashboard">
-        <Icon as={FaHome} w={6} h={6} mr={2} />
-        Dashboard
+        <Icon as={FaHome} w={5} h={5} mr={2} />
+        <Text fontWeight="regular">Dashboard</Text>
       </NavLink>
       <NavLink href="/post">
-        <Icon as={FaPhotoVideo} w={6} h={6} mr={2} />
-        Jams
+        <Icon as={FaPhotoVideo} w={5} h={5} mr={2} />
+        <Text fontWeight="thin">Jams</Text>
       </NavLink>
       {/* Authenticated Users */}
       {user && (
-        <NavLink href="/bookmarks">
-          <Icon as={FaBookmark} w={6} h={6} mr={2} />
-          Bookmarks
-        </NavLink>
+        <>
+          <NavLink href="/bookmarks">
+            <Icon as={FaBookmark} w={5} h={5} mr={2} />
+            <Text fontWeight="thin">Bookmarks</Text>
+          </NavLink>
+          <NavLink href="/notes">
+            <Icon as={FaStickyNote} w={5} h={5} mr={2} />
+            <Text fontWeight="thin">Notes</Text>
+          </NavLink>
+        </>
       )}
     </Flex>
   );

@@ -50,18 +50,20 @@ export default function SideNav(props) {
         pr={4}
         pb={4}
       >
-        <Button
+        <IconButton
           as={Link}
+          icon={<FaRegFlag />}
           target="_blank"
           href="/feedback"
           textDecoration="none"
-          hover={{ textDecoration: 'none' }}
-          size="sm"
+          outline="none"
+          size="md"
+          borderRadius="full"
           bg="grey.700"
           color="yellow.400"
-        >
-          Feedback <Icon ml={1} as={FaRegFlag} />
-        </Button>
+          hover={{ textDecoration: 'none', bg: 'none', outline: 'none' }}
+          _active={{ bg: 'none', outline: 'none' }}
+        />
       </Flex>
     </Flex>
   );
