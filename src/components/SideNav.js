@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link as NextLink } from 'next/link';
 import { Button, Flex, Icon, IconButton, Link, Text } from '@chakra-ui/react';
-import { FaRegFlag, FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
+import {
+  FaStickyNote,
+  FaRegFlag,
+  FaHome,
+  FaPhotoVideo,
+  FaBookmark,
+} from 'react-icons/fa';
 
 import { boxShadow } from '@utils/styles';
 import Image from '@components/Image';
@@ -84,19 +90,25 @@ function NavLinkGroup() {
   return (
     <Flex mt={4} direction="column" alignItems="center" color="white">
       <NavLink href="/dashboard">
-        <Icon as={FaHome} w={6} h={6} mr={2} />
-        Dashboard
+        <Icon as={FaHome} w={5} h={5} mr={2} />
+        <Text fontWeight="regular">Dashboard</Text>
       </NavLink>
       <NavLink href="/post">
-        <Icon as={FaPhotoVideo} w={6} h={6} mr={2} />
-        Jams
+        <Icon as={FaPhotoVideo} w={5} h={5} mr={2} />
+        <Text fontWeight="thin">Jams</Text>
       </NavLink>
       {/* Authenticated Users */}
       {user && (
-        <NavLink href="/bookmarks">
-          <Icon as={FaBookmark} w={6} h={6} mr={2} />
-          Bookmarks
-        </NavLink>
+        <>
+          <NavLink href="/bookmarks">
+            <Icon as={FaBookmark} w={5} h={5} mr={2} />
+            <Text fontWeight="thin">Bookmarks</Text>
+          </NavLink>
+          <NavLink href="/notes">
+            <Icon as={FaStickyNote} w={5} h={5} mr={2} />
+            <Text fontWeight="thin">Notes</Text>
+          </NavLink>
+        </>
       )}
     </Flex>
   );

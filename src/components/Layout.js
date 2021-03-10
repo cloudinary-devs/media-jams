@@ -38,7 +38,7 @@ export default function Layout({
         onClose={onClose}
         display={{ md: 'none', lg: 'none', xl: 'none' }}
       />
-      <Flex flex="1" direction="column" {...rest}>
+      <Flex bg="grey.700" flex="1" direction="column" {...rest}>
         {children}
       </Flex>
     </Flex>

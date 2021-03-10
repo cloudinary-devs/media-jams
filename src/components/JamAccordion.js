@@ -14,7 +14,9 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { jams } from '@lib/queries/jams';
+
 import { bookmarks as bookmarksQuery } from '@lib/queries/bookmarks';
 import { useUser } from '@auth0/nextjs-auth0';
 
@@ -33,19 +35,89 @@ export default function JamAccordion({
   const { author } = post;
   const { user, loading } = useUser();
   const [isBookmarked, setBookmark] = useState(false);
+  const queryClient = useQueryClient();
   const addBookmark = useMutation(
     (content_id) => bookmarksQuery.add(content_id),
     {
+      onMutate: async (content_id) => {
+        await queryClient.cancelQueries('bookmarks');
+        await queryClient.cancelQueries('bookmark jams');
+        const previousBookmarkIds = queryClient.getQueryData('bookmarks');
+        const bookmarks = [];
+
+        // strip the id strings from the the objects
+        previousBookmarkIds.bookmarks.map((bookmark) => {
+          bookmarks.push(bookmark.content_id);
+        });
+
+        // put the new array of content_ids into the bookmarks array or create a new array for the single content_id
+        const newBookmarks =
+          previousBookmarkIds.bookmarks.length > 0
+            ? [...bookmarks, content_id]
+            : [content_id];
+
+        console.log(newBookmarks);
+
+        // fetch bookmark jams with the new array of content_ids
+        const bookmarkJams = await queryClient.fetchQuery('bookmark jams', () =>
+          jams.getByIds(newBookmarks),
+        );
+
+        queryClient.setQueryData('bookmark jams', bookmarkJams);
+
+        return previousBookmarkIds;
+      },
+      // On failure, roll back to the previous value
+      onError: (err, variables, previousBookmarkIds) =>
+        // TODO: Revisit and add a toast on failure and rollback
+        queryClient.setQueryData('bookmarks', previousBookmarkIds),
+      // After success or failure, refetch the bookmarks and bookmark jams queries
       onSuccess: () => {
         setBookmark(true);
+        queryClient.invalidateQueries('bookmarks');
+        queryClient.invalidateQueries('bookmark jams');
       },
     },
   );
   const removeBookmark = useMutation(
     (content_id) => bookmarksQuery.remove(content_id),
     {
+      onMutate: async (content_id) => {
+        await queryClient.cancelQueries('bookmarks');
+        await queryClient.cancelQueries('bookmark jams');
+        const previousBookmarkIds = queryClient.getQueryData('bookmarks');
+        const bookmarks = [];
+
+        previousBookmarkIds.bookmarks.map((bookmark) => {
+          bookmarks.push(bookmark.content_id);
+        });
+
+        const newBookmarks = bookmarks.filter(
+          (bookmark) => bookmark !== content_id,
+        );
+        console.log(newBookmarks);
+
+        if (newBookmarks.length > 0) {
+          const bookmarkJams = await queryClient.fetchQuery(
+            'bookmark jams',
+            () => jams.getByIds(newBookmarks),
+          );
+          queryClient.setQueryData('bookmark jams', bookmarkJams);
+        } else {
+          console.log('I ran ');
+          queryClient.setQueryData('bookmark jams', []);
+        }
+
+        return previousBookmarkIds;
+      },
+      // On failure, roll back to the previous value
+      onError: (err, variables, previousBookmarkIds) =>
+        // TODO: Revisit and add a toast on failure and rollback
+        queryClient.setQueryData('bookmarks', previousBookmarkIds),
+      // After success or failure, refetch the bookmarks and bookmark jams queries
       onSuccess: () => {
         setBookmark(false);
+        queryClient.invalidateQueries('bookmarks');
       },
     },
   );
@@ -56,6 +128,7 @@ export default function JamAccordion({
       enabled: !loading && !!user,
     },
   );
+
   useEffect(() => {
     if (user && dataBookmarks) {
       const postIds = dataBookmarks?.bookmarks?.map(
