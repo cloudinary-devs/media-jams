@@ -79,6 +79,7 @@
   },
   "devDependencies": {
     "@babel/helper-validator-option": "^7.12.1",
+    "@next/bundle-analyzer": "^10.0.8",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/dom": "^7.26.3",
     "@testing-library/jest-dom": "^5.11.4",
@@ -102,6 +103,7 @@
     "jest-svg-transformer": "^1.0.0",
     "lint-staged": "^10.2.11",
     "msw": "^0.26.2",
+    "next-compose-plugins": "^2.2.1",
     "prettier": "^2.2.1",
     "rewire": "^5.0.0"
   },
