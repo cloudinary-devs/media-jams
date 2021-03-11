@@ -1,6 +1,7 @@
 import glob from 'fast-glob';
 import fs from 'fs';
 import matter from 'gray-matter';
+import Link from 'next/link';
 import { contentGlob, getFileSlug } from './[...slug]';
 
 export default function AllData({ allMdx }) {
