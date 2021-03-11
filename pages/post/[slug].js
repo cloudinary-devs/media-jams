@@ -4,8 +4,7 @@ import ErrorPage from 'next/error';
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
 
-import { postBySlug } from '@lib/api';
-import { jams as queryJams } from '@lib/queries/jams';
+import { postBySlug, postsWithSlug } from '@lib/api';
 
 import { Flex, Text, Image, useDisclosure } from '@chakra-ui/react';
 import Code from '@components/Code';
@@ -52,16 +51,15 @@ export default function Post({ post, preview, error }) {
  * @returns {Object} paths based on jam slug, and fallback true to live-preview drafts
  */
 export const getStaticPaths = async () => {
-  const {
-    data: { jams },
-  } = await queryJams.getStaticWithSlug();
+  // Get the paths we want to pre-render based on posts
+  const jams = await postsWithSlug();
   return {
     paths:
       jams
-        ?.filter((jam) => jam?.slug?.current)
-        .map(({ slug: { current } }) => ({
+        ?.filter((post) => post?.slug)
+        .map(({ slug }) => ({
           params: {
-            slug: current,
+            slug,
           },
         })) || [],
     fallback: true,
