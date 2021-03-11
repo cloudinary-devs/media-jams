@@ -1,14 +1,24 @@
 import glob from 'fast-glob';
 import fs from 'fs';
 import matter from 'gray-matter';
-import ContentBox from './ContentBox';
 import { contentGlob, getFileSlug } from './[...slug]';
 
 export default function AllData({ allMdx }) {
   return (
     <div>
       {allMdx?.map((data) => (
-        <ContentBox key={data.slug} data={data} />
+        <>
+          <Link href={`/docs/${data.slug}`}>
+            <a>{data.title}</a>
+          </Link>
+          <p>{data.description}</p>
+
+          <div direction="row" spacing={8}>
+            {data.tags?.map((tag) => (
+              <p key={tag}>#{tag}</p>
+            ))}
+          </div>
+        </>
       ))}
     </div>
   );
