@@ -4,6 +4,7 @@ import ErrorPage from 'next/error';
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
 
+import { postBySlug } from '@lib/api';
 import { jams as queryJams } from '@lib/queries/jams';
 
 import { Flex, Text, Image, useDisclosure } from '@chakra-ui/react';
@@ -67,12 +68,22 @@ export const getStaticPaths = async () => {
   };
 };
 
-// This function gets called at build time on server-side.
-export const getStaticProps = async ({ params: { slug }, preview = false }) => {
+async function getStaticJam(slug) {
   const {
     data: { jams },
   } = await queryJams.getStaticBySlug(slug);
   const [jam] = jams;
+  return jam;
+}
+
+async function getPreviewJam(slug) {
+  const jam = await postBySlug(slug, true);
+  return jam;
+}
+
+// This function gets called at build time on server-side.
+export const getStaticProps = async ({ params: { slug }, preview = false }) => {
+  const jam = await (preview ? getPreviewJam(slug) : getStaticJam(slug));
   try {
     // Then serialize to mdx formated string for hydration in components.
     const mdx = await renderToString(jam.body, { components }, null);
