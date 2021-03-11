@@ -18,10 +18,10 @@ import EmailSubscription from '@components/EmailSubscription';
 
 const components = { code: Code, iframe: CodeSandbox, img: Image };
 
-export default function Post({ post, preview }) {
+export default function Post({ post, preview, error }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-  if (!router.isFallback && !post?.slug) {
+  if (error || (!router.isFallback && !post?.slug)) {
     return <ErrorPage statusCode={404} />;
   }
   if (router.isFallback) {
@@ -69,6 +69,7 @@ export const getStaticPaths = async () => {
 };
 
 // This function gets called at build time on server-side.
+// Also when constructing preview draft from /api/preivew
 export const getStaticProps = async ({ params: { slug }, preview = false }) => {
   const jam = await postBySlug(slug, preview);
   try {
@@ -76,6 +77,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
     const mdx = await renderToString(jam.body, { components }, null);
     return {
       props: {
+        error: null,
         preview,
         post: {
           content: mdx,
@@ -86,5 +88,6 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
     };
   } catch (error) {
     console.error(error);
+    return { props: error };
   }
 };
