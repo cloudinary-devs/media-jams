@@ -68,22 +68,9 @@ export const getStaticPaths = async () => {
   };
 };
 
-async function getStaticJam(slug) {
-  const {
-    data: { jams },
-  } = await queryJams.getStaticBySlug(slug);
-  const [jam] = jams;
-  return jam;
-}
-
-async function getPreviewJam(slug) {
-  const jam = await postBySlug(slug, true);
-  return jam;
-}
-
 // This function gets called at build time on server-side.
 export const getStaticProps = async ({ params: { slug }, preview = false }) => {
-  const jam = await (preview ? getPreviewJam(slug) : getStaticJam(slug));
+  const jam = await postBySlug(slug, preview);
   try {
     // Then serialize to mdx formated string for hydration in components.
     const mdx = await renderToString(jam.body, { components }, null);
