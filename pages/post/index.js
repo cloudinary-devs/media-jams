@@ -385,6 +385,7 @@ function Bookmarks({ user }) {
               defaultIndex={[0]}
               borderRadius="lg"
               mb={4}
+              posts={posts}
             />
           ))}
         </Flex>

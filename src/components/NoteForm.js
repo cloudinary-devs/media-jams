@@ -19,11 +19,13 @@ import { notes } from '@lib/queries/notes';
 import { useMutation, useQueryClient } from 'react-query';
 
 export default function NoteForm() {
+  const inputRef = React.useRef();
   const [note, setNote] = React.useState();
   const queryClient = useQueryClient();
   const createNote = useMutation((note) => notes.add(note), {
     onMutate: async (note) => {
       setNote('');
+      inputRef.current.value = '';
       await queryClient.cancelQueries('notes');
       const previousValue = queryClient.getQueryData('notes');
 
@@ -65,6 +67,7 @@ export default function NoteForm() {
         resize="none"
         minH="40px"
         _focus={{ height: '300px' }}
+        ref={inputRef}
         onChange={(e) => {
           e.persist();
           setNote({ body: e.target.value });

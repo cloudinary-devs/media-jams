@@ -10,6 +10,7 @@ import {
   DrawerContent,
   IconButton,
   Text,
+  Avatar,
 } from '@chakra-ui/react';
 import Image from '@components/Image';
 import {
@@ -22,7 +23,7 @@ import {
 import { useUser } from '@auth0/nextjs-auth0';
 
 export default function SideNavDrawer({ isOpen, onClose, ...props }) {
-  const { user, loading } = useUser();
+  const { user } = useUser();
   return (
     <Drawer {...props} isOpen={isOpen} placement="left" onClose={onClose}>
       <DrawerOverlay>
@@ -45,7 +46,7 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
                     background="grey.700"
                     color="yellow.400"
                   >
-                    Log Out
+                    Logout
                   </Button>
                 </Link>
               ) : (
@@ -62,29 +63,56 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
             </Flex>
             <NavLinkGroup user={user} />
           </Flex>
-          <Flex
-            h="100%"
-            width="100%"
-            justify="flex-end"
-            align="flex-end"
-            pr={4}
-            pb={4}
-          >
-            <IconButton
-              as={Link}
-              icon={<FaRegFlag />}
-              target="_blank"
-              href="/feedback"
-              textDecoration="none"
-              outline="none"
-              size="md"
-              borderRadius="full"
-              bg="grey.700"
-              color="yellow.400"
-              hover={{ textDecoration: 'none', bg: 'none', outline: 'none' }}
-              _active={{ bg: 'none', outline: 'none' }}
-            />
-          </Flex>
+          {user ? (
+            <Flex
+              h="100%"
+              direction="column"
+              width="100%"
+              justify="flex-end"
+              align="flex-end"
+              pb={4}
+            >
+              <Flex
+                direction="column"
+                alignSelf="center"
+                width="90%"
+                h="300px"
+                borderRadius="4px"
+                bg="grey.700"
+              >
+                <Flex mt={2} direction="column" w="100%" align="center" p="4px">
+                  <Avatar size="md" src={user.picture}></Avatar>
+                  <Text mt="8px" color="yellow.400">
+                    Welcome, {user.nickname}
+                  </Text>
+                </Flex>
+              </Flex>
+            </Flex>
+          ) : (
+            <Flex
+              h="100%"
+              width="100%"
+              justify="flex-end"
+              align="flex-end"
+              pr={4}
+              pb={4}
+            >
+              <IconButton
+                as={Link}
+                icon={<FaRegFlag />}
+                target="_blank"
+                href="/feedback"
+                textDecoration="none"
+                outline="none"
+                size="md"
+                borderRadius="full"
+                bg="grey.700"
+                color="yellow.400"
+                hover={{ textDecoration: 'none', bg: 'none', outline: 'none' }}
+                _active={{ bg: 'none', outline: 'none' }}
+              />
+            </Flex>
+          )}
         </DrawerContent>
       </DrawerOverlay>
     </Drawer>
