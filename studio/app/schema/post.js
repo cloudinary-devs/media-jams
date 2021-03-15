@@ -21,7 +21,7 @@ import JamPreviewWorkflow from '../components/jamPreviewWorkflow';
  */
 export default {
   name: 'post',
-  title: 'Post',
+  title: 'All Jams',
   type: 'document',
   validation: (Rule) =>
     Rule.custom((fields) => {
