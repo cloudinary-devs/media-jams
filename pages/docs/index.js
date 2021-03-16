@@ -6,9 +6,9 @@ import { contentGlob, getFileSlug } from './[...slug]';
 
 export default function AllData({ allMdx }) {
   return (
-    <div>
+    <>
       {allMdx?.map((data) => (
-        <>
+        <div key={data.slug}>
           <Link href={`/docs/${data.slug}`}>
             <a>{data.title}</a>
           </Link>
@@ -19,9 +19,9 @@ export default function AllData({ allMdx }) {
               <p key={tag}>#{tag}</p>
             ))}
           </div>
-        </>
+        </div>
       ))}
-    </div>
+    </>
   );
 }
 

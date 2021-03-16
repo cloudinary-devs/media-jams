@@ -7,15 +7,27 @@ import {
   Box,
 } from '@chakra-ui/react';
 
-export default function CodeSandbox({
-  title,
-  name,
-  view = '',
-  children,
-  ...props
-}) {
+/**
+ * Enum string value possible options for view.
+ * Default is split-pane 50/50
+ * @enum {string}
+ */
+const View = {
+  DEFAULT: '',
+  PREVIEW: 'preview',
+  EDITOR: 'editor',
+};
+
+/**
+ *
+ * @param {String} title
+ * @param {String} id Unquie identifier of specific CodeSandbox
+ * @param {View} view Enum options available for displaying sandbox
+ * @returns
+ */
+export default function CodeSandbox({ title, id, view = View.DEFAULT }) {
   const { colorMode = 'dark' } = useColorMode();
-  const urlWithOptions = `https://codesandbox.io/embed/${name}?runonclick=1&autoresize=1&codemirror=1&fontsize=14&hidenavigation=1&theme=${!colorMode}&view=${view}`;
+  const urlWithOptions = `https://codesandbox.io/embed/${id}?runonclick=1&autoresize=1&codemirror=1&fontsize=14&hidenavigation=1&theme=${!colorMode}&view=${view}`;
 
   return (
     <Flex justifyContent="center">

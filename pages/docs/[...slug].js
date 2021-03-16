@@ -6,8 +6,9 @@ import matter from 'gray-matter';
 import glob from 'fast-glob';
 
 import Code from '@components/Code';
+import CodeSandbox from '@components/CodeSandbox';
 
-const components = { code: Code };
+const components = { code: Code, CodeSandbox };
 
 export default function Data({ mdxSource, frontMatter }) {
   const content = hydrate(mdxSource, { components });
