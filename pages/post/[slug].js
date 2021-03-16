@@ -14,8 +14,14 @@ import JamContentHero from '@components/JamContentHero';
 import JamContent from '@components/JamContent';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
+import EmbeddedIframe from '@components/EmbeddedIframe';
 
-const components = { code: Code, CodeSandbox, img: Image };
+const components = {
+  CodeSandbox,
+  code: Code,
+  img: Image,
+  iframe: EmbeddedIframe,
+};
 
 export default function Post({ post, preview, error }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
