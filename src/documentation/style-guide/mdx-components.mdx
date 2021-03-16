@@ -1,0 +1,48 @@
+---
+title: MDX Components
+description: This page describes how to use MDX components (e.g. code blocks) in Media Jams Studio
+---
+
+<!-- Credit to Prisma Docs for the fantastic idea https://github.com/prisma/docs/blob/master/content/600-about/02-style-guide/01-mdx-examples.mdx -->
+
+## Code blocks
+
+Example:
+
+```js
+async function main() {
+  const allUsers = await prisma.user.findMany();
+  console.log(allUsers);
+}
+```
+
+Code:
+
+````no-lines
+```js
+async function main() {
+  const allUsers = await prisma.user.findMany()
+  console.log(allUsers)
+}
+```
+````
+
+## CodeSandbox
+
+```js
+<CodeSandbox
+  title="Great Example of Media"
+  id="pedantic-bush-r7kxy"
+  view="editor"
+/>
+```
+
+<CodeSandbox
+  title="Great Example of Media"
+  id="pedantic-bush-r7kxy"
+  view="editor"
+/>
+
+## Callout
+
+## Aside

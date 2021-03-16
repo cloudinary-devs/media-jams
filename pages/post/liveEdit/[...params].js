@@ -24,7 +24,7 @@ function LiveEdit({ post }) {
   useEffect(() => {
     if (!loading && user) {
       const subscription = previewClient(user['https://mediajams-studio'].token)
-        .listen(queryDraftPostBody, { postId: post._id })
+        .listen(queryDraftPostBody, { postId: post?._id })
         .subscribe((update) => {
           updateContent(update.result.body);
         });
@@ -50,7 +50,10 @@ export const getServerSideProps = async ({
   req,
   res,
 }) => {
-  const { _id, body, slug: slug_current } = await postBySlug(slug, preview);
+  const { _id = null, body, slug: slug_current } = await postBySlug(
+    slug,
+    preview,
+  );
   return {
     props: {
       preview,
