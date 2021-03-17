@@ -5,19 +5,23 @@ import hydrate from 'next-mdx-remote/hydrate';
 import matter from 'gray-matter';
 import glob from 'fast-glob';
 
-import Code from '@components/Code';
-import CodeSandbox from '@components/CodeSandbox';
+import { Box, chakra } from '@chakra-ui/react';
+import PageTransition from '@components/PageTransition';
 
-const components = { code: Code, CodeSandbox };
+import MDXComponents from '@components/MDXComponents';
 
 export default function Data({ mdxSource, frontMatter }) {
-  const content = hydrate(mdxSource, { components });
+  const content = hydrate(mdxSource, { components: MDXComponents });
 
   return (
-    <div>
-      <h1>{frontMatter.title}</h1>
-      {content}
-    </div>
+    <Box pt={3} px={5} mt="4.5rem" mx="auto" maxW="48rem" minH="76vh">
+      <PageTransition>
+        <chakra.h1 tabIndex={-1} outline={0} apply="mdx.h1">
+          {frontMatter.title}
+        </chakra.h1>
+        {content}
+      </PageTransition>
+    </Box>
   );
 }
 
@@ -60,7 +64,10 @@ export async function getStaticProps({ params: { slug } }) {
   const mdxSource = await fs.readFile(fullPath);
   const { content, data } = matter(mdxSource);
 
-  const mdx = await renderToString(content, { components, scope: data });
+  const mdx = await renderToString(content, {
+    components: MDXComponents,
+    scope: data,
+  });
 
   return {
     props: {
