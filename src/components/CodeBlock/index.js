@@ -12,6 +12,11 @@ import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live';
 import Highlight from './highlight';
 import scope from './react-live-scope';
 
+/**
+ * Heavily inspired by https://github.com/chakra-ui/chakra-ui/tree/main/website/src/components/codeblock
+ * and https://github.com/prisma/docs/blob/master/src/components/customMdx/code.tsx
+ */
+
 export const liveEditorStyle = {
   fontSize: 14,
   overflowX: 'auto',
@@ -96,49 +101,6 @@ function CodeBlock(props) {
   const language = className?.replace(/language-/, '');
   const { hasCopied, onCopy } = useClipboard(editorCode);
   let hasNoLine = props['no-lines'] || language === 'no-lines';
-  const liveProviderProps = {
-    theme,
-    language,
-    code: editorCode,
-    scope,
-    noInline: manual,
-    ...rest,
-  };
-
-  const onChange = (newCode) => setEditorCode(newCode.trim());
-
-  if (language === 'jsx' && live === true) {
-    return (
-      <LiveProvider {...liveProviderProps}>
-        <LiveCodePreview zIndex="1" />
-        <Box position="relative" zIndex="0">
-          <CodeContainer>
-            <LiveEditor onChange={onChange} style={liveEditorStyle} />
-          </CodeContainer>
-          <CopyButton onClick={onCopy}>
-            {hasCopied ? 'copied' : 'copy'}
-          </CopyButton>
-          <EditableNotice />
-        </Box>
-        <LiveError style={liveErrorStyle} />
-      </LiveProvider>
-    );
-  }
-
-  if (render) {
-    return (
-      <div style={{ marginTop: 32 }}>
-        <LiveProvider {...liveProviderProps}>
-          <LiveCodePreview zIndex="1" />
-          <Box position="relative" zIndex="0">
-            <CopyButton onClick={onCopy}>
-              {hasCopied ? 'copied' : 'copy'}
-            </CopyButton>
-          </Box>
-        </LiveProvider>
-      </div>
-    );
-  }
 
   return (
     <Box position="relative" zIndex="0">
