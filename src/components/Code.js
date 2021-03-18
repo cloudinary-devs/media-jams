@@ -1,15 +1,37 @@
 import React from 'react';
 import Highlight, { defaultProps } from 'prism-react-renderer';
 import { HStack, Box } from '@chakra-ui/react';
-import theme from 'prism-react-renderer/themes/vsDark';
+import psTheme from 'prism-react-renderer/themes/vsDark';
 import CopyButton from '@components/CopyButton.js';
 import styled from '@emotion/styled';
 
+function cleanTokens(tokens) {
+  const tokensLength = tokens.length;
+  if (tokensLength === 0) {
+    return tokens;
+  }
+  const lastToken = tokens[tokensLength - 1];
+
+  if (lastToken.length === 1 && lastToken[0].empty) {
+    return tokens.slice(0, tokensLength - 1);
+  }
+  return tokens;
+}
+
+const CodeWrapper = styled.div`
+  margin-top: 24px;
+  margin-bottom: 24px;
+  border-radius: 5px;
+`;
+const PreHighlight = styled.div`
+  position: relative;
+`;
 const Pre = styled.pre`
   text-align: left;
-  margin: 0em 0em 0em;
-  padding: 0em;
-  overflow: scroll;
+  margin: 0em 0em 16px 0em;
+  padding: 2rem 1rem 1rem 1rem;
+  overflow: auto;
+  webkit-overflow-scrolling: touch;
   white-space: pre;
   width: 80ch;
   @media (min-width: 48em) {
@@ -19,42 +41,45 @@ const Pre = styled.pre`
 `;
 
 const Line = styled.div`
-  display: table-row;
-  > span: {
-    line-height: normal;
-  }
+  display: block;
 `;
 
 const LineNo = styled.span`
-  display: table-cell;
+  font-weight: 500;
+  line-height: 24px;
+  color: 'grey';
+  display: inline-block;
   text-align: right;
-  padding-right: 1em;
   user-select: none;
-  opacity: 0.5;
+  width: 24px;
 `;
 
 const LineContent = styled.span`
-  display: table-cell;
+  padding: 0px 16px;
+  &.break-words {
+    display: inline-table;
+    white-space: break-spaces;
+    width: 95%;
+  }
+  &.token-line {
+    line-height: 1.3rem;
+    height: 1.3rem;
+  }
 `;
 
-const ActionContent = styled.div`
-  @media (min-width: 48em) {
-    display: flex;
-    min-width: 75px;
-    flex-direction: column;
-    background-color: rgb(30, 30, 30);
-    align-self: stretch;
+const AbsoluteCopyButton = styled.div`
+  transition: opacity 100ms ease;
+  position: absolute;
+  top: 10px;
+  left: 72ch;
+  z-index: 2;
+  > div {
+    right: -8px;
+    top: -6px;
   }
-  display: none;
 `;
 
-const ActionContentMobile = styled.div`
-  @media (min-width: 48em) {
-    display: none;
-  }
-  display: flex;
-  flex-direction: row-reverse;
-`;
+const propList = ['copy', 'bash-symbol', 'terminal', 'no-lines'];
 
 /**
  *
@@ -63,47 +88,61 @@ const ActionContentMobile = styled.div`
  * and iterate over its items, rendering out each token,
  * which is a piece of this line.
  */
-export default function Code({ children, className }) {
+export default function Code({ children, className, ...props }) {
   const language = className?.replace(/language-/, '');
+  let breakWords = false;
+  if (propList.includes(language)) {
+    breakWords = true;
+  }
+  const hasCopy = props['copy'] || language === 'copy';
+  let hasNoLine = props['no-lines'] || language === 'no-lines';
+  const tokenCopyClass = `${hasCopy ? 'has-copy-button' : ''} ${
+    breakWords ? 'break-words' : ''
+  }`;
   return (
-    <>
-      <HStack spacing="0" my={4} justify="center" align="center">
+    <CodeWrapper>
+      <PreHighlight>
         <Highlight
           {...defaultProps}
-          theme={theme}
+          theme={psTheme}
           code={children.trim()}
           language={language}
         >
           {({ className, style, tokens, getLineProps, getTokenProps }) => (
             <Pre className={className} style={style}>
-              {tokens.map((line, i) => (
-                <Line key={i} {...getLineProps({ line, key: i })}>
-                  <LineNo>{i + 1}</LineNo>
-                  <LineContent>
-                    {line.map((token, key) => (
-                      <span key={key} {...getTokenProps({ token, key })} />
-                    ))}
-                  </LineContent>
-                </Line>
-              ))}
+              {/* optional copy to clipboard */}
+              {(props['copy'] || language === 'copy') && (
+                <AbsoluteCopyButton className="copy-button">
+                  <CopyButton value={children.trim()} />
+                </AbsoluteCopyButton>
+              )}
+              <code>
+                {cleanTokens(tokens).map((line, i) => {
+                  let lineClass = {
+                    backgroundColor: '',
+                    symbColor: '',
+                  };
+                  const lineProps = getLineProps({ line, key: i });
+
+                  lineProps.style = { ...lineClass };
+                  return (
+                    <Line key={i} {...lineClass}>
+                      {!hasNoLine && (
+                        <LineNo className="line-no">{i + 1}</LineNo>
+                      )}
+                      <LineContent className={`${tokenCopyClass}`}>
+                        {line.map((token, key) => (
+                          <span key={key} {...getTokenProps({ token, key })} />
+                        ))}
+                      </LineContent>
+                    </Line>
+                  );
+                })}
+              </code>
             </Pre>
           )}
         </Highlight>
-        {/* In code copy button md size and larger*/}
-        <ActionContent>
-          <CopyButton float="right" mr="1" my="1" value={children.trim()} />
-        </ActionContent>
-      </HStack>
-      {/* Below code copy button up to md size */}
-      <ActionContentMobile>
-        <CopyButton
-          size="md"
-          float="right"
-          mr="1"
-          my="1"
-          value={children.trim()}
-        />
-      </ActionContentMobile>
-    </>
+      </PreHighlight>
+    </CodeWrapper>
   );
 }

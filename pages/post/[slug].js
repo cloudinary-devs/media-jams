@@ -8,6 +8,7 @@ import { postBySlug, postsWithSlug } from '@lib/api';
 
 import { Flex, Text, Image, useDisclosure } from '@chakra-ui/react';
 import Code from '@components/Code';
+import CodeBlock from '@components/CodeBlock';
 import CodeSandbox from '@components/CodeSandbox';
 import Layout from '@components/Layout';
 import JamContentHero from '@components/JamContentHero';
@@ -18,7 +19,7 @@ import EmbeddedIframe from '@components/EmbeddedIframe';
 
 const components = {
   CodeSandbox,
-  code: Code,
+  code: CodeBlock,
   img: Image,
   iframe: EmbeddedIframe,
 };
