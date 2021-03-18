@@ -42,7 +42,7 @@ const CopyButton = (props) => (
     size="sm"
     position="absolute"
     textTransform="uppercase"
-    colorScheme="teal"
+    colorScheme="whiteAlpha"
     fontSize="xs"
     height="24px"
     top={0}
@@ -80,6 +80,7 @@ const CodeContainer = (props) => (
   <Box padding="5" rounded="8px" my="8" bg="#011627" {...props} />
 );
 
+const propList = ['copy', 'bash-symbol', 'terminal', 'no-lines'];
 function CodeBlock(props) {
   const {
     className,
@@ -87,15 +88,14 @@ function CodeBlock(props) {
     manual,
     render,
     children,
-    viewlines,
-    ln,
+    metastring,
     ...rest
   } = props;
   const [editorCode, setEditorCode] = useState(children.trim());
 
   const language = className?.replace(/language-/, '');
   const { hasCopied, onCopy } = useClipboard(editorCode);
-
+  let hasNoLine = props['no-lines'] || language === 'no-lines';
   const liveProviderProps = {
     theme,
     language,
@@ -146,8 +146,8 @@ function CodeBlock(props) {
         <Highlight
           codeString={editorCode}
           language={language}
-          metastring={ln}
-          showLines={viewlines}
+          metastring={metastring}
+          showLines={!hasNoLine}
         />
       </CodeContainer>
       <CopyButton top="4" onClick={onCopy}>

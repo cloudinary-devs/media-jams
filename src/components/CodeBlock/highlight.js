@@ -29,10 +29,22 @@ const calculateLinesToHighlight = (meta) => {
 //   metastring?: string
 //   showLines?: boolean
 // }
+function cleanTokens(tokens) {
+  const tokensLength = tokens.length;
+  if (tokensLength === 0) {
+    return tokens;
+  }
+  const lastToken = tokens[tokensLength - 1];
+
+  if (lastToken.length === 1 && lastToken[0].empty) {
+    return tokens.slice(0, tokensLength - 1);
+  }
+  return tokens;
+}
 
 function Highlight({ codeString, language, metastring, showLines, ...props }) {
   const shouldHighlightLine = calculateLinesToHighlight(metastring);
-
+  const highlightlines = props?.highlight;
   return (
     <BaseHighlight
       {...defaultProps}
@@ -44,8 +56,9 @@ function Highlight({ codeString, language, metastring, showLines, ...props }) {
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <div style={liveEditorStyle} data-language={language}>
           <pre className={className} style={style}>
-            {tokens.map((line, i) => {
+            {cleanTokens(tokens).map((line, i) => {
               const lineProps = getLineProps({ line, key: i });
+
               return (
                 <chakra.div
                   px="5"
