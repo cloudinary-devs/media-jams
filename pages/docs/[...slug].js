@@ -14,7 +14,7 @@ export default function Data({ mdxSource, frontMatter }) {
   const content = hydrate(mdxSource, { components: MDXComponents });
 
   return (
-    <Box pt={3} px={5} mt="4.5rem" mx="auto" maxW="48rem" minH="76vh">
+    <Box pt={3} px={5} mt="4.5rem" mx="auto" maxW="64rem" minH="76vh">
       <PageTransition>
         <chakra.h1 tabIndex={-1} outline={0} apply="mdx.h1">
           {frontMatter.title}

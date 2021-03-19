@@ -23,11 +23,20 @@ const View = {
  * @param {String} title
  * @param {String} id Unquie identifier of specific CodeSandbox
  * @param {View} view Enum options available for displaying sandbox
+ * @param {String} initialPath relitive file path to display on load
+ *
  * @returns
  */
-export default function CodeSandbox({ title, id, view = View.DEFAULT }) {
+export default function CodeSandbox({
+  title,
+  id,
+  view = View.DEFAULT,
+  showFile = '',
+}) {
   const { colorMode = 'dark' } = useColorMode();
-  const urlWithOptions = `https://codesandbox.io/embed/${id}?runonclick=1&autoresize=1&codemirror=1&fontsize=14&hidenavigation=1&theme=${!colorMode}&view=${view}`;
+  const urlEncodedFilePath = encodeURIComponent(showFile);
+
+  const urlWithOptions = `https://codesandbox.io/embed/${id}?runonclick=1&autoresize=1&codemirror=1&fontsize=14&hidenavigation=1&theme=${!colorMode}&view=${view}&module=${urlEncodedFilePath}`;
 
   return (
     <Flex justifyContent="center">
