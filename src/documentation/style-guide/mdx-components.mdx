@@ -69,18 +69,25 @@ async function main() {
 
 ### CodeSandbox
 
+| Prop       | Type     | Default | Description                                                    |
+| ---------- | -------- | ------- | -------------------------------------------------------------- |
+| `title`    | `string` |         | Dispaly Title for Embedded CodeSandbox                         |
+| `id`       | `string` |         | `id` of unique CodeSandbox of the project                      |
+| `view`     | `enum`   |         | `preview` or `editor` defaults to 50/50 split view             |
+| `showFile` | `string` |         | Relitive path of file to display onload `/<path>/**/<file>.js` |
+
 ```js
 <CodeSandbox
   title="Great Example of Media"
-  id="pedantic-bush-r7kxy"
-  view="editor"
+  id="determined-davinci-6kd2w"
+  showFile="/pages/about.js"
 />
 ```
 
 <CodeSandbox
   title="Great Example of Media"
-  id="pedantic-bush-r7kxy"
-  view="editor"
+  id="determined-davinci-6kd2w"
+  showFile="/pages/about.js"
 />
 
 ## Callout
