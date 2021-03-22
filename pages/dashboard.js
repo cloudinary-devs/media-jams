@@ -1,5 +1,6 @@
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
+import { useUser } from '@auth0/nextjs-auth0';
 import {
   Flex,
   Box,

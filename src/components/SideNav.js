@@ -108,7 +108,7 @@ export default function SideNav(props) {
                 Welcome, {user.nickname}
               </Text>
             </Flex>
-            <Flex
+            {/* <Flex
               alignSelf="center"
               width="70%"
               wrap="wrap"
@@ -117,11 +117,11 @@ export default function SideNav(props) {
             >
               <Icon as={FaUserCircle} boxSize="24px" />
               <Icon as={FaPlusCircle} boxSize="24px" />
-            </Flex>
+            </Flex> */}
             <IconButton
               as={Link}
               position="relative"
-              top="140px"
+              top="165px"
               mr="8px"
               icon={<FaRegFlag />}
               target="_blank"

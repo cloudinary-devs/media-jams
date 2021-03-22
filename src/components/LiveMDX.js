@@ -11,6 +11,7 @@ import removeExports from 'remark-mdx-remove-exports';
 
 import blocksToText from '@lib/blocksToText';
 import Code from '@components/Code';
+import CodeSandbox from '@components/CodeSandbox';
 /**
  * Used working example of mdx playground
  * https://github.com/mdx-js/mdx/blob/master/packages/gatsby-theme-mdx/src/components/playground-editor.js
@@ -77,7 +78,7 @@ const LiveMDX = ({ content, scope = {}, ...props }) => {
         {...props}
         code={content}
         scope={{
-          components: MDXProvider,
+          components: { MDXProvider, CodeSandbox, Code },
           MDXProvider,
           props: {},
           mdx: createElement,

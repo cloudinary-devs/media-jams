@@ -1,5 +1,9 @@
 // Use the SentryWebpack plugin to upload the source maps during build step
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
+const withPlugins = require('next-compose-plugins');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
 const {
   NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
   SENTRY_ORG,
@@ -14,13 +18,8 @@ const COMMIT_SHA = VERCEL_GITHUB_COMMIT_SHA;
 
 process.env.SENTRY_DSN = SENTRY_DSN;
 const basePath = '';
-const withMDX = require('@next/mdx')({
-  options: {
-    remarkPlugins: [],
-    rehypePlugins: [],
-  },
-});
-module.exports = withMDX({
+
+const defaultConfig = {
   productionBrowserSourceMaps: true,
   env: {
     NEXT_PUBLIC_COMMIT_SHA: COMMIT_SHA,
@@ -114,4 +113,15 @@ module.exports = withMDX({
     return config;
   },
   basePath,
+};
+const withMDX = require('@next/mdx')({
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+  },
 });
+
+/**
+ * Export w/ defaultConfig
+ */
+module.exports = withPlugins([withBundleAnalyzer, withMDX], defaultConfig);

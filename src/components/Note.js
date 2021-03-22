@@ -14,6 +14,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import NoteModal from '@components/NoteModal';
+
 import { FaEdit, FaExpand, FaTrash } from 'react-icons/fa';
 
 import { useMutation, useQueryClient } from 'react-query';
@@ -29,36 +31,10 @@ import { boxShadow } from '@utils/styles';
 
 */
 
-function NoteModal({ onClose, isOpen, note, deleteNote, editNote }) {
-  return (
-    <Modal
-      isCentered
-      onClose={onClose}
-      isOpen={isOpen}
-      motionPreset="slideInBottom"
-      size="5xl"
-    >
-      <ModalOverlay />
-      <ModalContent h="500px">
-        <ModalHeader>{note.create_at}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>{note.body}</ModalBody>
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
-            Close
-          </Button>
-          <Button onClick={() => deleteNote.mutate(note.id)} variant="ghost">
-            Delete
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-}
-
 export default function Note({ note, ...rest }) {
   const queryClient = useQueryClient();
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const [isEditable, setIsEditable] = React.useState(false);
 
   const deleteNote = useMutation((noteId) => notes.delete(noteId), {
     onMutate: async (noteId) => {
@@ -88,6 +64,8 @@ export default function Note({ note, ...rest }) {
         onClose={onClose}
         isOpen={isOpen}
         deleteNote={deleteNote}
+        isEditable={isEditable}
+        setIsEditable={setIsEditable}
       />
       <Flex
         bg="white"
@@ -130,6 +108,10 @@ export default function Note({ note, ...rest }) {
               bg="none"
               _hover={{ bg: 'none' }}
               alignSelf="flex-end"
+              onClick={() => {
+                onOpen();
+                setIsEditable(true);
+              }}
             />
           </Box>
         </Flex>
@@ -146,7 +128,10 @@ export default function Note({ note, ...rest }) {
         </Text>
         <Flex direction="column">
           <IconButton
-            onClick={onOpen}
+            onClick={() => {
+              setIsEditable(false);
+              onOpen();
+            }}
             alignSelf="flex-end"
             pb="12px"
             pr="3px"

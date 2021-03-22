@@ -41,8 +41,6 @@ export default function JamAccordion({
       const previousBookmarkIds = queryClient.getQueryData('bookmarks');
       const previousBookmarkedPosts = queryClient.getQueryData('bookmark jams');
 
-      console.log(previousBookmarkedPosts);
-
       let newBookmarkedPosts;
 
       if (previousBookmarkedPosts.length === 0) {
@@ -53,8 +51,6 @@ export default function JamAccordion({
           allPost: newBookmarkedPosts,
         });
       }
-
-      console.log('Query data set!');
 
       return previousBookmarkIds;
     },
