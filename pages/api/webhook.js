@@ -30,6 +30,7 @@ const handler = async (req, res) => {
     return res.status(405).end(`Method ${method} Not Allowed`);
   }
   notification(body);
+  // auto return 200 for incoming requests
   return res.status(200).json({ status: 'success' });
 };
 

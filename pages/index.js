@@ -179,10 +179,9 @@ function Authors() {
 }
 
 function FrameworkJams() {
-  const { data: jams } = useQuery('jams', queryJams.get);
+  const { data } = useQuery('jams', queryJams.get);
   const [yellow900] = useToken('colors', ['yellow.900']);
-
-  const reactJams = jams.jams?.filter((jam) =>
+  const reactJams = data?.jams?.filter((jam) =>
     jam.tags?.some(
       (tag) =>
         tag.title === 'React' ||
@@ -191,15 +190,15 @@ function FrameworkJams() {
     ),
   );
 
-  const vueJams = jams.jams?.filter((jam) =>
+  const vueJams = data?.jams?.filter((jam) =>
     jam.tags?.some((tag) => tag.title === 'Vue' || tag.title === 'NuxtJS'),
   );
 
-  const svelteJams = jams.jams?.filter((jam) =>
+  const svelteJams = data?.jams?.filter((jam) =>
     jam.tags?.some((tag) => tag.title === 'Svelte'),
   );
 
-  const angularJams = jams.jams?.filter((jam) =>
+  const angularJams = data?.jams?.filter((jam) =>
     jam.tags?.some((tag) => tag.title === 'Angular'),
   );
 

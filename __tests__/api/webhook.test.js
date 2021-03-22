@@ -1,6 +1,6 @@
 import http from 'http';
 import fetch from 'isomorphic-unfetch';
-import listen from './test-listen';
+import listen from '../../src/utils/test-listen';
 import { apiResolver } from 'next/dist/next-server/server/api-utils';
 import handler from '../../pages/api/webhook';
 import sanityMockPayload from '../../__mocks__/sanityWebhookMock';
