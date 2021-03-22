@@ -1,4 +1,4 @@
-// import { workflowById } from '@lib/api';
+import { workflowById } from '@lib/api';
 const NOTIFICATION = {
   created: 'created',
   updated: 'updated',
@@ -10,11 +10,20 @@ const NOTIFICATION = {
  * get id's for created and groq to notifiy author and moderators
  * get id's for updated, groq and state == 'changesRequests' to author, 'inReview' to moderators
  */
-function notification({ ids }) {
+async function fetchWorkflowDetails({ ids }) {
   if (ids) {
-    Object.entries(ids).forEach(([key, value]) => {
-      console.log(`${key}: ${value}`);
-    });
+    const results = await Promise.all(
+      Object.entries(ids)
+        .filter(([key, value]) => value.length !== 0 && key !== 'all')
+        .map(async ([key, value]) => {
+          console.log(`${key}: ${value}`);
+          console.log(value[0]);
+          const workflow = await workflowById(value[0]);
+          return { [key]: workflow };
+        }),
+    );
+
+    return results;
   }
 }
 /**
@@ -29,7 +38,9 @@ const handler = async (req, res) => {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${method} Not Allowed`);
   }
-  notification(body);
+  console.log('payload: ', body);
+  const workflows = await fetchWorkflowDetails(body);
+  console.log([...workflows]);
   // auto return 200 for incoming requests
   return res.status(200).json({ status: 'success' });
 };
