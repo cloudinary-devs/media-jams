@@ -9,11 +9,3 @@ export default {
     all: ['workflow-metadata.1e11dcfb-e446-4c29-977c-323263984151'],
   },
 };
-
-/**
- * 
-created: 
-updated: workflow-metadata.1e11dcfb-e446-4c29-977c-323263984151
-deleted: 
-all: workflow-metadata.1e11dcfb-e446-4c29-977c-323263984151
- */
