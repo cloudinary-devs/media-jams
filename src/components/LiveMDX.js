@@ -10,7 +10,7 @@ import removeImports from 'remark-mdx-remove-imports';
 import removeExports from 'remark-mdx-remove-exports';
 
 import blocksToText from '@lib/blocksToText';
-import Code from '@components/Code';
+import CodeBlock from '@components/CodeBlock';
 import CodeSandbox from '@components/CodeSandbox';
 /**
  * Used working example of mdx playground
@@ -78,7 +78,7 @@ const LiveMDX = ({ content, scope = {}, ...props }) => {
         {...props}
         code={content}
         scope={{
-          components: { MDXProvider, CodeSandbox, Code },
+          components: { MDXProvider, CodeSandbox, code: CodeBlock },
           MDXProvider,
           props: {},
           mdx: createElement,
