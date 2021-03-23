@@ -31,35 +31,33 @@ function getCreatorEmailBy(id) {
   return creatorEmail(formatId);
 }
 
-function sendWorkflowNotifications(workflows) {
-  workflows?.map(async ([action, value]) => {
-    switch (action) {
-      case NOTIFICATION.updated:
-        const authorEmail = await getCreatorEmailBy(value.author._id);
-        const moderators = await getModoratorEmails();
-        const msgData = {
-          authorEmail,
-          templateName: 'authorNotification',
-          authorName: value.author.name,
-          moderators,
-          workflowState: JAM_STATE[value.state],
-          title: value.title,
-        };
-        //Notify Author and BCC Moderators
-        if (value.state === 'approved' || value.state === 'inReview') {
-          sendNotification(msgData);
-        }
-        // Notify Author Only
-        if (value.state === 'changesRequested' || value.state === 'published') {
-          const { moderators, ...msgDataAuthorOnly } = msgData;
-          sendNotification(msgDataAuthorOnly);
-        }
-        break;
+async function sendWorkflowNotifications([action, value]) {
+  switch (action) {
+    case NOTIFICATION.updated:
+      const authorEmail = await getCreatorEmailBy(value.author._id);
+      const moderators = await getModoratorEmails();
+      const msgData = {
+        authorEmail,
+        templateName: 'authorNotification',
+        authorName: value.author.name,
+        moderators,
+        workflowState: JAM_STATE[value.state],
+        title: value.title,
+      };
+      //Notify Author and BCC Moderators
+      if (value.state === 'approved' || value.state === 'inReview') {
+        await sendNotification(msgData);
+      }
+      // Notify Author Only
+      if (value.state === 'changesRequested' || value.state === 'published') {
+        const { moderators, ...msgDataAuthorOnly } = msgData;
+        await sendNotification(msgDataAuthorOnly);
+      }
+      break;
 
-      default:
-        break;
-    }
-  });
+    default:
+      break;
+  }
 }
 
 /**
@@ -104,7 +102,7 @@ const handler = async (req, res) => {
   }
   const workflows = await fetchWorkflowDetails(body);
   //send workflow notifications based on workflow type
-  await sendWorkflowNotifications(workflows);
+  await Promise.all(workflows.map(sendWorkflowNotifications));
   // auto return 200 for incoming requests
   return res.status(200).json({ status: 'success' });
 };
