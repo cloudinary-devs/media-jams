@@ -1,10 +1,18 @@
 import { workflowById } from '@lib/api';
 import { creatorEmail, getModoratorEmails } from '@lib/auth0Management';
+import { sendNotification } from '@lib/sendGrid';
 const NOTIFICATION = {
   created: 'created',
   updated: 'updated',
   deleted: 'deleted',
   all: 'all',
+};
+
+const JAM_STATE = {
+  changesRequested: 'Changes Requested',
+  inReview: 'In Review',
+  approved: 'Approved',
+  published: 'Published 🚀',
 };
 /**
  * Webhook steps
@@ -13,7 +21,6 @@ const NOTIFICATION = {
  * https://media-jams.us.auth0.com/api/v2/roles/rol_ErF1oycslqHRnFGq/users?include_totals=true
  *
  */
-function getModeratorEmailList() {}
 
 /**
  * Strip CMS prefix and `self` from user ID
@@ -28,9 +35,25 @@ function sendWorkflowNotifications(workflows) {
   workflows?.map(async ([action, value]) => {
     switch (action) {
       case NOTIFICATION.updated:
-        const email = await getCreatorEmailBy(value.author._id);
-        const moderatorList = await getModoratorEmails();
-        console.log(email, moderatorList);
+        const authorEmail = await getCreatorEmailBy(value.author._id);
+        const moderators = await getModoratorEmails();
+        const msgData = {
+          authorEmail,
+          templateName: 'authorNotification',
+          authorName: value.author.name,
+          moderators,
+          workflowState: JAM_STATE[value.state],
+          title: value.title,
+        };
+        //Notify Author and BCC Moderators
+        if (value.state === 'approved' || value.state === 'inReview') {
+          sendNotification(msgData);
+        }
+        // Notify Author Only
+        if (value.state === 'changesRequested' || value.state === 'published') {
+          const { moderators, ...msgDataAuthorOnly } = msgData;
+          sendNotification(msgDataAuthorOnly);
+        }
         break;
 
       default:
@@ -81,7 +104,6 @@ const handler = async (req, res) => {
   }
   const workflows = await fetchWorkflowDetails(body);
   //send workflow notifications based on workflow type
-  console.log(workflows);
   sendWorkflowNotifications(workflows);
   // auto return 200 for incoming requests
   return res.status(200).json({ status: 'success' });
