@@ -4,8 +4,6 @@ import listen from '../../src/utils/test-listen';
 import { apiResolver } from 'next/dist/next-server/server/api-utils';
 import handler from '../../pages/api/webhook';
 import sanityMockPayload from '../../__mocks__/sanityWebhookMock';
-import * as sanityAPI from '@lib/api';
-import sanityClient from '@sanity/client';
 
 let url;
 let server;
@@ -30,7 +28,8 @@ let server;
 //     return { fetch: mockSanityFetch, request: mockSanityRequest };
 //   });
 // });
-// sanityClient.mockImplementation(() => mockSanityClient);
+// we don't need sanity api to initialize.
+jest.mock('@sanity/client');
 /**
  * Setup http server, nextjs resolver
  * Tests can make HTTP requests to url invoking handler
