@@ -81,6 +81,7 @@ const handler = async (req, res) => {
   }
   const workflows = await fetchWorkflowDetails(body);
   //send workflow notifications based on workflow type
+  console.log(workflows);
   sendWorkflowNotifications(workflows);
   // auto return 200 for incoming requests
   return res.status(200).json({ status: 'success' });

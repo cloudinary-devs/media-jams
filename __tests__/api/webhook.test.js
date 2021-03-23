@@ -4,26 +4,31 @@ import listen from '../../src/utils/test-listen';
 import { apiResolver } from 'next/dist/next-server/server/api-utils';
 import handler from '../../pages/api/webhook';
 import sanityMockPayload from '../../__mocks__/sanityWebhookMock';
+import sanityClient from '@sanity/client';
 
 let url;
 let server;
 // we don't need sanity api to initialize.
-jest.genMockFromModule('@sanity/client');
-jest.mock('@sanity/client');
-import sanity from '@sanity/client';
 const mockSanityClient = {
   fetch: jest.fn().mockImplementation(() =>
     Promise.resolve({
       author: {
         _id: 'e-5f8a2ac9edc64a00681eb8ab-self',
-        name: 'Jesse Zitty. Tomchak',
+        name: 'Jesse Test Tomchak',
       },
       state: 'changesRequested',
       title: 'Titles are hard?',
     }),
   ),
 };
-sanity.mockImplementation(() => mockSanityClient);
+jest.mock('@sanity/client', () => {
+  return jest.fn().mockImplementation(() => {
+    const mockSanityFetch = jest.fn();
+    const mockSanityRequest = jest.fn();
+    return { fetch: mockSanityFetch, request: mockSanityRequest };
+  });
+});
+// sanityClient.mockImplementation(() => mockSanityClient);
 /**
  * Setup http server, nextjs resolver
  * Tests can make HTTP requests to url invoking handler
@@ -52,6 +57,6 @@ describe('/api/webhook handler', () => {
     let results = await response.json();
     expect(response.status).toBe(200);
     expect(results).toEqual({ status: 'success' });
-    // expect(mockSanityClient.fetch).toBeCalled();
+    expect(sanityClient.fetch).toBeCalled();
   });
 });
