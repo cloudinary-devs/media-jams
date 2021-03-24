@@ -38,7 +38,13 @@ export default function Post({ post, preview, error }) {
 
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      <Flex direction="column" width="100%" height="100%" overflow="auto">
+      <Flex
+        bg="white"
+        direction="column"
+        width="100%"
+        height="100%"
+        overflow="auto"
+      >
         <JamContentHero
           author={author}
           description={post.description}
