@@ -8,13 +8,22 @@ import {
   Drawer,
   DrawerOverlay,
   DrawerContent,
+  IconButton,
+  Text,
+  Avatar,
 } from '@chakra-ui/react';
 import Image from '@components/Image';
-import { FaRegFlag, FaHome, FaPhotoVideo, FaBookmark } from 'react-icons/fa';
+import {
+  FaStickyNote,
+  FaRegFlag,
+  FaHome,
+  FaPhotoVideo,
+  FaBookmark,
+} from 'react-icons/fa';
 import { useUser } from '@auth0/nextjs-auth0';
 
 export default function SideNavDrawer({ isOpen, onClose, ...props }) {
-  const { user, loading } = useUser();
+  const { user } = useUser();
   return (
     <Drawer {...props} isOpen={isOpen} placement="left" onClose={onClose}>
       <DrawerOverlay>
@@ -37,7 +46,7 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
                     background="grey.700"
                     color="yellow.400"
                   >
-                    Log Out
+                    Logout
                   </Button>
                 </Link>
               ) : (
@@ -54,24 +63,56 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
             </Flex>
             <NavLinkGroup user={user} />
           </Flex>
-          <Flex
-            h="100%"
-            width="100%"
-            justify="flex-end"
-            align="flex-end"
-            pr={4}
-            pb={4}
-          >
-            <Button
-              as={Link}
-              target="_blank"
-              size="sm"
-              bg="grey.700"
-              color="yellow.400"
+          {user ? (
+            <Flex
+              h="100%"
+              direction="column"
+              width="100%"
+              justify="flex-end"
+              align="flex-end"
+              pb={4}
             >
-              Feedback <Icon ml={1} as={FaRegFlag} />
-            </Button>
-          </Flex>
+              <Flex
+                direction="column"
+                alignSelf="center"
+                width="90%"
+                h="300px"
+                borderRadius="4px"
+                bg="grey.700"
+              >
+                <Flex mt={2} direction="column" w="100%" align="center" p="4px">
+                  <Avatar size="md" src={user.picture}></Avatar>
+                  <Text mt="8px" color="yellow.400">
+                    Welcome, {user.nickname}
+                  </Text>
+                </Flex>
+              </Flex>
+            </Flex>
+          ) : (
+            <Flex
+              h="100%"
+              width="100%"
+              justify="flex-end"
+              align="flex-end"
+              pr={4}
+              pb={4}
+            >
+              <IconButton
+                as={Link}
+                icon={<FaRegFlag />}
+                target="_blank"
+                href="/feedback"
+                textDecoration="none"
+                outline="none"
+                size="md"
+                borderRadius="full"
+                bg="grey.700"
+                color="yellow.400"
+                hover={{ textDecoration: 'none', bg: 'none', outline: 'none' }}
+                _active={{ bg: 'none', outline: 'none' }}
+              />
+            </Flex>
+          )}
         </DrawerContent>
       </DrawerOverlay>
     </Drawer>
@@ -96,23 +137,30 @@ function NavLink({ children, ...props }) {
   );
 }
 
-function NavLinkGroup({ user }) {
+function NavLinkGroup() {
+  const { user, loading } = useUser();
   return (
     <Flex mt={4} direction="column" alignItems="center" color="white">
       <NavLink href="/dashboard">
-        <Icon as={FaHome} w={6} h={6} mr={2} />
-        Dashboard
+        <Icon as={FaHome} w={5} h={5} mr={2} />
+        <Text fontWeight="regular">Dashboard</Text>
       </NavLink>
       <NavLink href="/post">
-        <Icon as={FaPhotoVideo} w={6} h={6} mr={2} />
-        Jams
+        <Icon as={FaPhotoVideo} w={5} h={5} mr={2} />
+        <Text fontWeight="thin">Jams</Text>
       </NavLink>
       {/* Authenticated Users */}
       {user && (
-        <NavLink href="/bookmarks">
-          <Icon as={FaBookmark} w={6} h={6} mr={2} />
-          Bookmarks
-        </NavLink>
+        <>
+          <NavLink href="/bookmarks">
+            <Icon as={FaBookmark} w={5} h={5} mr={2} />
+            <Text fontWeight="thin">Bookmarks</Text>
+          </NavLink>
+          <NavLink href="/notes">
+            <Icon as={FaStickyNote} w={5} h={5} mr={2} />
+            <Text fontWeight="thin">Notes</Text>
+          </NavLink>
+        </>
       )}
     </Flex>
   );

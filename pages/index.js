@@ -111,6 +111,16 @@ function Features() {
 
 function Authors() {
   const { data: authors } = useQuery('authors', queryAuthors.get);
+
+  const getRandomElements = (sourceArray, neededElements) => {
+    var result = [];
+    for (var i = 0; i < neededElements; i++) {
+      var index = Math.floor(Math.random() * sourceArray.length);
+      result.push(sourceArray[index]);
+      sourceArray.splice(index, 1);
+    }
+    return result;
+  };
   return (
     <Flex
       alignItems="center"
@@ -160,7 +170,7 @@ function Authors() {
         p={{ base: 1, lg: 'none' }}
         justifyItems={{ base: 'center', lg: 'none' }}
       >
-        {authors.allAuthor?.map((author) => (
+        {authors.allAuthor?.slice(0, 8).map((author) => (
           <AuthorCard h={72} w={{ base: '90%', lg: 64 }} author={author} />
         ))}
       </Grid>

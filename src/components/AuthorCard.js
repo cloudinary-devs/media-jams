@@ -50,7 +50,7 @@ export default function AuthorCard({ author, ...rest }) {
               },
             }}
             as={IoMdHand}
-            color="yellow.900"
+            color="yellow.400"
             boxSize="2em"
             mt={3}
           />

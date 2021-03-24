@@ -19,7 +19,7 @@ export default function Layout({
       direction={{ base: 'column', md: 'row', lg: 'row' }}
     >
       <SEO {...seoProps} />
-      <Box display={{ md: 'none', lg: 'none', xl: 'none' }}>
+      <Box bg="grey.700" display={{ md: 'none', lg: 'none', xl: 'none' }}>
         <Icon
           onClick={onOpen}
           w={6}
@@ -38,7 +38,7 @@ export default function Layout({
         onClose={onClose}
         display={{ md: 'none', lg: 'none', xl: 'none' }}
       />
-      <Flex flex="1" direction="column" {...rest}>
+      <Flex bg="grey.700" flex="1" direction="column" {...rest}>
         {children}
       </Flex>
     </Flex>

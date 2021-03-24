@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { bookmarks as bookmarksQuery } from '@lib/queries/bookmarks';
 import { useUser } from '@auth0/nextjs-auth0';
 
@@ -33,19 +33,70 @@ export default function JamAccordion({
   const { author } = post;
   const { user, loading } = useUser();
   const [isBookmarked, setBookmark] = useState(false);
-  const addBookmark = useMutation(
-    (content_id) => bookmarksQuery.add(content_id),
-    {
-      onSuccess: () => {
-        setBookmark(true);
-      },
+  const queryClient = useQueryClient();
+  const addBookmark = useMutation((post) => bookmarksQuery.add(post._id), {
+    onMutate: async (post) => {
+      await queryClient.cancelQueries('bookmarks');
+      await queryClient.cancelQueries('bookmark jams');
+      const previousBookmarkIds = queryClient.getQueryData('bookmarks');
+      const previousBookmarkedPosts = queryClient.getQueryData('bookmark jams');
+
+      let newBookmarkedPosts;
+
+      if (previousBookmarkedPosts.length === 0) {
+        queryClient.setQueryData('bookmark jams', { allPost: [post] });
+      } else {
+        newBookmarkedPosts = [...previousBookmarkedPosts.allPost, post];
+        queryClient.setQueryData('bookmark jams', {
+          allPost: newBookmarkedPosts,
+        });
+      }
+
+      return previousBookmarkIds;
     },
-  );
+    // On failure, roll back to the previous value
+    onError: (err, variables, previousBookmarkIds) =>
+      // TODO: Revisit and add a toast on failure and rollback
+      queryClient.setQueryData('bookmarks', previousBookmarkIds),
+    // After success or failure, refetch the bookmarks and bookmark jams queries
+    onSuccess: () => {
+      setBookmark(true);
+      queryClient.invalidateQueries('bookmarks');
+
+      console.log('Queries successfully refreshed');
+    },
+  });
   const removeBookmark = useMutation(
-    (content_id) => bookmarksQuery.remove(content_id),
+    (post) => bookmarksQuery.remove(post._id),
     {
+      onMutate: async (post) => {
+        await queryClient.cancelQueries('bookmarks');
+        await queryClient.cancelQueries('bookmark jams');
+        const previousBookmarkIds = queryClient.getQueryData('bookmarks');
+        const previousBookmarks = queryClient.getQueryData('bookmark jams');
+
+        const newBookmarkedPosts = previousBookmarks.allPost.filter(
+          (data) => data._id !== post._id,
+        );
+
+        if (newBookmarkedPosts.length > 0) {
+          queryClient.setQueryData('bookmark jams', {
+            allPost: newBookmarkedPosts,
+          });
+        } else {
+          queryClient.setQueryData('bookmark jams', []);
+        }
+
+        return previousBookmarkIds;
+      },
+      // On failure, roll back to the previous value
+      onError: (err, variables, previousBookmarkIds) =>
+        // TODO: Revisit and add a toast on failure and rollback
+        queryClient.setQueryData('bookmarks', previousBookmarkIds),
+      // After success or failure, refetch the bookmarks and bookmark jams queries
       onSuccess: () => {
         setBookmark(false);
+        queryClient.invalidateQueries('bookmarks');
       },
     },
   );
@@ -56,6 +107,7 @@ export default function JamAccordion({
       enabled: !loading && !!user,
     },
   );
+
   useEffect(() => {
     if (user && dataBookmarks) {
       const postIds = dataBookmarks?.bookmarks?.map(
@@ -67,7 +119,7 @@ export default function JamAccordion({
 
   const handleBookmarkOnClick = () => {
     const toggleBookmark = isBookmarked ? removeBookmark : addBookmark;
-    toggleBookmark.mutate(post._id);
+    toggleBookmark.mutate(post);
   };
   return (
     <Accordion
