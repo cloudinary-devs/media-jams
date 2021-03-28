@@ -25,19 +25,6 @@ import JamAccordion from '@components/JamAccordion';
 import AuthorCard from '@components/AuthorCard';
 
 export default function Index() {
-  const router = useRouter();
-
-  function addTagsToRoute(tags) {
-    const tagsArr = [];
-    tags.map((tag) => tagsArr.push(tag.title));
-    const params = serializeArray(tagsArr);
-
-    return router.push({
-      pathname: '/post',
-      query: { tags: params },
-    });
-  }
-
   return (
     <Flex direction="column" minH="calc(100vh - 50px)" w="100%">
       <Navbar />

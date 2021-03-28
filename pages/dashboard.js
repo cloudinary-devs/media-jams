@@ -21,6 +21,33 @@ import JamAccordion from '@components/JamAccordion';
 import AuthorCard from '@components/AuthorCard';
 import { boxShadow } from '@utils/styles';
 
+const responsiveGrid = {
+  base: `
+    "Featured"                        
+    "Paths"
+    "DiscordAd"
+    "GettingStarted"
+    "Authors"            
+  `,
+  md: `
+    "Featured Featured"
+    "DiscordAd Paths"
+    "GettingStarted GettingStarted"
+    "Authors Authors"
+  `,
+  lg: `
+    "Featured Featured"
+    "DiscordAd Paths"
+    "GettingStarted GettingStarted"
+    "Authors Authors"
+  `,
+  xl: `
+    "Featured Paths DiscordAd"
+    "Featured Paths GettingStarted"
+    "Featured Authors GettingStarted"
+  `,
+};
+
 export default function Dashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -33,32 +60,7 @@ export default function Dashboard() {
           lg: '100%',
           xl: '100vh',
         }}
-        templateAreas={{
-          base: `
-            "Featured"                        
-            "Paths"
-            "DiscordAd"
-            "GettingStarted"
-            "Authors"            
-          `,
-          md: `
-            "Featured Featured"
-            "DiscordAd Paths"
-            "GettingStarted GettingStarted"
-            "Authors Authors"
-          `,
-          lg: `
-            "Featured Featured"
-            "DiscordAd Paths"
-            "GettingStarted GettingStarted"
-            "Authors Authors"
-          `,
-          xl: `
-            "Featured Paths DiscordAd"
-            "Featured Paths GettingStarted"
-            "Featured Authors GettingStarted"
-          `,
-        }}
+        templateAreas={responsiveGrid}
         templateColumns={{
           base: '100%',
           md: '1fr 1fr',
@@ -138,27 +140,17 @@ function DiscordAd() {
       <Icon
         as={FaDiscord}
         color="white"
-        h={{ base: 64, md: 32, xl: 32 }}
-        w={{ base: 64, md: 32, xl: 32 }}
+        boxSize={{ base: 64, md: '7em', xl: '7em' }}
       />
-      <Text
-        textAlign="center"
-        w="50%"
-        mt={2}
-        color="white"
-        fontSize="md"
-        fontWeight="bold"
-      >
-        Join our community of media newcomers & experts
-      </Text>
       <Link
         as={NextLink}
         color="white"
         _visited="white"
         textDecor="underline"
         href="https://discord.gg/mediadevs"
+        w="40%"
       >
-        discord.gg/mediadevs
+        Join the MediaDevs Discord community
       </Link>
     </Flex>
   );

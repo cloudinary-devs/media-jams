@@ -125,7 +125,6 @@ export default function JamAccordion({
     <Accordion
       w={width || w}
       boxShadow={shadow ? boxShadow : 'none'}
-      borderColor="none"
       bg="white"
       allowToggle
       borderRadius={borderRadius || 'none'}
@@ -134,86 +133,153 @@ export default function JamAccordion({
       {...rest}
     >
       <AccordionItem borderRadius={borderRadius || 'none'}>
-        <Flex justifyContent="space-between" p={4}>
-          <Flex ml={4} align="center" flex="1" textAlign="left" mt={3}>
-            <Avatar
-              size="lg"
-              name={author.name}
-              mr={4}
-              src={author.image.asset.url}
-            />
-            <Flex justift="center" direction="column" color={`${color}.400`}>
-              <Link href={`/post/${post.slug.current}`}>
-                <Heading fontSize="lg">{post.title}</Heading>
-              </Link>
-              <Text fontSize={{ base: 'sm', md: 'sm', lg: 'sm' }}>
-                By {author.name}
-              </Text>
-              <Flex flexWrap="wrap">
-                {post.tags?.map((tag) => (
-                  <Text
-                    key={tag._id}
-                    mr={2}
-                    fontSize={{ base: '9px', md: '14px' }}
+        {({ isExpanded }) => {
+          return (
+            <>
+              <Flex justifyContent="space-between" p=".5rem">
+                <Flex
+                  ml={4}
+                  align="center"
+                  flex="1"
+                  textAlign="left"
+                  mt={1}
+                  mb={1}
+                  _last={{ borderBottom: 'none' }}
+                >
+                  <Avatar
+                    size="lg"
+                    name={author.name}
+                    mr={4}
+                    src={author.image.asset.url}
+                  />
+                  <Flex
+                    justift="center"
+                    direction="column"
+                    color={`${color}.400`}
                   >
-                    # {tag.title}
-                  </Text>
-                ))}
-              </Flex>
-            </Flex>
-          </Flex>
-          <Flex justifyContent="space-around" width={24} alignItems="center">
-            {user ? (
-              <IconButton
-                size="sm"
-                outline="none"
-                bg="none"
-                _hover={{
-                  bg: 'none',
-                }}
-                icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
-                onClick={handleBookmarkOnClick}
-              ></IconButton>
-            ) : null}
+                    <Link href={`/post/${post.slug.current}`}>
+                      <Heading fontSize="md">{post.title}</Heading>
+                    </Link>
+                    <Text fontSize={{ base: 'sm', md: 'sm', lg: 'sm' }}>
+                      By {author.name}
+                    </Text>
+                  </Flex>
+                </Flex>
+                {isExpanded ? null : (
+                  <Flex
+                    mt={4}
+                    color="white"
+                    alignSelf="center"
+                    justifySelf="flex-end"
+                    flexWrap="wrap"
+                  >
+                    {post.tags?.map((tag) => (
+                      <Text
+                        key={tag._id}
+                        mr={3}
+                        fontSize={{
+                          base: '10px',
+                          md: '10px',
+                          lg: '10px',
+                          xl: '10px',
+                        }}
+                        bg={`${color}.400`}
+                        borderRadius={borderRadius}
+                        letterSpacing="1px"
+                        p={2}
+                      >
+                        #{tag.title}
+                      </Text>
+                    ))}
+                  </Flex>
+                )}
+                <Flex width={20} alignItems="center">
+                  {user ? (
+                    <IconButton
+                      size="sm"
+                      outline="none"
+                      bg="none"
+                      h="0"
+                      w="0"
+                      paddingLeft="0"
+                      paddingRight="0"
+                      paddingTop="0"
+                      paddingBottom="0"
+                      _focus={{
+                        boxShadow: 'none',
+                      }}
+                      _hover={{
+                        bg: 'none',
+                      }}
+                      icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
+                      onClick={handleBookmarkOnClick}
+                    />
+                  ) : null}
 
-            <AccordionButton
-              as={Button}
-              h="50%"
-              bg="none"
-              outline="none"
-              alignSelf="center"
-              borderRadius="lg"
-              variant={color}
-              w="5px"
-              justifyContent="center"
-              _hover={{
-                bg: 'none',
-              }}
-            >
-              <AccordionIcon />
-            </AccordionButton>
-          </Flex>
-        </Flex>
-        <AccordionPanel borderRadius={borderRadius || 'none'} p="0px">
-          <Flex p={4} direction="column">
-            <Text fontSize="sm">{post.description}</Text>
-          </Flex>
-          <Button
-            as={Link}
-            href={`/post/${post.slug.current}`}
-            minW="100%"
-            borderTopRightRadius="0px"
-            borderTopLeftRadius="0px"
-            colorScheme={color}
-            color="white"
-            textDecoration="none"
-            _hover={{
-              textDecoration: 'none',
-            }}
-          >
-            Learn
-          </Button>
-        </AccordionPanel>
+                  <AccordionButton
+                    as={Button}
+                    bg="none"
+                    outline="none"
+                    variant={color}
+                    justifyContent="center"
+                    h="0"
+                    w="0"
+                    paddingLeft="0"
+                    paddingRight="0"
+                    paddingTop="0"
+                    paddingBottom="0"
+                    _focus={{
+                      outline: 'none',
+                      boxShadow: 'none',
+                    }}
+                    _hover={{
+                      bg: 'none',
+                    }}
+                  >
+                    <AccordionIcon />
+                  </AccordionButton>
+                </Flex>
+              </Flex>
+
+              <AccordionPanel borderRadius={borderRadius || 'none'} p="0px">
+                <Flex p={4} direction="column">
+                  <Text fontSize="sm">{post.description}</Text>
+                  <Flex mt={4} color="white" alignSelf="center" flexWrap="wrap">
+                    {post.tags?.map((tag) => (
+                      <Text
+                        key={tag._id}
+                        mr={5}
+                        fontSize={{ base: 'xs', md: 'xs' }}
+                        bg={`${color}.400`}
+                        borderRadius={borderRadius}
+                        letterSpacing="1px"
+                        p={2}
+                      >
+                        #{tag.title}
+                      </Text>
+                    ))}
+                  </Flex>
+                </Flex>
+
+                <Button
+                  as={Link}
+                  href={`/post/${post.slug.current}`}
+                  minW="100%"
+                  borderTopRightRadius="0px"
+                  borderTopLeftRadius="0px"
+                  colorScheme={color}
+                  color="white"
+                  textDecoration="none"
+                  _hover={{
+                    textDecoration: 'none',
+                  }}
+                >
+                  Learn
+                </Button>
+              </AccordionPanel>
+            </>
+          );
+        }}
       </AccordionItem>
     </Accordion>
   );
