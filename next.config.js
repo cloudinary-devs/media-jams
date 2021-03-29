@@ -23,6 +23,9 @@ const basePath = '';
 
 const defaultConfig = {
   productionBrowserSourceMaps: true,
+  future: {
+    webpack5: true,
+  },
   env: {
     NEXT_PUBLIC_COMMIT_SHA: COMMIT_SHA,
     SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -69,8 +72,11 @@ const defaultConfig = {
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Fixes npm packages that depend on `fs` module
-    config.node = {
-      fs: 'empty',
+    config.resolve = {
+      ...config.resolve,
+      fallback: {
+        fs: 'empty',
+      },
     };
     // So ask Webpack to replace @sentry/node imports with @sentry/browser when
     // building the browser's bundle

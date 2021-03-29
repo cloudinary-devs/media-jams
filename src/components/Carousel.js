@@ -1,3 +1,4 @@
+import React from 'react';
 import { Flex, IconButton, Slide as TransitionSlide } from '@chakra-ui/react';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 
