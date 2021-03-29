@@ -32,6 +32,7 @@ function getCreatorEmailBy(id) {
 }
 
 async function sendWorkflowNotifications([action, value]) {
+  if (!value) return;
   switch (action) {
     case NOTIFICATION.updated:
       const authorEmail = await getCreatorEmailBy(value.author._id);
@@ -68,8 +69,8 @@ async function sendWorkflowNotifications([action, value]) {
  * that are not preappended with 'workflow-metadata.'
  * then fetch details and return
  */
-async function fetchWorkflowDetails({ ids }) {
-  if (ids) {
+async function fetchWorkflowDetails({ ids = {} }) {
+  try {
     const results = await Promise.all(
       Object.entries(ids)
         .filter(
@@ -86,6 +87,9 @@ async function fetchWorkflowDetails({ ids }) {
     );
 
     return results;
+  } catch (error) {
+    console.log(error);
+    return []; // on failure from fetching workflowById return empty array
   }
 }
 /**
@@ -100,8 +104,9 @@ const handler = async (req, res) => {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${method} Not Allowed`);
   }
+  // get details for workflow ids author, jam title, workflow state
   const workflows = await fetchWorkflowDetails(body);
-  //send workflow notifications based on workflow type
+  // send workflow notifications based on workflow type
   await Promise.all(workflows.map(sendWorkflowNotifications));
   // auto return 200 for incoming requests
   return res.status(200).json({ status: 'success' });

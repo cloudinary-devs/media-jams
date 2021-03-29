@@ -170,7 +170,7 @@ function Authors() {
         p={{ base: 1, lg: 'none' }}
         justifyItems={{ base: 'center', lg: 'none' }}
       >
-        {authors.allAuthor?.slice(0, 8).map((author) => (
+        {authors?.allAuthor?.slice(0, 8).map((author) => (
           <AuthorCard h={72} w={{ base: '90%', lg: 64 }} author={author} />
         ))}
       </Grid>
