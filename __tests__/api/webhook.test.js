@@ -1,26 +1,14 @@
 import http from 'http';
 import fetch from 'isomorphic-unfetch';
 import listen from '../../src/utils/test-listen';
-import { apiResolver, parseBody } from 'next/dist/next-server/server/api-utils';
+import { apiResolver } from 'next/dist/next-server/server/api-utils';
 import handler from '../../pages/api/webhook';
 import sanityMockPayload from '../../__mocks__/sanityWebhookMock';
 import * as mockAuth0Management from '@lib/auth0Management';
-import mockSendGrid from '@sendgrid/mail';
+import * as mockSendGrid from '@lib/sendGrid';
 
 let url;
 let server;
-
-// Capture SendGrid Mail
-jest.mock('@sendgrid/mail', () => {
-  // mock api & send
-  return {
-    __esModule: true,
-    default: {
-      setApiKey: jest.fn(),
-      send: jest.fn((x) => x),
-    },
-  };
-});
 
 jest.mock('@sanity/client/lib/sanityClient', () => {
   // mockout sanityClient
@@ -39,11 +27,24 @@ jest.mock('@sanity/client/lib/sanityClient', () => {
   }));
 });
 
+// Capture SendGrid Mail
+jest.mock('@sendgrid/mail', () => {
+  // mock api & send
+  return {
+    __esModule: true,
+    default: {
+      setApiKey: jest.fn(),
+      send: jest.fn((x) => x),
+    },
+  };
+});
+
 mockAuth0Management.creatorEmail = jest.fn(() => 'testing@mediajams.dev');
 mockAuth0Management.getModoratorEmails = jest.fn(() => [
   { email: 'mod@mj.dev' },
   { email: 'otherMod@mj.dev' },
 ]);
+mockSendGrid.sendNotification = jest.fn(() => Promise.resolve());
 
 /**
  * Setup http server, nextjs resolver
@@ -92,5 +93,23 @@ describe('/api/webhook handler', () => {
     let results = await response.json();
     expect(mockAuth0Management.creatorEmail).toBeCalledTimes(1);
     expect(mockAuth0Management.getModoratorEmails).toBeCalledTimes(1);
+  });
+
+  test('Notification via SendGrid with Only Creator emails', async () => {
+    let response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(sanityMockPayload),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    let results = await response.json();
+    expect(mockSendGrid.sendNotification).toBeCalledWith({
+      authorEmail: 'testing@mediajams.dev',
+      authorName: 'Jesse Test Tomchak',
+      templateName: 'authorNotification',
+      title: 'Titles are hard to test?',
+      workflowState: 'Changes Requested',
+    });
   });
 });
