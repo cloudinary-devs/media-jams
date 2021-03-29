@@ -41,7 +41,7 @@
     "@sentry/browser": "^5.30.0",
     "@sentry/integrations": "^5.30.0",
     "@sentry/node": "^5.30.0",
-    "@sentry/webpack-plugin": "^1.14.0",
+    "@sentry/webpack-plugin": "^1.14.2",
     "@testing-library/react-hooks": "^5.0.3",
     "@zeit/next-css": "^1.0.1",
     "cloudinary": "^1.25.0",

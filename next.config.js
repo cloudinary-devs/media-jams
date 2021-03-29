@@ -67,24 +67,22 @@ const defaultConfig = {
       },
     ];
   },
-  webpack: (config, options) => {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Fixes npm packages that depend on `fs` module
     config.node = {
       fs: 'empty',
     };
     // So ask Webpack to replace @sentry/node imports with @sentry/browser when
     // building the browser's bundle
-    if (!options.isServer) {
+    if (!isServer) {
       config.resolve.alias['@sentry/node'] = '@sentry/browser';
     }
 
     // Define an environment variable so source code can check whether or not
     // it's running on the server so we can correctly initialize Sentry
     config.plugins.push(
-      new options.webpack.DefinePlugin({
-        'process.env.NEXT_IS_SERVER': JSON.stringify(
-          options.isServer.toString(),
-        ),
+      new webpack.DefinePlugin({
+        'process.env.NEXT_IS_SERVER': JSON.stringify(isServer.toString()),
       }),
     );
     // The Sentry webpack plugin gets pushed to the webpack plugins to build
@@ -128,4 +126,11 @@ const withMDX = require('@next/mdx')({
 /**
  * Export w/ defaultConfig
  */
-module.exports = withPlugins([withBundleAnalyzer, withMDX], defaultConfig);
+module.exports = withPlugins(
+  [
+    [withBundleAnalyzer],
+    // your other plugins here
+    withMDX,
+  ],
+  defaultConfig,
+);
