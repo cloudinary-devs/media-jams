@@ -29,9 +29,13 @@ export default function AuthorCard({ author, ...rest }) {
       {...rest}
     >
       <Avatar size="xl" src={author.image?.asset.url} />
+
       <Link href={`/author/${author.slug?.current || ''}`}>
-        <Heading fontSize="xl">{author.name}</Heading>
+        <Heading fontSize="xl" _hover={{ cursor: 'pointer' }}>
+          {author.name}
+        </Heading>
       </Link>
+
       <Text fontSize="xs">{author.jobTitle}</Text>
       <Flex mt={3}>
         <Icon as={FaTwitter} mr={3} />

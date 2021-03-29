@@ -18,8 +18,6 @@ import JamAccordion from '@components/JamAccordion';
 export default function AuthorPage({ author }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  console.log(author);
-
   const { data } = useQuery(
     `${author.name}'s Jams`,
     () => jams.getJamsByAuthor(author._id),

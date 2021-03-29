@@ -31,6 +31,7 @@ export default function JamAccordion({
   ...rest
 }) {
   const { author } = post;
+
   const { user, loading } = useUser();
   const [isBookmarked, setBookmark] = useState(false);
   const queryClient = useQueryClient();
@@ -146,9 +147,14 @@ export default function JamAccordion({
               <Link href={`/post/${post.slug.current}`}>
                 <Heading fontSize="lg">{post.title}</Heading>
               </Link>
-              <Text fontSize={{ base: 'sm', md: 'sm', lg: 'sm' }}>
-                By {author.name}
-              </Text>
+              <Link href={`/author/${author.slug?.current || ''}`}>
+                <Text
+                  _hover={{ cursor: 'pointer' }}
+                  fontSize={{ base: 'sm', md: 'sm', lg: 'sm' }}
+                >
+                  By {author.name}
+                </Text>
+              </Link>
               <Flex flexWrap="wrap">
                 {post.tags?.map((tag) => (
                   <Text
