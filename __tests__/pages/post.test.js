@@ -10,13 +10,13 @@ test('`getStaticProps` should prefetch query tags & categories', async () => {
   expect(queries[0]).toEqual(
     expect.objectContaining({
       queryKey: 'jamTags',
-      queryHash: '"jamTags"',
+      queryHash: '["jamTags"]',
     }),
   );
   expect(queries[1]).toEqual(
     expect.objectContaining({
       queryKey: 'jamCategories',
-      queryHash: '"jamCategories"',
+      queryHash: '["jamCategories"]',
     }),
   );
 });

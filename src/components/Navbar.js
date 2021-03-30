@@ -1,26 +1,25 @@
 import { Flex, Text, Box, Link, Button } from '@chakra-ui/react';
 import Image from '@components/Image';
-import { Link as NextLink } from 'next/link';
+import NextLink from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0';
 
-export function NavLink({ children, isButton, ...props }) {
+export function NavLink({ children, href, ...props }) {
   return (
-    <Link
-      as={NextLink}
-      _hover={
-        !isButton && {
+    <NextLink href={href} passHref>
+      <Link
+        _hover={{
           color: 'yellow.400',
           borderBottomWidth: '5px',
           borderBottomStyle: 'solid',
           borderBottomColor: 'yellow.400',
           paddingBottom: '3px',
-        }
-      }
-      px={2}
-      {...props}
-    >
-      {children}
-    </Link>
+        }}
+        px={2}
+        {...props}
+      >
+        {children}
+      </Link>
+    </NextLink>
   );
 }
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link as NextLink } from 'next/link';
 import { Box, Link, Text, Stack } from '@chakra-ui/react';
 
