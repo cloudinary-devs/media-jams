@@ -12,6 +12,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  MenuGroup,
 } from '@chakra-ui/react';
 import {
   FaStickyNote,
@@ -113,15 +114,19 @@ export default function SideNav(props) {
                 <Icon as={FaChevronUp} />
               </Flex>
             </MenuButton>
-            <MenuList>
+
+            <MenuList w="100%">
               <Link href="/profile" _hover={{ textDecoration: 'none' }}>
                 <MenuItem>
                   <Icon as={FaUserCircle} mr={2} /> Profile
                 </MenuItem>
               </Link>
-              <MenuItem>
-                <Icon as={FaPlusCircle} mr={2} /> Create Note
-              </MenuItem>
+
+              <MenuGroup title="Actions">
+                <MenuItem>
+                  <Icon as={FaPlusCircle} mr={2} /> Create Note
+                </MenuItem>
+              </MenuGroup>
             </MenuList>
           </Menu>
         </Flex>

@@ -161,9 +161,11 @@ export default function JamAccordion({
                     <Link href={`/post/${post.slug.current}`}>
                       <Heading fontSize="md">{post.title}</Heading>
                     </Link>
-                    <Text fontSize={{ base: 'sm', md: 'sm', lg: 'sm' }}>
-                      By {author.name}
-                    </Text>
+                    <Link href={`/author/${author.slug?.current || ''}`}>
+                      <Text fontSize={{ base: 'sm', md: 'sm', lg: 'sm' }}>
+                        By {author.name}
+                      </Text>
+                    </Link>
                   </Flex>
                 </Flex>
 
