@@ -35,11 +35,11 @@ export default function AuthorPage({ author }) {
             borderBottomLeftRadius="8px"
             h="100%"
             width="30%"
-            alt={author.name}
-            src={author.image.asset.url}
+            alt={author?.name}
+            src={author?.image.asset.url}
           />
           <Flex p={8}>
-            <Heading>{author.name}</Heading>
+            <Heading>{author?.name}</Heading>
           </Flex>
         </Flex>
 
