@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as NextLink } from 'next/link';
+import NextLink from 'next/link';
 import {
   Avatar,
   Button,
@@ -164,21 +164,25 @@ export default function SideNav(props) {
   );
 }
 
-function NavLink({ children, ...props }) {
+function NavLink({ children, href, icon, ...props }) {
   return (
-    <Link
-      as={NextLink}
-      display="flex"
-      _hover={{ background: 'yellow.400', color: 'black' }}
-      p="12px"
-      minW="100%"
-      display="flex"
-      color="white"
-      alignItems="center"
-      {...props}
-    >
-      {children}
-    </Link>
+    <NextLink href={href} passHref>
+      <Link
+        display="flex"
+        _hover={{ background: 'yellow.400', color: 'black' }}
+        p="12px"
+        minW="100%"
+        display="flex"
+        color="white"
+        alignItems="center"
+        {...props}
+      >
+        <Icon ml={3} as={icon} w={5} h={5} mr={2} />
+        <Text ml={2} fontWeight="thin">
+          {children}
+        </Text>
+      </Link>
+    </NextLink>
   );
 }
 
@@ -186,31 +190,19 @@ function NavLinkGroup() {
   const { user, loading } = useUser();
   return (
     <Flex mt={7} direction="column" alignItems="center" color="white">
-      <NavLink href="/dashboard">
-        <Icon ml={3} as={FaHome} w={5} h={5} mr={2} />
-        <Text ml={2} fontWeight="thin">
-          Dashboard
-        </Text>
+      <NavLink href="/dashboard" icon={FaHome}>
+        Dashboard
       </NavLink>
-      <NavLink href="/post">
-        <Icon ml={3} as={FaPhotoVideo} w={5} h={5} mr={2} />
-        <Text ml={2} fontWeight="thin">
-          Jams
-        </Text>
+      <NavLink href="/post" icon={FaPhotoVideo}>
+        Jams
       </NavLink>
       {user && (
         <>
-          <NavLink href="/bookmarks">
-            <Icon ml={3} as={FaBookmark} w={4} h={4} mr={2} />
-            <Text ml={2} fontWeight="thin">
-              Bookmarks
-            </Text>
+          <NavLink href="/bookmarks" icon={FaBookmark}>
+            Bookmarks
           </NavLink>
-          <NavLink href="/notes">
-            <Icon ml={3} as={FaStickyNote} w={4} h={4} mr={2} />
-            <Text ml={2} fontWeight="thin">
-              Notes
-            </Text>
+          <NavLink href="/notes" icon={FaStickyNote}>
+            Notes
           </NavLink>
         </>
       )}

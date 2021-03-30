@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as NextLink } from 'next/link';
+import NextLink from 'next/link';
 import {
   Button,
   Flex,
@@ -50,6 +50,7 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
               {user ? (
                 <Link as={NextLink} href="/api/auth/logout" passHref>
                   <Button
+                    as={Link}
                     outline="black"
                     background="grey.700"
                     color="yellow.400"
@@ -60,6 +61,7 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
               ) : (
                 <Link as={NextLink} href="/api/auth/login" passHref>
                   <Button
+                    as={Link}
                     outline="black"
                     background="grey.700"
                     color="yellow.400"
@@ -140,21 +142,25 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
   );
 }
 
-function NavLink({ children, ...props }) {
+function NavLink({ children, href, icon, ...props }) {
   return (
-    <Link
-      as={NextLink}
-      display="flex"
-      _hover={{ background: 'yellow.400', color: 'black' }}
-      p="12px"
-      minW="100%"
-      display="flex"
-      color="white"
-      alignItems="center"
-      {...props}
-    >
-      {children}
-    </Link>
+    <NextLink href={href} passHref>
+      <Link
+        display="flex"
+        _hover={{ background: 'yellow.400', color: 'black' }}
+        p="12px"
+        minW="100%"
+        display="flex"
+        color="white"
+        alignItems="center"
+        {...props}
+      >
+        <Icon ml={3} as={icon} w={5} h={5} mr={2} />
+        <Text ml={2} fontWeight="thin">
+          {children}
+        </Text>
+      </Link>
+    </NextLink>
   );
 }
 
@@ -162,24 +168,20 @@ function NavLinkGroup() {
   const { user, loading } = useUser();
   return (
     <Flex mt={4} direction="column" alignItems="center" color="white">
-      <NavLink href="/dashboard">
-        <Icon as={FaHome} w={5} h={5} mr={2} />
-        <Text fontWeight="regular">Dashboard</Text>
+      <NavLink href="/dashboard" icon={FaHome}>
+        Dashboard
       </NavLink>
-      <NavLink href="/post">
-        <Icon as={FaPhotoVideo} w={5} h={5} mr={2} />
-        <Text fontWeight="thin">Jams</Text>
+      <NavLink href="/post" icon={FaPhotoVideo}>
+        Jams
       </NavLink>
       {/* Authenticated Users */}
       {user && (
         <>
-          <NavLink href="/bookmarks">
-            <Icon as={FaBookmark} w={5} h={5} mr={2} />
-            <Text fontWeight="thin">Bookmarks</Text>
+          <NavLink href="/bookmarks" icon={FaBookmark}>
+            Bookmarks
           </NavLink>
-          <NavLink href="/notes">
-            <Icon as={FaStickyNote} w={5} h={5} mr={2} />
-            <Text fontWeight="thin">Notes</Text>
+          <NavLink href="/notes" icon={FaStickyNote}>
+            Notes
           </NavLink>
         </>
       )}
