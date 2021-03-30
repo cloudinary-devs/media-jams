@@ -19,7 +19,7 @@ export default function AuthorPage({ author }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { data } = useQuery(
-    `${author.name}'s Jams`,
+    `${author?.name}'s Jams`,
     () => jams.getJamsByAuthor(author._id),
     {
       enabled: !!author,
