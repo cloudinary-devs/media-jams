@@ -1,5 +1,5 @@
 import React, { useContext, Fragment } from 'react';
-import { css, jsx, ThemeContext } from '@emotion/core';
+import { css, jsx, ThemeContext } from '@emotion/react';
 
 import { Box } from '@chakra-ui/react';
 import MDX from '@mdx-js/runtime';

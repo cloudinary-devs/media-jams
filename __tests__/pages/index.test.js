@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act, waitFor } from 'test-utils';
+import { render, screen, act, waitFor, debug } from 'test-utils';
 import Index from '../../pages/index.js';
 
 test('renders index w/o error', async () => {

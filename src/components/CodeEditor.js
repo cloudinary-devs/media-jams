@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Box } from '@chakra-ui/react';
-import { Global, css } from '@emotion/core';
+import { Global, css } from '@emotion/react';
 import { UnControlled as CodeMirror } from 'react-codemirror2';
 import blocksToText from '@lib/blocksToText';
 // used for CodeMirror Preivew Content
