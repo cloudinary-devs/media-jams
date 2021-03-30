@@ -1,17 +1,8 @@
 import {
-  Input,
   Flex,
-  Box,
-  Text,
-  Heading,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  useDisclosure,
-  Divider,
   Textarea,
+  createStandaloneToast,
 } from '@chakra-ui/react';
 
 import { boxShadow } from '@utils/styles';
@@ -20,6 +11,7 @@ import { useMutation, useQueryClient } from 'react-query';
 
 export default function NoteForm() {
   const inputRef = React.useRef();
+  const toast = createStandaloneToast();
   const [note, setNote] = React.useState();
   const queryClient = useQueryClient();
   const createNote = useMutation((note) => notes.add(note), {
@@ -37,12 +29,27 @@ export default function NoteForm() {
       return previousValue;
     },
     // On failure, roll back to the previous value
-    onError: (err, variables, previousValue) =>
-      // TODO: Revisit and add a toast on failure and rollback
-      queryClient.setQueryData('notes', previousValue),
-    // After success or failure, refetch the notes query
+    onError: (err, variables, previousValue) => {
+      queryClient.setQueryData('notes', previousValue);
+      toast({
+        title: 'Oh no!',
+        description: 'Something went wrong while creating your note!',
+        status: 'error',
+        duration: 3000,
+        position: 'top',
+        isClosable: true,
+      });
+    },
+    // After success, refetch the notes query
     onSuccess: () => {
       queryClient.invalidateQueries('notes');
+      toast({
+        title: 'Successfully created your note!',
+        status: 'success',
+        duration: 3000,
+        position: 'top',
+        isClosable: true,
+      });
     },
   });
 

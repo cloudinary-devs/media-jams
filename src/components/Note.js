@@ -5,6 +5,7 @@ import {
   IconButton,
   Box,
   useDisclosure,
+  createStandaloneToast,
 } from '@chakra-ui/react';
 
 import NoteModal from '@components/NoteModal';
@@ -26,6 +27,7 @@ import { boxShadow } from '@utils/styles';
 
 export default function Note({ note, ...rest }) {
   const queryClient = useQueryClient();
+  const toast = createStandaloneToast();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [isEditable, setIsEditable] = React.useState(false);
 
@@ -42,12 +44,28 @@ export default function Note({ note, ...rest }) {
       return previousValue;
     },
     // On failure, roll back to the previous value
-    onError: (err, variables, previousValue) =>
-      // TODO: Revisit and add a toast on failure and rollback
-      queryClient.setQueryData('notes', previousValue),
+    onError: (err, variables, previousValue) => {
+      queryClient.setQueryData('notes', previousValue);
+      toast({
+        title: 'Oh no!',
+        description: 'Something went wrong while deleting your note!',
+        status: 'error',
+        duration: 3000,
+        position: 'top',
+        isClosable: true,
+      });
+    },
+
     // After success or failure, refetch the notes query
     onSuccess: () => {
       queryClient.invalidateQueries('notes');
+      toast({
+        title: 'Successfully deleted your note!',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top',
+      });
     },
   });
   return (
@@ -144,6 +162,8 @@ export default function Note({ note, ...rest }) {
               setIsEditable(false);
               onOpen();
             }}
+            mb={4}
+            mr={1}
             alignSelf="flex-end"
             size="sm"
             outline="none"
