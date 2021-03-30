@@ -151,7 +151,7 @@ export default function Post() {
           xl: '2.5fr 200px 2fr',
         }}
         gap={6}
-        p={6}
+        p="1rem"
         overflow={{ base: 'auto', xl: null }}
       >
         <JamSearch

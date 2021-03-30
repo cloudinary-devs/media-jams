@@ -28,10 +28,10 @@ export default function AuthorCard({ author, ...rest }) {
       textAlign="center"
       {...rest}
     >
-      <Avatar size="xl" src={author.image?.asset.url} />
+      <Avatar size="lg" src={author.image?.asset.url} />
 
       <Link href={`/author/${author.slug?.current || ''}`}>
-        <Heading fontSize="xl" _hover={{ cursor: 'pointer' }}>
+        <Heading mt={3} fontSize="xl" _hover={{ cursor: 'pointer' }}>
           {author.name}
         </Heading>
       </Link>

@@ -8,6 +8,10 @@ import {
   IconButton,
   Link,
   Text,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react';
 import {
   FaStickyNote,
@@ -15,10 +19,10 @@ import {
   FaHome,
   FaPhotoVideo,
   FaBookmark,
-  FaUser,
+  FaChevronDown,
+  FaChevronUp,
   FaPlusCircle,
   FaUserCircle,
-  FaPlus,
 } from 'react-icons/fa';
 
 import { boxShadow } from '@utils/styles';
@@ -91,53 +95,35 @@ export default function SideNav(props) {
           width="100%"
           justify="flex-end"
           align="flex-end"
-          position="aboslute"
-          pb={4}
         >
-          <Flex
-            direction="column"
-            alignSelf="center"
-            width="90%"
-            h="300px"
-            borderRadius="4px"
-            bg="grey.700"
-          >
-            <Flex mt={2} direction="column" w="100%" align="center" p="4px">
-              <Avatar size="md" src={user.picture}></Avatar>
-              <Text mt="8px" color="yellow.400">
-                Welcome, {user.nickname}
-              </Text>
-            </Flex>
-            {/* <Flex
+          <Menu placement="top">
+            <MenuButton
               alignSelf="center"
-              width="70%"
-              wrap="wrap"
-              justify="space-around"
-              align="center"
+              h={12}
+              borderBottomRightRadius="none"
+              borderBottomLeftRadius="none"
+              borderTopLeftRadius="8px"
+              borderTopRightRadius="8px"
+              w="95%"
+              as={Button}
             >
-              <Icon as={FaUserCircle} boxSize="24px" />
-              <Icon as={FaPlusCircle} boxSize="24px" />
-            </Flex> */}
-            <IconButton
-              as={Link}
-              position="relative"
-              top="165px"
-              mr="8px"
-              icon={<FaRegFlag />}
-              target="_blank"
-              href="/feedback"
-              textDecoration="none"
-              outline="none"
-              size="sm"
-              borderRadius="full"
-              bg="black"
-              color="yellow.400"
-              hover={{ textDecoration: 'none', bg: 'none', outline: 'none' }}
-              _active={{ bg: 'none', outline: 'none' }}
-              alignSelf="flex-end"
-              justifySelf="flex-end"
-            />
-          </Flex>
+              <Flex w="100%" alignItems="center" justify="space-around">
+                <Avatar size="sm" src={user.picture} />
+                <Text isTruncated>{user.nickname}</Text>
+                <Icon as={FaChevronUp} />
+              </Flex>
+            </MenuButton>
+            <MenuList>
+              <Link href="/profile" _hover={{ textDecoration: 'none' }}>
+                <MenuItem>
+                  <Icon as={FaUserCircle} mr={2} /> Profile
+                </MenuItem>
+              </Link>
+              <MenuItem>
+                <Icon as={FaPlusCircle} mr={2} /> Create Note
+              </MenuItem>
+            </MenuList>
+          </Menu>
         </Flex>
       ) : (
         <Flex

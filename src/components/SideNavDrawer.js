@@ -11,6 +11,10 @@ import {
   IconButton,
   Text,
   Avatar,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react';
 import Image from '@components/Image';
 import {
@@ -19,6 +23,10 @@ import {
   FaHome,
   FaPhotoVideo,
   FaBookmark,
+  FaChevronDown,
+  FaChevronUp,
+  FaPlusCircle,
+  FaUserCircle,
 } from 'react-icons/fa';
 import { useUser } from '@auth0/nextjs-auth0';
 
@@ -72,21 +80,34 @@ export default function SideNavDrawer({ isOpen, onClose, ...props }) {
               align="flex-end"
               pb={4}
             >
-              <Flex
-                direction="column"
-                alignSelf="center"
-                width="90%"
-                h="300px"
-                borderRadius="4px"
-                bg="grey.700"
-              >
-                <Flex mt={2} direction="column" w="100%" align="center" p="4px">
-                  <Avatar size="md" src={user.picture}></Avatar>
-                  <Text mt="8px" color="yellow.400">
-                    Welcome, {user.nickname}
-                  </Text>
-                </Flex>
-              </Flex>
+              <Menu placement="top">
+                <MenuButton
+                  alignSelf="center"
+                  h={12}
+                  borderBottomRightRadius="none"
+                  borderBottomLeftRadius="none"
+                  borderTopLeftRadius="8px"
+                  borderTopRightRadius="8px"
+                  w="95%"
+                  as={Button}
+                >
+                  <Flex w="100%" alignItems="center" justify="space-around">
+                    <Avatar size="sm" src={user.picture} />
+                    <Text isTruncated>{user.nickname}</Text>
+                    <Icon as={FaChevronUp} />
+                  </Flex>
+                </MenuButton>
+                <MenuList>
+                  <Link href="/profile" _hover={{ textDecoration: 'none' }}>
+                    <MenuItem>
+                      <Icon as={FaUserCircle} mr={2} /> Profile
+                    </MenuItem>
+                  </Link>
+                  <MenuItem>
+                    <Icon as={FaPlusCircle} mr={2} /> Create Note
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </Flex>
           ) : (
             <Flex

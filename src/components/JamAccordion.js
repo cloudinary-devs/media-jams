@@ -166,34 +166,7 @@ export default function JamAccordion({
                     </Text>
                   </Flex>
                 </Flex>
-                {isExpanded ? null : (
-                  <Flex
-                    mt={4}
-                    color="white"
-                    alignSelf="center"
-                    justifySelf="flex-end"
-                    flexWrap="wrap"
-                  >
-                    {post.tags?.map((tag) => (
-                      <Text
-                        key={tag._id}
-                        mr={3}
-                        fontSize={{
-                          base: '10px',
-                          md: '10px',
-                          lg: '10px',
-                          xl: '10px',
-                        }}
-                        bg={`${color}.400`}
-                        borderRadius={borderRadius}
-                        letterSpacing="1px"
-                        p={2}
-                      >
-                        #{tag.title}
-                      </Text>
-                    ))}
-                  </Flex>
-                )}
+
                 <Flex width={20} alignItems="center">
                   {user ? (
                     <IconButton

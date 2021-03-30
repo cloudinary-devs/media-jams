@@ -74,8 +74,7 @@ export default function Dashboard() {
           xl: '1fr 1fr 1fr',
         }}
         gap={6}
-        p={8}
-        ml={-3}
+        p="1rem"
         overflow={{ md: 'auto', lg: 'auto', xl: 'none' }}
       >
         <Featured />
@@ -175,7 +174,7 @@ function Authors() {
           minH="90%"
           bg="white"
           maxH="90%"
-          minW={60}
+          minW={56}
           mr={4}
           author={author}
         />

@@ -2,13 +2,6 @@ import {
   Button,
   Flex,
   Text,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   IconButton,
   Box,
   useDisclosure,
@@ -89,23 +82,42 @@ export default function Note({ note, ...rest }) {
           >
             {note.created_at}
           </Text>
-          <Box>
+          <Box mt={2} mr={2}>
             <IconButton
               onClick={() => deleteNote.mutate(note.id)}
-              p="0px"
-              _active={{ bg: 'none', outline: 'none' }}
-              icon={<FaTrash />}
+              size="sm"
               outline="none"
               bg="none"
+              h="0"
+              w="0"
+              _focus={{
+                boxShadow: 'none',
+              }}
+              _hover={{
+                bg: 'none',
+              }}
+              icon={<FaTrash />}
               _hover={{ bg: 'none' }}
               alignSelf="flex-end"
             />
             <IconButton
-              p="0px"
-              _active={{ bg: 'none' }}
-              icon={<FaEdit />}
+              size="sm"
               outline="none"
               bg="none"
+              h="0"
+              w="0"
+              paddingLeft="0"
+              paddingRight="0"
+              paddingTop="0"
+              paddingBottom="0"
+              _focus={{
+                boxShadow: 'none',
+              }}
+              _hover={{
+                bg: 'none',
+              }}
+              _active={{ bg: 'none' }}
+              icon={<FaEdit />}
               _hover={{ bg: 'none' }}
               alignSelf="flex-end"
               onClick={() => {
@@ -133,14 +145,16 @@ export default function Note({ note, ...rest }) {
               onOpen();
             }}
             alignSelf="flex-end"
-            pb="12px"
-            pr="3px"
-            _active={{ bg: 'none' }}
-            icon={<FaExpand />}
+            size="sm"
             outline="none"
             bg="none"
+            h="0"
+            w="0"
+            _focus={{
+              boxShadow: 'none',
+            }}
+            icon={<FaExpand />}
             _hover={{ bg: 'none' }}
-            alignSelf="flex-end"
           />
         </Flex>
       </Flex>
