@@ -123,7 +123,7 @@ export default function Hero() {
           Browse
         </Button>
       </Flex>
-      {data.allPost && (
+      {data?.allPost && (
         <Carousel
           w={{ base: '90%', md: '60%', lg: '40%' }}
           h={{ base: 'auto', md: '360px', lg: '420px' }}

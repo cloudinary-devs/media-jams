@@ -4,6 +4,8 @@ import { IoMdHand } from 'react-icons/io';
 import { FaTwitter, FaGithub } from 'react-icons/fa';
 import { boxShadow } from '@utils/styles';
 
+import Link from 'next/link';
+
 export default function AuthorCard({ author, ...rest }) {
   const wave = keyframes`
     0% { transform: rotate( 0.0deg) }
@@ -27,7 +29,13 @@ export default function AuthorCard({ author, ...rest }) {
       {...rest}
     >
       <Avatar size="xl" src={author.image?.asset.url} />
-      <Heading fontSize="xl">{author.name}</Heading>
+
+      <Link href={`/author/${author.slug?.current || ''}`}>
+        <Heading fontSize="xl" _hover={{ cursor: 'pointer' }}>
+          {author.name}
+        </Heading>
+      </Link>
+
       <Text fontSize="xs">{author.jobTitle}</Text>
       <Flex mt={3}>
         <Icon as={FaTwitter} mr={3} />

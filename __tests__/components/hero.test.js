@@ -1,9 +1,12 @@
 import React from 'react';
-import { render, screen } from '@utils/test-utils';
+import { render, screen, act } from '@utils/test-utils';
 import Hero from '@components/Hero';
 
 test('renders hero component', () => {
-  render(<Hero />);
-  const heroElementFirst = screen.getByText(/Putting Media to Work Is Hard/);
+  act(() => {
+    /* fire events that update state */
+    render(<Hero />);
+  });
+  const heroElementFirst = screen.getByText(/Unlock Media/);
   expect(heroElementFirst).toBeInTheDocument();
 });

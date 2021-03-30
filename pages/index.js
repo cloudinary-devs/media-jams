@@ -157,7 +157,7 @@ function Authors() {
         p={{ base: 1, lg: 'none' }}
         justifyItems={{ base: 'center', lg: 'none' }}
       >
-        {authors.allAuthor?.slice(0, 8).map((author) => (
+        {authors?.allAuthor?.slice(0, 8).map((author) => (
           <AuthorCard h={72} w={{ base: '90%', lg: 64 }} author={author} />
         ))}
       </Grid>
@@ -166,10 +166,9 @@ function Authors() {
 }
 
 function FrameworkJams() {
-  const { data: jams } = useQuery('jams', queryJams.get);
+  const { data } = useQuery('jams', queryJams.get);
   const [yellow900] = useToken('colors', ['yellow.900']);
-
-  const reactJams = jams.jams?.filter((jam) =>
+  const reactJams = data?.jams?.filter((jam) =>
     jam.tags?.some(
       (tag) =>
         tag.title === 'React' ||
@@ -178,15 +177,15 @@ function FrameworkJams() {
     ),
   );
 
-  const vueJams = jams.jams?.filter((jam) =>
+  const vueJams = data?.jams?.filter((jam) =>
     jam.tags?.some((tag) => tag.title === 'Vue' || tag.title === 'NuxtJS'),
   );
 
-  const svelteJams = jams.jams?.filter((jam) =>
+  const svelteJams = data?.jams?.filter((jam) =>
     jam.tags?.some((tag) => tag.title === 'Svelte'),
   );
 
-  const angularJams = jams.jams?.filter((jam) =>
+  const angularJams = data?.jams?.filter((jam) =>
     jam.tags?.some((tag) => tag.title === 'Angular'),
   );
 

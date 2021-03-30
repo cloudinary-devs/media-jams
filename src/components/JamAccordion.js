@@ -31,6 +31,7 @@ export default function JamAccordion({
   ...rest
 }) {
   const { author } = post;
+
   const { user, loading } = useUser();
   const [isBookmarked, setBookmark] = useState(false);
   const queryClient = useQueryClient();
