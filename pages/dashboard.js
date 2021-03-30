@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { FaDiscord } from 'react-icons/fa';
-import { Link as NextLink } from 'next/link';
+import NextLink from 'next/link';
 
 import { authors as queryAuthors } from '@lib/queries/authors';
 import { jams as queryJams } from '@lib/queries/jams';

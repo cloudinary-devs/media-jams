@@ -2,9 +2,27 @@ import React, { useEffect, useState } from 'react';
 // This import is only needed when checking authentication status directly from getServerSideProps
 import auth0 from '@lib/auth0';
 import { Flex, Text, Box, Link, Icon, Button, Stack } from '@chakra-ui/react';
-import { Link as NextLink } from 'next/link';
+import NextLink from 'next/link';
 import { AiOutlineLogout, AiOutlineSetting } from 'react-icons/ai';
 import Layout from '@components/Layout';
+
+// `onClick`, `href`, and `ref` need to be passed to the DOM element
+// for proper handling
+const LogOut = React.forwardRef(({ onClick, href }, ref) => {
+  return (
+    <Button
+      as="a"
+      rightIcon={<AiOutlineLogout />}
+      colorScheme="blue"
+      variant="outline"
+      href={href}
+      onClick={onClick}
+      ref={ref}
+    >
+      LogOut
+    </Button>
+  );
+});
 
 function ProfileCard({ user }) {
   const [studioURL, setStudioURL] = useState(null);
@@ -41,13 +59,13 @@ function ProfileCard({ user }) {
         >
           Media Jams Studio
         </Button>
-        <Link as={NextLink} px={2} href="/api/auth/logout">
+        <Link as={NextLink} px={2} href="/api/auth/logout" passHref>
           <Button
             rightIcon={<AiOutlineLogout />}
             colorScheme="blue"
             variant="outline"
           >
-            Logout
+            LogOut
           </Button>
         </Link>
       </Stack>

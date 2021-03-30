@@ -1,3 +1,4 @@
+import React from 'react';
 import Fuse from 'fuse.js';
 import { Box, Button, Input, Flex, Text, Spacer } from '@chakra-ui/react';
 import TagButton from '@components/TagButton';

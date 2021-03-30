@@ -75,7 +75,8 @@ const defaultConfig = {
     config.resolve = {
       ...config.resolve,
       fallback: {
-        fs: 'empty',
+        fs: false,
+        path: require.resolve('path-browserify'),
       },
     };
     // So ask Webpack to replace @sentry/node imports with @sentry/browser when
