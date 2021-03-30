@@ -1,3 +1,4 @@
+import React from 'react';
 import { useQuery } from 'react-query';
 import { jams as queryJams } from '@lib/queries/jams';
 

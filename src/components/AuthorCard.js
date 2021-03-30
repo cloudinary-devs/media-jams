@@ -1,3 +1,4 @@
+import React from 'react';
 import { Flex, Icon, Avatar, Heading, Text, Tooltip } from '@chakra-ui/react';
 import { keyframes } from '@emotion/react';
 import { IoMdHand } from 'react-icons/io';
