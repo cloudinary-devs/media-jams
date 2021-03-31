@@ -141,5 +141,8 @@
       "next/babel"
     ]
   },
-  "license": "ISC"
+  "license": "ISC",
+  "resolutions": {
+    "webpack": "^5.0.0-beta.30"
+  }
 }

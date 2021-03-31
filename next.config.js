@@ -71,14 +71,6 @@ const defaultConfig = {
     ];
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Fixes npm packages that depend on `fs` module
-    config.resolve = {
-      ...config.resolve,
-      fallback: {
-        fs: false,
-        path: require.resolve('path-browserify'),
-      },
-    };
     // So ask Webpack to replace @sentry/node imports with @sentry/browser when
     // building the browser's bundle
     if (!isServer) {
@@ -123,12 +115,6 @@ const defaultConfig = {
   },
   basePath,
 };
-const withMDX = require('@next/mdx')({
-  options: {
-    remarkPlugins: [],
-    rehypePlugins: [],
-  },
-});
 
 /**
  * Export w/ defaultConfig
@@ -137,7 +123,6 @@ module.exports = withPlugins(
   [
     [withBundleAnalyzer],
     // your other plugins here
-    withMDX,
   ],
   defaultConfig,
 );
