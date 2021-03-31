@@ -15,3 +15,5 @@ test('SearchBar takes input', () => {
   expect(searchBar).toBeInTheDocument();
   expect(searchBar).toHaveDisplayValue(/witty title here/i);
 });
+
+test('Bookmarks gets user bookmarks', async () => {});
