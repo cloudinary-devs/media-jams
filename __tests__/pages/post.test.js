@@ -21,12 +21,12 @@ test('`getStaticProps` should prefetch query tags & categories', async () => {
   );
 });
 
-// test('post index should render w/o error', async () => {
-//   const response = await getStaticProps();
-//   const { props } = response;
+test('post index should render w/o error', async () => {
+  const response = await getStaticProps();
+  const { props } = response;
 
-//   act(() => {
-//     render(<Post {...props} />);
-//     expect(true).toBeTruthy();
-//   });
-// });
+  act(() => {
+    render(<Post {...props} />);
+    expect(true).toBeTruthy();
+  });
+});

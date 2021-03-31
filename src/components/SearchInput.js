@@ -12,7 +12,7 @@ import useDebounce from '../hooks/useDebounce';
 export default function SearchInput({
   searchValue,
   setSearchValue,
-  showFilters,
+  showFilters = false,
   setShowFilters,
   width,
   color,
