@@ -1,6 +1,3 @@
-import glob from 'fast-glob';
-import fs from 'fs';
-import matter from 'gray-matter';
 import Link from 'next/link';
 import { contentGlob, getFileSlug } from './[...slug]';
 
@@ -26,6 +23,10 @@ export default function AllData({ allMdx }) {
 }
 
 export function getStaticProps() {
+  const fs = require('fs');
+  const matter = require('gray-matter');
+  const glob = require('fast-glob');
+
   const files = glob.sync(contentGlob);
   const allMdx = files.map((file) => {
     const slug = getFileSlug(file);
