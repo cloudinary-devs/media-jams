@@ -15,23 +15,32 @@ import Fuse from 'fuse.js';
 
 const fuseOptions = {
   threshold: 0.35,
-  location: 0,
-  distance: 100,
-  minMatchCharLength: 1,
+  ignoreLocation: true,
+  minMatchCharLength: 2,
   shouldSort: true,
   includeScore: true,
   useExtendedSearch: true,
-  keys: ['title', 'tags.title', 'author.name'],
+  findAllMatches: true,
+  keys: ['body'],
 };
 
-function Notes() {
+function Notes({ user }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [filteredPosts, setFilteredPosts] = React.useState([]);
+  const [filteredNotes, setFilteredNotes] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
-  const { user } = useUser();
   const { data } = useQuery('notes', notes.get, {
     enabled: !!user,
   });
+
+  React.useEffect(() => {
+    if (!searchValue) {
+      handleFilter(data?.notes);
+    } else {
+      const results = fuse.search(searchValue).map((result) => result.item);
+      console.log(results);
+      handleFilter(results);
+    }
+  }, [searchValue, data]);
   // Set Fuse
   const fuse = new Fuse(data?.notes, fuseOptions);
 
@@ -40,7 +49,7 @@ function Notes() {
     setSearchValue(value);
   };
   const handleFilter = (data) => {
-    setFilteredPosts(data);
+    setFilteredNotes(data);
   };
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
@@ -64,7 +73,7 @@ function Notes() {
         direction={{ base: 'column', xl: 'row' }}
         align={{ base: 'center', xl: 'none' }}
       >
-        {data?.notes.map((data) => (
+        {filteredNotes.map((data) => (
           <Note mr={4} note={data} />
         ))}
       </Flex>

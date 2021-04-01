@@ -59,7 +59,7 @@ function Bookmarks() {
       const results = fuse.search(queries).map((result) => result.item);
       handleFilter(results);
     }
-  }, [searchValue]);
+  }, [searchValue, posts]);
   // Set Fuse
   const fuse = new Fuse(posts?.allPost, fuseOptions);
 
