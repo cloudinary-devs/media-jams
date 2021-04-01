@@ -30,14 +30,17 @@ export default function AuthorPage({ author }) {
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
       <Flex overflow="auto" w="100%" direction="column" gap={2} p={12}>
         <Flex w="50%" alignSelf="center" bg="white" h={72} borderRadius="8px">
-          <Image
-            borderTopLeftRadius="8px"
-            borderBottomLeftRadius="8px"
-            h="100%"
-            width="30%"
-            alt={author?.name}
-            src={author?.image.asset.url}
-          />
+          {/* Authors May Not have Image  */}
+          {author?.image?.asset && (
+            <Image
+              borderTopLeftRadius="8px"
+              borderBottomLeftRadius="8px"
+              h="100%"
+              width="30%"
+              alt={author?.name}
+              src={author?.image?.asset?.url}
+            />
+          )}
           <Flex p={8}>
             <Heading>{author?.name}</Heading>
           </Flex>
