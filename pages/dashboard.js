@@ -145,7 +145,7 @@ function DiscordAd() {
       <Link
         as={NextLink}
         color="white"
-        _visited="white"
+        _visited={{ color: 'white' }}
         textDecor="underline"
         href="https://discord.gg/mediadevs"
         w="40%"
@@ -231,8 +231,8 @@ function Paths() {
         lineHeight={1}
         color="white"
         alignSelf="flex-start"
-        fontSize="6xl"
-        mt={1}
+        fontSize="5xl"
+        mt={2}
       >
         Learning Paths
       </Heading>

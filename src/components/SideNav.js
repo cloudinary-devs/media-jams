@@ -197,7 +197,7 @@ export default function SideNav(props) {
     <>
       <NewNoteModal onClose={onClose} isOpen={isOpen} />
       <Flex
-        w={60}
+        w={56}
         direction="column"
         boxShadow={boxShadow}
         minH="100%"

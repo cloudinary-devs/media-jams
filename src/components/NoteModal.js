@@ -106,7 +106,10 @@ export default function NoteModal({
                 Close
               </Button>
               <Button
-                onClick={() => deleteNote.mutate(note.id)}
+                onClick={() => {
+                  deleteNote.mutate(note.id);
+                  onClose();
+                }}
                 variant="ghost"
               >
                 Delete

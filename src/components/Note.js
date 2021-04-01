@@ -85,10 +85,10 @@ export default function Note({ note, ...rest }) {
         mt={5}
         direction="column"
         boxShadow={boxShadow}
-        minH="285px"
-        minW="285px"
-        maxH="285px"
-        maxW="285px"
+        minH="250px"
+        minW="250px"
+        maxH="250px"
+        maxW="250px"
         {...rest}
       >
         <Flex justify="space-between">
@@ -148,12 +148,14 @@ export default function Note({ note, ...rest }) {
         </Flex>
         <Text
           flex="1"
-          mt="50px"
+          mt="20px"
+          mb="20px"
           letterSpacing="1.5%"
           w="70%"
           justifySelf="center"
           alignSelf="center"
           fontSize="14px"
+          noOfLines={4}
         >
           {note.body}
         </Text>
@@ -171,6 +173,7 @@ export default function Note({ note, ...rest }) {
             bg="none"
             h="0"
             w="0"
+            type="submit"
             _focus={{
               boxShadow: 'none',
             }}

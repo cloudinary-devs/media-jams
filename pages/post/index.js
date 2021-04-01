@@ -125,7 +125,7 @@ export default function Post() {
             "JamSearch"
             "JamSearch"
             "Bookmarks"            
-            "Bookmarks"            
+            "Bookmarks"             
             "Notes"
             "Notes"            
           `,
@@ -143,11 +143,11 @@ export default function Post() {
         templateColumns={{
           base: '100%',
           md: '1fr 1fr',
-          xl: '1fr 2fr 1.5fr',
+          xl: '1.1fr 2fr 1.5fr',
         }}
         templateRows={{
-          base: '70% repeat(4, 300px)',
-          md: '80vh 200px 500px',
+          base: '70% repeat(4, 400px)',
+          md: '80vh 700px 500px',
           xl: '2.5fr 200px 2fr',
         }}
         gap={6}
