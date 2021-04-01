@@ -1,4 +1,3 @@
-import { promises as fs } from 'fs';
 import path from 'path';
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
@@ -52,6 +51,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { slug } }) {
+  const fs = require('fs');
   const files = glob.sync(contentGlob);
 
   const pathRegex = new RegExp(`^${contentPath}/${path.join(...slug)}.mdx$`);
@@ -61,7 +61,7 @@ export async function getStaticProps({ params: { slug } }) {
     console.warn('No MDX file found for slug');
   }
 
-  const mdxSource = await fs.readFile(fullPath);
+  const mdxSource = await fs.promises.readFile(fullPath);
   const { content, data } = matter(mdxSource);
 
   const mdx = await renderToString(content, {
