@@ -24,6 +24,7 @@ import { boxShadow } from '@utils/styles';
 const responsiveGrid = {
   base: `
     "Featured"                        
+    "Featured"   
     "Paths"
     "DiscordAd"
     "GettingStarted"
@@ -174,7 +175,8 @@ function Authors() {
           minH="90%"
           bg="white"
           maxH="90%"
-          minW={56}
+          minW={48}
+          maxW={56}
           mr={4}
           author={author}
         />

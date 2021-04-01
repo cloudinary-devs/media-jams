@@ -221,7 +221,7 @@ export default function JamAccordion({
                 <Flex p={4} direction="column">
                   <Text fontSize="sm">{post.description}</Text>
                   <Flex mt={4} color="white" alignSelf="center" flexWrap="wrap">
-                    {post.tags?.map((tag) => (
+                    {post.tags?.slice(0, 4).map((tag) => (
                       <Text
                         key={tag._id}
                         mr={5}
