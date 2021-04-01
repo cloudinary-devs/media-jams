@@ -87,9 +87,10 @@ function Bookmarks() {
           onChange={onChange}
         />
       </Box>
-      <Flex overflow="scroll" align="center" p={5}>
+      <Flex overflow="auto" align="center" p={5}>
         <Flex
           w={{ base: '100%', xl: '40%' }}
+          h={{ base: '100%' }}
           direction="column"
           align={{ base: 'center', xl: 'none' }}
         >

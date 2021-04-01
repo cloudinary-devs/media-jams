@@ -37,7 +37,6 @@ function Notes({ user }) {
       handleFilter(data?.notes);
     } else {
       const results = fuse.search(searchValue).map((result) => result.item);
-      console.log(results);
       handleFilter(results);
     }
   }, [searchValue, data]);
@@ -48,7 +47,7 @@ function Notes({ user }) {
     const { value } = e.target;
     setSearchValue(value);
   };
-  const handleFilter = (data) => {
+  const handleFilter = (data = []) => {
     setFilteredNotes(data);
   };
   return (
