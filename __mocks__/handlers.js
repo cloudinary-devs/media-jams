@@ -3,7 +3,6 @@ import allPosts from './allPostsMock';
 
 export const handlers = [
   graphql.query('GetAllPosts', (req, res, ctx) => {
-    console.log(req);
     return res(ctx.data(allPosts));
   }),
   graphql.query('Bookmarks', (req, res, ctx) => {
