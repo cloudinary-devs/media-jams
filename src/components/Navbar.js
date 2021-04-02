@@ -50,14 +50,10 @@ export default function Navbar() {
         <NavLink mr={4} href="/dashboard">
           Dashboard
         </NavLink>
-        {user ? (
-          <NavLink ml={4} href="/profile">
-            Profile
-          </NavLink>
-        ) : (
-          <Link as={NextLink} href="/api/auth/login">
+        {!user && (
+          <Link as={NextLink} href="/api/auth/signup">
             <Button outline="black" background="grey.700" color="yellow.400">
-              Login
+              Signup
             </Button>
           </Link>
         )}
