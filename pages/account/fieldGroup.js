@@ -21,3 +21,5 @@ export const FieldGroup = (props) => {
     </Stack>
   );
 };
+
+export default FieldGroup;
