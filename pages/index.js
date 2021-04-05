@@ -171,7 +171,12 @@ function Authors() {
         justifyItems={{ base: 'center', lg: 'none' }}
       >
         {authors?.allAuthor?.slice(0, 8).map((author) => (
-          <AuthorCard h={72} w={{ base: '90%', lg: 64 }} author={author} />
+          <AuthorCard
+            key={author?._id}
+            h={72}
+            w={{ base: '90%', lg: 64 }}
+            author={author}
+          />
         ))}
       </Grid>
     </Flex>
