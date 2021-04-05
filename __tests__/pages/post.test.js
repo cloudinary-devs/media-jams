@@ -3,6 +3,17 @@ import { render, screen, act, waitFor, debug } from 'test-utils';
 import { renderHook } from '@testing-library/react-hooks';
 import Post, { getStaticProps } from '../../pages/post/';
 
+// Capture Mixpanel
+jest.mock('mixpanel-browser', () => {
+  return {
+    __esModule: true,
+    default: {
+      init: jest.fn(),
+      track: jest.fn(),
+    },
+  };
+});
+
 test('`getStaticProps` should prefetch query tags & categories', async () => {
   const response = await getStaticProps();
   const { queries } = response.props.dehydratedState;
@@ -21,12 +32,12 @@ test('`getStaticProps` should prefetch query tags & categories', async () => {
   );
 });
 
-// test('post index should render w/o error', async () => {
-//   const response = await getStaticProps();
-//   const { props } = response;
+test('post index should render w/o error', async () => {
+  const response = await getStaticProps();
+  const { props } = response;
 
-//   act(() => {
-//     render(<Post {...props} />);
-//     expect(true).toBeTruthy();
-//   });
-// });
+  act(() => {
+    render(<Post {...props} />);
+    expect(true).toBeTruthy();
+  });
+});
