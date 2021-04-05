@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Flex, Input, Box, useDisclosure } from '@chakra-ui/react';
+import { Flex, Input, Box, useDisclosure, Heading } from '@chakra-ui/react';
 import NextSeo from 'next-seo';
 import Layout from '@components/Layout';
 import PageSections from '@components/PageSections';
@@ -7,11 +7,24 @@ import PageSections from '@components/PageSections';
 import routesQuery from '@lib/queries/routes';
 
 function CustomSanity({ route }) {
-  const { page } = route;
+  const {
+    page: { title, content, _updatedAt },
+  } = route;
   const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      {page.title}
+      <Flex
+        alignSelf="center"
+        flexDirection="column"
+        alignItems="center"
+        width="100%"
+        overflow={{ md: 'auto', lg: 'auto', xl: 'none' }}
+        px={{ base: 2, md: 8 }}
+        bg="white"
+      >
+        <Heading py={{ base: 2, md: 8 }}>{title}</Heading>
+        {content && <PageSections sections={content} />}
+      </Flex>
     </Layout>
   );
 }
