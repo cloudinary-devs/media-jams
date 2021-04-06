@@ -14,7 +14,9 @@ function CustomSanity({ route, slug }) {
   // double nested {data: {data : {route []}}}
   const {
     data: { data },
-  } = useQuery(['routes', slug], () => queryRoutes.getStaticPage(slug));
+  } = useQuery(['routes', slug], () => queryRoutes.getStaticPage(slug), {
+    enabled: false,
+  });
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
       <Flex
