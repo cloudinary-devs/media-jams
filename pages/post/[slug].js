@@ -7,7 +7,6 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { postBySlug, postsWithSlug } from '@lib/api';
 
 import { Flex, Text, Image, useDisclosure } from '@chakra-ui/react';
-import Code from '@components/Code';
 import CodeBlock from '@components/CodeBlock';
 import CodeSandbox from '@components/CodeSandbox';
 import Layout from '@components/Layout';

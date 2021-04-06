@@ -5,6 +5,7 @@ import { dehydrate } from 'react-query/hydration';
 import { serializeArray } from '@hooks/useQueryParameter';
 import { jams as queryJams } from '@lib/queries/jams';
 import { authors as queryAuthors } from '@lib/queries/authors';
+import { routes as queryRoutes } from '@lib/queries/routes';
 import { boxShadow } from '@utils/styles';
 
 import {
@@ -34,7 +35,6 @@ export default function Index() {
           <Features />
           <Authors />
           <FrameworkJams />
-          <EmailSubscription />
         </Box>
       </Flex>
       <Footer />
@@ -342,6 +342,7 @@ export async function getStaticProps() {
     'featuredJams',
     queryJams.getStaticFeaturedJams,
   );
+  await queryClient.prefetchQuery('routes', queryRoutes.getStatic);
   return {
     props: {
       dehydratedState: dehydrate(queryClient),

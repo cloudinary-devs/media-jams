@@ -27,7 +27,7 @@ import { HiCloudUpload } from 'react-icons/hi';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import Layout from '@components/Layout';
 
-import { FieldGroup } from './fieldGroup';
+import FieldGroup from '@components/AccountFieldGroup';
 
 export const ProfileGroup = ({ user }) => (
   <Flex

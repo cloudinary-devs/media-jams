@@ -4,7 +4,7 @@ import NextSeo from 'next-seo';
 import Layout from '@components/Layout';
 import PageSections from '@components/PageSections';
 
-import routesQuery from '@lib/queries/routes';
+import { routes as queryRoutes } from '@lib/queries/routes';
 
 function CustomSanity({ route }) {
   const {
@@ -30,7 +30,7 @@ function CustomSanity({ route }) {
 }
 
 export async function getStaticPaths() {
-  const { data } = await routesQuery.getStatic();
+  const { data } = await queryRoutes.getStatic();
 
   // Get the paths we want to pre-render based on pages from Sanity
   // slug as an array, bc Next will urlEncode the '/' before passing it to getStaticProps if it's a String
@@ -50,7 +50,7 @@ export async function getStaticProps({ params }) {
   // params contains the page slug as an Array.
   // If the route is like /terms-and-stuff, then params.id is 1
   const slug = params.customSanitySlug.join('/');
-  const result = await routesQuery.getStaticPage(slug);
+  const result = await queryRoutes.getStaticPage(slug);
 
   // Pass page data to the customSanity via props
   return { props: { route: result?.data?.route[0] } };
