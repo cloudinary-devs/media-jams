@@ -25,4 +25,34 @@ export const handlers = [
   graphql.query('PostsByAuthor', (req, res, ctx) => {
     return res(ctx.data({ categories: {} }));
   }),
+  graphql.query('AllRoutes', (req, res, ctx) => {
+    return res(
+      ctx.data({
+        data: {
+          data: {
+            routes: [
+              {
+                _id: '02992886-28b2-4868-9ecb-11c3201dec4e',
+                slug: {
+                  current: 'legal/privacy',
+                },
+                page: {
+                  title: 'Privacy Policy',
+                },
+              },
+              {
+                _id: '3c4745e9-edeb-4f08-adad-d97ef49f5c37',
+                slug: {
+                  current: 'legal/termsofservice',
+                },
+                page: {
+                  title: 'Terms of Service',
+                },
+              },
+            ],
+          },
+        },
+      }),
+    );
+  }),
 ];
