@@ -17,7 +17,9 @@ import Image from '@components/Image';
 import { SubscribeForm } from './SubscribeForm';
 
 const Footer = () => {
-  const { data, isLoading } = useQuery('routes', queryRoutes.get);
+  const {
+    data: { data },
+  } = useQuery('routes', queryRoutes.get);
   const [sanityGroup, updateSanityGroup] = React.useState({
     title: 'Resources',
     links: [],
