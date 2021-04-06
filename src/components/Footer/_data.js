@@ -16,7 +16,7 @@ export const links = [
     title: 'Get Started',
     links: [
       { label: 'Log in', href: '/api/auth/login' },
-      { label: 'Sign in', href: '/api/auth/signup' },
+      { label: 'Sign up', href: '/api/auth/signup' },
       { label: 'Discord Community', href: 'https://discord.gg/mediadevs' },
       { label: 'Creator Documentation', href: '/docs' },
     ],
