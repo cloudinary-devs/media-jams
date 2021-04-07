@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { contentGlob, getFileSlug } from './[...slug]';
+import { contentGlob } from './[...slug]';
 
 export default function AllData({ allMdx }) {
   return (
@@ -25,7 +25,16 @@ export default function AllData({ allMdx }) {
 export function getStaticProps() {
   const fs = require('fs');
   const matter = require('gray-matter');
+  const path = require('path');
   const glob = require('fast-glob');
+
+  const contentPath = 'src/documentation';
+
+  const getFileSlug = (filePath) => {
+    const filename = filePath.replace(`${contentPath}/`, '');
+    const slug = filename.replace(new RegExp(path.extname(filePath) + '$'), '');
+    return slug;
+  };
 
   const files = glob.sync(contentGlob);
   const allMdx = files.map((file) => {
