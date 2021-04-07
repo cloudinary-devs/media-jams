@@ -22,7 +22,7 @@
     "asset-source-cloudinary",
     "dashboard-widget-my-jams-list",
     "asset-source-unsplash",
-    "mdide"
+    "markdown"
   ],
   "env": {
     "development": {

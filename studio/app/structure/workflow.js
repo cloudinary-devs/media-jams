@@ -62,8 +62,14 @@ export const workflowListItems = [
             );
           }),
           map((docs) => {
+            // docs returns Array with a single empty object from `...coalesce`
+            // validate that the first element has `_id` value
+            if (!docs[0]?._id) {
+              return S.list().title(`${subTitle} (All Clear)`).items();
+            }
+
             return S.list()
-              .title(docs.length ? subTitle : 'All Clear')
+              .title(subTitle)
               .id(id)
               .items(
                 docs.map((item) =>

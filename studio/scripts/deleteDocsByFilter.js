@@ -13,9 +13,13 @@
  * remove all posts by Jesse 'Zitty' T from stage '*[_type == "post" && author._ref == "e-5f8a2ac9edc64a00681eb8ab-self"][0...999]'
  */
 
-import client from 'part:@sanity/base/client';
+import sanityClient from 'part:@sanity/base/client';
+const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
 
 client
-  .delete({ query: '*[_type == "aDocumentType"][0...999]' })
+  .delete({
+    query:
+      '*[_type == "post" && author._ref == "e-5f8a2ac9edc64a00681eb8ab-self"][0...999]',
+  })
   .then(console.log)
   .catch(console.error);
