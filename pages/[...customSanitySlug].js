@@ -8,7 +8,7 @@ import PageSections from '@components/PageSections';
 
 import { routes as queryRoutes } from '@lib/queries/routes';
 
-function CustomSanity({ route, slug }) {
+function CustomSanity({ slug }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
   // TODO: can not for the life figure out why this is
   // double nested {data: {data : {route []}}}
@@ -44,7 +44,7 @@ function CustomSanity({ route, slug }) {
 export async function getStaticPaths() {
   const queryClient = new QueryClient();
   const { data } = await queryClient.fetchQuery(
-    'routes',
+    'routes_path',
     queryRoutes.getStatic,
   );
 

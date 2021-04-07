@@ -336,13 +336,13 @@ function FrameworkJams() {
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
+  await queryClient.prefetchQuery('routes', queryRoutes.getStatic);
   await queryClient.prefetchQuery('jams', queryJams.getStatic);
   await queryClient.prefetchQuery('authors', queryAuthors.getStatic);
   await queryClient.prefetchQuery(
     'featuredJams',
     queryJams.getStaticFeaturedJams,
   );
-  await queryClient.prefetchQuery('routes', queryRoutes.getStatic);
   return {
     props: {
       dehydratedState: dehydrate(queryClient),

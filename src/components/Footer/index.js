@@ -16,15 +16,16 @@ import { LinkGroup } from './LinkGroup';
 import Image from '@components/Image';
 import { SubscribeForm } from './SubscribeForm';
 
-const Footer = () => {
+function Footer() {
   const { data } = useQuery('routes', queryRoutes.get);
   const [sanityGroup, updateSanityGroup] = React.useState({
     title: 'Resources',
     links: [],
   });
   React.useEffect(() => {
-    if (data?.data?.routes) {
-      const sanityLinks = data?.data?.routes?.map(({ page, slug }) => ({
+    if (data?.routes) {
+      console.log('useEffect', data);
+      const sanityLinks = data?.routes?.map(({ page, slug }) => ({
         label: page.title,
         href: slug.current,
       }));
@@ -125,6 +126,6 @@ const Footer = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default Footer;
