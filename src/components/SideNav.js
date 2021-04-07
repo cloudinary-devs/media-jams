@@ -39,13 +39,12 @@ export function SideNavContent({ user, onOpen }) {
 
   React.useEffect(() => {
     if (user) {
-      if (user['https://mediajams-studio'].roles) {
+      if (user['https://mediajams-studio']?.roles) {
         async function fetchSanitySession() {
           const results = await fetch('/api/auth/studio').then((res) =>
             res.json(),
           );
           const { sanitySession } = results;
-          console.log(sanitySession);
           setStudioURL(sanitySession);
         }
         fetchSanitySession();
@@ -54,7 +53,6 @@ export function SideNavContent({ user, onOpen }) {
   }, [user, refreshStudioURL]);
 
   const handleOnClickStudio = () => {
-    console.log(studioURL);
     window.open(studioURL, '_blank');
     triggerRefresh(!refreshStudioURL);
   };
@@ -142,7 +140,7 @@ export function SideNavContent({ user, onOpen }) {
                 </MenuItem>
               </Link>
 
-              {user['https://mediajams-studio'].roles && (
+              {user['https://mediajams-studio']?.roles && (
                 <MenuItem onClick={handleOnClickStudio}>
                   <Icon as={FaCog} mr={2} /> Studio
                 </MenuItem>
