@@ -25,8 +25,9 @@ export default {
   type: 'document',
   validation: (Rule) =>
     Rule.custom((fields) => {
-      if (fields.title.length > 0 && fields.slug?.current?.length <= 0)
+      if (fields.title.length > 0 && fields.slug?.current?.length <= 0) {
         return "You've gotta have a slug to go with that awesome title!";
+      }
       return true;
     }),
   initialValue: async () => {

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import client from 'part:@sanity/base/client';
+import sanityClient from 'part:@sanity/base/client';
 import { useCurrentProject } from '../project';
 import { useObservable } from '../utils/use';
 import { getUser$ } from './user';
 import { getUserList$ } from './userList';
 
+const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
 export function useUser(userId) {
   const source = getUser$(userId);
   const initialState = null;

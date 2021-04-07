@@ -1,4 +1,4 @@
-import client from 'part:@sanity/base/client';
+import sanityClient from 'part:@sanity/base/client';
 import { merge, Subject } from 'rxjs';
 import { filter, map, scan, startWith, switchMap } from 'rxjs/operators';
 import {
@@ -9,6 +9,7 @@ import {
 } from '../document';
 import { useObservable } from '../utils/use';
 
+const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
 const DOCUMENT_LIST_FILTER = `_type in $workflowTypes`;
 const DOCUMENT_LIST_QUERY = `* [_type in $workflowTypes] {_id, _type}`;
 

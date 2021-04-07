@@ -7,7 +7,9 @@ import React, {
 import { GoLink } from 'react-icons/go';
 import { withDocument } from 'part:@sanity/form-builder';
 import { IntentLink } from '@sanity/state-router/components';
-import client from 'part:@sanity/base/client';
+import sanityClient from 'part:@sanity/base/client';
+
+const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
 
 const categoryTags = forwardRef((props, ref) => {
   const [uniqueTags, setUniqueTags] = useState([]);

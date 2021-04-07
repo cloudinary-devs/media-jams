@@ -1,4 +1,6 @@
-import client from 'part:@sanity/base/client';
+import sanityClient from 'part:@sanity/base/client';
+
+const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
 
 client
   .fetch(`* [_type == "workflow.metadata"]`)

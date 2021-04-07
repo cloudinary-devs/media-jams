@@ -6,6 +6,7 @@ import userStore from 'part:@sanity/base/user';
 import { getCurrentUser$ } from '../../app/lib/user';
 import { console } from 'get-it/lib/util/global';
 
+const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
 const draftId = (nonDraftDoc) => `drafts.${nonDraftDoc._id}`;
 
 const prepareDocumentList = async (incoming) => {
