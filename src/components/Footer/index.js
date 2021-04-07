@@ -24,7 +24,6 @@ function Footer() {
   });
   React.useEffect(() => {
     if (data?.routes) {
-      console.log('useEffect', data);
       const sanityLinks = data?.routes?.map(({ page, slug }) => ({
         label: page.title,
         href: slug.current,
