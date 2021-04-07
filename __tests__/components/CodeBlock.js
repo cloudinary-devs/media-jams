@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen, act, waitFor } from '@testing-library/react';
-import Code from '@components/Code';
+import { render, screen, act, waitFor } from '@utils/test-utils';
+import CodeBlock from '@components/CodeBlock';
 
 // prettier-ignore
 const helloWorld = `javascript
@@ -53,7 +53,7 @@ this.image = resource
 `;
 
 test("renders 'hello world'", () => {
-  render(<Code>{helloWorld}</Code>);
+  render(<CodeBlock>{helloWorld}</CodeBlock>);
   expect(screen.getByText(/hello world/)).toBeInTheDocument();
 });
 
@@ -62,6 +62,6 @@ test("renders 'hello world'", () => {
  * TODO: Prettier format
  */
 test('render and format jsx', () => {
-  render(<Code>{jsxCode}</Code>);
+  render(<CodeBlock>{jsxCode}</CodeBlock>);
   expect(screen.getByText(/this.loading = true/)).toBeInTheDocument();
 });

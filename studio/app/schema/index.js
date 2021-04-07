@@ -7,11 +7,15 @@ import workflowMetadata from './objects/workflow/metadata';
 import blockContent from './objects/blockContent';
 import socialHandles from './objects/social';
 import postMetadata from './objects/postMetadata';
+import callToAction from './objects/callToAction';
+import textSection from './objects/textSection';
 import tag from './tag';
 import group from './group';
 import category from './category';
 import post from './post';
 import author from './author';
+import page from './page';
+import route from './route';
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -27,11 +31,15 @@ export default createSchema({
     tag,
     group,
     category,
+    page,
+    route,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     blockContent,
     workflowMetadata,
     socialHandles,
     postMetadata,
+    callToAction,
+    textSection,
   ]),
 });

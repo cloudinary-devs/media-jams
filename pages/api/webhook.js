@@ -88,7 +88,7 @@ async function fetchWorkflowDetails({ ids = {} }) {
 
     return results;
   } catch (error) {
-    console.log(error);
+    console.info(error);
     return []; // on failure from fetching workflowById return empty array
   }
 }

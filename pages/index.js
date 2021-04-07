@@ -5,6 +5,7 @@ import { dehydrate } from 'react-query/hydration';
 import { serializeArray } from '@hooks/useQueryParameter';
 import { jams as queryJams } from '@lib/queries/jams';
 import { authors as queryAuthors } from '@lib/queries/authors';
+import { routes as queryRoutes } from '@lib/queries/routes';
 import { boxShadow } from '@utils/styles';
 
 import {
@@ -34,7 +35,6 @@ export default function Index() {
           <Features />
           <Authors />
           <FrameworkJams />
-          <EmailSubscription />
         </Box>
       </Flex>
       <Footer />
@@ -336,6 +336,7 @@ function FrameworkJams() {
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
+  await queryClient.prefetchQuery('routes', queryRoutes.getStatic);
   await queryClient.prefetchQuery('jams', queryJams.getStatic);
   await queryClient.prefetchQuery('authors', queryAuthors.getStatic);
   await queryClient.prefetchQuery(
