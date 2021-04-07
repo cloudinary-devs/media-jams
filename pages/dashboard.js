@@ -21,6 +21,34 @@ import JamAccordion from '@components/JamAccordion';
 import AuthorCard from '@components/AuthorCard';
 import { boxShadow } from '@utils/styles';
 
+const responsiveGrid = {
+  base: `
+    "Featured"                        
+    "Featured"   
+    "Paths"
+    "DiscordAd"
+    "GettingStarted"
+    "Authors"            
+  `,
+  md: `
+    "Featured Featured"
+    "DiscordAd Paths"
+    "GettingStarted GettingStarted"
+    "Authors Authors"
+  `,
+  lg: `
+    "Featured Featured"
+    "DiscordAd Paths"
+    "GettingStarted GettingStarted"
+    "Authors Authors"
+  `,
+  xl: `
+    "Featured Paths DiscordAd"
+    "Featured Paths GettingStarted"
+    "Featured Authors GettingStarted"
+  `,
+};
+
 export default function Dashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -33,32 +61,7 @@ export default function Dashboard() {
           lg: '100%',
           xl: '100vh',
         }}
-        templateAreas={{
-          base: `
-            "Featured"                        
-            "Paths"
-            "DiscordAd"
-            "GettingStarted"
-            "Authors"            
-          `,
-          md: `
-            "Featured Featured"
-            "DiscordAd Paths"
-            "GettingStarted GettingStarted"
-            "Authors Authors"
-          `,
-          lg: `
-            "Featured Featured"
-            "DiscordAd Paths"
-            "GettingStarted GettingStarted"
-            "Authors Authors"
-          `,
-          xl: `
-            "Featured Paths DiscordAd"
-            "Featured Paths GettingStarted"
-            "Featured Authors GettingStarted"
-          `,
-        }}
+        templateAreas={responsiveGrid}
         templateColumns={{
           base: '100%',
           md: '1fr 1fr',
@@ -72,8 +75,7 @@ export default function Dashboard() {
           xl: '1fr 1fr 1fr',
         }}
         gap={6}
-        p={8}
-        ml={-3}
+        p="1rem"
         overflow={{ md: 'auto', lg: 'auto', xl: 'none' }}
       >
         <Featured />
@@ -138,27 +140,17 @@ function DiscordAd() {
       <Icon
         as={FaDiscord}
         color="white"
-        h={{ base: 64, md: 32, xl: 32 }}
-        w={{ base: 64, md: 32, xl: 32 }}
+        boxSize={{ base: 64, md: '7em', xl: '7em' }}
       />
-      <Text
-        textAlign="center"
-        w="50%"
-        mt={2}
-        color="white"
-        fontSize="md"
-        fontWeight="bold"
-      >
-        Join our community of media newcomers & experts
-      </Text>
       <Link
         as={NextLink}
         color="white"
-        _visited="white"
+        _visited={{ color: 'white' }}
         textDecor="underline"
         href="https://discord.gg/mediadevs"
+        w="40%"
       >
-        discord.gg/mediadevs
+        Join the MediaDevs Discord community
       </Link>
     </Flex>
   );
@@ -183,7 +175,8 @@ function Authors() {
           minH="90%"
           bg="white"
           maxH="90%"
-          minW={60}
+          minW={48}
+          maxW={56}
           mr={4}
           author={author}
         />
@@ -238,8 +231,8 @@ function Paths() {
         lineHeight={1}
         color="white"
         alignSelf="flex-start"
-        fontSize="6xl"
-        mt={1}
+        fontSize="5xl"
+        mt={2}
       >
         Learning Paths
       </Heading>

@@ -11,6 +11,10 @@ import {
   IconButton,
   Text,
   Avatar,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react';
 import Image from '@components/Image';
 import {
@@ -19,151 +23,24 @@ import {
   FaHome,
   FaPhotoVideo,
   FaBookmark,
+  FaChevronDown,
+  FaChevronUp,
+  FaPlusCircle,
+  FaUserCircle,
 } from 'react-icons/fa';
 import { useUser } from '@auth0/nextjs-auth0';
 
-export default function SideNavDrawer({ isOpen, onClose, ...props }) {
+import { SideNavContent } from '@components/SideNav';
+
+export default function SideNavDrawer({ isOpen, onClose, onOpen, ...props }) {
   const { user } = useUser();
   return (
     <Drawer {...props} isOpen={isOpen} placement="left" onClose={onClose}>
       <DrawerOverlay>
         <DrawerContent bg="grey.900">
-          <Flex direction="column">
-            <Flex w="100%" justifyContent="space-between" p={4}>
-              <Link href="/">
-                <Image
-                  cloudName="mediadevs"
-                  publicId="mediajams/logo"
-                  height={50}
-                  width={100}
-                  alt="MediaJams logo"
-                />
-              </Link>
-              {user ? (
-                <Link as={NextLink} href="/api/auth/logout" passHref>
-                  <Button
-                    as={Link}
-                    outline="black"
-                    background="grey.700"
-                    color="yellow.400"
-                  >
-                    Logout
-                  </Button>
-                </Link>
-              ) : (
-                <Link as={NextLink} href="/api/auth/login" passHref>
-                  <Button
-                    as={Link}
-                    outline="black"
-                    background="grey.700"
-                    color="yellow.400"
-                  >
-                    Login
-                  </Button>
-                </Link>
-              )}
-            </Flex>
-            <NavLinkGroup user={user} />
-          </Flex>
-          {user ? (
-            <Flex
-              h="100%"
-              direction="column"
-              width="100%"
-              justify="flex-end"
-              align="flex-end"
-              pb={4}
-            >
-              <Flex
-                direction="column"
-                alignSelf="center"
-                width="90%"
-                h="300px"
-                borderRadius="4px"
-                bg="grey.700"
-              >
-                <Flex mt={2} direction="column" w="100%" align="center" p="4px">
-                  <Avatar size="md" src={user.picture}></Avatar>
-                  <Text mt="8px" color="yellow.400">
-                    Welcome, {user.nickname}
-                  </Text>
-                </Flex>
-              </Flex>
-            </Flex>
-          ) : (
-            <Flex
-              h="100%"
-              width="100%"
-              justify="flex-end"
-              align="flex-end"
-              pr={4}
-              pb={4}
-            >
-              <IconButton
-                as={Link}
-                icon={<FaRegFlag />}
-                target="_blank"
-                href="/feedback"
-                textDecoration="none"
-                outline="none"
-                size="md"
-                borderRadius="full"
-                bg="grey.700"
-                color="yellow.400"
-                hover={{ textDecoration: 'none', bg: 'none', outline: 'none' }}
-                _active={{ bg: 'none', outline: 'none' }}
-              />
-            </Flex>
-          )}
+          <SideNavContent onOpen={onOpen} user={user} />
         </DrawerContent>
       </DrawerOverlay>
     </Drawer>
-  );
-}
-
-function NavLink({ children, href, icon, ...props }) {
-  return (
-    <NextLink href={href} passHref>
-      <Link
-        display="flex"
-        _hover={{ background: 'yellow.400', color: 'black' }}
-        p="12px"
-        minW="100%"
-        display="flex"
-        color="white"
-        alignItems="center"
-        {...props}
-      >
-        <Icon ml={3} as={icon} w={5} h={5} mr={2} />
-        <Text ml={2} fontWeight="thin">
-          {children}
-        </Text>
-      </Link>
-    </NextLink>
-  );
-}
-
-function NavLinkGroup() {
-  const { user, loading } = useUser();
-  return (
-    <Flex mt={4} direction="column" alignItems="center" color="white">
-      <NavLink href="/dashboard" icon={FaHome}>
-        Dashboard
-      </NavLink>
-      <NavLink href="/post" icon={FaPhotoVideo}>
-        Jams
-      </NavLink>
-      {/* Authenticated Users */}
-      {user && (
-        <>
-          <NavLink href="/bookmarks" icon={FaBookmark}>
-            Bookmarks
-          </NavLink>
-          <NavLink href="/notes" icon={FaStickyNote}>
-            Notes
-          </NavLink>
-        </>
-      )}
-    </Flex>
   );
 }

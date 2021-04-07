@@ -1,11 +1,10 @@
-import React, { useContext, Fragment } from 'react';
-import { css, jsx, ThemeContext } from '@emotion/react';
+import React, { useContext } from 'react';
+import { ThemeContext } from '@emotion/react';
 
 import { Box } from '@chakra-ui/react';
-import MDX from '@mdx-js/runtime';
 import mdx from '@mdx-js/mdx';
 import { MDXProvider, mdx as createElement } from '@mdx-js/react';
-import { LiveProvider, LivePreview, LiveEditor, LiveError } from 'react-live';
+import { LiveProvider, LivePreview, LiveError } from 'react-live';
 import removeImports from 'remark-mdx-remove-imports';
 import removeExports from 'remark-mdx-remove-exports';
 

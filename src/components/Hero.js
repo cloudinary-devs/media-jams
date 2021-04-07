@@ -82,13 +82,13 @@ export default function Hero() {
     >
       <Flex
         direction="column"
-        w={{ base: '100%', md: '30%', lg: '40%' }}
+        w={{ base: '100%', md: '30%', lg: '60%' }}
         mt={10}
       >
         <Heading
           as="h1"
           fontFamily="Bangers, cursive"
-          fontSize={{ base: '7xl', lg: '9xl' }}
+          fontSize={{ base: '7xl', lg: '8xl' }}
           letterSpacing="wide"
           lineHeight="base"
           color="yellow.900"

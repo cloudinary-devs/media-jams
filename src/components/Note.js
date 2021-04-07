@@ -3,16 +3,10 @@ import {
   Button,
   Flex,
   Text,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   IconButton,
   Box,
   useDisclosure,
+  createStandaloneToast,
 } from '@chakra-ui/react';
 
 import NoteModal from '@components/NoteModal';
@@ -34,6 +28,7 @@ import { boxShadow } from '@utils/styles';
 
 export default function Note({ note, ...rest }) {
   const queryClient = useQueryClient();
+  const toast = createStandaloneToast();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [isEditable, setIsEditable] = React.useState(false);
 
@@ -50,12 +45,28 @@ export default function Note({ note, ...rest }) {
       return previousValue;
     },
     // On failure, roll back to the previous value
-    onError: (err, variables, previousValue) =>
-      // TODO: Revisit and add a toast on failure and rollback
-      queryClient.setQueryData('notes', previousValue),
+    onError: (err, variables, previousValue) => {
+      queryClient.setQueryData('notes', previousValue);
+      toast({
+        title: 'Oh no!',
+        description: 'Something went wrong while deleting your note!',
+        status: 'error',
+        duration: 3000,
+        position: 'top',
+        isClosable: true,
+      });
+    },
+
     // After success or failure, refetch the notes query
     onSuccess: () => {
       queryClient.invalidateQueries('notes');
+      toast({
+        title: 'Successfully deleted your note!',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top',
+      });
     },
   });
   return (
@@ -74,10 +85,10 @@ export default function Note({ note, ...rest }) {
         mt={5}
         direction="column"
         boxShadow={boxShadow}
-        minH="285px"
-        minW="285px"
-        maxH="285px"
-        maxW="285px"
+        minH="250px"
+        minW="250px"
+        maxH="250px"
+        maxW="250px"
         {...rest}
       >
         <Flex justify="space-between">
@@ -90,23 +101,42 @@ export default function Note({ note, ...rest }) {
           >
             {note.created_at}
           </Text>
-          <Box>
+          <Box mt={2} mr={2}>
             <IconButton
               onClick={() => deleteNote.mutate(note.id)}
-              p="0px"
-              _active={{ bg: 'none', outline: 'none' }}
-              icon={<FaTrash />}
+              size="sm"
               outline="none"
               bg="none"
+              h="0"
+              w="0"
+              _focus={{
+                boxShadow: 'none',
+              }}
+              _hover={{
+                bg: 'none',
+              }}
+              icon={<FaTrash />}
               _hover={{ bg: 'none' }}
               alignSelf="flex-end"
             />
             <IconButton
-              p="0px"
-              _active={{ bg: 'none' }}
-              icon={<FaEdit />}
+              size="sm"
               outline="none"
               bg="none"
+              h="0"
+              w="0"
+              paddingLeft="0"
+              paddingRight="0"
+              paddingTop="0"
+              paddingBottom="0"
+              _focus={{
+                boxShadow: 'none',
+              }}
+              _hover={{
+                bg: 'none',
+              }}
+              _active={{ bg: 'none' }}
+              icon={<FaEdit />}
               _hover={{ bg: 'none' }}
               alignSelf="flex-end"
               onClick={() => {
@@ -118,12 +148,14 @@ export default function Note({ note, ...rest }) {
         </Flex>
         <Text
           flex="1"
-          mt="50px"
+          mt="20px"
+          mb="20px"
           letterSpacing="1.5%"
           w="70%"
           justifySelf="center"
           alignSelf="center"
           fontSize="14px"
+          noOfLines={4}
         >
           {note.body}
         </Text>
@@ -133,15 +165,20 @@ export default function Note({ note, ...rest }) {
               setIsEditable(false);
               onOpen();
             }}
+            mb={4}
+            mr={1}
             alignSelf="flex-end"
-            pb="12px"
-            pr="3px"
-            _active={{ bg: 'none' }}
-            icon={<FaExpand />}
+            size="sm"
             outline="none"
             bg="none"
+            h="0"
+            w="0"
+            type="submit"
+            _focus={{
+              boxShadow: 'none',
+            }}
+            icon={<FaExpand />}
             _hover={{ bg: 'none' }}
-            alignSelf="flex-end"
           />
         </Flex>
       </Flex>

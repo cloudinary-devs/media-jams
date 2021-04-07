@@ -20,19 +20,32 @@ export default function AuthorCard({ author, ...rest }) {
   `;
   return (
     <Flex
-      p={8}
+      p={6}
       borderRadius="8px "
       align="center"
       justify="space-evenly"
       boxShadow={boxShadow}
       direction="column"
       textAlign="center"
+      _last={{ marginRight: '8px' }}
       {...rest}
     >
-      <Avatar size="xl" src={author.image?.asset.url} />
+      <Avatar
+        h={{
+          base: 20,
+          md: 20,
+          lg: 14,
+        }}
+        w={{
+          base: 20,
+          md: 20,
+          lg: 14,
+        }}
+        src={author.image?.asset.url}
+      />
 
       <Link href={`/author/${author.slug?.current || ''}`}>
-        <Heading fontSize="xl" _hover={{ cursor: 'pointer' }}>
+        <Heading mt={3} fontSize="md" _hover={{ cursor: 'pointer' }}>
           {author.name}
         </Heading>
       </Link>
@@ -59,7 +72,7 @@ export default function AuthorCard({ author, ...rest }) {
               },
             }}
             as={IoMdHand}
-            color="yellow.400"
+            color="yellow.300"
             boxSize="2em"
             mt={3}
           />

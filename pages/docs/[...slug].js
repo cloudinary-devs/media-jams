@@ -1,14 +1,12 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
-import matter from 'gray-matter';
-import glob from 'fast-glob';
-
 import { Box, chakra } from '@chakra-ui/react';
 import PageTransition from '@components/PageTransition';
 
 import MDXComponents from '@components/MDXComponents';
+
+// This glob is what will be used to generate static routes
+const contentPath = 'src/documentation';
+export const contentGlob = `${contentPath}/**/*.mdx`;
 
 export default function Data({ mdxSource, frontMatter }) {
   const content = hydrate(mdxSource, { components: MDXComponents });
@@ -25,16 +23,16 @@ export default function Data({ mdxSource, frontMatter }) {
   );
 }
 
-// This glob is what will be used to generate static routes
-const contentPath = 'src/documentation';
-export const contentGlob = `${contentPath}/**/*.mdx`;
-export const getFileSlug = (filePath) => {
-  const filename = filePath.replace(`${contentPath}/`, '');
-  const slug = filename.replace(new RegExp(path.extname(filePath) + '$'), '');
-  return slug;
-};
-
 export async function getStaticPaths() {
+  const path = require('path');
+  const glob = require('fast-glob');
+
+  const getFileSlug = (filePath) => {
+    const filename = filePath.replace(`${contentPath}/`, '');
+    const slug = filename.replace(new RegExp(path.extname(filePath) + '$'), '');
+    return slug;
+  };
+
   const files = glob.sync(contentGlob);
 
   const paths = files.map((file) => {
@@ -52,7 +50,13 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { slug } }) {
+  const fs = require('fs');
+  const path = require('path');
+  const glob = require('fast-glob');
   const files = glob.sync(contentGlob);
+  const renderToString = require('next-mdx-remote/render-to-string');
+
+  const matter = require('gray-matter');
 
   const pathRegex = new RegExp(`^${contentPath}/${path.join(...slug)}.mdx$`);
   const fullPath = files.find((file) => pathRegex.test(file));
@@ -61,7 +65,7 @@ export async function getStaticProps({ params: { slug } }) {
     console.warn('No MDX file found for slug');
   }
 
-  const mdxSource = await fs.readFile(fullPath);
+  const mdxSource = await fs.promises.readFile(fullPath);
   const { content, data } = matter(mdxSource);
 
   const mdx = await renderToString(content, {
