@@ -4,7 +4,7 @@ name: Deploy Studio
 # to be done manually.
 on:
   push:
-    branches: [development]
+    branches: [development, master]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -31,7 +31,8 @@ jobs:
       - name: Install All dependencies
         run: |
           yarn install
-      - name: Deploy Sanity
+      - name: Deploy Sanity Stage
+        if: github.ref == 'refs/heads/development'
         env:
           AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
           PREVIEW_SECRET: ${{ secrets.SANITY_STUDIO_PREVIEW_SECRET }}
@@ -42,3 +43,16 @@ jobs:
           # https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
           # Make sure to add a secret for SANITY_AUTH_TOKEN
           SANITY_AUTH_TOKEN="$AUTH_TOKEN" yarn deploy:gql --playground --dataset stage
+
+      - name: Deploy Sanity Production
+        if: github.ref == 'refs/heads/master'
+        env:
+          AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+          PREVIEW_SECRET: ${{ secrets.SANITY_STUDIO_PREVIEW_SECRET }}
+        run: |
+          set -e
+          # Put your environment variables here. Don't forget
+          # to create secrets for them on GitHub:
+          # https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
+          # Make sure to add a secret for SANITY_AUTH_TOKEN
+          SANITY_AUTH_TOKEN="$AUTH_TOKEN" yarn deploy:gql --dataset production --no-playground --force
