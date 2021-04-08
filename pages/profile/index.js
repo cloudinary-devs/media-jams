@@ -50,7 +50,7 @@ export const ProfileGroup = ({ user }) => (
     >
       <Stack spacing="4" divider={<StackDivider />}>
         <Heading size="lg" as="h1" paddingBottom="4">
-          Account Settings
+          Profile Settings
         </Heading>
         <FieldGroup title="Personal Info">
           <VStack width="full" spacing="6">
