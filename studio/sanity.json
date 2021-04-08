@@ -12,10 +12,17 @@
     "@sanity/components",
     "@sanity/default-layout",
     "@sanity/default-login",
+    "@sanity/dashboard",
     "@sanity/desk-tool",
     "@sanity/production-preview",
-    "markdown",
-    "@sanity/code-input"
+    "@sanity/code-input",
+    "dashboard-widget-document-list",
+    "dashboard-image-upload",
+    "airtable-list",
+    "asset-source-cloudinary",
+    "dashboard-widget-my-jams-list",
+    "asset-source-unsplash",
+    "markdown"
   ],
   "env": {
     "development": {
@@ -44,6 +51,14 @@
       "path": "app/config/resolveProductionUrl"
     },
     {
+      "implements": "part:@sanity/dashboard/config",
+      "path": "app/config/dashboardConfig.js"
+    },
+    {
+      "implements": "part:@sanity/form-builder/input/image/asset-sources",
+      "path": "app/config/assetSources.js"
+    },
+    {
       "name": "part:@sanity/base/initial-value-templates",
       "path": "app/structure/initialValueTemplates.js"
     },
@@ -54,6 +69,10 @@
     {
       "implements": "part:@sanity/form-builder/input-resolver",
       "path": "app/structure/inputResolver.js"
+    },
+    {
+      "implements": "part:@sanity/base/brand-logo",
+      "path": "app/components/jamLogo.js"
     }
   ]
 }

@@ -1,0 +1,95 @@
+---
+title: MDX Components
+description: This page describes how to use MDX components (e.g. code blocks) in Media Jams Studio
+---
+
+<!-- Credit to Prisma Docs for the fantastic idea https://github.com/prisma/docs/blob/master/content/600-about/02-style-guide/01-mdx-examples.mdx -->
+
+### Code blocks without line numbers
+
+Example:
+
+```js no-lines
+async function main() {
+  const allUsers = await prisma.user.findMany();
+  console.log(allUsers);
+}
+```
+
+Code:
+
+````text no-lines
+```js no-lines
+async function main() {
+  const allUsers = await prisma.user.findMany()
+  console.log(allUsers)
+}
+```
+````
+
+### Code blocks with line numbers
+
+Example: Line Numbers
+
+```js {4,9-12}
+async function main() {
+  added code
+
+  single line highlight
+
+  edited
+  code
+
+  highlights
+  over multiple
+  lines can be done by using
+  a hyphen
+}
+```
+
+Code:
+
+````text no-lines
+```js {4,9-12}
+async function main() {
+  added code
+
+  deleted code
+
+  edited
+  code
+
+  highlights
+  over multiple
+  lines can be done by using
+  a hyphen
+}
+```
+````
+
+### CodeSandbox
+
+| Prop       | Type     | Default | Description                                                    |
+| ---------- | -------- | ------- | -------------------------------------------------------------- |
+| `title`    | `string` |         | Dispaly Title for Embedded CodeSandbox                         |
+| `id`       | `string` |         | `id` of unique CodeSandbox of the project                      |
+| `view`     | `enum`   |         | `preview` or `editor` defaults to 50/50 split view             |
+| `showFile` | `string` |         | Relitive path of file to display onload `/<path>/**/<file>.js` |
+
+```js
+<CodeSandbox
+  title="Great Example of Media"
+  id="determined-davinci-6kd2w"
+  showFile="/pages/about.js"
+/>
+```
+
+<CodeSandbox
+  title="Great Example of Media"
+  id="determined-davinci-6kd2w"
+  showFile="/pages/about.js"
+/>
+
+## Callout
+
+## Aside

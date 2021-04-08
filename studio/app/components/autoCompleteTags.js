@@ -7,9 +7,11 @@ import React, {
 import Select from 'react-select';
 import PatchEvent, { set, unset } from 'part:@sanity/form-builder/patch-event';
 import { withDocument } from 'part:@sanity/form-builder';
-import client from 'part:@sanity/base/client';
+import sanityClient from 'part:@sanity/base/client';
+
 import { v4 as uuidv4 } from 'uuid';
 
+const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
 const transformTagToReference = (tag) => ({
   _type: 'reference',
   _ref: tag._id,

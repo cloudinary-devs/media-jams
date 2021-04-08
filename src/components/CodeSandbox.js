@@ -6,36 +6,53 @@ import {
   Flex,
   Box,
 } from '@chakra-ui/react';
-import Iframe from '@components/Iframe';
 
-const isCodeSandboxUrl = (url) => new URL(url).hostname === 'codesandbox.io';
+/**
+ * Enum string value possible options for view.
+ * Default is split-pane 50/50
+ * @enum {string}
+ */
+const View = {
+  DEFAULT: '',
+  PREVIEW: 'preview',
+  EDITOR: 'editor',
+};
 
-export default function CodeSandbox({ title, src, children, ...props }) {
+/**
+ *
+ * @param {String} title
+ * @param {String} id Unquie identifier of specific CodeSandbox
+ * @param {View} view Enum options available for displaying sandbox
+ * @param {String} initialPath relitive file path to display on load
+ *
+ * @returns
+ */
+export default function CodeSandbox({
+  title,
+  id,
+  view = View.DEFAULT,
+  showFile = '',
+}) {
   const { colorMode = 'dark' } = useColorMode();
-  const codeSandboxEncodeUrl = (src) => {
-    const url = new URL(src);
-    url.search = `runonclick=1&codemiror=1&fontsize=14&hidenavigation=1&theme=${!colorMode}`;
-    return url;
-  };
+  const urlEncodedFilePath = encodeURIComponent(showFile);
+
+  const urlWithOptions = `https://codesandbox.io/embed/${id}?runonclick=1&autoresize=1&codemirror=1&fontsize=14&hidenavigation=1&theme=${!colorMode}&view=${view}&module=${urlEncodedFilePath}`;
+
   return (
-    <>
-      {/* if it's not an iframe from codesandbox, return unchanged */}
-      {!isCodeSandboxUrl(src) && <Iframe src={src} title={title} {...props} />}
-      <Flex justifyContent="center">
-        <Box
-          as="iframe"
-          allowFullScreen
-          src={codeSandboxEncodeUrl(src)}
-          title={title}
-          width="full"
-          maxW="1280px"
-          mx="auto"
-          minH="800px"
-          overflow="hidden"
-          allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-          sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-        ></Box>
-      </Flex>
-    </>
+    <Flex justifyContent="center">
+      <Box
+        as="iframe"
+        allowFullScreen
+        src={urlWithOptions}
+        title={title}
+        width="full"
+        maxW="1280px"
+        mx="auto"
+        minH="800px"
+        overflow="hidden"
+        allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+        sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+      ></Box>
+    </Flex>
   );
 }

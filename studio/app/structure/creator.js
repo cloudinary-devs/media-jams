@@ -1,11 +1,12 @@
 import S from '@sanity/desk-tool/structure-builder';
 import { GoPencil, GoPerson, GoEye, GoTextSize } from 'react-icons/go';
 import userStore from 'part:@sanity/base/user';
-import client from 'part:@sanity/base/client';
+import sanityClient from 'part:@sanity/base/client';
 import { map } from 'rxjs/operators';
 import IframePreview from '../components/iframePreview';
 import { getCurrentUser$ } from '../lib/user';
 
+const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
 const AUTHOR_QUERY = '_type == $type && author._ref == $authorId';
 
 export const creatorListItems = [

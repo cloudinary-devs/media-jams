@@ -1,9 +1,10 @@
 import React from 'react';
 import S from '@sanity/desk-tool/structure-builder';
-import client from 'part:@sanity/base/client';
+import sanityClient from 'part:@sanity/base/client';
 import { workflowListItems } from './workflow';
 import { creatorListItems } from './creator';
 
+const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
 const HIDDEN_TYPES = [
   // NOTE: comment this to debug
   'workflow.metadata',

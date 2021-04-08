@@ -1,16 +1,16 @@
-import React, { useContext, Fragment } from 'react';
-import { css, jsx, ThemeContext } from '@emotion/core';
+import React, { useContext } from 'react';
+import { ThemeContext } from '@emotion/react';
 
 import { Box } from '@chakra-ui/react';
-import MDX from '@mdx-js/runtime';
 import mdx from '@mdx-js/mdx';
 import { MDXProvider, mdx as createElement } from '@mdx-js/react';
-import { LiveProvider, LivePreview, LiveEditor, LiveError } from 'react-live';
+import { LiveProvider, LivePreview, LiveError } from 'react-live';
 import removeImports from 'remark-mdx-remove-imports';
 import removeExports from 'remark-mdx-remove-exports';
 
 import blocksToText from '@lib/blocksToText';
-import Code from '@components/Code';
+import CodeBlock from '@components/CodeBlock';
+import CodeSandbox from '@components/CodeSandbox';
 /**
  * Used working example of mdx playground
  * https://github.com/mdx-js/mdx/blob/master/packages/gatsby-theme-mdx/src/components/playground-editor.js
@@ -67,18 +67,17 @@ const generateOutputs = (src) => {
   return { jsx, mdast, hast };
 };
 
-const LiveMDX = ({ content: blockContent, scope = {}, ...props }) => {
-  const content = blocksToText(blockContent);
+const LiveMDX = ({ content, scope = {}, ...props }) => {
   const theme = useContext(ThemeContext);
   const { jsx, mdast, hast, error } = generateOutputs(content);
 
   return (
-    <Box width={'50%'}>
+    <Box>
       <LiveProvider
         {...props}
         code={content}
         scope={{
-          components: MDXProvider,
+          components: { MDXProvider, CodeSandbox, code: CodeBlock },
           MDXProvider,
           props: {},
           mdx: createElement,

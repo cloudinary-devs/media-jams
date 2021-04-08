@@ -3,6 +3,7 @@ import { GoFile } from 'react-icons/go';
 import slugify from 'slugify';
 import { isUniqueSlug } from '../lib/utils/isUniqueSlug';
 import autoCompleteTags from '../components/autoCompleteTags';
+import JamPreviewWorkflow from '../components/jamPreviewWorkflow';
 
 /**
  * Defines a Media Jam
@@ -10,6 +11,7 @@ import autoCompleteTags from '../components/autoCompleteTags';
  * @property {Object} post
  * @property {string} post.Title - title of media jam
  * @property {slug} post.Slug - unique value generated from the title
+ * @property {cover} post.Cover - image with post
  * @property {Object} post.Author - reference to Auther
  * @property {boolean} post.featured - to flag an article as featured for specific styling or display
  * @property {Tag[]} post.Tags - reference to Tag. One to many relationship
@@ -19,12 +21,13 @@ import autoCompleteTags from '../components/autoCompleteTags';
  */
 export default {
   name: 'post',
-  title: 'Post',
+  title: 'All Jams',
   type: 'document',
   validation: (Rule) =>
     Rule.custom((fields) => {
-      if (fields.title.length > 0 && fields.slug?.current?.length <= 0)
+      if (fields.title.length > 0 && fields.slug?.current?.length <= 0) {
         return "You've gotta have a slug to go with that awesome title!";
+      }
       return true;
     }),
   initialValue: async () => {
@@ -34,6 +37,11 @@ export default {
       author: {
         _ref: self,
         _type: 'reference',
+      },
+      postMetadata: {
+        _type: 'postMetadata',
+        featured: false,
+        paid_content: false,
       },
     };
   },
@@ -52,7 +60,7 @@ export default {
     {
       name: 'body',
       title: 'Body',
-      type: 'blockContent',
+      type: 'markdown',
     },
     {
       name: 'description',
@@ -71,22 +79,16 @@ export default {
       },
     },
     {
+      title: 'Cover',
+      name: 'cover',
+      type: 'image',
+    },
+    {
       name: 'author',
       title: 'Author',
       type: 'reference',
       to: { type: 'author' },
       readOnly: true,
-    },
-    {
-      name: 'publishedAt',
-      title: 'Published at',
-      type: 'datetime',
-      readOnly: true,
-    },
-    {
-      name: 'featured',
-      title: 'Featured',
-      type: 'boolean',
     },
     {
       name: 'tags',
@@ -100,6 +102,16 @@ export default {
         isHighlighted: true,
       },
     },
+    {
+      name: 'publishedAt',
+      title: 'Published at',
+      type: 'datetime',
+      readOnly: true,
+    },
+    {
+      name: 'postMetadata',
+      type: 'postMetadata',
+    },
   ],
 
   preview: {
@@ -107,6 +119,7 @@ export default {
       title: 'title',
       author: 'author.name',
     },
+    component: JamPreviewWorkflow,
     prepare(selection) {
       let media = GoFile;
       const { author } = selection;

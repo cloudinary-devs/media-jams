@@ -1,80 +1,61 @@
-import { Flex, Text, Box, Link, Button, Image } from '@chakra-ui/react';
-import { Link as NextLink } from 'next/link';
-import { useFetchUser } from '@lib/user';
-import { useImage } from 'use-cloudinary';
+import { Flex, Text, Box, Link, Button } from '@chakra-ui/react';
+import Image from '@components/Image';
+import NextLink from 'next/link';
+import { useUser } from '@auth0/nextjs-auth0';
 
-export function NavLink({ children, isButton, ...props }) {
+export function NavLink({ children, href, ...props }) {
   return (
-    <Link
-      as={NextLink}
-      _hover={
-        !isButton && {
+    <NextLink href={href} passHref>
+      <Link
+        _hover={{
           color: 'yellow.400',
           borderBottomWidth: '5px',
           borderBottomStyle: 'solid',
           borderBottomColor: 'yellow.400',
           paddingBottom: '3px',
-        }
-      }
-      px={2}
-      {...props}
-    >
-      {children}
-    </Link>
+        }}
+        px={2}
+        {...props}
+      >
+        {children}
+      </Link>
+    </NextLink>
   );
 }
 
 export default function Navbar() {
-  const { user, loading } = useFetchUser();
-  const { generateImageUrl } = useImage('mediadevs');
-
-  const logoConfig = {
-    delivery: {
-      publicId: 'mediajams/logo',
-    },
-    transformation: {
-      height: 0.7,
-    },
-  };
+  const { user, error, isLoading } = useUser();
 
   return (
     <Flex
-      minW="100%;"
-      height="7rem"
-      px={5}
-      py={4}
+      minW="100%"
+      height="8rem"
+      py={8}
+      px={10}
       justifyContent="space-between"
       alignItems="flex-start"
       backgroundColor="grey.900"
       color="white"
     >
       <Link href="/">
-        <Image alt="MediaJams logo" src={generateImageUrl(logoConfig)} />
+        <Image
+          cloudName="mediadevs"
+          publicId="mediajams/logo"
+          height={60}
+          width={120}
+          alt="MediaJams logo"
+        />
       </Link>
       <Box>
-        <NavLink ml={4} href="/post">
-          Jams
+        <NavLink mr={4} href="/dashboard">
+          Dashboard
         </NavLink>
-        <NavLink ml={4} href="/feedback">
-          Feedback
-        </NavLink>
-        {user ? (
-          <NavLink ml={4} href="/profile">
-            Profile
-          </NavLink>
-        ) : (
-          <Button
-            as={NavLink}
-            isButton
-            href="/api/auth/login"
-            borderRadius="3px"
-            colorScheme="blue"
-            ml={4}
-            size="sm"
-            w="100px"
-          >
-            Login
-          </Button>
+        {!user && (
+          <Link as={NextLink} href="/api/auth/signup">
+            <Button outline="black" background="grey.700" color="yellow.400">
+              Signup
+            </Button>
+          </Link>
         )}
       </Box>
     </Flex>

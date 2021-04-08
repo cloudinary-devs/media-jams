@@ -3,33 +3,30 @@ import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
-import BlockContent from '@sanity/block-content-to-react';
-import blocksToText from '@lib/blocksToText';
 
-import { postBySlug, postsWithSlug } from 'lib/api';
+import { postBySlug, postsWithSlug } from '@lib/api';
 
-import Code from '@components/Code';
+import { Flex, Text, Image, useDisclosure } from '@chakra-ui/react';
+import CodeBlock from '@components/CodeBlock';
 import CodeSandbox from '@components/CodeSandbox';
-import JamImage from '@components/Image';
 import Layout from '@components/Layout';
-
-const components = { code: Code, iframe: CodeSandbox, img: JamImage };
-
 import JamContentHero from '@components/JamContentHero';
 import JamContent from '@components/JamContent';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
+import EmbeddedIframe from '@components/EmbeddedIframe';
 
-import { Text, Heading, VStack, Box, Image } from '@chakra-ui/react';
-import styled from '@emotion/styled';
+const components = {
+  CodeSandbox,
+  code: CodeBlock,
+  img: Image,
+  iframe: EmbeddedIframe,
+};
 
-const AuthorByline = styled(Text)`
-  text-indent: 5px;
-`;
-
-export default function Post({ post, preview }) {
+export default function Post({ post, preview, error }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-  if (!router.isFallback && !post?.slug) {
+  if (error || (!router.isFallback && !post?.slug)) {
     return <ErrorPage statusCode={404} />;
   }
   if (router.isFallback) {
@@ -39,29 +36,38 @@ export default function Post({ post, preview }) {
   const { author } = post;
 
   return (
-    <Layout>
-      <JamContentHero
-        author={author}
-        description={post.description}
-        title={post.title}
-      ></JamContentHero>
-      <JamContent>{content}</JamContent>
-      <JamAuthorBanner author={author}></JamAuthorBanner>
-      <EmailSubscription />
+    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
+      <Flex
+        bg="white"
+        direction="column"
+        width="100%"
+        height="100%"
+        overflow="auto"
+      >
+        <JamContentHero
+          author={author}
+          description={post.description}
+          title={post.title}
+        ></JamContentHero>
+        <JamContent>{content}</JamContent>
+        <JamAuthorBanner author={author}></JamAuthorBanner>
+        <EmailSubscription />
+      </Flex>
     </Layout>
   );
 }
 /**
- * Get all posts w/slug to pre-render url path
- * Filter out any posts that might not have a slug set
- * @returns {Object} paths based on post slug, and fallback true to live-preview drafts
+ * Get the paths we want to pre-render based on jams
+ * filter out any jams that may not have a slug
+ * map over jams and wrap slug in a `params` Object that will get passed to `getStaticProps` on build
+ * @returns {Object} paths based on jam slug, and fallback true to live-preview drafts
  */
 export const getStaticPaths = async () => {
   // Get the paths we want to pre-render based on posts
-  const posts = await postsWithSlug();
+  const jams = await postsWithSlug();
   return {
     paths:
-      posts
+      jams
         ?.filter((post) => post?.slug)
         .map(({ slug }) => ({
           params: {
@@ -73,28 +79,25 @@ export const getStaticPaths = async () => {
 };
 
 // This function gets called at build time on server-side.
+// Also when constructing preview draft from /api/preivew
 export const getStaticProps = async ({ params: { slug }, preview = false }) => {
-  const { title, body, slug: slug_current, ...post } = await postBySlug(
-    slug,
-    preview,
-  );
+  const jam = await postBySlug(slug, preview);
   try {
-    // Convert the body of Jam from sanity portable text to string
     // Then serialize to mdx formated string for hydration in components.
-    const bodyToString = blocksToText(body);
-    const mdx = await renderToString(bodyToString, { components }, null);
+    const mdx = await renderToString(jam.body, { components }, null);
     return {
       props: {
+        error: null,
         preview,
         post: {
           content: mdx,
-          title: title,
-          slug: slug_current,
-          ...post,
+          slug: slug,
+          ...jam,
         },
       },
     };
   } catch (error) {
     console.error(error);
+    return { props: error };
   }
 };

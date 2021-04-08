@@ -1,36 +1,33 @@
 import React from 'react';
-import { Tag, TagLabel, Button } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 
 export default function TagButton({
   addTag,
   removeTag,
   searchTags,
   tag,
-  icon,
+  color,
+  ...rest
 }) {
   return (
     <Button
-      size="lg"
-      as={Tag}
-      colorScheme="green"
-      fontSize={16}
-      _hover={{
-        cursor: 'pointer',
-      }}
+      size="sm"
+      fontSize={9}
+      colorScheme={color ? color : 'blue'}
+      variant={
+        searchTags.some((selected) => selected.title === tag.title)
+          ? 'solid'
+          : 'outline'
+      }
       key={tag.toString()}
       onClick={() =>
         searchTags.some((selected) => selected.title === tag.title)
           ? removeTag(tag)
           : addTag(tag)
       }
-      variant={
-        searchTags.some((selected) => selected.title === tag.title)
-          ? 'solid'
-          : 'outline'
-      }
-      leftIcon={icon}
+      {...rest}
     >
-      <TagLabel>{tag.title}</TagLabel>
+      {tag.title}
     </Button>
   );
 }
