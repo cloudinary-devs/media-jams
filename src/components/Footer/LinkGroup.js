@@ -20,7 +20,11 @@ export const LinkGroup = ({ data }) => {
         {links.map((link, idx) => (
           <Box as="li" key={idx}>
             <NextLink href={link.href} passHref>
-              <Box as="a" _hover={{ textDecoration: 'underline' }}>
+              <Box
+                as="a"
+                color="yellow.200"
+                _hover={{ textDecoration: 'underline' }}
+              >
                 <span>{link.label}</span>
                 {link.badge && (
                   <Box as="span" ms="2">
