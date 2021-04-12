@@ -48,7 +48,7 @@ export default function Post({ post, preview, error }) {
           author={author}
           description={post.description}
           title={post.title}
-          imageUrl={post.coverImage?.url}
+          imageUrl={post.coverImage}
         ></JamContentHero>
         <JamContent>{content}</JamContent>
         <JamAuthorBanner author={author}></JamAuthorBanner>
