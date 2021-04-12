@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Flex,
   Text,
   Grid,
@@ -8,12 +9,17 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import BlockContent from '@sanity/block-content-to-react';
+
 import { useQuery } from 'react-query';
 
 import { jams } from '@lib/queries/jams';
 
 import Layout from '@components/Layout';
 import JamAccordion from '@components/JamAccordion';
+import IconButton from '@components/IconButton';
+
+import { FaTwitter, FaGithub, FaGlobe } from 'react-icons/fa';
 
 export default function AuthorPage({ author }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,7 +31,6 @@ export default function AuthorPage({ author }) {
       enabled: !!author,
     },
   );
-
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
       <Flex overflow="auto" w="100%" direction="column" gap={2} p={12}>
@@ -41,8 +46,50 @@ export default function AuthorPage({ author }) {
               src={author?.image?.asset?.url}
             />
           )}
-          <Flex p={8}>
+          <Flex p={8} direction="column">
             <Heading>{author?.name}</Heading>
+            <Flex mt={2}>
+              {Object.keys(author?.socialHandles).map((key) => {
+                if (key === 'twitter') {
+                  return (
+                    <IconButton
+                      key={key}
+                      as="a"
+                      color="black"
+                      href={author.socialHandles[key]}
+                      size="md"
+                      Icon={FaTwitter}
+                    />
+                  );
+                } else if (key === 'github') {
+                  return (
+                    <IconButton
+                      key={key}
+                      as="a"
+                      color="black"
+                      href={author.socialHandles[key]}
+                      size="md"
+                      Icon={FaGithub}
+                    />
+                  );
+                } else if (key === 'website') {
+                  return (
+                    <IconButton
+                      key={key}
+                      as="a"
+                      color="black"
+                      href={author.socialHandles[key]}
+                      size="md"
+                      Icon={FaGlobe}
+                    />
+                  );
+                }
+              })}
+            </Flex>
+
+            <Box mt={1} fontSize="sm">
+              <BlockContent blocks={author?.bioRaw} />
+            </Box>
           </Flex>
         </Flex>
 

@@ -51,12 +51,20 @@ function Notes({ user }) {
     setFilteredNotes(data);
   };
   return (
-    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      <Box m={6}>
+    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen} overflow="auto">
+      <Flex
+        align="center"
+        direction="column"
+        h="100%"
+        alignSelf="center"
+        w="100%"
+        m={5}
+      >
         <Input
           type="text"
           variant="outline"
           bg="white"
+          alignSelf="center"
           placeholder="Search by keyword or tag..."
           padding="1.2rem 0 1.2rem 1rem"
           w={{ base: '100%', xl: '40%' }}
@@ -66,15 +74,18 @@ function Notes({ user }) {
           }}
           onChange={onChange}
         />
-      </Box>
-      <Flex
-        p={6}
-        direction={{ base: 'column', xl: 'row' }}
-        align={{ base: 'center', xl: 'none' }}
-      >
-        {filteredNotes.map((data) => (
-          <Note mr={4} note={data} />
-        ))}
+
+        <Flex
+          p={6}
+          direction={{ base: 'column', xl: 'row' }}
+          align={{ base: 'center', xl: 'none' }}
+          w="70%"
+          wrap="wrap"
+        >
+          {filteredNotes.map((data) => (
+            <Note mr={4} note={data} />
+          ))}
+        </Flex>
       </Flex>
     </Layout>
   );

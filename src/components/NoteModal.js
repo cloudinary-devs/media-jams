@@ -79,9 +79,9 @@ export default function NoteModal({
               <Textarea
                 borderTopLeftRadius="4px"
                 borderTopRightRadius="4px"
-                size="sm"
-                w="100%"
+                w="90%"
                 fontSize="16px"
+                mt="8px"
                 h="100%"
                 ref={inputRef}
                 defaultValue={editedNote.body}

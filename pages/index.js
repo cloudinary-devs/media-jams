@@ -1,25 +1,13 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { serializeArray } from '@hooks/useQueryParameter';
 import { jams as queryJams } from '@lib/queries/jams';
 import { authors as queryAuthors } from '@lib/queries/authors';
 import { routes as queryRoutes } from '@lib/queries/routes';
 import { boxShadow } from '@utils/styles';
 
-import {
-  Flex,
-  Box,
-  Heading,
-  Text,
-  Grid,
-  useToken,
-  Icon,
-} from '@chakra-ui/react';
-import { FaStickyNote, FaBookmark, FaChalkboardTeacher } from 'react-icons/fa';
+import { Flex, Box, Heading, Grid, useToken } from '@chakra-ui/react';
 import Hero from '@components/Hero';
-import EmailSubscription from '@components/EmailSubscription';
 import Footer from '@components/Footer';
 import Navbar from '@components/Navbar';
 import JamAccordion from '@components/JamAccordion';
@@ -46,52 +34,19 @@ function Features() {
   return (
     <Flex
       alignItems="center"
-      justify="center"
-      height="300px"
-      w="100%"
-      color="white"
-      bgGradient="linear(to-r, green.200, green.400)"
+      minH={{ base: '8xl', xl: 'xl' }}
+      direction="column"
+      bg="blue.200"
     >
-      <Flex justify="space-around" w={{ base: '100%', lg: '60%' }}>
-        <Flex p={4} align="center" justify="center" direction="column">
-          <Icon
-            color="white.600"
-            as={FaChalkboardTeacher}
-            boxSize={{ base: '2em', lg: '3em' }}
-          />
-          <Text textAlign="center">
-            Learn media best practices from our media experts
-          </Text>
-        </Flex>
-        <Flex
-          align="center"
-          justify="center"
-          direction="column"
-          alignSelf="flex-end"
-          mt={5}
-          p={4}
-        >
-          <Icon
-            color="white.600"
-            as={FaStickyNote}
-            boxSize={{ base: '2em', lg: '3em' }}
-          />
-          <Text textAlign="center">
-            Create notes as you learn without leaving the site
-          </Text>
-        </Flex>
-        <Flex p={4} align="center" justify="center" direction="column">
-          <Icon
-            color="white.600"
-            as={FaBookmark}
-            boxSize={{ base: '2em', lg: '3em' }}
-          />
-          <Text textAlign="center">
-            Boomark and curate the important Jams you know you'll be coming back
-            to
-          </Text>
-        </Flex>
-      </Flex>
+      <Heading
+        mt={32}
+        fontSize="5xl"
+        fontFamily="Bangers"
+        textAlign="center"
+        letterSpacing="wide"
+      >
+        What are Media Jams?
+      </Heading>
     </Flex>
   );
 }
@@ -99,73 +54,25 @@ function Features() {
 function Authors() {
   const { data: authors } = useQuery('authors', queryAuthors.get);
 
-  const getRandomElements = (sourceArray, neededElements) => {
-    var result = [];
-    for (var i = 0; i < neededElements; i++) {
-      var index = Math.floor(Math.random() * sourceArray.length);
-      result.push(sourceArray[index]);
-      sourceArray.splice(index, 1);
-    }
-    return result;
-  };
   return (
     <Flex
       alignItems="center"
-      justify="center"
-      minH={{ base: '8xl', lg: '6xl' }}
-      direction="column"
+      justify="space-evenly"
+      minH={{ base: '8xl', lg: '2xl' }}
+      overflowX="scroll"
+      w="100%"
     >
-      <Heading
-        as="h1"
-        fontFamily="Bangers, cursive"
-        fontSize={{ base: '6xl', lg: '8xl' }}
-        letterSpacing="wide"
-        lineHeight="base"
-        textAlign="center"
-        w={{ base: '90%' }}
-        lineHeight={1}
-        mt={{ base: 10 }}
-      >
-        Meet our Authors
-      </Heading>
-      <Text
-        mt={{ base: 5, lg: 0 }}
-        mb={{ base: 10, lg: 0 }}
-        width={{ base: '80%', lg: '20%' }}
-        textAlign="center"
-        w="60%"
-      >
-        Media Jam authors are from all around the globe. Get to know them!
-      </Text>
-      <Grid
-        gap={5}
-        templateRows={{
-          base: 'none',
-          md: 'none',
-          lg: 'repeat(2, 1fr)',
-          xl: 'repeat(2, 1fr)',
-        }}
-        templateColumns={{
-          base: 'repeat(1, 100%)',
-          md: 'repeat(2, 1fr)',
-          lg: 'repeat(3, 1fr)',
-          xl: 'repeat(4, 1fr)',
-        }}
-        w={{ base: '100%', lg: '70%' }}
-        mt={{ base: 0, lg: 12 }}
-        mb={{ base: 10, lg: 0 }}
-        p={{ base: 1, lg: 'none' }}
-        justifyItems={{ base: 'center', lg: 'none' }}
-      >
-        {authors?.allAuthor?.slice(0, 8).map((author) => (
-          <AuthorCard
-            key={author?._id}
-            h={72}
-            w={{ base: '90%', lg: 64 }}
-            author={author}
-          />
-        ))}
-      </Grid>
+      {authors.allAuthor?.map((author) => (
+        <AuthorCard
+          key={author?._id}
+          h={72}
+          mr={4}
+          minW={52}
+          author={author}
+          boxShadow="none"
+          border="1px solid black"
+        />
+      ))}
     </Flex>
   );
 }

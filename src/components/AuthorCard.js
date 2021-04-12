@@ -42,6 +42,9 @@ export default function AuthorCard({ author, ...rest }) {
           lg: 14,
         }}
         src={author.image?.asset.url}
+        borderColor="green.400"
+        borderWidth="3px"
+        showBorder
       />
 
       <Link href={`/author/${author.slug?.current || ''}`}>

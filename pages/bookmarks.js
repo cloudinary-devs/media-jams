@@ -71,25 +71,25 @@ function Bookmarks() {
     setFilteredPosts(data);
   };
   return (
-    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      <Box m={5}>
+    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen} overflow="auto">
+      <Box h="100%" alignSelf="center" w={{ base: '100%', xl: '40%' }} m={5}>
         <Input
           type="text"
           variant="outline"
           bg="white"
           placeholder="Search by keyword or tag..."
           padding="1.2rem 0 1.2rem 1rem"
-          w={{ base: '100%', xl: '40%' }}
           _placeholder={{
             lineSpacing: '4px',
             fontSize: 'sm',
           }}
           onChange={onChange}
         />
-      </Box>
-      <Flex overflow="auto" align="center" p={5}>
+
         <Flex
-          w={{ base: '100%', xl: '40%' }}
+          alignSelf="center"
+          align="center"
+          p={5}
           h={{ base: '100%' }}
           direction="column"
           align={{ base: 'center', xl: 'none' }}
@@ -107,7 +107,7 @@ function Bookmarks() {
             />
           ))}
         </Flex>
-      </Flex>
+      </Box>
     </Layout>
   );
 }

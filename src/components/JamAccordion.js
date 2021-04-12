@@ -128,12 +128,16 @@ export default function JamAccordion({
       boxShadow={shadow ? boxShadow : 'none'}
       bg="white"
       allowToggle
+      borderBottomWidth="0px"
       borderRadius={borderRadius || 'none'}
       defaultIndex={defaultIndex || null}
       p="0px"
       {...rest}
     >
-      <AccordionItem borderRadius={borderRadius || 'none'}>
+      <AccordionItem
+        _last={{ borderBottomWidth: '0px' }}
+        borderRadius={borderRadius || 'none'}
+      >
         {({ isExpanded }) => {
           return (
             <>
@@ -152,6 +156,9 @@ export default function JamAccordion({
                     name={author.name}
                     mr={4}
                     src={author.image.asset.url}
+                    borderWidth="3px"
+                    borderColor={`${color}.400`}
+                    showBorder
                   />
                   <Flex
                     justift="center"
@@ -218,21 +225,21 @@ export default function JamAccordion({
               </Flex>
 
               <AccordionPanel borderRadius={borderRadius || 'none'} p="0px">
-                <Flex p={4} direction="column">
-                  <Text fontSize="sm">{post.description}</Text>
+                <Flex textAlign="center" p={4} direction="column">
+                  <Text fontSize="md">{post.description}</Text>
                   <Flex mt={4} color="white" alignSelf="center" flexWrap="wrap">
                     {post.tags?.slice(0, 4).map((tag) => (
-                      <Text
+                      <Button
                         key={tag._id}
-                        mr={5}
+                        mr={3}
                         fontSize={{ base: 'xs', md: 'xs' }}
-                        bg={`${color}.400`}
+                        colorScheme={color}
                         borderRadius={borderRadius}
                         letterSpacing="1px"
-                        p={2}
+                        size="sm"
                       >
                         #{tag.title}
-                      </Text>
+                      </Button>
                     ))}
                   </Flex>
                 </Flex>
