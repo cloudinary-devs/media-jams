@@ -69,7 +69,6 @@ export default function Post() {
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
     const routeTags = router.query.tags?.split(',') || [];
-    console.log(routeTags);
     if (jamTagData?.tags && routeTags.length !== 0) {
       const queryTags = jamTagData?.tags.filter((t) =>
         routeTags.includes(t.title),
@@ -369,9 +368,14 @@ function Notes({ user }) {
 }
 
 function Bookmarks({ user }) {
+  const userId = user?.sub;
   const { status, data, error, isFetching } = useQuery(
     'bookmarks',
     queryBookmarks.get,
+    {
+      // The query will not execute until the user exists
+      enabled: !!userId,
+    },
   );
   const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
 
