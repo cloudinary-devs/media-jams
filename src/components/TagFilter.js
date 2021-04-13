@@ -42,8 +42,8 @@ export default function TagFilter({
         <TagSearchInput color={color} setSearch={setSearch} mb={2} />
         <Flex
           mt={2}
-          wrap="wrap"
-          margin=" -2px 0 0 -2px"
+          flexFlow="row wrap"
+          margin={{ base: ' -2px 0 10px -2px', md: ' -2px 0 0 -2px' }}
           width="calc(100% + 12px)"
         >
           {search.length > 0
