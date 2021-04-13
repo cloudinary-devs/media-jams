@@ -69,19 +69,22 @@ export default function Post() {
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
     const routeTags = router.query.tags?.split(',') || [];
+    console.log(routeTags);
     if (jamTagData?.tags && routeTags.length !== 0) {
       const queryTags = jamTagData?.tags.filter((t) =>
         routeTags.includes(t.title),
       );
-      setSelectedFilters(queryTags);
+      // setSelectedFilters(queryTags);
+    } else {
+      setSelectedFilters([]);
     }
-  }, [jamTagData?.tags]);
+  }, [router.query, jamTagData?.tags]);
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
     if (searchValue === '' && selectedFilters.length === 0) {
       handleFilter(jamData?.jams);
-      routerPushTags();
+      // routerPushTags();
     } else {
       // Allow for a search for tag
       const formattedTags = selectedFilters.map((item) => item.title);
@@ -101,7 +104,7 @@ export default function Post() {
       const results = fuse.search(queries).map((result) => result.item);
       handleFilter(results);
       console.log(selectedFilters.map((f) => f.title));
-      routerPushTags({ tags: selectedFilters.map((f) => f.title) });
+      routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
     }
   }, [searchValue, selectedFilters]);
 
@@ -118,6 +121,10 @@ export default function Post() {
 
   const handleFilter = (data) => {
     setFilteredPosts(data);
+  };
+
+  const clearAllTags = () => {
+    routerPushTags();
   };
 
   /**
@@ -205,7 +212,7 @@ export default function Post() {
           removeTag={removeTag}
           selectedFilters={selectedFilters}
           setSelectedFilters={setSelectedFilters}
-          filteredPosts={filteredPosts}
+          clearAllTags={clearAllTags}
         />
 
         <Bookmarks user={user} />
@@ -286,6 +293,7 @@ function SearchFilters({
   removeTag,
   selectedFilters,
   setSelectedFilters,
+  clearAllTags,
   filteredPosts,
 }) {
   return (
@@ -305,6 +313,7 @@ function SearchFilters({
         removeTag={removeTag}
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}
+        clearAllTags={clearAllTags}
       />
     </Flex>
   );

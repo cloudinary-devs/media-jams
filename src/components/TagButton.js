@@ -7,12 +7,13 @@ export default function TagButton({
   searchTags,
   tag,
   color,
+  size = 'md',
   ...rest
 }) {
   return (
     <Button
       m={{ base: '4px', md: '6px' }}
-      size="md"
+      size={size}
       fontSize={{ base: '12', md: '16' }}
       colorScheme={color ? color : 'blue'}
       variant={
