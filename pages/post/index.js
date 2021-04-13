@@ -69,18 +69,20 @@ export default function Post() {
   // check if there's any tag selections coming from the router and set them
   React.useEffect(() => {
     const routeTags = router.query.tags?.split(',') || [];
+    console.log(routeTags);
     if (jamTagData?.tags && routeTags.length !== 0) {
       const queryTags = jamTagData?.tags.filter((t) =>
         routeTags.includes(t.title),
       );
       setSelectedFilters(queryTags);
     }
-  }, [router.query, jamTagData?.tags]);
+  }, [jamTagData?.tags]);
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
     if (searchValue === '' && selectedFilters.length === 0) {
       handleFilter(jamData?.jams);
+      routerPushTags();
     } else {
       // Allow for a search for tag
       const formattedTags = selectedFilters.map((item) => item.title);
@@ -99,6 +101,8 @@ export default function Post() {
       };
       const results = fuse.search(queries).map((result) => result.item);
       handleFilter(results);
+      console.log(selectedFilters.map((f) => f.title));
+      routerPushTags({ tags: selectedFilters.map((f) => f.title) });
     }
   }, [searchValue, selectedFilters]);
 
@@ -115,6 +119,25 @@ export default function Post() {
 
   const handleFilter = (data) => {
     setFilteredPosts(data);
+  };
+
+  /**
+   * Add URl query tags without running all data fetch methods
+   * https://nextjs.org/docs/routing/shallow-routing#caveats
+   * @param {Object} query {tags: [<String>]}
+   * @type {Object}
+   */
+  const routerPushTags = (query = {}) => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query,
+      },
+      undefined,
+      {
+        shallow: true,
+      },
+    );
   };
 
   return (
