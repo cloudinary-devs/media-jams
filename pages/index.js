@@ -1,29 +1,18 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { serializeArray } from '@hooks/useQueryParameter';
 import { jams as queryJams } from '@lib/queries/jams';
 import { authors as queryAuthors } from '@lib/queries/authors';
 import { routes as queryRoutes } from '@lib/queries/routes';
 import { boxShadow } from '@utils/styles';
 
-import {
-  Flex,
-  Box,
-  Heading,
-  Text,
-  Grid,
-  useToken,
-  Icon,
-} from '@chakra-ui/react';
-import { FaStickyNote, FaBookmark, FaChalkboardTeacher } from 'react-icons/fa';
+import { Flex, Text, Box, Heading, Grid, useToken } from '@chakra-ui/react';
 import Hero from '@components/Hero';
-import EmailSubscription from '@components/EmailSubscription';
 import Footer from '@components/Footer';
 import Navbar from '@components/Navbar';
 import JamAccordion from '@components/JamAccordion';
 import AuthorCard from '@components/AuthorCard';
+import { keyframes } from '@emotion/react';
 import { useMixPanel } from '@lib/mixpanel';
 
 export default function Index() {
@@ -37,6 +26,7 @@ export default function Index() {
           <Hero />
           <Features />
           <Authors />
+          <AuthFeatures />
           <FrameworkJams />
         </Box>
       </Flex>
@@ -49,126 +39,107 @@ function Features() {
   return (
     <Flex
       alignItems="center"
-      justify="center"
-      height="300px"
-      w="100%"
-      color="white"
-      bgGradient="linear(to-r, green.200, green.400)"
+      minH={{ base: 'lg', xl: 'lg' }}
+      direction="column"
+      bg="blue.200"
     >
-      <Flex justify="space-around" w={{ base: '100%', lg: '60%' }}>
-        <Flex p={4} align="center" justify="center" direction="column">
-          <Icon
-            color="white.600"
-            as={FaChalkboardTeacher}
-            boxSize={{ base: '2em', lg: '3em' }}
-          />
-          <Text textAlign="center">
-            Learn media best practices from our media experts
-          </Text>
-        </Flex>
-        <Flex
-          align="center"
-          justify="center"
-          direction="column"
-          alignSelf="flex-end"
-          mt={5}
-          p={4}
-        >
-          <Icon
-            color="white.600"
-            as={FaStickyNote}
-            boxSize={{ base: '2em', lg: '3em' }}
-          />
-          <Text textAlign="center">
-            Create notes as you learn without leaving the site
-          </Text>
-        </Flex>
-        <Flex p={4} align="center" justify="center" direction="column">
-          <Icon
-            color="white.600"
-            as={FaBookmark}
-            boxSize={{ base: '2em', lg: '3em' }}
-          />
-          <Text textAlign="center">
-            Boomark and curate the important Jams you know you'll be coming back
-            to
-          </Text>
-        </Flex>
-      </Flex>
+      <Heading
+        mt={28}
+        fontSize="5xl"
+        fontFamily="Bangers"
+        textAlign="center"
+        letterSpacing="wide"
+        color="blue.600"
+      >
+        What are Media Jams?
+      </Heading>
     </Flex>
   );
 }
 
 function Authors() {
-  const { data: authors } = useQuery('authors', queryAuthors.get);
+  const { data } = useQuery('authors', queryAuthors.get);
 
-  const getRandomElements = (sourceArray, neededElements) => {
-    var result = [];
-    for (var i = 0; i < neededElements; i++) {
-      var index = Math.floor(Math.random() * sourceArray.length);
-      result.push(sourceArray[index]);
-      sourceArray.splice(index, 1);
+  const scrollLoop = keyframes`
+    0% {
+      margin-left: 0px
     }
-    return result;
-  };
+    100% {
+      margin-left: -1000px
+    }
+  `;
+
   return (
-    <Flex
-      alignItems="center"
-      justify="center"
-      minH={{ base: '8xl', lg: '6xl' }}
-      direction="column"
-    >
+    <Flex direction="column" minH="xl" bg="green.200">
       <Heading
-        as="h1"
-        fontFamily="Bangers, cursive"
-        fontSize={{ base: '6xl', lg: '8xl' }}
-        letterSpacing="wide"
-        lineHeight="base"
+        color="green.600"
+        mt={10}
+        fontSize="6xl"
+        fontFamily="bangers"
         textAlign="center"
-        w={{ base: '90%' }}
-        lineHeight={1}
-        mt={{ base: 10 }}
       >
-        Meet our Authors
+        Jam Authors
       </Heading>
-      <Text
-        mt={{ base: 5, lg: 0 }}
-        mb={{ base: 10, lg: 0 }}
-        width={{ base: '80%', lg: '20%' }}
-        textAlign="center"
-        w="60%"
+      <Flex
+        mt={10}
+        overflowX="auto"
+        flexWrap="nowrap"
+        overflowY="hidden"
+        mr="2"
       >
-        Media Jam authors are from all around the globe. Get to know them!
-      </Text>
-      <Grid
-        gap={5}
-        templateRows={{
-          base: 'none',
-          md: 'none',
-          lg: 'repeat(2, 1fr)',
-          xl: 'repeat(2, 1fr)',
-        }}
-        templateColumns={{
-          base: 'repeat(1, 100%)',
-          md: 'repeat(2, 1fr)',
-          lg: 'repeat(3, 1fr)',
-          xl: 'repeat(4, 1fr)',
-        }}
-        w={{ base: '100%', lg: '70%' }}
-        mt={{ base: 0, lg: 12 }}
-        mb={{ base: 10, lg: 0 }}
-        p={{ base: 1, lg: 'none' }}
-        justifyItems={{ base: 'center', lg: 'none' }}
-      >
-        {authors?.allAuthor?.slice(0, 8).map((author) => (
+        {data.allAuthor?.map((author) => (
           <AuthorCard
             key={author?._id}
             h={72}
-            w={{ base: '90%', lg: 64 }}
+            mr={4}
+            minW={52}
             author={author}
+            boxShadow="none"
+            bg="white"
+            _first={{
+              marginLeft: 10,
+              // animation: `${scrollLoop} 6s linear infinite`
+            }}
+            _last={{
+              marginRight: 10,
+            }}
           />
         ))}
-      </Grid>
+      </Flex>
+    </Flex>
+  );
+}
+
+function AuthFeatures() {
+  return (
+    <Flex minH={{ base: 'xl', lg: 'md' }} direction="column" p={10}>
+      <Heading
+        mt={10}
+        fontSize="6xl"
+        fontFamily="bangers"
+        textAlign="left"
+        letterSpacing="wider"
+        ml={8}
+      >
+        As a member...
+      </Heading>
+      <Flex
+        align="center"
+        justify="space-evenly"
+        w="100%"
+        mt={{ base: 8, lg: 16 }}
+        direction={{ base: 'column', lg: 'row' }}
+      >
+        <Text mt={{ base: '8', lg: '0' }} fontSize={{ base: 'xl', lg: '2xl' }}>
+          - You can create notes without leaving the app
+        </Text>
+        <Text mt={{ base: '8', lg: '0' }} fontSize={{ base: 'xl', lg: '2xl' }}>
+          - Bookmark all of your favorite jams to return to
+        </Text>
+        <Text mt={{ base: '8', lg: '0' }} fontSize={{ base: 'xl', lg: '2xl' }}>
+          - Return to your most recently viewed jam
+        </Text>
+      </Flex>
     </Flex>
   );
 }
@@ -189,9 +160,9 @@ function FrameworkJams() {
     jam.tags?.some((tag) => tag.title === 'Vue' || tag.title === 'NuxtJS'),
   );
 
-  const svelteJams = data?.jams?.filter((jam) =>
-    jam.tags?.some((tag) => tag.title === 'Svelte'),
-  );
+  // const svelteJams = data?.jams?.filter((jam) =>
+  //   jam.tags?.some((tag) => tag.title === 'Svelte'),
+  // );
 
   const angularJams = data?.jams?.filter((jam) =>
     jam.tags?.some((tag) => tag.title === 'Angular'),
@@ -225,16 +196,15 @@ function FrameworkJams() {
         templateAreas={{
           base: `
             "React React"
-            "Vue Vue"
-            "Svelte Svelte"
+            "Vue Vue"            
             "Angular Angular"
           `,
           lg: `
-            "React Vue Svelte Angular"
-            "React Vue Svelte Angular" 
+            "React Vue Angular"
+            "React Vue Angular" 
           `,
         }}
-        templateColumns={{ base: '1fr', md: '1fr', lg: 'repeat(4, 2fr)' }}
+        templateColumns={{ base: '1fr', md: '1fr', lg: 'repeat(3, 2fr)' }}
         templateRows={{
           base: 'repeat(4, 1fr)',
           md: 'repeat(4, 1fr)',
@@ -290,7 +260,7 @@ function FrameworkJams() {
             <JamAccordion color="green" w="100%" key={post._id} post={post} />
           ))}
         </Flex>
-        <Flex
+        {/* <Flex
           overflow="auto"
           borderRadius="8px"
           direction="column"
@@ -310,7 +280,7 @@ function FrameworkJams() {
           {svelteJams?.map((post) => (
             <JamAccordion color="red" w="100%" key={post._id} post={post} />
           ))}
-        </Flex>
+        </Flex> */}
         <Flex
           overflow="auto"
           borderRadius="8px"

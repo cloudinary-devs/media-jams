@@ -8,6 +8,7 @@ import SearchInput from '@components/SearchInput';
 import { bookmarks } from '@lib/queries/bookmarks';
 import { jams } from '@lib/queries/jams';
 import Fuse from 'fuse.js';
+import { motion } from 'framer-motion';
 
 const fuseOptions = {
   threshold: 0.35,
@@ -71,41 +72,56 @@ function Bookmarks() {
     setFilteredPosts(data);
   };
   return (
-    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      <Box m={5}>
-        <Input
-          type="text"
-          variant="outline"
-          bg="white"
-          placeholder="Search by keyword or tag..."
-          padding="1.2rem 0 1.2rem 1rem"
-          w={{ base: '100%', xl: '40%' }}
-          _placeholder={{
-            lineSpacing: '4px',
-            fontSize: 'sm',
-          }}
-          onChange={onChange}
-        />
-      </Box>
-      <Flex overflow="auto" align="center" p={5}>
-        <Flex
-          w={{ base: '100%', xl: '40%' }}
-          h={{ base: '100%' }}
-          direction="column"
-          align={{ base: 'center', xl: 'none' }}
-        >
-          {filteredPosts?.map((post) => (
-            <JamAccordion
-              color="blue"
-              shadow
-              w="100%"
-              key={post._id}
-              post={post}
-              defaultIndex={[0]}
-              borderRadius="lg"
-              mb={4}
-            />
-          ))}
+    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen} overflow="auto">
+      <Flex
+        as={motion.div}
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.3, ease: 'easeout' }}
+        direction="column"
+        borderRadius="8px"
+        align="center"
+        p="1rem"
+        overflowY="scroll"
+        bg="white"
+        h="100%"
+        m={5}
+      >
+        <Flex direction="column" width="50%">
+          <Input
+            type="text"
+            variant="outline"
+            bg="white"
+            placeholder="Search by keyword or tag..."
+            padding="1.2rem 0 1.2rem 1rem"
+            _placeholder={{
+              lineSpacing: '4px',
+              fontSize: 'sm',
+            }}
+            onChange={onChange}
+          />
+
+          <Flex
+            alignSelf="center"
+            align="center"
+            p={5}
+            h={{ base: '100%' }}
+            direction="column"
+            align={{ base: 'center', xl: 'none' }}
+          >
+            {filteredPosts?.map((post) => (
+              <JamAccordion
+                color="blue"
+                shadow
+                w="100%"
+                key={post._id}
+                post={post}
+                defaultIndex={[0]}
+                borderRadius="lg"
+                mb={4}
+              />
+            ))}
+          </Flex>
         </Flex>
       </Flex>
     </Layout>

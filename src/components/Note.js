@@ -32,6 +32,13 @@ export default function Note({ note, ...rest }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [isEditable, setIsEditable] = React.useState(false);
 
+  var formatTime = function (fourDigitTime) {
+    const time = new Date(fourDigitTime);
+    console.log(time);
+
+    return time;
+  };
+
   const deleteNote = useMutation((noteId) => notes.delete(noteId), {
     onMutate: async (noteId) => {
       await queryClient.cancelQueries('notes');
