@@ -153,16 +153,18 @@ function DiscordAd() {
         color="white"
         boxSize={{ base: 64, md: '7em', xl: '7em' }}
       />
-      <Link
-        as={NextLink}
-        color="white"
-        _visited={{ color: 'white' }}
-        textDecor="underline"
-        href="https://discord.gg/mediadevs"
-        w="40%"
-      >
-        Join the MediaDevs Discord community
-      </Link>
+      <NextLink href="https://discord.gg/mediadevs" passHref>
+        <Link
+          py={2}
+          color="white"
+          _visited={{ color: 'white' }}
+          textDecor="underline"
+          w="40%"
+          textAlign="center"
+        >
+          Join the MediaDevs Discord community
+        </Link>
+      </NextLink>
     </Flex>
   );
 }
