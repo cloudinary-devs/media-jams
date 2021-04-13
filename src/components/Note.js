@@ -8,6 +8,7 @@ import {
   useDisclosure,
   createStandaloneToast,
 } from '@chakra-ui/react';
+import { format } from 'date-fns';
 
 import NoteModal from '@components/NoteModal';
 
@@ -106,7 +107,7 @@ export default function Note({ note, ...rest }) {
             pt="10px"
             pl="10px"
           >
-            {note.created_at}
+            {note.created_at && format(new Date(note.created_at), 'PPP')}
           </Text>
           <Box mt={2} mr={2}>
             <IconButton

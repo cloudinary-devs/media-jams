@@ -10,6 +10,7 @@ export default function TagFilter({
   addTag,
   removeTag,
   color,
+  clearAllTags,
 }) {
   const [search, setSearch] = React.useState('');
   const [filteredTagResults, setFilteredTagResults] = React.useState([]);
@@ -42,8 +43,8 @@ export default function TagFilter({
         <TagSearchInput color={color} setSearch={setSearch} mb={2} />
         <Flex
           mt={2}
-          wrap="wrap"
-          margin=" -2px 0 0 -2px"
+          flexFlow="row wrap"
+          margin={{ base: ' -2px 0 10px -2px', md: ' -2px 0 0 -2px' }}
           width="calc(100% + 12px)"
         >
           {search.length > 0
@@ -81,6 +82,7 @@ export default function TagFilter({
         addTag={addTag}
         removeTag={removeTag}
         searchTags={selectedFilters}
+        clearAllTags={clearAllTags}
         setSelectedFilters={setSelectedFilters}
       />
     </Flex>
@@ -111,6 +113,7 @@ function CurrentFilterGroup({
   addTag,
   removeTag,
   searchTags,
+  clearAllTags,
   color,
   ...rest
 }) {
@@ -121,7 +124,7 @@ function CurrentFilterGroup({
           Current Filters
         </Text>
         <Spacer />
-        <ClearTagsButton setSelectedFilters={setSelectedFilters} />
+        <ClearTagsButton clearAllTags={clearAllTags} />
       </Flex>
       <Flex
         mt={2}
@@ -139,6 +142,7 @@ function CurrentFilterGroup({
               key={tag._id}
               color={color}
               margin="2px 0 0 2px"
+              size="xs"
             />
           ))
         ) : (
@@ -149,13 +153,13 @@ function CurrentFilterGroup({
   );
 }
 
-function ClearTagsButton({ setSelectedFilters, color }) {
+function ClearTagsButton({ clearAllTags, color }) {
   return (
     <Button
       colorScheme={color ? color : 'red'}
       size="sm"
       variant="solid"
-      onClick={() => setSelectedFilters([])}
+      onClick={() => clearAllTags()}
     >
       Clear
     </Button>

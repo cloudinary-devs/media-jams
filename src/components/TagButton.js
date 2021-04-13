@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@chakra-ui/react';
+import { Button, Text } from '@chakra-ui/react';
 
 export default function TagButton({
   addTag,
@@ -7,12 +7,14 @@ export default function TagButton({
   searchTags,
   tag,
   color,
+  size = 'md',
   ...rest
 }) {
   return (
     <Button
-      size="sm"
-      fontSize={9}
+      m={{ base: '4px', md: '6px' }}
+      size={size}
+      fontSize={{ base: '12', md: '16' }}
       colorScheme={color ? color : 'blue'}
       variant={
         searchTags.some((selected) => selected.title === tag.title)
