@@ -79,7 +79,7 @@ export default function NoteModal({
               <Textarea
                 borderTopLeftRadius="4px"
                 borderTopRightRadius="4px"
-                w="90%"
+                resize="none"
                 fontSize="16px"
                 mt="8px"
                 h="100%"

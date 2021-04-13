@@ -17,6 +17,7 @@ import Note from '@components/Note';
 import NoteForm from '@components/NoteForm';
 import { boxShadow } from '@utils/styles';
 import { FaQuestionCircle, FaLock } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 import {
   Flex,
@@ -119,6 +120,10 @@ export default function Post() {
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
       <Grid
+        as={motion.div}
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.3, ease: 'easeout' }}
         height="100vh"
         templateAreas={{
           base: `

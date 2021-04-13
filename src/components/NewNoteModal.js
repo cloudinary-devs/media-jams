@@ -82,6 +82,7 @@ export default function NoteModal({ onClose, isOpen }) {
             borderTopRightRadius="4px"
             mt="32px"
             w="100%"
+            resize="none"
             fontSize="16px"
             h="95%"
             ref={inputRef}

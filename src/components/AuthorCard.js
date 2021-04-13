@@ -27,7 +27,6 @@ export default function AuthorCard({ author, ...rest }) {
       boxShadow={boxShadow}
       direction="column"
       textAlign="center"
-      _last={{ marginRight: '8px' }}
       {...rest}
     >
       <Avatar

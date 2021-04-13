@@ -12,6 +12,7 @@ import Footer from '@components/Footer';
 import Navbar from '@components/Navbar';
 import JamAccordion from '@components/JamAccordion';
 import AuthorCard from '@components/AuthorCard';
+import { keyframes } from '@emotion/react';
 
 export default function Index() {
   return (
@@ -52,27 +53,57 @@ function Features() {
 }
 
 function Authors() {
-  const { data: authors } = useQuery('authors', queryAuthors.get);
+  const { data } = useQuery('authors', queryAuthors.get);
+
+  const infiniteScroll = keyframes`
+  0% {
+    margin-left: 0px
+  }
+  100% {
+    margin-left: -2150px;
+ }
+`;
+
+  // The section needs to scroll horizontally
+
+  // We need to know what the beginning and the end of the array are
+
+  // We need the AuthorCards to loop to the left and stop on hover
+
+  // Once the loop finishes -- it must reset to the first item again
+
+  // const firstAuthor = authors[0];
+  // const lastAuthor = authors[authors.length - 1];
+
+  // console.log(authors?.indexOf(lastAuthor));
 
   return (
-    <Flex
-      alignItems="center"
-      justify="space-evenly"
-      minH={{ base: '8xl', lg: '2xl' }}
-      overflowX="scroll"
-      w="100%"
-    >
-      {authors.allAuthor?.map((author) => (
-        <AuthorCard
-          key={author?._id}
-          h={72}
-          mr={4}
-          minW={52}
-          author={author}
-          boxShadow="none"
-          border="1px solid black"
-        />
-      ))}
+    <Flex direction="column">
+      <Heading mt={10} fontSize="6xl" fontFamily="bangers" textAlign="center">
+        Jam Authors
+      </Heading>
+      <Flex
+        alignItems="center"
+        justify="space-evenly"
+        minH={{ base: '8xl', lg: '2xl' }}
+        w="100%"
+        overflow="hidden"
+      >
+        {data.allAuthor?.map((author) => (
+          <AuthorCard
+            key={author?._id}
+            h={72}
+            mr={4}
+            _first={{
+              animation: `${infiniteScroll} 6s linear infinite`,
+            }}
+            minW={52}
+            author={author}
+            boxShadow="none"
+            border="1px solid black"
+          />
+        ))}
+      </Flex>
     </Flex>
   );
 }
@@ -93,9 +124,9 @@ function FrameworkJams() {
     jam.tags?.some((tag) => tag.title === 'Vue' || tag.title === 'NuxtJS'),
   );
 
-  const svelteJams = data?.jams?.filter((jam) =>
-    jam.tags?.some((tag) => tag.title === 'Svelte'),
-  );
+  // const svelteJams = data?.jams?.filter((jam) =>
+  //   jam.tags?.some((tag) => tag.title === 'Svelte'),
+  // );
 
   const angularJams = data?.jams?.filter((jam) =>
     jam.tags?.some((tag) => tag.title === 'Angular'),
@@ -129,16 +160,15 @@ function FrameworkJams() {
         templateAreas={{
           base: `
             "React React"
-            "Vue Vue"
-            "Svelte Svelte"
+            "Vue Vue"            
             "Angular Angular"
           `,
           lg: `
-            "React Vue Svelte Angular"
-            "React Vue Svelte Angular" 
+            "React Vue Angular"
+            "React Vue Angular" 
           `,
         }}
-        templateColumns={{ base: '1fr', md: '1fr', lg: 'repeat(4, 2fr)' }}
+        templateColumns={{ base: '1fr', md: '1fr', lg: 'repeat(3, 2fr)' }}
         templateRows={{
           base: 'repeat(4, 1fr)',
           md: 'repeat(4, 1fr)',
@@ -194,7 +224,7 @@ function FrameworkJams() {
             <JamAccordion color="green" w="100%" key={post._id} post={post} />
           ))}
         </Flex>
-        <Flex
+        {/* <Flex
           overflow="auto"
           borderRadius="8px"
           direction="column"
@@ -214,7 +244,7 @@ function FrameworkJams() {
           {svelteJams?.map((post) => (
             <JamAccordion color="red" w="100%" key={post._id} post={post} />
           ))}
-        </Flex>
+        </Flex> */}
         <Flex
           overflow="auto"
           borderRadius="8px"

@@ -3,13 +3,11 @@ import { Flex, useDisclosure, Box, Input } from '@chakra-ui/react';
 
 import Layout from '@components/Layout';
 import Note from '@components/Note';
-import NoteForm from '@components/NoteForm';
-import NoteModal from '@components/NoteModal';
 
 import { useQuery } from 'react-query';
-import { useUser } from '@auth0/nextjs-auth0';
 import auth0 from '@lib/auth0';
 import { notes } from '@lib/queries/notes';
+import { motion } from 'framer-motion';
 
 import Fuse from 'fuse.js';
 
@@ -53,11 +51,17 @@ function Notes({ user }) {
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen} overflow="auto">
       <Flex
-        align="center"
+        as={motion.div}
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.3, ease: 'easeout' }}
         direction="column"
+        borderRadius="8px"
+        align="center"
+        p="1rem"
+        overflowY="scroll"
+        bg="white"
         h="100%"
-        alignSelf="center"
-        w="100%"
         m={5}
       >
         <Input

@@ -20,6 +20,7 @@ import Layout from '@components/Layout';
 import JamAccordion from '@components/JamAccordion';
 import AuthorCard from '@components/AuthorCard';
 import { boxShadow } from '@utils/styles';
+import { motion } from 'framer-motion';
 
 const responsiveGrid = {
   base: `
@@ -55,6 +56,10 @@ export default function Dashboard() {
   return (
     <Layout isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
       <Grid
+        as={motion.div}
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.3, ease: 'easeout' }}
         height={{
           base: 'auto',
           md: '100%',
@@ -105,7 +110,13 @@ function Featured() {
         lg: '',
       }}
     >
-      <Heading textStyle="headline-interstitial" color="blue.400" mb={3}>
+      <Heading
+        textStyle="headline-interstitial"
+        fontFamily="bangers"
+        letterSpacing="wide"
+        color="blue.400"
+        mb={3}
+      >
         Featured Jams
       </Heading>
       <Flex direction="column" w="100%">
