@@ -50,6 +50,7 @@
     "codemirror": "^5.58.2",
     "cors": "^2.8.5",
     "css-loader": "^5.0.0",
+    "date-fns": "^2.20.3",
     "fast-glob": "^3.2.4",
     "fathom-client": "^3.0.0",
     "framer-motion": "^4",
