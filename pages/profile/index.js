@@ -33,7 +33,7 @@ export const ProfileGroup = ({ user }) => (
   <Flex
     px={{ base: '4', md: '10' }}
     py="16"
-    maxWidth="3xl"
+    maxWidth="5xl"
     overflow="auto"
     mx="auto"
     my="16"
@@ -182,7 +182,6 @@ function Profile({ user }) {
         overflow={{ md: 'auto', lg: 'auto', xl: 'none' }}
       >
         <ProfileGroup user={user} />
-        {roles && <StudioCard user={user} />}
       </Flex>
     </Layout>
   );
