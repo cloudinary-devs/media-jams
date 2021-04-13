@@ -6,7 +6,7 @@ import { authors as queryAuthors } from '@lib/queries/authors';
 import { routes as queryRoutes } from '@lib/queries/routes';
 import { boxShadow } from '@utils/styles';
 
-import { Flex, Box, Heading, Grid, useToken } from '@chakra-ui/react';
+import { Flex, Text, Box, Heading, Grid, useToken } from '@chakra-ui/react';
 import Hero from '@components/Hero';
 import Footer from '@components/Footer';
 import Navbar from '@components/Navbar';
@@ -23,6 +23,7 @@ export default function Index() {
           <Hero />
           <Features />
           <Authors />
+          <AuthFeatures />
           <FrameworkJams />
         </Box>
       </Flex>
@@ -35,16 +36,17 @@ function Features() {
   return (
     <Flex
       alignItems="center"
-      minH={{ base: '8xl', xl: 'xl' }}
+      minH={{ base: 'lg', xl: 'lg' }}
       direction="column"
       bg="blue.200"
     >
       <Heading
-        mt={32}
+        mt={28}
         fontSize="5xl"
         fontFamily="Bangers"
         textAlign="center"
         letterSpacing="wide"
+        color="blue.600"
       >
         What are Media Jams?
       </Heading>
@@ -55,54 +57,85 @@ function Features() {
 function Authors() {
   const { data } = useQuery('authors', queryAuthors.get);
 
-  const infiniteScroll = keyframes`
-  0% {
-    margin-left: 0px
-  }
-  100% {
-    margin-left: -2150px;
- }
-`;
-
-  // The section needs to scroll horizontally
-
-  // We need to know what the beginning and the end of the array are
-
-  // We need the AuthorCards to loop to the left and stop on hover
-
-  // Once the loop finishes -- it must reset to the first item again
-
-  // const firstAuthor = authors[0];
-  // const lastAuthor = authors[authors.length - 1];
-
-  // console.log(authors?.indexOf(lastAuthor));
+  const scrollLoop = keyframes`
+    0% {
+      margin-left: 0px
+    }
+    100% {
+      margin-left: -1000px
+    }
+  `;
 
   return (
-    <Flex direction="column">
-      <Heading mt={10} fontSize="6xl" fontFamily="bangers" textAlign="center">
+    <Flex direction="column" minH="xl" bg="green.200">
+      <Heading
+        color="green.600"
+        mt={10}
+        fontSize="6xl"
+        fontFamily="bangers"
+        textAlign="center"
+      >
         Jam Authors
       </Heading>
       <Flex
-        alignItems="center"
-        justify="space-evenly"
-        minH={{ base: '8xl', lg: '2xl' }}
-        w="100%"
-        overflow="hidden"
+        mt={10}
+        overflowX="auto"
+        flexWrap="nowrap"
+        overflowY="hidden"
+        mr="2"
       >
         {data.allAuthor?.map((author) => (
           <AuthorCard
             key={author?._id}
             h={72}
             mr={4}
-            _first={{
-              animation: `${infiniteScroll} 6s linear infinite`,
-            }}
             minW={52}
             author={author}
             boxShadow="none"
-            border="1px solid black"
+            bg="white"
+            _first={{
+              marginLeft: 10,
+              // animation: `${scrollLoop} 6s linear infinite`
+            }}
+            _last={{
+              marginRight: 10,
+            }}
           />
         ))}
+      </Flex>
+    </Flex>
+  );
+}
+
+function AuthFeatures() {
+  return (
+    <Flex minH={{ base: 'xl', lg: 'md' }} direction="column" p={10}>
+      <Heading
+        mt={10}
+        fontSize="6xl"
+        fontFamily="bangers"
+        textAlign="left"
+        letterSpacing="wider"
+        ml={8}
+      >
+        As a member...
+      </Heading>
+      <Flex
+        align="center"
+        justify="space-evenly"
+        w="100%"
+        mt={{ base: 8, lg: 16 }}
+        direction={{ base: 'column', lg: 'row' }}
+      >
+        <Text mt={{ base: '8', lg: '0' }} fontSize={{ base: 'xl', lg: '2xl' }}>
+          - You can create notes without leaving the app
+        </Text>
+        <Text mt={{ base: '8', lg: '0' }} fontSize={{ base: 'xl', lg: '2xl' }}>
+          - Bookmark all of your favorite jams to return to
+        </Text>
+        <Text mt={{ base: '8', lg: '0' }} fontSize={{ base: 'xl', lg: '2xl' }}>
+          - Return to your most recently viewed jam
+        </Text>
       </Flex>
     </Flex>
   );

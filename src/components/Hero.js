@@ -18,6 +18,7 @@ export default function Hero() {
         w="25%"
         direction="column"
         justify="space-around"
+        display={{ base: 'none ', lg: 'inherit' }}
       >
         <Icon
           sx={{ animation: `${floating} 6s ease-in-out infinite` }}
@@ -36,7 +37,7 @@ export default function Hero() {
           boxSize="100px"
         />
       </Flex>
-      <Flex direction="column" w={{ base: '100%', md: '30%', lg: '50%' }}>
+      <Flex direction="column" w={{ base: '100%', lg: '50%' }}>
         <Heading
           as="h1"
           fontFamily="Bangers, cursive"
@@ -96,6 +97,7 @@ export default function Hero() {
         w="25%"
         direction="column"
         justify="space-around"
+        display={{ base: 'none ', lg: 'inherit' }}
       >
         <Icon
           sx={{ animation: `${floating} 6s ease-in-out infinite` }}
