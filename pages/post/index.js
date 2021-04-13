@@ -98,7 +98,7 @@ export default function Post() {
       handleFilter(results);
       routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
     }
-  }, [searchValue, selectedFilters]);
+  }, [searchValue, selectedFilters, isLoading]);
 
   // Set Fuse
   const fuse = new Fuse(jamData?.jams, fuseOptions);
