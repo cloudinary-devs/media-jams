@@ -22,26 +22,26 @@ const AuthorByline = styled(Text)`
 import Container from '@components/Container';
 import RawkButton from '@components/RawkButton';
 import { buildImageUrl } from 'cloudinary-build-url';
+const placeholderUrl = buildImageUrl('mediajams/placeholder', {
+  cloud: { cloudName: 'mediadevs' },
+  transformations: {
+    resize: {
+      height: 0.6,
+    },
+  },
+});
 
 export default function JamContentHero({
   description,
   title,
   author,
+  imageUrl = placeholderUrl,
   children,
 }) {
   const isMobile = useBreakpointValue({
     base: true,
     md: true,
     lg: false,
-  });
-
-  const placeholderUrl = buildImageUrl('mediajams/placeholder', {
-    cloud: { cloudName: 'mediadevs' },
-    transformations: {
-      resize: {
-        height: 0.6,
-      },
-    },
   });
 
   return (
@@ -52,7 +52,7 @@ export default function JamContentHero({
           direction={{ base: 'column', md: 'row', lg: 'row' }}
           justifyContent="center"
           alignItems="center"
-          backgroundImage={`url(${placeholderUrl})`}
+          backgroundImage={`url(${imageUrl})`}
           backgroundSize="cover"
         >
           <VStack align="center" backgroundColor="blue.200" opacity="90%">
@@ -83,8 +83,7 @@ export default function JamContentHero({
           alignItems="center"
         >
           <Image
-            cloudName="mediadevs"
-            publicId="mediajams/placeholder"
+            src={imageUrl}
             objectfit="contain"
             layout="fill"
             alt="Feature Image"
