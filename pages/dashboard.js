@@ -57,9 +57,9 @@ export default function Dashboard() {
     <Layout isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
       <Grid
         as={motion.div}
-        initial={{ y: 100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.3, ease: 'easeout' }}
+        initial={{ x: -100 }}
+        animate={{ x: 0 }}
+        transition={{ duration: 0.3, ease: 'easein' }}
         height={{
           base: 'auto',
           md: '100%',
