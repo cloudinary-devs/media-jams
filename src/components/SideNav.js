@@ -90,7 +90,7 @@ export function SideNavContent({ user, onOpen }) {
             <Link
               _hover={{ textDecoration: 'none' }}
               as={NextLink}
-              href="/api/auth/login"
+              href="/api/auth/login?returnTo=/dashboard"
             >
               <Button
                 mt={2}
