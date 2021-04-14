@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp, react/no-did-mount-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './LiveEditPreview.css';
+import styles from './liveEditPreview.css';
 import Spinner from 'part:@sanity/components/loading/spinner';
 import { resolveLiveEditUrl } from '../config/resolveProductionUrl';
 
