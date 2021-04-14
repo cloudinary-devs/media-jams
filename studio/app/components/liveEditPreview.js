@@ -42,7 +42,7 @@ const LiveEditPreview = ({ document }) => {
         <Spinner
           inline={true}
           message={'Artisanal render in progress ...'}
-          fullscreen={false}
+          fullscreen={true}
           center={true}
         />
       ) : null}
