@@ -21,12 +21,7 @@ const InternalError = ({
     // Flushing is not required in this case as it only happens on the client
   }
   if (liveEditPath) {
-    return (
-      <div>
-        <h1>Render Error</h1>
-        <pre>{err}</pre>
-      </div>
-    );
+    return <NextErrorComponent title={err} statusCode={statusCode} />;
   }
 
   return <NextErrorComponent statusCode={statusCode} />;
