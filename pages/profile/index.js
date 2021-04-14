@@ -15,32 +15,21 @@ import {
   Textarea,
   useColorModeValue,
   VStack,
-  Link,
   Flex,
+  useDisclosure,
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 // This import is only needed when checking authentication status directly from getServerSideProps
 import auth0 from '@lib/auth0';
-import NextLink from 'next/link';
-import { AiOutlineLogout, AiOutlineSetting } from 'react-icons/ai';
 import { HiCloudUpload } from 'react-icons/hi';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import Layout from '@components/Layout';
+import { motion } from 'framer-motion';
 
 import FieldGroup from '@components/AccountFieldGroup';
 
 export const ProfileGroup = ({ user }) => (
-  <Flex
-    px={{ base: '4', md: '10' }}
-    py="16"
-    maxWidth="5xl"
-    overflow="auto"
-    mx="auto"
-    my="16"
-    bg="white"
-    boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
-    borderRadius="lg"
-  >
+  <Flex w="100%">
     <form
       id="profile-form"
       onSubmit={(e) => {
@@ -48,7 +37,7 @@ export const ProfileGroup = ({ user }) => (
         // form submit logic
       }}
     >
-      <Stack spacing="4" divider={<StackDivider />}>
+      <Stack ml={8} spacing="4" divider={<StackDivider />}>
         <Heading size="lg" as="h1" paddingBottom="4">
           Profile Settings
         </Heading>
@@ -130,56 +119,24 @@ export const ProfileGroup = ({ user }) => (
   </Flex>
 );
 
-function StudioCard({ user }) {
-  const [studioURL, setStudioURL] = useState(null);
-  const [refreshStudioURL, triggerRefresh] = useState(false);
-
-  useEffect(() => {
-    async function fetchSanitySession() {
-      const results = await fetch('/api/auth/studio').then((res) => res.json());
-      const { sanitySession } = results;
-      setStudioURL(sanitySession);
-    }
-    fetchSanitySession();
-  }, [refreshStudioURL]);
-
-  const handleOnClickStudio = () => {
-    window.open(studioURL, '_blank');
-    triggerRefresh(!refreshStudioURL);
-  };
-  return (
-    <Flex
-      px={{ base: '4', md: '10' }}
-      py="16"
-      maxWidth="3xl"
-      overflow="auto"
-      mx="auto"
-      my="16"
-      bg="white"
-      boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
-      borderRadius="lg"
-    >
-      <Stack direction="row" spacing={4}>
-        <Button
-          leftIcon={<AiOutlineSetting />}
-          colorScheme="pink"
-          variant="solid"
-          onClick={handleOnClickStudio}
-        >
-          Media Jams Studio
-        </Button>
-      </Stack>
-    </Flex>
-  );
-}
-
-function Profile({ user }) {
+export default function Profile({ user }) {
   const { roles } = user['https://mediajams-studio'];
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Layout>
+    <Layout isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
       <Flex
-        direction={{ base: 'column', lg: 'row' }}
-        overflow={{ md: 'auto', lg: 'auto', xl: 'none' }}
+        as={motion.div}
+        initial={{ x: -100 }}
+        animate={{ x: 0 }}
+        transition={{ duration: 0.3, ease: 'easein' }}
+        direction="column"
+        borderRadius="8px"
+        align="center"
+        p="1rem"
+        overflowY="scroll"
+        bg="white"
+        h="100%"
+        m={5}
       >
         <ProfileGroup user={user} />
       </Flex>
@@ -187,5 +144,4 @@ function Profile({ user }) {
   );
 }
 
-export default Profile;
 export const getServerSideProps = auth0.withPageAuthRequired();
