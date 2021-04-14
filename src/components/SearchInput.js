@@ -22,7 +22,9 @@ export default function SearchInput({
   const debounceSearchValue = useDebounce(searchValue, 500);
 
   React.useEffect(() => {
-    mixpanel.track('Search Tag', { searchInput: debounceSearchValue });
+    if (debounceSearchValue) {
+      mixpanel.searchBy(debounceSearchValue);
+    }
   }, [mixpanel, debounceSearchValue]);
   const onChange = (e) => {
     const { value } = e.target;

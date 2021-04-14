@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { notes } from '@lib/queries/notes';
 import { useMutation, useQueryClient } from 'react-query';
+import { format } from 'date-fns';
 import { FaEdit } from 'react-icons/fa';
 
 export default function NoteModal({
@@ -73,15 +74,17 @@ export default function NoteModal({
       <ModalContent h="500px">
         {isEditable ? (
           <>
-            <ModalHeader>{note.create_at}</ModalHeader>
+            <ModalHeader>
+              {note.created_at && format(new Date(note.created_at), 'PPPP')}
+            </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Textarea
                 borderTopLeftRadius="4px"
                 borderTopRightRadius="4px"
-                size="sm"
-                w="100%"
+                resize="none"
                 fontSize="16px"
+                mt="8px"
                 h="100%"
                 ref={inputRef}
                 defaultValue={editedNote.body}
@@ -118,7 +121,9 @@ export default function NoteModal({
           </>
         ) : (
           <>
-            <ModalHeader>{note.create_at}</ModalHeader>
+            <ModalHeader>
+              {note.created_at && format(new Date(note.created_at), 'PPPP')}
+            </ModalHeader>
             <ModalCloseButton />
             <ModalBody>{note.body}</ModalBody>
             <ModalFooter>

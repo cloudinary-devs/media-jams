@@ -1,11 +1,8 @@
 import { setConfig } from 'next/config';
-import generateNextConfig from './next.config';
 // Make sure you can use "publicRuntimeConfig" within tests.
-
-// Make sure you can use "publicRuntimeConfig" within tests
-setConfig({
-  publicRuntimeConfig: generateNextConfig('', {}).publicRuntimeConfig,
-});
+jest.mock('next/config', () => () => ({
+  publicRuntimeConfig: { mixPanelToken: '1234556' },
+}));
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will

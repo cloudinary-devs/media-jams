@@ -71,7 +71,7 @@ export default function NoteModal({ onClose, isOpen }) {
       onClose={onClose}
       isOpen={isOpen}
       motionPreset="slideInBottom"
-      size="5xl"
+      size="6xl"
     >
       <ModalOverlay />
       <ModalContent h="500px">
@@ -80,10 +80,11 @@ export default function NoteModal({ onClose, isOpen }) {
           <Textarea
             borderTopLeftRadius="4px"
             borderTopRightRadius="4px"
-            size="sm"
+            mt="32px"
             w="100%"
+            resize="none"
             fontSize="16px"
-            h="100%"
+            h="95%"
             ref={inputRef}
             onChange={(e) => {
               e.persist();

@@ -1,8 +1,10 @@
 import React from 'react';
-import Layout from '@components/Layout';
+import { useMixPanel } from '@lib/mixpanel';
 import Iframe from '@components/Iframe';
 
 export default function Feedback() {
+  const mixpanel = useMixPanel();
+  mixpanel.pageView();
   return (
     <>
       <Iframe

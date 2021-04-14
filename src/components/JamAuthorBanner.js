@@ -49,7 +49,11 @@ export default function JamAuthorBanner({ author }) {
       {isMobile ? (
         <Box>
           <HStack align="start" color="grey.900" my={4} px={4}>
-            <Avatar size="2xl" alt={author.name} src={author.image.asset.url} />
+            <Avatar
+              size="2xl"
+              alt={author.name}
+              src={author.image?.asset.url}
+            />
             <VStack spacing="0" pt={4}>
               <Heading mt={4} fontSize="4xl" textStyle="headline-accent">
                 {author.name}
@@ -67,7 +71,11 @@ export default function JamAuthorBanner({ author }) {
       ) : (
         <Box height="100%" width="80%" position="relative">
           <Flex alignItems="center" justifyContent="center" height="100%">
-            <Avatar size="2xl" alt={author.name} src={author.image.asset.url} />
+            <Avatar
+              size="2xl"
+              alt={author.name}
+              src={author.image?.asset.url}
+            />
             <Box mt={4} ml={{ md: 6 }} flex="2 1 auto">
               <Heading
                 flexBasis="50%"

@@ -9,7 +9,7 @@ const styles = {
       lineHeight: 'base',
     },
     a: {
-      color: props.colorMode === 'dark' ? 'yellow.500' : 'yellow.200',
+      color: props.colorMode === 'dark' ? 'teal.300' : 'teal.500',
     },
   }),
 };

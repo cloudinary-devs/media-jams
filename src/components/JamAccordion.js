@@ -17,6 +17,7 @@ import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { bookmarks as bookmarksQuery } from '@lib/queries/bookmarks';
 import { useUser } from '@auth0/nextjs-auth0';
+import NextLink from 'next/link';
 
 import { boxShadow } from '@utils/styles';
 
@@ -128,12 +129,16 @@ export default function JamAccordion({
       boxShadow={shadow ? boxShadow : 'none'}
       bg="white"
       allowToggle
+      borderBottomWidth="0px"
       borderRadius={borderRadius || 'none'}
       defaultIndex={defaultIndex || null}
       p="0px"
       {...rest}
     >
-      <AccordionItem borderRadius={borderRadius || 'none'}>
+      <AccordionItem
+        _last={{ borderBottomWidth: '0px' }}
+        borderRadius={borderRadius || 'none'}
+      >
         {({ isExpanded }) => {
           return (
             <>
@@ -152,6 +157,9 @@ export default function JamAccordion({
                     name={author.name}
                     mr={4}
                     src={author.image.asset.url}
+                    borderWidth="3px"
+                    borderColor={`${color}.400`}
+                    showBorder
                   />
                   <Flex
                     justift="center"
@@ -218,21 +226,28 @@ export default function JamAccordion({
               </Flex>
 
               <AccordionPanel borderRadius={borderRadius || 'none'} p="0px">
-                <Flex p={4} direction="column">
-                  <Text fontSize="sm">{post.description}</Text>
+                <Flex textAlign="center" p={4} direction="column">
+                  <Text fontSize="md">{post.description}</Text>
                   <Flex mt={4} color="white" alignSelf="center" flexWrap="wrap">
                     {post.tags?.slice(0, 4).map((tag) => (
-                      <Text
+                      <NextLink
                         key={tag._id}
-                        mr={5}
-                        fontSize={{ base: 'xs', md: 'xs' }}
-                        bg={`${color}.400`}
-                        borderRadius={borderRadius}
-                        letterSpacing="1px"
-                        p={2}
+                        href={{
+                          pathname: '/post',
+                          query: { tags: tag.title },
+                        }}
                       >
-                        #{tag.title}
-                      </Text>
+                        <Link
+                          mr={5}
+                          fontSize={{ base: 'xs', md: 'xs' }}
+                          bg={`${color}.400`}
+                          borderRadius={borderRadius}
+                          letterSpacing="1px"
+                          p={2}
+                        >
+                          #{tag.title}
+                        </Link>
+                      </NextLink>
                     ))}
                   </Flex>
                 </Flex>

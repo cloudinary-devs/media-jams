@@ -17,6 +17,7 @@ import Note from '@components/Note';
 import NoteForm from '@components/NoteForm';
 import { boxShadow } from '@utils/styles';
 import { FaQuestionCircle, FaLock } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 import {
   Flex,
@@ -58,23 +59,20 @@ export default function Post() {
   const [searchValue, setSearchValue] = React.useState('');
   const router = useRouter();
 
+  // check if there's any tag selections coming from the router and set them
+  React.useEffect(() => {
+    const routeTags = router.query.tags?.split(',') || [];
+    if (jamTagData?.tags && routeTags.length !== 0) {
+      jamTagData?.tags.filter((t) => routeTags.includes(t.title)).map(addTag);
+    }
+  }, [jamTagData?.tags]);
+
   React.useEffect(() => {
     // do some checking here to ensure data exist
     if (isLoading === false && jamData?.jams) {
       setFilteredPosts(jamData.jams);
     }
   }, [isLoading, jamData?.jams]);
-
-  // check if there's any tag selections coming from the router and set them
-  React.useEffect(() => {
-    const routeTags = router.query.tags?.split(',') || [];
-    if (jamTagData?.tags && routeTags.length !== 0) {
-      const queryTags = jamTagData?.tags.filter((t) =>
-        routeTags.includes(t.title),
-      );
-      setSelectedFilters(queryTags);
-    }
-  }, [router.query, jamTagData?.tags]);
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
@@ -98,8 +96,9 @@ export default function Post() {
       };
       const results = fuse.search(queries).map((result) => result.item);
       handleFilter(results);
+      routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
     }
-  }, [searchValue, selectedFilters]);
+  }, [searchValue, selectedFilters, isLoading]);
 
   // Set Fuse
   const fuse = new Fuse(jamData?.jams, fuseOptions);
@@ -116,9 +115,37 @@ export default function Post() {
     setFilteredPosts(data);
   };
 
+  const clearAllTags = () => {
+    routerPushTags();
+    setSelectedFilters([]);
+  };
+
+  /**
+   * Add URl query tags without running all data fetch methods
+   * https://nextjs.org/docs/routing/shallow-routing#caveats
+   * @param {Object} query {tags: [<String>]}
+   * @type {Object}
+   */
+  const routerPushTags = (query = {}) => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query,
+      },
+      undefined,
+      {
+        shallow: true,
+      },
+    );
+  };
+
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
       <Grid
+        as={motion.div}
+        initial={{ x: -100 }}
+        animate={{ x: 0 }}
+        transition={{ duration: 0.3, ease: 'easein' }}
         height="100vh"
         templateAreas={{
           base: `
@@ -178,7 +205,7 @@ export default function Post() {
           removeTag={removeTag}
           selectedFilters={selectedFilters}
           setSelectedFilters={setSelectedFilters}
-          filteredPosts={filteredPosts}
+          clearAllTags={clearAllTags}
         />
 
         <Bookmarks user={user} />
@@ -259,6 +286,7 @@ function SearchFilters({
   removeTag,
   selectedFilters,
   setSelectedFilters,
+  clearAllTags,
   filteredPosts,
 }) {
   return (
@@ -277,7 +305,7 @@ function SearchFilters({
         addTag={addTag}
         removeTag={removeTag}
         selectedFilters={selectedFilters}
-        setSelectedFilters={setSelectedFilters}
+        clearAllTags={clearAllTags}
       />
     </Flex>
   );
@@ -341,9 +369,14 @@ function Notes({ user }) {
 }
 
 function Bookmarks({ user }) {
+  const userId = user?.sub;
   const { status, data, error, isFetching } = useQuery(
     'bookmarks',
     queryBookmarks.get,
+    {
+      // The query will not execute until the user exists
+      enabled: !!userId,
+    },
   );
   const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
 
