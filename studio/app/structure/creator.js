@@ -3,7 +3,7 @@ import { GoPencil, GoPerson, GoEye, GoTextSize } from 'react-icons/go';
 import userStore from 'part:@sanity/base/user';
 import sanityClient from 'part:@sanity/base/client';
 import { map } from 'rxjs/operators';
-import IframePreview from '../components/iframePreview';
+import LiveEditPreview from '../components/liveEditPreview';
 import { getCurrentUser$ } from '../lib/user';
 
 const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
@@ -34,7 +34,10 @@ export const creatorListItems = [
             .schemaType('post')
             .views([
               S.view.form().icon(GoTextSize).title('Editor'),
-              S.view.component(IframePreview).icon(GoEye).title('Live Preview'),
+              S.view
+                .component(LiveEditPreview)
+                .icon(GoEye)
+                .title('Live Preview'),
             ]),
         );
     },

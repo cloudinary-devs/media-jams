@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Error from '../../_error';
 import dynamic from 'next/dynamic';
 import { Flex } from '@chakra-ui/react';
 import { useUser } from '@auth0/nextjs-auth0';
@@ -35,11 +36,15 @@ function LiveEdit({ post }) {
     }
   }, [user, loading]);
 
-  return (
-    <JamContent>
-      <LiveMDX content={content} />
-    </JamContent>
-  );
+  try {
+    return (
+      <JamContent>
+        <LiveMDX content={content} />
+      </JamContent>
+    );
+  } catch (error) {
+    <Heading>{error.message}</Heading>;
+  }
 }
 
 export const getServerSideProps = async ({
