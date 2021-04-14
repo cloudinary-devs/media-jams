@@ -24,7 +24,7 @@ const InternalError = ({
     return (
       <div>
         <h1>Render Error</h1>
-        <pre>{err.message}</pre>
+        <pre>{err}</pre>
       </div>
     );
   }
