@@ -1,5 +1,4 @@
 import NextErrorComponent from 'next/error';
-import CodeBlock from '@components/CodeBlock';
 import * as Sentry from '@sentry/node';
 
 /**
@@ -7,21 +6,13 @@ import * as Sentry from '@sentry/node';
  * https://github.com/vercel/next.js/blob/canary/examples/with-sentry/pages/_error.js
  *
  * */
-const InternalError = ({
-  statusCode,
-  hasGetInitialPropsRun,
-  err,
-  liveEditPath,
-}) => {
+const InternalError = ({ statusCode, hasGetInitialPropsRun, err }) => {
   if (!hasGetInitialPropsRun && err) {
     // getInitialProps is not called in case of
     // https://github.com/vercel/next.js/issues/8592. As a workaround, we pass
     // err via _app.js so it can be captured
     Sentry.captureException(err);
     // Flushing is not required in this case as it only happens on the client
-  }
-  if (liveEditPath) {
-    return <NextErrorComponent title={err} statusCode={statusCode} />;
   }
 
   return <NextErrorComponent statusCode={statusCode} />;
@@ -32,11 +23,6 @@ InternalError.getInitialProps = async ({ res, err, asPath }) => {
     res,
     err,
   });
-
-  /**
-   * Error Render for LiveEdit
-   */
-  errorInitialProps.liveEditPath = asPath.startsWith('/post/liveEdit/');
 
   // Workaround for https://github.com/vercel/next.js/issues/8592, mark when
   // getInitialProps has run
