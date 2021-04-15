@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import Error from '../../_error';
 import dynamic from 'next/dynamic';
 import { Flex } from '@chakra-ui/react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { postBySlug, queryDraftPostBody } from '@lib/api';
 import { previewClient } from '@lib/sanity';
 
-import LiveMDX from '@components/LiveMDX';
+// Force LiveMDXD to only render on the browser
+const DynamicLiveMDXNoSSR = dynamic(() => import('@components/LiveMDX'), {
+  ssr: false,
+});
+
 import JamContent from '@components/JamContent';
 
 /**
@@ -37,7 +42,7 @@ function LiveEdit({ post }) {
 
   return (
     <JamContent>
-      <LiveMDX content={content} />
+      <DynamicLiveMDXNoSSR content={content} />
     </JamContent>
   );
 }

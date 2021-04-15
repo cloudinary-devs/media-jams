@@ -7,13 +7,14 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { postBySlug, postsWithSlug } from '@lib/api';
 
 import { Flex, Text, Image, useDisclosure } from '@chakra-ui/react';
-import CodeBlock from '@components/CodeBlock';
-import CodeSandbox from '@components/CodeSandbox';
 import Layout from '@components/Layout';
 import JamContentHero from '@components/JamContentHero';
 import JamContent from '@components/JamContent';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
+
+import CodeBlock from '@components/CodeBlock';
+import CodeSandbox from '@components/CodeSandbox';
 import EmbeddedIframe from '@components/EmbeddedIframe';
 
 const components = {
