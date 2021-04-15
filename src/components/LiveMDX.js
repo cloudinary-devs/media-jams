@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { ErrorBoundary, withErrorBoundary } from 'react-error-boundary';
 import { ThemeContext } from '@emotion/react';
 
 import { Box, Image, Heading } from '@chakra-ui/react';
@@ -18,8 +17,8 @@ const bundledComponents = {
   code: CodeBlock,
   img: Image,
   iframe: EmbeddedIframe,
-  ErrorBoundary,
 };
+
 /**
  * Used working example of mdx playground
  * https://github.com/mdx-js/mdx/blob/master/packages/gatsby-theme-mdx/src/components/playground-editor.js
@@ -39,13 +38,13 @@ const transformCode = (src) => {
   }
 
   return `
-    ${transpiledMDX}
-    render(
-      <MDXProvider components={components}>
+  ${transpiledMDX}
+  render(
+        <MDXProvider components={components}>
         <MDXContent {...props} />
-      </MDXProvider>
-    )
-  `;
+        </MDXProvider>
+  )
+`;
 };
 
 const generateOutputs = (src) => {
@@ -76,18 +75,9 @@ const generateOutputs = (src) => {
   return { jsx, mdast, hast };
 };
 
-const FallBackError = ({ error, componentStack, resetErrorBoundary }) => {
-  return (
-    <div>
-      <h1>An error occurred: {error.message}</h1>
-    </div>
-  );
-};
-
 const LiveMDX = ({ content, scope = {}, ...props }) => {
   const theme = useContext(ThemeContext);
   const { jsx, mdast, hast, error } = generateOutputs(content);
-
   return (
     <Box>
       <LiveProvider
@@ -114,16 +104,19 @@ const LiveMDX = ({ content, scope = {}, ...props }) => {
         ) : (
           <LivePreview flex={1} />
         )}
+        <LiveError
+          style={{
+            paddingTop: '100px',
+            fontFamily: 'monospace',
+            fontSize: 38,
+            p: 2,
+            color: 'red',
+            whiteSpace: 'pre-line',
+          }}
+        />
       </LiveProvider>
     </Box>
   );
 };
-const LiveMDXWithErrorBoundary = withErrorBoundary(LiveMDX, {
-  FallbackComponent: FallBackError,
-  onError(error, info) {
-    // Do something with the error
-    // E.g. log to an error logging client here
-    console.log('>>>', error);
-  },
-});
-export default LiveMDXWithErrorBoundary;
+
+export default LiveMDX;

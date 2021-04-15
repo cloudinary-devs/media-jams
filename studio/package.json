@@ -8,6 +8,7 @@
   "license": "ISC",
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' sanity start",
+    "start:prod": "SANITY_ACTIVE_ENV='production' sanity start",
     "start": "sanity start",
     "test": "sanity check",
     "build": "sanity build public -y",

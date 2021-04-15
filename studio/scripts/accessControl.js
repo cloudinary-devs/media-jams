@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './.env.development' }); //loaded from .env.development
+require('dotenv').config({ path: './.env.production' }); //loaded from .env.development
 const r2 = require('r2');
 
 /**
@@ -10,85 +10,105 @@ const r2 = require('r2');
  * TODO: create a sync script to fetch all members from production and update members on stage
  */
 
-// const mutations = [
-//   {
-//     createOrReplace: {
-//       _id: '_.groups.creator',
-//       _type: 'system.group',
-//       grants: [
-//         {
-//           filter: "_type == 'post'",
-//           permissions: ['read', 'update', 'create'],
-//         },
-//         {
-//           filter: "_type == 'workflow.metadata'",
-//           permissions: ['read', 'update', 'create'],
-//         },
-//         {
-//           filter: "_type == 'tag'",
-//           permissions: ['read'],
-//         },
-//         {
-//           filter: "_type == 'category'",
-//           permissions: ['read'],
-//         },
-//         {
-//           filter: "_type == 'author'",
-//           permissions: ['read', 'update', 'create'],
-//         },
-//         {
-//           filter: '_id in path("**")',
-//           permissions: ['read', 'create', 'update'],
-//         },
-//         {
-//           path: 'drafts.**',
-//           permissions: ['read'],
-//         },
-//       ],
-//       members: [
-//         'e-a5ce59720555a32a37fc4b93a30bfed0',
-//         'e-11f130d2d23ffb63950957c0831e8762',
-//         'e-5369fe0e1fd16b4055e3772820d56f1f',
-//         'e-39f2223a237d3ce5eeb9c2d316a22351',
-//       ], //jtomchak@gmail.com
-//     },
-//   },
-//   {
-//     createOrReplace: {
-//       _id: '_.groups.moderator',
-//       _type: 'system.group',
-//       grants: [
-//         {
-//           filter: '_id in path("**")',
-//           permissions: ['create', 'update', 'read', 'editHistory', 'history'],
-//         },
-//       ],
-//       members: [
-//         'e-093e43c0f098447a554b0ba08f0a4c92',
-//         'e-5369fe0e1fd16b4055e3772820d56f1f',
-//         'e-1ce8d42c0f8988a83fe2529c25bfdf3f',
-//         'e-28e5c40c39fd1d448cb08a2afc57454c',
-//       ],
-//     },
-//   },
-// ];
-
 const mutations = [
   {
-    patch: {
-      id: '_.groups.creator',
-      insert: {
-        after: 'grants[-1]',
-        items: [
-          {
-            path: 'drafts.**',
-            permissions: ['create', 'update', 'read'],
-          },
-        ],
-      },
+    createOrReplace: {
+      _id: '_.groups.creator',
+      _type: 'system.group',
+      grants: [
+        {
+          filter: "_type == 'post'",
+          permissions: ['read', 'update', 'create'],
+        },
+        {
+          filter: "_type == 'workflow.metadata'",
+          permissions: ['read', 'update', 'create'],
+        },
+        {
+          filter: "_type == 'tag'",
+          permissions: ['read'],
+        },
+        {
+          filter: "_type == 'category'",
+          permissions: ['read'],
+        },
+        {
+          filter: "_type == 'author'",
+          permissions: ['read', 'update', 'create'],
+        },
+        {
+          filter: '_id in path("**")',
+          permissions: ['read', 'create', 'update'],
+        },
+        {
+          path: 'drafts.**',
+          permissions: ['create', 'update', 'read'],
+        },
+      ],
+      members: [
+        'e-5f8a2ac9edc64a00681eb8ab',
+        'e-5f88a51450e8ee007814d5e0',
+        'e-60354e32ba3535006813ce00',
+        'e-6037ff5847033100712f6364',
+        'e-60380029c15b1e0069aeabc8',
+        'e-603d76165de8d30068f3fbd6',
+        'e-5f9714d15dda650077be4f83',
+        'e-603fc5c4e6c0b4006873832e',
+        'e-603fc597e6c0b400687382c2',
+        'e-5fad5ece80a1ef006f42d70e',
+        'e-603fc55d218a650069f5228b',
+        'e-603fc4c5464f430069ebf05f',
+        'e-603fc45fe6c0b4006873802f',
+        'e-5f8a32648e36ac0069e79fb5',
+        'e-5f8a321de7bf55006fde9dc3',
+        'e-6050eb0636174b00688e66be',
+        'e-5fad5e521a30af006f363cd5',
+        'e-605901f1fc3b7d0070b4fb08',
+        'e-6050ebe5fc4f80006ab1b4a0',
+      ], //jtomchak@gmail.com
+    },
+  },
+  {
+    createOrReplace: {
+      _id: '_.groups.moderator',
+      _type: 'system.group',
+      grants: [
+        {
+          filter: '_id in path("**")',
+          permissions: ['create', 'update', 'read', 'editHistory', 'history'],
+        },
+      ],
+      members: [
+        'e-5f80acaf5907aa0068f59a19',
+        'e-5f88a51450e8ee007814d5e0',
+        'e-603d758de6c0b400686fd8c9',
+        'e-603d76165de8d30068f3fbd6',
+        'e-603fc5fe218a650069f52411',
+        'e-603d75c6c59ab3006929a6b7',
+        'e-5f8a321de7bf55006fde9dc3',
+        'e-5f8a32648e36ac0069e79fb5',
+        'e-6050eb0636174b00688e66be',
+      ],
     },
   },
 ];
+
+// const mutations = [
+//   {
+//     patch: {
+//       id: '_.groups.creator',
+//       insert: {
+//         after: 'grants[-1]',
+//         items: [
+//           {
+//             path: 'drafts.**',
+//             permissions: ['create', 'update', 'read'],
+//           },
+//         ],
+//       },
+//     },
+//   },
+// ];
 
 const updateAccess = async () => {
   try {

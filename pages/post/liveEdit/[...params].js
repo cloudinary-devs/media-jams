@@ -6,7 +6,11 @@ import { useUser } from '@auth0/nextjs-auth0';
 import { postBySlug, queryDraftPostBody } from '@lib/api';
 import { previewClient } from '@lib/sanity';
 
-import LiveMDX from '@components/LiveMDX';
+// Force LiveMDXD to only render on the browser
+const DynamicLiveMDXNoSSR = dynamic(() => import('@components/LiveMDX'), {
+  ssr: false,
+});
+
 import JamContent from '@components/JamContent';
 
 /**
@@ -36,15 +40,11 @@ function LiveEdit({ post }) {
     }
   }, [user, loading]);
 
-  try {
-    return (
-      <JamContent>
-        <LiveMDX content={content} />
-      </JamContent>
-    );
-  } catch (error) {
-    <Heading>{error.message}</Heading>;
-  }
+  return (
+    <JamContent>
+      <DynamicLiveMDXNoSSR content={content} />
+    </JamContent>
+  );
 }
 
 export const getServerSideProps = async ({
