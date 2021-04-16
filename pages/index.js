@@ -190,7 +190,7 @@ function FrameworkJams() {
         letterSpacing="wide"
         mb={20}
       >
-        <span style={{ color: yellow900 }}>Jam</span> in your favorite Framework
+        Framework <span style={{ color: yellow900 }}>Jams</span>
       </Heading>
       <Grid
         templateAreas={{
