@@ -240,6 +240,7 @@ export default function JamAccordion({
                         <Link
                           mr={5}
                           fontSize={{ base: 'xs', md: 'xs' }}
+                          _hover={{ textDecoration: 'none' }}
                           bg={`${color}.400`}
                           borderRadius={borderRadius}
                           letterSpacing="1px"

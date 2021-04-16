@@ -60,7 +60,7 @@ export default function Hero() {
           textAlign="center"
           lineHeight={1}
         >
-          in your apps
+          for apps
         </Heading>
         <Text
           color="white"
@@ -70,8 +70,8 @@ export default function Hero() {
           alignSelf="center"
           fontSize="2xl"
         >
-          Media Jams provide the knowledge you need to level up your websites
-          with top tools and practices
+          Discover top practices and tools applying media technology in modern
+          websites, apps, and stacks
         </Text>
         <Button
           bg="grey.700"
