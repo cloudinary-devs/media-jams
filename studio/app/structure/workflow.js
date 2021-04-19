@@ -72,9 +72,13 @@ export const workflowListItems = [
               .title(subTitle)
               .id(id)
               .items(
-                docs.map((item) =>
-                  S.documentListItem().id(item._id).schemaType(item._type),
-                ),
+                docs
+                  .filter((d) => d._id)
+                  .map((item) => {
+                    return S.documentListItem()
+                      .id(item._id)
+                      .schemaType(item._type);
+                  }),
               );
           }),
         );
