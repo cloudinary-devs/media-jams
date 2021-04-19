@@ -7,6 +7,7 @@ import { requestReviewAction } from './requestReview';
 import { syncAction } from './sync';
 import { unpublishAction } from './unpublish';
 import { prodPreviewAction } from './prodPreview';
+import { liveEditPreviewAction } from './liveEditPreview';
 
 export function resolveWorkflowActions(/* docInfo */) {
   return [
@@ -17,6 +18,7 @@ export function resolveWorkflowActions(/* docInfo */) {
     prodPreviewAction,
     publishAction,
     unpublishAction,
+    liveEditPreviewAction,
     discardChangesAction,
     deleteAction,
   ];

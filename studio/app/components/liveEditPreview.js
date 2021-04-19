@@ -1,11 +1,11 @@
 /* eslint-disable react/no-multi-comp, react/no-did-mount-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './iframePreview.css';
+import styles from './liveEditPreview.css';
 import Spinner from 'part:@sanity/components/loading/spinner';
 import { resolveLiveEditUrl } from '../config/resolveProductionUrl';
 
-const IframePreview = ({ document }) => {
+const LiveEditPreview = ({ document }) => {
   const [isLoading, setLoading] = React.useState(true);
 
   const { displayed } = document;
@@ -42,7 +42,7 @@ const IframePreview = ({ document }) => {
         <Spinner
           inline={true}
           message={'Artisanal render in progress ...'}
-          fullscreen={false}
+          fullscreen={true}
           center={true}
         />
       ) : null}
@@ -59,4 +59,4 @@ const IframePreview = ({ document }) => {
   );
 };
 
-export default IframePreview;
+export default LiveEditPreview;
