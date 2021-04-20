@@ -99,7 +99,7 @@ export function SideNavContent({ user, onOpen }) {
                 background="grey.700"
                 color="yellow.400"
               >
-                Login
+                Log in
               </Button>
             </Link>
           )}

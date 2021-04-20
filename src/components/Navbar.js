@@ -1,4 +1,4 @@
-import { Flex, Text, Box, Link, Button } from '@chakra-ui/react';
+import { Flex, Text, Box, Link, Button, ButtonGroup } from '@chakra-ui/react';
 import Image from '@components/Image';
 import NextLink from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0';
@@ -30,8 +30,8 @@ export default function Navbar() {
     <Flex
       minW="100%"
       height="8rem"
-      py={8}
-      px={10}
+      py={{ base: 2, md: 8 }}
+      px={{ base: 2, md: 10 }}
       justifyContent="space-between"
       alignItems="flex-start"
       backgroundColor="grey.900"
@@ -47,15 +47,28 @@ export default function Navbar() {
         />
       </Link>
       <Box>
-        <NavLink mr={4} href="/dashboard">
-          Dashboard
-        </NavLink>
         {!user && (
-          <Link as={NextLink} href="/api/auth/signup">
-            <Button outline="black" background="grey.700" color="yellow.400">
-              Signup
-            </Button>
-          </Link>
+          <ButtonGroup size="md" spacing="6">
+            <Link as={NextLink} href="/api/auth/login">
+              <Button
+                size={{ base: 'xs', md: 'lg' }}
+                variant="link"
+                color="yellow.400"
+              >
+                Log in
+              </Button>
+            </Link>
+            <Link as={NextLink} href="/api/auth/signup">
+              <Button
+                size="md"
+                outline="black"
+                background="grey.700"
+                color="yellow.400"
+              >
+                Create account
+              </Button>
+            </Link>
+          </ButtonGroup>
         )}
       </Box>
     </Flex>
