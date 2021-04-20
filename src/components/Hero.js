@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { Icon, Heading, Flex, Text, Button } from '@chakra-ui/react';
 import { FaMusic, FaImage, FaFilm, FaFile } from 'react-icons/fa';
 import { keyframes } from '@emotion/react';
@@ -73,23 +74,25 @@ export default function Hero() {
           Discover top practices and tools applying media technology in modern
           websites, apps, and stacks
         </Text>
-        <Button
-          bg="grey.700"
-          color="yellow.400"
-          w="20%"
-          alignSelf="center"
-          mt={6}
-          size="lg"
-          textDecoration="none"
-          _hover={{
-            textDecoration: 'none',
-          }}
-          _visited={{
-            textDecoration: 'none',
-          }}
-        >
-          Browse
-        </Button>
+        <Link href="/post" passHref>
+          <Button
+            bg="grey.700"
+            color="yellow.400"
+            w="20%"
+            alignSelf="center"
+            mt={6}
+            size="lg"
+            textDecoration="none"
+            _hover={{
+              textDecoration: 'none',
+            }}
+            _visited={{
+              textDecoration: 'none',
+            }}
+          >
+            Browse
+          </Button>
+        </Link>
       </Flex>
       <Flex
         h="100%"
