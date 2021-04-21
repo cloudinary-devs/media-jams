@@ -4,7 +4,7 @@ import BlockContent from '@sanity/block-content-to-react';
 
 function TextSection({ heading, label, textRaw }) {
   return (
-    <Box>
+    <Box alignSelf="start">
       <section>
         <Heading as="h2" my={{ base: 2, md: 8 }}>
           {heading}
@@ -12,7 +12,11 @@ function TextSection({ heading, label, textRaw }) {
         <Heading my={{ base: 1, md: 4 }} textColor="gray.400" as="h5" size="sm">
           {label}
         </Heading>
-        {textRaw && <BlockContent blocks={textRaw} />}
+        {textRaw && (
+          <Box ml={{ base: 2, md: 4 }}>
+            <BlockContent blocks={textRaw} />
+          </Box>
+        )}
       </section>
     </Box>
   );

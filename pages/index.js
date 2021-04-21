@@ -87,7 +87,8 @@ function Authors() {
         overflowY="hidden"
         mr="2"
       >
-        {data.allAuthor?.map((author) => (
+        {/* arbitrary set to the first 6 authors, update to 'feature flag' or wieghted */}
+        {data.allAuthor?.slice(0, 6).map((author) => (
           <AuthorCard
             key={author?._id}
             h={72}
