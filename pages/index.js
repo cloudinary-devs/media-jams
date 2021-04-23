@@ -205,7 +205,7 @@ function AuthFeatures() {
         textAlign="center"
         letterSpacing="wider"
       >
-        As a member...
+        As a free member...
       </Heading>
       <SimpleGrid
         columns={{ base: 1, md: 1 }}
