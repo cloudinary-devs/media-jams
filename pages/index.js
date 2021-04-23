@@ -177,37 +177,51 @@ function Authors() {
   );
 }
 
+function MemberItem({ title, children, icon }) {
+  return (
+    <Stack
+      spacing={{ base: '3', md: '6' }}
+      direction={{ base: 'column', md: 'row' }}
+    >
+      {icon && <Box fontSize="6xl">{icon}</Box>}
+      <Stack spacing="1">
+        <Text fontWeight="extrabold" fontSize="lg">
+          {title}
+        </Text>
+        <Box color={mode('gray.600', 'gray.400')}>{children}</Box>
+      </Stack>
+    </Stack>
+  );
+}
+
 function AuthFeatures() {
   return (
-    <Flex minH={{ base: 'xl', lg: 'md' }} direction="column" p={10}>
+    <Box as="section" maxW="7xl" mx="auto" py="12" px={{ base: '6', md: '8' }}>
       <Heading
-        mt={10}
+        my={10}
         fontSize="6xl"
         fontFamily="bangers"
-        textAlign="left"
+        textAlign="center"
         letterSpacing="wider"
-        ml={8}
       >
         As a member...
       </Heading>
-      <Flex
-        align="center"
-        justify="space-evenly"
-        w="100%"
-        mt={{ base: 8, lg: 16 }}
-        direction={{ base: 'column', lg: 'row' }}
+      <SimpleGrid
+        columns={{ base: 1, md: 3 }}
+        spacingX="10"
+        spacingY={{ base: '8', md: '14' }}
       >
-        <Text mt={{ base: '8', lg: '0' }} fontSize={{ base: 'xl', lg: '2xl' }}>
-          - You can create notes without leaving the app
-        </Text>
-        <Text mt={{ base: '8', lg: '0' }} fontSize={{ base: 'xl', lg: '2xl' }}>
-          - Bookmark all of your favorite jams to return to
-        </Text>
-        <Text mt={{ base: '8', lg: '0' }} fontSize={{ base: 'xl', lg: '2xl' }}>
-          - Return to your most recently viewed jam
-        </Text>
-      </Flex>
-    </Flex>
+        <MemberItem title="You can create notes without leaving the app">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </MemberItem>
+        <MemberItem title="Bookmark all of your favorite jams to return to">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </MemberItem>
+        <MemberItem title="Return to your most recently viewed jam">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </MemberItem>
+      </SimpleGrid>
+    </Box>
   );
 }
 
