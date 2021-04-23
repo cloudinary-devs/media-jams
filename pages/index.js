@@ -182,10 +182,11 @@ function MemberItem({ title, children, icon }) {
     <Stack
       spacing={{ base: '3', md: '6' }}
       direction={{ base: 'column', md: 'row' }}
+      justifyContent="center"
     >
       {icon && <Box fontSize="6xl">{icon}</Box>}
       <Stack spacing="1">
-        <Text fontWeight="extrabold" fontSize="lg">
+        <Text fontWeight="extrabold" fontSize="2xl">
           {title}
         </Text>
         <Box color={mode('gray.600', 'gray.400')}>{children}</Box>
@@ -207,19 +208,13 @@ function AuthFeatures() {
         As a member...
       </Heading>
       <SimpleGrid
-        columns={{ base: 1, md: 3 }}
+        columns={{ base: 1, md: 1 }}
         spacingX="10"
         spacingY={{ base: '8', md: '14' }}
       >
-        <MemberItem title="You can create notes without leaving the app">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </MemberItem>
-        <MemberItem title="Bookmark all of your favorite jams to return to">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </MemberItem>
-        <MemberItem title="Return to your most recently viewed jam">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </MemberItem>
+        <MemberItem title="You can create notes without leaving the app"></MemberItem>
+        <MemberItem title="Bookmark all of your favorite jams to return to"></MemberItem>
+        <MemberItem title="Return to your most recently viewed jam"></MemberItem>
       </SimpleGrid>
     </Box>
   );
