@@ -5,8 +5,25 @@ import { jams as queryJams } from '@lib/queries/jams';
 import { authors as queryAuthors } from '@lib/queries/authors';
 import { routes as queryRoutes } from '@lib/queries/routes';
 import { boxShadow } from '@utils/styles';
-
-import { Flex, Text, Box, Heading, Grid, useToken } from '@chakra-ui/react';
+import {
+  FaVideo,
+  FaCode,
+  FaPencilAlt,
+  FaUserAstronaut,
+  FaPills,
+  FaBuffer,
+} from 'react-icons/fa';
+import {
+  Flex,
+  Text,
+  Box,
+  Heading,
+  Grid,
+  useToken,
+  SimpleGrid,
+  Stack,
+  useColorModeValue as mode,
+} from '@chakra-ui/react';
 import Hero from '@components/Hero';
 import Footer from '@components/Footer';
 import Navbar from '@components/Navbar';
@@ -35,25 +52,74 @@ export default function Index() {
   );
 }
 
+function FeatureItem(props) {
+  const { title, children, icon } = props;
+  return (
+    <Box py={{ base: '8', md: '10' }} mx={{ base: '2', md: '4' }}>
+      <Box color={mode('blue.500', 'blue.300')} fontSize="5xl">
+        {icon}
+      </Box>
+      <Stack mt="6">
+        <Text
+          as="h3"
+          color={mode('blue.500', 'blue.300')}
+          fontSize="xl"
+          fontWeight="extrabold"
+        >
+          {title}
+        </Text>
+        <Text pr="6" lineHeight="tall">
+          {children}
+        </Text>
+      </Stack>
+    </Box>
+  );
+}
+
 function Features() {
   return (
-    <Flex
-      alignItems="center"
-      minH={{ base: 'lg', xl: 'lg' }}
-      direction="column"
-      bg="blue.200"
-    >
+    <Box as="section" bg={mode('gray.50', 'gray.800')} py="20">
       <Heading
-        mt={28}
         fontSize="5xl"
         fontFamily="Bangers"
         textAlign="center"
         letterSpacing="wide"
         color="blue.600"
+        pb={{ base: '2', md: '10' }}
       >
         What are Media Jams?
       </Heading>
-    </Flex>
+      <Box
+        maxW={{ base: 'xl', md: '7xl' }}
+        mx="auto"
+        px={{ base: '6', md: '8' }}
+      >
+        <SimpleGrid
+          columns={{ base: 1, md: 3 }}
+          spacingY={{ base: 'xl', md: 'xs' }}
+          rowGap={{ base: 'xs', md: 'xl' }}
+        >
+          <FeatureItem title="Bite-size Tutorials" icon={<FaPills />}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </FeatureItem>
+          <FeatureItem title="Run & Play Sandboxes" icon={<FaCode />}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </FeatureItem>
+          <FeatureItem title="Authored by Experts" icon={<FaUserAstronaut />}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </FeatureItem>
+          <FeatureItem title=" Tech Stack Mashups" icon={<FaBuffer />}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </FeatureItem>
+          <FeatureItem title="Practical Use-Cases" icon={<FaPencilAlt />}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </FeatureItem>
+          <FeatureItem title="Program with Media" icon={<FaVideo />}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </FeatureItem>
+        </SimpleGrid>
+      </Box>
+    </Box>
   );
 }
 
