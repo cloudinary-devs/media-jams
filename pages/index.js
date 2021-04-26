@@ -5,8 +5,25 @@ import { jams as queryJams } from '@lib/queries/jams';
 import { authors as queryAuthors } from '@lib/queries/authors';
 import { routes as queryRoutes } from '@lib/queries/routes';
 import { boxShadow } from '@utils/styles';
-
-import { Flex, Text, Box, Heading, Grid, useToken } from '@chakra-ui/react';
+import {
+  FaVideo,
+  FaCode,
+  FaPencilAlt,
+  FaUserAstronaut,
+  FaPills,
+  FaBuffer,
+} from 'react-icons/fa';
+import {
+  Flex,
+  Text,
+  Box,
+  Heading,
+  Grid,
+  useToken,
+  SimpleGrid,
+  Stack,
+  useColorModeValue as mode,
+} from '@chakra-ui/react';
 import Hero from '@components/Hero';
 import Footer from '@components/Footer';
 import Navbar from '@components/Navbar';
@@ -27,7 +44,7 @@ export default function Index() {
           <Features />
           <Authors />
           <AuthFeatures />
-          <FrameworkJams />
+          <FeaturedJams />
         </Box>
       </Flex>
       <Footer />
@@ -35,25 +52,74 @@ export default function Index() {
   );
 }
 
+function FeatureItem(props) {
+  const { title, children, icon } = props;
+  return (
+    <Box py={{ base: '8', md: '10' }} mx={{ base: '2', md: '4' }}>
+      <Box color={mode('blue.500', 'blue.300')} fontSize="5xl">
+        {icon}
+      </Box>
+      <Stack mt="6">
+        <Text
+          as="h3"
+          color={mode('blue.500', 'blue.300')}
+          fontSize="xl"
+          fontWeight="extrabold"
+        >
+          {title}
+        </Text>
+        <Text pr="6" lineHeight="tall">
+          {children}
+        </Text>
+      </Stack>
+    </Box>
+  );
+}
+
 function Features() {
   return (
-    <Flex
-      alignItems="center"
-      minH={{ base: 'lg', xl: 'lg' }}
-      direction="column"
-      bg="blue.200"
-    >
+    <Box as="section" bg={mode('gray.50', 'gray.800')} py="20">
       <Heading
-        mt={28}
         fontSize="5xl"
         fontFamily="Bangers"
         textAlign="center"
         letterSpacing="wide"
         color="blue.600"
+        pb={{ base: '2', md: '10' }}
       >
         What are Media Jams?
       </Heading>
-    </Flex>
+      <Box
+        maxW={{ base: 'xl', md: '7xl' }}
+        mx="auto"
+        px={{ base: '6', md: '8' }}
+      >
+        <SimpleGrid
+          columns={{ base: 1, md: 3 }}
+          spacingY={{ base: 'xl', md: 'xs' }}
+          rowGap={{ base: 'xs', md: 'xl' }}
+        >
+          <FeatureItem title="Bite-size Tutorials" icon={<FaPills />}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </FeatureItem>
+          <FeatureItem title="Run & Play Sandboxes" icon={<FaCode />}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </FeatureItem>
+          <FeatureItem title="Authored by Experts" icon={<FaUserAstronaut />}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </FeatureItem>
+          <FeatureItem title=" Tech Stack Mashups" icon={<FaBuffer />}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </FeatureItem>
+          <FeatureItem title="Practical Use-Cases" icon={<FaPencilAlt />}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </FeatureItem>
+          <FeatureItem title="Program with Media" icon={<FaVideo />}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </FeatureItem>
+        </SimpleGrid>
+      </Box>
+    </Box>
   );
 }
 
@@ -111,199 +177,92 @@ function Authors() {
   );
 }
 
-function AuthFeatures() {
+function MemberItem({ title, children, icon }) {
   return (
-    <Flex minH={{ base: 'xl', lg: 'md' }} direction="column" p={10}>
-      <Heading
-        mt={10}
-        fontSize="6xl"
-        fontFamily="bangers"
-        textAlign="left"
-        letterSpacing="wider"
-        ml={8}
-      >
-        As a member...
-      </Heading>
-      <Flex
-        align="center"
-        justify="space-evenly"
-        w="100%"
-        mt={{ base: 8, lg: 16 }}
-        direction={{ base: 'column', lg: 'row' }}
-      >
-        <Text mt={{ base: '8', lg: '0' }} fontSize={{ base: 'xl', lg: '2xl' }}>
-          - You can create notes without leaving the app
+    <Stack
+      spacing={{ base: '3', md: '6' }}
+      direction={{ base: 'column', md: 'row' }}
+      justifyContent="center"
+    >
+      {icon && <Box fontSize="6xl">{icon}</Box>}
+      <Stack spacing="1">
+        <Text fontWeight="extrabold" fontSize="2xl">
+          {title}
         </Text>
-        <Text mt={{ base: '8', lg: '0' }} fontSize={{ base: 'xl', lg: '2xl' }}>
-          - Bookmark all of your favorite jams to return to
-        </Text>
-        <Text mt={{ base: '8', lg: '0' }} fontSize={{ base: 'xl', lg: '2xl' }}>
-          - Return to your most recently viewed jam
-        </Text>
-      </Flex>
-    </Flex>
+        <Box color={mode('gray.600', 'gray.400')}>{children}</Box>
+      </Stack>
+    </Stack>
   );
 }
 
-function FrameworkJams() {
-  const { data } = useQuery('jams', queryJams.get);
-  const [yellow900] = useToken('colors', ['yellow.900']);
-  const reactJams = data?.jams?.filter((jam) =>
-    jam.tags?.some(
-      (tag) =>
-        tag.title === 'React' ||
-        tag.title === 'NextJS' ||
-        tag.title === 'Gatsby',
-    ),
+function AuthFeatures() {
+  return (
+    <Box as="section" maxW="7xl" mx="auto" py="12" px={{ base: '6', md: '8' }}>
+      <Heading
+        my={10}
+        fontSize="6xl"
+        fontFamily="bangers"
+        textAlign="center"
+        letterSpacing="wider"
+      >
+        As a free member...
+      </Heading>
+      <SimpleGrid
+        columns={{ base: 1, md: 1 }}
+        spacingX="10"
+        spacingY={{ base: '8', md: '14' }}
+      >
+        <MemberItem title="You can create notes without leaving the app"></MemberItem>
+        <MemberItem title="Bookmark all of your favorite jams to return to"></MemberItem>
+        <MemberItem title="Return to your most recently viewed jam"></MemberItem>
+      </SimpleGrid>
+    </Box>
   );
+}
 
-  const vueJams = data?.jams?.filter((jam) =>
-    jam.tags?.some((tag) => tag.title === 'Vue' || tag.title === 'NuxtJS'),
-  );
-
-  // const svelteJams = data?.jams?.filter((jam) =>
-  //   jam.tags?.some((tag) => tag.title === 'Svelte'),
-  // );
-
-  const angularJams = data?.jams?.filter((jam) =>
-    jam.tags?.some((tag) => tag.title === 'Angular'),
-  );
-
+function FeaturedJams() {
+  const { data } = useQuery('featuredJams', queryJams.getFeaturedJams);
   return (
     <Flex
-      h={{ base: 'auto', lg: '1200px' }}
-      pt={{ base: 10, lg: 0 }}
-      pb={{ base: 10, lg: 0 }}
+      gridArea="Featured"
+      bg={mode('blue.50', 'blue.800')}
       direction="column"
-      bg="red.200"
-      align="center"
-      justify="center"
+      alignItems="center"
+      p={5}
+      h={{
+        base: 'auto',
+        lg: '',
+      }}
     >
       <Heading
-        as="h1"
-        fontFamily="Bangers, cursive"
-        fontSize={{ base: '6xl', lg: '8xl' }}
-        letterSpacing="wide"
-        lineHeight="base"
-        color="white"
+        fontSize="6xl"
+        fontFamily="Bangers"
         textAlign="center"
-        lineHeight={1}
         letterSpacing="wide"
-        mb={20}
+        color="blue.600"
+        pb={{ base: '2', md: '10' }}
       >
-        Framework <span style={{ color: yellow900 }}>Jams</span>
+        Featured Jams
       </Heading>
-      <Grid
-        templateAreas={{
-          base: `
-            "React React"
-            "Vue Vue"            
-            "Angular Angular"
-          `,
-          lg: `
-            "React Vue Angular"
-            "React Vue Angular" 
-          `,
-        }}
-        templateColumns={{ base: '1fr', md: '1fr', lg: 'repeat(3, 2fr)' }}
-        templateRows={{
-          base: 'repeat(4, 1fr)',
-          md: 'repeat(4, 1fr)',
-          lg: 'none',
-        }}
-        w={{ base: '90%' }}
-        h={{ base: '100%', base: '100%', lg: '60%' }}
-        gap={4}
+      <Flex
+        direction="column"
+        maxW={{ base: 'xl', md: '2xl' }}
+        w="100%"
+        alignItems="center"
       >
-        <Flex
-          overflow="auto"
-          borderRadius="8px"
-          direction="column"
-          bg="white"
-          gridArea="React"
-        >
-          <Flex
-            borderTopRadius="8px"
-            p={2}
-            justify="space-between"
+        {data.allPost?.map((post) => (
+          <JamAccordion
+            color="blue"
+            shadow
             w="100%"
-            bg="blue.400"
-          >
-            <Heading color="blue.200">React</Heading>
-          </Flex>
-          {reactJams?.map((post) => (
-            <JamAccordion
-              color="blue"
-              width="100%"
-              key={post._id}
-              post={post}
-            />
-          ))}
-        </Flex>
-        <Flex
-          overflow="auto"
-          borderRadius="8px"
-          direction="column"
-          bg="white"
-          boxShadow={boxShadow}
-          gridArea="Vue"
-        >
-          <Flex
-            borderTopRadius="8px"
-            p={2}
-            justify="space-between"
-            w="100%"
-            bg="green.400"
-          >
-            <Heading color="green.200">Vue</Heading>
-          </Flex>
-          {vueJams?.map((post) => (
-            <JamAccordion color="green" w="100%" key={post._id} post={post} />
-          ))}
-        </Flex>
-        {/* <Flex
-          overflow="auto"
-          borderRadius="8px"
-          direction="column"
-          bg="white"
-          boxShadow={boxShadow}
-          gridArea="Svelte"
-        >
-          <Flex
-            borderTopRadius="8px"
-            p={2}
-            justify="space-between"
-            w="100%"
-            bg="red.400"
-          >
-            <Heading color="red.200">Svelte</Heading>
-          </Flex>
-          {svelteJams?.map((post) => (
-            <JamAccordion color="red" w="100%" key={post._id} post={post} />
-          ))}
-        </Flex> */}
-        <Flex
-          overflow="auto"
-          borderRadius="8px"
-          direction="column"
-          bg="white"
-          boxShadow={boxShadow}
-          gridArea="Angular"
-        >
-          <Flex
-            borderTopRadius="8px"
-            p={2}
-            justify="space-between"
-            w="100%"
-            bg="gray.400"
-          >
-            <Heading color="gray.200">Angular</Heading>
-          </Flex>
-          {angularJams?.map((post) => (
-            <JamAccordion color="gray" w="100%" key={post._id} post={post} />
-          ))}
-        </Flex>
-      </Grid>
+            key={post._id}
+            post={post}
+            defaultIndex={[0]}
+            borderRadius="lg"
+            mb={4}
+          />
+        ))}
+      </Flex>
     </Flex>
   );
 }
