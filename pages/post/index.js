@@ -454,14 +454,3 @@ function Bookmarks({ user }) {
     );
   }
 }
-
-export const getStaticProps = async () => {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('jamTags', queryTags.getStatic);
-  await queryClient.prefetchQuery('jamCategories', queryCategories.getStatic);
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
