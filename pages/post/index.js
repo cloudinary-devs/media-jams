@@ -396,7 +396,7 @@ function Bookmarks({ user }) {
           Bookmarks
         </Heading>
         <Flex direction="column" w="100%">
-          {selectJams.map((post) => (
+          {selectJams?.map((post) => (
             <JamAccordion
               color="blue"
               shadow
