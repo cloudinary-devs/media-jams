@@ -237,9 +237,6 @@ function NavLinkGroup() {
       <NavLink href="/dashboard" icon={FaHome}>
         Dashboard
       </NavLink>
-      <NavLink href="/post" icon={FaPhotoVideo}>
-        Jams
-      </NavLink>
       {user && (
         <>
           <NavLink href="/bookmarks" icon={FaBookmark}>

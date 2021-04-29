@@ -1,33 +1,6 @@
 import React from 'react';
 import NextLink from 'next/link';
-import {
-  Button,
-  Flex,
-  Link,
-  Icon,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  IconButton,
-  Text,
-  Avatar,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-} from '@chakra-ui/react';
-import Image from '@components/Image';
-import {
-  FaStickyNote,
-  FaRegFlag,
-  FaHome,
-  FaPhotoVideo,
-  FaBookmark,
-  FaChevronDown,
-  FaChevronUp,
-  FaPlusCircle,
-  FaUserCircle,
-} from 'react-icons/fa';
+import { Drawer, DrawerOverlay, DrawerContent } from '@chakra-ui/react';
 import { useUser } from '@auth0/nextjs-auth0';
 
 import { SideNavContent } from '@components/SideNav';
