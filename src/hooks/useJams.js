@@ -11,7 +11,7 @@ export function useFeaturedJamsQuery() {
 
 export const useJamQueryBy = (ids) =>
   useJamsQuery((data) =>
-    data.jams.filter((j) => {
+    data?.jams?.filter((j) => {
       return ids.includes(j._id);
     }),
   );

@@ -2,10 +2,8 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { jams as queryJams } from '@lib/queries/jams';
 import { tags as queryTags } from '@lib/queries/tags';
 import { notes as queryNotes } from '@lib/queries/notes';
-import { bookmarks as queryBookmarks } from '@lib/queries/bookmarks';
 import { categories as queryCategories } from '@lib/queries/categories';
 import { useUser } from '@auth0/nextjs-auth0';
 
