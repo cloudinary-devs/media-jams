@@ -30,7 +30,7 @@ export function useAddBookmarkMutation({
 
       let newBookmarkedPosts;
 
-      if (previousBookmarkedPosts.length === 0) {
+      if (previousBookmarkedPosts?.length === 0) {
         queryClient.setQueryData('bookmark jams', { allPost: [post] });
       } else {
         newBookmarkedPosts = [...previousBookmarkedPosts.allPost, post];
@@ -69,7 +69,7 @@ export function useRemoveBookmarkMutation({
       const previousBookmarkIds = queryClient.getQueryData('bookmarks');
       const previousBookmarks = queryClient.getQueryData('bookmark jams');
 
-      const newBookmarkedPosts = previousBookmarks.allPost.filter(
+      const newBookmarkedPosts = previousBookmarks?.allPost.filter(
         (data) => data._id !== post._id,
       );
 
