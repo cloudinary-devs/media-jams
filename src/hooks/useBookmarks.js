@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient, useMutation } from 'react-query';
 import { bookmarks as bookmarksQuery } from '@lib/queries/bookmarks';
+import { useJamQueryBy } from './useJams';
 import { useUser } from '@auth0/nextjs-auth0';
 
 export function useBookmarksQuery(select) {
@@ -9,11 +10,19 @@ export function useBookmarksQuery(select) {
     // The query will not execute until the user exists
     enabled: !!user?.sub,
     select,
+    staleTime: 5000,
+    cacheTime: 1000,
   });
 
   return {
     ...queryInfo,
   };
+}
+
+export function useBookmarkedJamsQuery() {
+  const { status, data, error, isFetching } = useBookmarksQuery();
+  const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
+  return useJamQueryBy(postIds);
 }
 
 export function useAddBookmarkMutation({
@@ -29,11 +38,12 @@ export function useAddBookmarkMutation({
       const previousBookmarkedPosts = queryClient.getQueryData('bookmark jams');
 
       let newBookmarkedPosts;
-
-      if (previousBookmarkedPosts?.length === 0) {
+      // from getQueryData we'll get undefined or Array.
+      // if it's undefined or an empty array add the post
+      if (!previousBookmarkedPosts || previousBookmarkedPosts?.length === 0) {
         queryClient.setQueryData('bookmark jams', { allPost: [post] });
       } else {
-        newBookmarkedPosts = [...previousBookmarkedPosts.allPost, post];
+        newBookmarkedPosts = [...previousBookmarkedPosts?.allPost, post];
         queryClient.setQueryData('bookmark jams', {
           allPost: newBookmarkedPosts,
         });
@@ -73,7 +83,7 @@ export function useRemoveBookmarkMutation({
         (data) => data._id !== post._id,
       );
 
-      if (newBookmarkedPosts.length > 0) {
+      if (newBookmarkedPosts?.length > 0) {
         queryClient.setQueryData('bookmark jams', {
           allPost: newBookmarkedPosts,
         });

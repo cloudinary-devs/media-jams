@@ -7,6 +7,9 @@ import { authors as queryAuthors } from '@lib/queries/authors';
 import { tags as queryTags } from '@lib/queries/tags';
 import { bookmarks as queryBookmarks } from '@lib/queries/bookmarks';
 import { categories as queryCategories } from '@lib/queries/categories';
+import { useBookmarkedJamsQuery } from '@hooks/useBookmarks';
+import { useFeaturedJamsQuery } from '@hooks/useJams';
+import { useJamsQuery, useJamQueryBy } from '@hooks/useJams';
 import { useUser } from '@auth0/nextjs-auth0';
 
 import JamAccordion from '@components/JamAccordion';
@@ -70,7 +73,6 @@ export default function Dashboard() {
     'jamCategories',
     queryCategories.get,
   );
-  const { user, loading } = useUser();
 
   // State
   const [filteredPosts, setFilteredPosts] = React.useState([]);
@@ -212,7 +214,7 @@ export default function Dashboard() {
           setSelectedFilters={setSelectedFilters}
           filteredPosts={filteredPosts}
         />
-        <Bookmarks user={user} />
+        <Bookmarks />
       </Grid>
     </Layout>
   );
@@ -378,45 +380,26 @@ function Authors() {
       px={4}
     >
       {data.allAuthor?.map((author) => (
-        <AuthorCard
-          minH="90%"
-          bg="white"
-          maxH="90%"
-          minW={48}
-          maxW={56}
-          mr={4}
-          author={author}
-        />
+        <React.Fragment key={author._id}>
+          <AuthorCard
+            minH="90%"
+            bg="white"
+            maxH="90%"
+            minW={48}
+            maxW={56}
+            mr={4}
+            author={author}
+          />
+        </React.Fragment>
       ))}
     </Flex>
   );
 }
 
-function Bookmarks({ user }) {
-  const userId = user?.sub;
-  const { data: featuredJams } = useQuery(
-    'featuredJams',
-    queryJams.getFeaturedJams,
-  );
-  const { status, data, error, isFetching } = useQuery(
-    'bookmarks',
-    queryBookmarks.get,
-    {
-      // The query will not execute until the user exists
-      enabled: !!userId,
-    },
-  );
-  const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
-
-  // Then get the posts for this bookmark content_id's
-  const { isIdle, data: posts, isSuccess } = useQuery(
-    'bookmark jams',
-    () => queryJams.getByIds(postIds),
-    {
-      // The query will not execute until the postIds exists
-      enabled: !!postIds,
-    },
-  );
+function Bookmarks() {
+  const { user, loading } = useUser();
+  const { isIdle, data: bookmarkedPosts } = useBookmarkedJamsQuery();
+  const { data: featuredJams } = useFeaturedJamsQuery();
   if (user) {
     return (
       <Flex
@@ -436,18 +419,19 @@ function Bookmarks({ user }) {
           Bookmarks
         </Heading>
         <Flex direction="column" w="100%">
-          {posts?.allPost?.map((post) => (
-            <JamAccordion
-              color="blue"
-              shadow
-              w="100%"
-              key={post._id}
-              post={post}
-              defaultIndex={[0]}
-              borderRadius="lg"
-              mb={4}
-              posts={posts}
-            />
+          {bookmarkedPosts?.map((post) => (
+            <React.Fragment key={post._id}>
+              <JamAccordion
+                color="blue"
+                shadow
+                w="100%"
+                post={post}
+                defaultIndex={[0]}
+                borderRadius="lg"
+                mb={4}
+                posts={bookmarkedPosts}
+              />
+            </React.Fragment>
           ))}
         </Flex>
       </Flex>
@@ -478,16 +462,17 @@ function Bookmarks({ user }) {
         </Heading>
         <Flex direction="column" w="100%">
           {featuredJams.allPost?.map((post) => (
-            <JamAccordion
-              color="blue"
-              shadow
-              w="100%"
-              key={post._id}
-              post={post}
-              defaultIndex={[0]}
-              borderRadius="lg"
-              mb={4}
-            />
+            <React.Fragment key={post._id}>
+              <JamAccordion
+                color="blue"
+                shadow
+                w="100%"
+                post={post}
+                defaultIndex={[0]}
+                borderRadius="lg"
+                mb={4}
+              />
+            </React.Fragment>
           ))}
         </Flex>
       </Flex>
