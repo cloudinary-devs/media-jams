@@ -2,12 +2,13 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { jams as queryJams } from '@lib/queries/jams';
 import { tags as queryTags } from '@lib/queries/tags';
 import { notes as queryNotes } from '@lib/queries/notes';
-import { bookmarks as queryBookmarks } from '@lib/queries/bookmarks';
 import { categories as queryCategories } from '@lib/queries/categories';
 import { useUser } from '@auth0/nextjs-auth0';
+
+import { useBookmarksQuery } from '@hooks/useBookmarks';
+import { useJamsQuery, useJamQueryBy } from '@hooks/useJams';
 
 import JamAccordion from '@components/JamAccordion';
 import SearchInput from '@components/SearchInput';
@@ -43,7 +44,7 @@ const fuseOptions = {
 
 export default function Post() {
   // Query
-  const { data: jamData, isLoading } = useQuery('allJams', queryJams.get);
+  const { data: jamData, isLoading } = useJamsQuery();
   const { data: jamTagData } = useQuery('jamTags', queryTags.get);
   const { data: jamCategoryData } = useQuery(
     'jamCategories',
@@ -369,26 +370,11 @@ function Notes({ user }) {
 }
 
 function Bookmarks({ user }) {
-  const userId = user?.sub;
-  const { status, data, error, isFetching } = useQuery(
-    'bookmarks',
-    queryBookmarks.get,
-    {
-      // The query will not execute until the user exists
-      enabled: !!userId,
-    },
-  );
-  const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
+  const { status, data, error, isFetching } = useBookmarksQuery();
 
-  // Then get the posts for this bookmark content_id's
-  const { isIdle, data: posts, isSuccess } = useQuery(
-    'bookmark jams',
-    () => queryJams.getByIds(postIds),
-    {
-      // The query will not execute until the postIds exists
-      enabled: !!postIds,
-    },
-  );
+  const postIds = data?.bookmarks?.map(({ content_id }) => content_id);
+  const { data: selectJams } = useJamQueryBy(postIds);
+
   if (user) {
     return (
       <Flex
@@ -408,7 +394,7 @@ function Bookmarks({ user }) {
           Bookmarks
         </Heading>
         <Flex direction="column" w="100%">
-          {posts?.allPost?.map((post) => (
+          {selectJams?.map((post) => (
             <JamAccordion
               color="blue"
               shadow
@@ -418,7 +404,7 @@ function Bookmarks({ user }) {
               defaultIndex={[0]}
               borderRadius="lg"
               mb={4}
-              posts={posts}
+              posts={selectJams}
             />
           ))}
         </Flex>
@@ -454,14 +440,3 @@ function Bookmarks({ user }) {
     );
   }
 }
-
-export const getStaticProps = async () => {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('jamTags', queryTags.getStatic);
-  await queryClient.prefetchQuery('jamCategories', queryCategories.getStatic);
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};

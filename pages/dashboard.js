@@ -1,143 +1,338 @@
+import React from 'react';
+import { useRouter } from 'next/router';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
+import { jams as queryJams } from '@lib/queries/jams';
+import { authors as queryAuthors } from '@lib/queries/authors';
+import { tags as queryTags } from '@lib/queries/tags';
+import { bookmarks as queryBookmarks } from '@lib/queries/bookmarks';
+import { categories as queryCategories } from '@lib/queries/categories';
+import { useBookmarkedJamsQuery } from '@hooks/useBookmarks';
+import { useFeaturedJamsQuery } from '@hooks/useJams';
+import { useJamsQuery, useJamQueryBy } from '@hooks/useJams';
 import { useUser } from '@auth0/nextjs-auth0';
+
+import JamAccordion from '@components/JamAccordion';
+import SearchInput from '@components/SearchInput';
+import Layout from '@components/Layout';
+import TagFilter from '@components/TagFilter';
+import AuthorCard from '@components/AuthorCard';
+import NextLink from 'next/link';
+import { boxShadow } from '@utils/styles';
+import { FaDiscord, FaQuestionCircle, FaLock } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+
 import {
   Flex,
-  Box,
-  Text,
-  Link,
   Grid,
   Heading,
   Icon,
+  Link,
   useDisclosure,
+  Tooltip,
 } from '@chakra-ui/react';
-import { FaDiscord } from 'react-icons/fa';
-import NextLink from 'next/link';
 
-import { authors as queryAuthors } from '@lib/queries/authors';
-import { jams as queryJams } from '@lib/queries/jams';
-import Layout from '@components/Layout';
-import JamAccordion from '@components/JamAccordion';
-import AuthorCard from '@components/AuthorCard';
-import { boxShadow } from '@utils/styles';
-import { motion } from 'framer-motion';
+import Fuse from 'fuse.js';
 
-const responsiveGrid = {
+const fuseOptions = {
+  threshold: 0.35,
+  location: 0,
+  distance: 100,
+  minMatchCharLength: 1,
+  shouldSort: true,
+  includeScore: true,
+  useExtendedSearch: true,
+  keys: ['title', 'tags.title', 'author.name'],
+};
+
+const responsiveAreas = {
   base: `
-    "Featured"                        
-    "Featured"   
-    "Paths"
-    "DiscordAd"
-    "GettingStarted"
-    "Authors"            
-  `,
+  "JamSearch"              
+  "Bookmarks"
+  "Discord"
+  "Authors"
+`,
   md: `
-    "Featured Featured"
-    "DiscordAd Paths"
-    "GettingStarted GettingStarted"
-    "Authors Authors"
-  `,
-  lg: `
-    "Featured Featured"
-    "DiscordAd Paths"
-    "GettingStarted GettingStarted"
-    "Authors Authors"
-  `,
+  "JamSearch JamSearch"
+  "Bookmarks Bookmarks"
+  "Discord Discord"
+  "Authors Authors"
+`,
   xl: `
-    "Featured Paths DiscordAd"
-    "Featured Paths GettingStarted"
-    "Featured Authors GettingStarted"
-  `,
+  "SearchFilters JamSearch Bookmarks"
+  "Discord JamSearch Bookmarks"
+  "Authors JamSearch Bookmarks"
+`,
 };
 
 export default function Dashboard() {
+  // Query
+  const { data: jamData, isLoading } = useQuery('allJams', queryJams.get);
+  const { data: jamTagData } = useQuery('jamTags', queryTags.get);
+  const { data: jamCategoryData } = useQuery(
+    'jamCategories',
+    queryCategories.get,
+  );
+
+  // State
+  const [filteredPosts, setFilteredPosts] = React.useState([]);
+  const [showFilters, setShowFilters] = React.useState(false);
+  const [selectedFilters, setSelectedFilters] = React.useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [searchValue, setSearchValue] = React.useState('');
+  const router = useRouter();
+
+  // check if there's any tag selections coming from the router and set them
+  React.useEffect(() => {
+    const routeTags = router.query.tags?.split(',') || [];
+    if (jamTagData?.tags && routeTags.length !== 0) {
+      jamTagData?.tags.filter((t) => routeTags.includes(t.title)).map(addTag);
+    }
+  }, [jamTagData?.tags]);
+
+  React.useEffect(() => {
+    // do some checking here to ensure data exist
+    if (isLoading === false && jamData?.jams) {
+      setFilteredPosts(jamData.jams);
+    }
+  }, [isLoading, jamData?.jams]);
+
+  // handle updating the filteredPosts with different search criteria
+  React.useEffect(() => {
+    if (searchValue === '' && selectedFilters.length === 0) {
+      handleFilter(jamData?.jams);
+    } else {
+      // Allow for a search for tag
+      const formattedTags = selectedFilters.map((item) => item.title);
+
+      const queries = {
+        $or: [
+          { title: searchValue },
+          { author: searchValue },
+          {
+            $and:
+              formattedTags.length > 0
+                ? [{ $path: 'tags.title', $val: formattedTags[0] }]
+                : [],
+          },
+        ],
+      };
+      const results = fuse.search(queries).map((result) => result.item);
+      handleFilter(results);
+      routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
+    }
+  }, [searchValue, selectedFilters, isLoading]);
+
+  // Set Fuse
+  const fuse = new Fuse(jamData?.jams, fuseOptions);
+
+  function addTag(tag) {
+    return setSelectedFilters((prev) => [...prev, tag]);
+  }
+
+  function removeTag(tag) {
+    return setSelectedFilters((prev) => prev.filter((pt) => pt !== tag));
+  }
+
+  const handleFilter = (data) => {
+    setFilteredPosts(data);
+  };
+
+  const clearAllTags = () => {
+    routerPushTags();
+    setSelectedFilters([]);
+  };
+
+  /**
+   * Add URl query tags without running all data fetch methods
+   * https://nextjs.org/docs/routing/shallow-routing#caveats
+   * @param {Object} query {tags: [<String>]}
+   * @type {Object}
+   */
+  const routerPushTags = (query = {}) => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query,
+      },
+      undefined,
+      {
+        shallow: true,
+      },
+    );
+  };
 
   return (
-    <Layout isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
       <Grid
         as={motion.div}
         initial={{ x: -100 }}
         animate={{ x: 0 }}
         transition={{ duration: 0.3, ease: 'easein' }}
-        height={{
-          base: 'auto',
-          md: '100%',
-          lg: '100%',
-          xl: '100vh',
-        }}
-        templateAreas={responsiveGrid}
+        height="100vh"
+        templateAreas={responsiveAreas}
         templateColumns={{
           base: '100%',
           md: '1fr 1fr',
-          lg: '1fr 1fr',
-          xl: '1.3fr 1fr 1fr',
+          xl: '1.1fr 2fr 1.5fr',
         }}
         templateRows={{
-          base: 'repeat(5 , 500px)',
-          md: 'repeat(4, 300px)',
-          lg: 'repeat(4, 300px)',
-          xl: '1fr 1fr 1fr',
+          base: '70% repeat(4, 400px)',
+          md: '80vh 700px 500px',
+          xl: '2.5fr 200px 2fr',
         }}
         gap={6}
         p="1rem"
-        overflow={{ md: 'auto', lg: 'auto', xl: 'none' }}
+        overflow={{ base: 'auto', xl: null }}
       >
-        <Featured />
-        <DiscordAd />
+        <SearchFilters
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          showFilters={showFilters}
+          setShowFilters={setShowFilters}
+          tags={jamTagData?.tags}
+          categories={jamCategoryData}
+          addTag={addTag}
+          removeTag={removeTag}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          clearAllTags={clearAllTags}
+        />
+        <Discord />
         <Authors />
-        <Paths />
-        <GettingStarted />
+        <JamSearch
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          clearAllTags={clearAllTags}
+          showFilters={showFilters}
+          setShowFilters={setShowFilters}
+          tags={jamTagData?.tags}
+          categories={jamCategoryData}
+          addTag={addTag}
+          removeTag={removeTag}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          filteredPosts={filteredPosts}
+        />
+        <Bookmarks />
       </Grid>
     </Layout>
   );
 }
 
-function Featured() {
-  const { data } = useQuery('featuredJams', queryJams.getFeaturedJams);
+export const getStaticProps = async () => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(
+    'featuredJams',
+    queryJams.getStaticFeaturedJams,
+  );
+  await queryClient.prefetchQuery('jamTags', queryTags.getStatic);
+  await queryClient.prefetchQuery('jamCategories', queryCategories.getStatic);
+  await queryClient.prefetchQuery('authors', queryAuthors.getStatic);
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
 
+function JamSearch({
+  searchValue,
+  setSearchValue,
+  showFilters,
+  setShowFilters,
+  tags,
+  categories,
+  clearAllTags,
+  addTag,
+  removeTag,
+  selectedFilters,
+  setSelectedFilters,
+  filteredPosts,
+}) {
   return (
     <Flex
-      gridArea="Featured"
-      overflow="scroll"
-      bg="blue.200"
+      gridArea="JamSearch"
+      p={4}
+      bg="red.200"
+      overflow="auto"
+      borderRadius="8px"
+      boxShadow={{ base: 'none', lg: boxShadow }}
       direction="column"
-      boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
-      borderRadius="lg"
-      p={5}
-      h={{
-        base: 'auto',
-        lg: '',
-      }}
+      w="100%"
     >
-      <Heading
-        textStyle="headline-interstitial"
-        fontFamily="bangers"
-        letterSpacing="wide"
-        color="blue.400"
+      <SearchInput
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        showFilters={showFilters}
+        setShowFilters={setShowFilters}
+        width="100%"
+        color="red"
         mb={3}
-      >
-        Featured Jams
-      </Heading>
-      <Flex direction="column" w="100%">
-        {data.allPost?.map((post) => (
-          <JamAccordion
-            color="blue"
-            shadow
-            w="100%"
-            key={post._id}
-            post={post}
-            defaultIndex={[0]}
-            borderRadius="lg"
-            mb={4}
+      />
+      {showFilters && (
+        <Flex borderRadius="lg" w="100%" mb={5} mt="16px" h={64}>
+          <TagFilter
+            tags={tags}
+            addTag={addTag}
+            clearAllTags={clearAllTags}
+            removeTag={removeTag}
+            selectedFilters={selectedFilters}
+            setSelectedFilters={setSelectedFilters}
+            color="red"
           />
-        ))}
-      </Flex>
+        </Flex>
+      )}
+      {filteredPosts?.map((post) => (
+        <JamAccordion
+          borderRadius="lg"
+          mb={3}
+          color="red"
+          width="100%"
+          key={post._id}
+          post={post}
+        />
+      ))}
     </Flex>
   );
 }
 
-function DiscordAd() {
+function SearchFilters({
+  searchValue,
+  setSearchValue,
+  showFilters,
+  setShowFilters,
+  tags,
+  addTag,
+  removeTag,
+  selectedFilters,
+  setSelectedFilters,
+  clearAllTags,
+  filteredPosts,
+}) {
+  return (
+    <Flex
+      borderRadius="8px"
+      boxShadow={boxShadow}
+      bg="blue.200"
+      display={{ base: 'none', md: 'none', lg: 'none', xl: 'flex' }}
+      height="auto"
+      gridArea="SearchFilters"
+      overflow="auto"
+      p={2}
+    >
+      <TagFilter
+        tags={tags}
+        addTag={addTag}
+        removeTag={removeTag}
+        selectedFilters={selectedFilters}
+        clearAllTags={clearAllTags}
+      />
+    </Flex>
+  );
+}
+
+function Discord() {
   return (
     <Flex
       direction="column"
@@ -146,12 +341,12 @@ function DiscordAd() {
       bg="#7289DA"
       borderRadius="8px"
       boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
-      gridArea="DiscordAd"
+      gridArea="Discord"
     >
       <Icon
         as={FaDiscord}
         color="white"
-        boxSize={{ base: 64, md: '7em', xl: '7em' }}
+        boxSize={{ base: 64, md: '7em', xl: '4em' }}
       />
       <NextLink href="https://discord.gg/mediadevs" passHref>
         <Link
@@ -161,6 +356,7 @@ function DiscordAd() {
           textDecor="underline"
           w="40%"
           textAlign="center"
+          fontSize="12px"
         >
           Join the MediaDevs Discord community
         </Link>
@@ -184,126 +380,102 @@ function Authors() {
       px={4}
     >
       {data.allAuthor?.map((author) => (
-        <AuthorCard
-          minH="90%"
-          bg="white"
-          maxH="90%"
-          minW={48}
-          maxW={56}
-          mr={4}
-          author={author}
-        />
+        <React.Fragment key={author._id}>
+          <AuthorCard
+            minH="90%"
+            bg="white"
+            maxH="90%"
+            minW={48}
+            maxW={56}
+            mr={4}
+            author={author}
+          />
+        </React.Fragment>
       ))}
     </Flex>
   );
 }
 
-function Paths() {
-  return (
-    <Flex
-      bg="#AAAAAA"
-      w="100%"
-      direction="column"
-      align="center"
-      borderRadius="8px"
-      boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
-      gridArea="Paths"
-      position="relative"
-      overflow="hidden"
-    >
-      <Box
-        position="absolute"
-        zIndex="2"
-        backgroundColor="rgba(0,0,0,0.7)"
-        height="100%"
-        width="100%"
-        top="0px"
-        left="0px"
-      />
-      <Box
-        position="absolute"
-        zIndex="4"
-        height="34px"
-        width="260px"
-        right="-43px"
-        top="50px"
-        transform="rotate(40deg)"
-        backgroundColor="red.400"
-        textAlign="center"
-        color="white"
-      >
-        <Text size="md" fontWeight="bold" pt={1} letterSpacing="2px">
-          Coming Soon
-        </Text>
-      </Box>
-      <Heading
-        pl={4}
-        fontFamily="Bangers, cursive"
-        letterSpacing="wide"
-        lineHeight="base"
-        lineHeight={1}
-        color="white"
-        alignSelf="flex-start"
-        fontSize="5xl"
-        mt={2}
-      >
-        Learning Paths
-      </Heading>
+function Bookmarks() {
+  const { user, loading } = useUser();
+  const { isIdle, data: bookmarkedPosts } = useBookmarkedJamsQuery();
+  const { data: featuredJams } = useFeaturedJamsQuery();
+  if (user) {
+    return (
       <Flex
-        flexGrow="1"
+        gridArea="Bookmarks"
+        overflow="scroll"
+        bg="blue.200"
         direction="column"
-        justify="space-evenly"
-        align="center"
-        width="100%"
+        boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+        borderRadius="lg"
+        p={5}
+        h={{
+          base: 'auto',
+          lg: '',
+        }}
       >
-        <Box
-          w="95%"
-          h="30%"
-          bg="#D2D2D2"
-          borderRadius="8px"
-          boxShadow={boxShadow}
-        ></Box>
-        <Box
-          w="95%"
-          h="30%"
-          bg="#D2D2D2"
-          borderRadius="8px"
-          boxShadow={boxShadow}
-        ></Box>
-        <Box
-          w="95%"
-          h="30%"
-          bg="#D2D2D2"
-          borderRadius="8px"
-          boxShadow={boxShadow}
-        ></Box>
+        <Heading textStyle="headline-interstitial" color="blue.400" mb={3}>
+          Bookmarks
+        </Heading>
+        <Flex direction="column" w="100%">
+          {bookmarkedPosts?.map((post) => (
+            <React.Fragment key={post._id}>
+              <JamAccordion
+                color="blue"
+                shadow
+                w="100%"
+                post={post}
+                defaultIndex={[0]}
+                borderRadius="lg"
+                mb={4}
+                posts={bookmarkedPosts}
+              />
+            </React.Fragment>
+          ))}
+        </Flex>
       </Flex>
-    </Flex>
-  );
-}
-
-function GettingStarted() {
-  return (
-    <Box
-      borderRadius="8px"
-      boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
-      bg="red.200"
-      gridArea="GettingStarted"
-    ></Box>
-  );
-}
-export async function getStaticProps() {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(
-    'featuredJams',
-    queryJams.getStaticFeaturedJams,
-  );
-  await queryClient.prefetchQuery('authors', queryAuthors.getStatic);
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
+    );
+  } else {
+    return (
+      <Flex
+        gridArea="Bookmarks"
+        overflow="scroll"
+        bg="blue.200"
+        direction="column"
+        boxShadow="1px 2px 20px 6px rgba(0,0,0,0.25)"
+        borderRadius="lg"
+        p={5}
+        h={{
+          base: 'auto',
+          lg: '',
+        }}
+      >
+        <Heading
+          textStyle="headline-interstitial"
+          fontFamily="bangers"
+          letterSpacing="wide"
+          color="blue.400"
+          mb={3}
+        >
+          Featured Jams
+        </Heading>
+        <Flex direction="column" w="100%">
+          {featuredJams.allPost?.map((post) => (
+            <React.Fragment key={post._id}>
+              <JamAccordion
+                color="blue"
+                shadow
+                w="100%"
+                post={post}
+                defaultIndex={[0]}
+                borderRadius="lg"
+                mb={4}
+              />
+            </React.Fragment>
+          ))}
+        </Flex>
+      </Flex>
+    );
+  }
 }

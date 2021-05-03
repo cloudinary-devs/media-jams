@@ -16,6 +16,11 @@ import React, { useEffect, useState } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { bookmarks as bookmarksQuery } from '@lib/queries/bookmarks';
+import {
+  useBookmarksQuery,
+  useAddBookmarkMutation,
+  useRemoveBookmarkMutation,
+} from '@hooks/useBookmarks';
 import { useUser } from '@auth0/nextjs-auth0';
 import NextLink from 'next/link';
 
@@ -35,80 +40,13 @@ export default function JamAccordion({
 
   const { user, loading } = useUser();
   const [isBookmarked, setBookmark] = useState(false);
-  const queryClient = useQueryClient();
-  const addBookmark = useMutation((post) => bookmarksQuery.add(post._id), {
-    onMutate: async (post) => {
-      await queryClient.cancelQueries('bookmarks');
-      await queryClient.cancelQueries('bookmark jams');
-      const previousBookmarkIds = queryClient.getQueryData('bookmarks');
-      const previousBookmarkedPosts = queryClient.getQueryData('bookmark jams');
-
-      let newBookmarkedPosts;
-
-      if (previousBookmarkedPosts.length === 0) {
-        queryClient.setQueryData('bookmark jams', { allPost: [post] });
-      } else {
-        newBookmarkedPosts = [...previousBookmarkedPosts.allPost, post];
-        queryClient.setQueryData('bookmark jams', {
-          allPost: newBookmarkedPosts,
-        });
-      }
-
-      return previousBookmarkIds;
-    },
-    // On failure, roll back to the previous value
-    onError: (err, variables, previousBookmarkIds) =>
-      // TODO: Revisit and add a toast on failure and rollback
-      queryClient.setQueryData('bookmarks', previousBookmarkIds),
-    // After success or failure, refetch the bookmarks and bookmark jams queries
-    onSuccess: () => {
-      setBookmark(true);
-      queryClient.invalidateQueries('bookmarks');
-
-      console.log('Queries successfully refreshed');
-    },
+  const { data: dataBookmarks, isLoading } = useBookmarksQuery();
+  const addBookmark = useAddBookmarkMutation({
+    onSuccess: () => setBookmark(true),
   });
-  const removeBookmark = useMutation(
-    (post) => bookmarksQuery.remove(post._id),
-    {
-      onMutate: async (post) => {
-        await queryClient.cancelQueries('bookmarks');
-        await queryClient.cancelQueries('bookmark jams');
-        const previousBookmarkIds = queryClient.getQueryData('bookmarks');
-        const previousBookmarks = queryClient.getQueryData('bookmark jams');
-
-        const newBookmarkedPosts = previousBookmarks.allPost.filter(
-          (data) => data._id !== post._id,
-        );
-
-        if (newBookmarkedPosts.length > 0) {
-          queryClient.setQueryData('bookmark jams', {
-            allPost: newBookmarkedPosts,
-          });
-        } else {
-          queryClient.setQueryData('bookmark jams', []);
-        }
-
-        return previousBookmarkIds;
-      },
-      // On failure, roll back to the previous value
-      onError: (err, variables, previousBookmarkIds) =>
-        // TODO: Revisit and add a toast on failure and rollback
-        queryClient.setQueryData('bookmarks', previousBookmarkIds),
-      // After success or failure, refetch the bookmarks and bookmark jams queries
-      onSuccess: () => {
-        setBookmark(false);
-        queryClient.invalidateQueries('bookmarks');
-      },
-    },
-  );
-  const { data: dataBookmarks, isLoading } = useQuery(
-    'bookmarks',
-    bookmarksQuery.get,
-    {
-      enabled: !loading && !!user,
-    },
-  );
+  const removeBookmark = useRemoveBookmarkMutation({
+    onSuccess: () => setBookmark(true),
+  });
 
   useEffect(() => {
     if (user && dataBookmarks) {
