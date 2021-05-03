@@ -7,10 +7,10 @@ import { routes as queryRoutes } from '@lib/queries/routes';
 import { boxShadow } from '@utils/styles';
 import {
   FaVideo,
-  FaCode,
+  FaSitemap,
   FaPencilAlt,
   FaUserAstronaut,
-  FaPills,
+  FaTerminal,
   FaBuffer,
 } from 'react-icons/fa';
 import {
@@ -99,23 +99,23 @@ function Features() {
           spacingY={{ base: 'xl', md: 'xs' }}
           rowGap={{ base: 'xs', md: 'xl' }}
         >
-          <FeatureItem title="Bite-size Tutorials" icon={<FaPills />}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          <FeatureItem title="Bite-size Tutorials" icon={<FaBuffer />}>
+            How-to learning guides, limited in scope and easy to follow.
           </FeatureItem>
-          <FeatureItem title="Run & Play Sandboxes" icon={<FaCode />}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          <FeatureItem title="Run & Play Sandboxes" icon={<FaTerminal />}>
+            Learn-by-example demos, open code ready to run & modify.
           </FeatureItem>
           <FeatureItem title="Authored by Experts" icon={<FaUserAstronaut />}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Content represents the most advanced dev best practices.
           </FeatureItem>
-          <FeatureItem title=" Tech Stack Mashups" icon={<FaBuffer />}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          <FeatureItem title=" Tech Stack Mashups" icon={<FaSitemap />}>
+            Shows media design patterns for most popular tech stacks.
           </FeatureItem>
           <FeatureItem title="Practical Use-Cases" icon={<FaPencilAlt />}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Solutions to media challenges encountered in building apps.
           </FeatureItem>
           <FeatureItem title="Program with Media" icon={<FaVideo />}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Create, manage, transform, optimize & deliver images/videos.
           </FeatureItem>
         </SimpleGrid>
       </Box>
