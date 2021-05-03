@@ -10,8 +10,8 @@ export function useBookmarksQuery(select) {
     // The query will not execute until the user exists
     enabled: !!user?.sub,
     select,
-    staleTime: 5000,
-    cacheTime: 1000,
+    staleTime: 300000, // 5 minutes
+    cacheTime: 300000, // 5 minutes
   });
 
   return {
