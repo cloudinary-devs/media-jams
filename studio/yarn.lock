@@ -1130,8 +1130,9 @@
     lodash "^4.17.15"
 
 "@sanity/cli@^2.4.0":
-  version "2.7.4"
-  resolved "https://registry.npmjs.org/@sanity/cli/-/cli-2.7.4.tgz#0ea624735d3663f0a0193f760131d482080dce12"
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/@sanity/cli/-/cli-2.10.0.tgz#f1ea041e112d83af8c00bd678f5f9d29e1d4e7a4"
+  integrity sha512-yXhRtEjwz9MmewRWy6/nR1WWkx5bf5Cb2FCBlwxS6VHexfxf4SxE+MfFOLqoEUqzoXbOL6mDEq+zCg8yqP7bnw==
 
 "@sanity/client@2.7.1":
   version "2.7.1"
