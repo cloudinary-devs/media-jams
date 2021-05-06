@@ -96,7 +96,7 @@ export default {
       type: 'array',
       inputComponent: autoCompleteTags,
       validation: (Rule) => Rule.required().min(1),
-      of: [{ type: 'reference', to: { type: 'tag' } }],
+      of: [{ type: 'reference', to: { type: 'tag' }, weak: true }],
       options: {
         layout: 'tags',
         isHighlighted: true,

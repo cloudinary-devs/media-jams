@@ -16,6 +16,7 @@ const transformTagToReference = (tag) => ({
   _type: 'reference',
   _ref: tag._id,
   _key: uuidv4().split('-').pop(),
+  _weak: true,
 });
 
 const createPatchFrom = (tags) => {
