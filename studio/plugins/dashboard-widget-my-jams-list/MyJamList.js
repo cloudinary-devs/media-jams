@@ -86,7 +86,6 @@ class MyJamList extends React.Component {
   render() {
     const { title, types, createButtonText } = this.props;
     const { documents, loading, error } = this.state;
-
     return (
       <div className={styles.container}>
         <header className={styles.header}>

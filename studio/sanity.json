@@ -22,7 +22,8 @@
     "asset-source-cloudinary",
     "dashboard-widget-my-jams-list",
     "asset-source-unsplash",
-    "markdown"
+    "markdown",
+    "dashboard-tags"
   ],
   "env": {
     "development": {

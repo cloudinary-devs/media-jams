@@ -2,29 +2,27 @@ import { of as observableOf } from 'rxjs';
 import { switchMap, delay, tap, mergeMap } from 'rxjs/operators';
 import { uniqBy } from 'lodash';
 import sanityClient from 'part:@sanity/base/client';
-import userStore from 'part:@sanity/base/user';
-import { getCurrentUser$ } from '../../app/lib/user';
-import { console } from 'get-it/lib/util/global';
 
-const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
+const withConfig = (config) => {
+  return typeof sanityClient.withConfig === 'function'
+    ? sanityClient.withConfig(config)
+    : sanityClient;
+};
+
 const draftId = (nonDraftDoc) => `drafts.${nonDraftDoc._id}`;
 
-const prepareDocumentList = async (incoming) => {
+const prepareDocumentList = (incoming, apiVersion) => {
   if (!incoming) {
     return Promise.resolve([]);
   }
   const documents = Array.isArray(incoming) ? incoming : [incoming];
 
-  // filter out drafts
   const ids = documents
     .filter((doc) => !doc._id.startsWith('drafts.'))
     .map(draftId);
 
-  // find all doc items and if it has a draft version
-  return client
-    .fetch('*[_id in $ids]', {
-      ids,
-    })
+  return withConfig({ apiVersion })
+    .fetch('*[_id in $ids]', { ids })
     .then((drafts) => {
       const outgoing = documents.map((doc) => {
         const foundDraft = drafts.find((draft) => draft._id === draftId(doc));
@@ -37,8 +35,8 @@ const prepareDocumentList = async (incoming) => {
     });
 };
 
-const getSubscription = (query, params) =>
-  client
+const getSubscription = (query, params, apiVersion) =>
+  withConfig({ apiVersion })
     .listen(query, params, {
       events: ['welcome', 'mutation'],
       includeResult: false,
@@ -49,10 +47,10 @@ const getSubscription = (query, params) =>
         return observableOf(1).pipe(
           event.type === 'welcome' ? tap() : delay(1000),
           mergeMap(() =>
-            client
+            withConfig({ apiVersion })
               .fetch(query, params)
               .then((incoming) => {
-                return prepareDocumentList(incoming);
+                return prepareDocumentList(incoming, apiVersion);
               })
               .catch((error) => {
                 if (error.message.startsWith('Problems fetching docs')) {

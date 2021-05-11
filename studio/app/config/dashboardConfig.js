@@ -3,9 +3,6 @@ const { id } = getCurrentUser$();
 export default {
   widgets: [
     {
-      name: 'sanity-tutorials',
-    },
-    {
       name: 'dashboard-image-upload',
       options: {
         title: 'Image Upload',
@@ -26,6 +23,17 @@ export default {
         title: 'My Jams',
         createButtonText: 'Create new Jam',
         types: ['post'],
+      },
+    },
+    {
+      name: 'tags-count',
+      layout: {
+        width: 'auto',
+        height: 'medium',
+      },
+      options: {
+        title: 'My Jams',
+        createButtonText: 'Create new Jam',
       },
     },
   ],
