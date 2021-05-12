@@ -1,0 +1,9 @@
+{
+  "parts": [
+    {
+      "name": "part:@sanity/dashboard/widget/tags-count",
+      "implements": "part:@sanity/dashboard/widget",
+      "path": "index.js"
+    }
+  ]
+}

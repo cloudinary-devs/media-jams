@@ -60,4 +60,16 @@ export default {
     // });
     return { rank: 1, featured: false };
   },
+  preview: {
+    select: {
+      title: 'title',
+    },
+    prepare(tag, quantity, other) {
+      console.log(tag, quantity, other);
+      const { title } = tag;
+      return {
+        title: title,
+      };
+    },
+  },
 };
