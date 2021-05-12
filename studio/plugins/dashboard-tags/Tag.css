@@ -1,22 +1,42 @@
-
 @import 'part:@sanity/base/theme/variables-style';
 
 .container {
-  composes: container from "part:@sanity/dashboard/widget-styles";
+  composes: container from 'part:@sanity/dashboard/widget-styles';
+}
+
+.containerPadding {
+  composes: containerWithPadding from 'part:@sanity/dashboard/widget-styles';
+  padding: var(--medium-padding);
 }
 
 .header {
-  composes: header from "part:@sanity/dashboard/widget-styles";
+  composes: header from 'part:@sanity/dashboard/widget-styles';
 }
 
 .title {
-  composes: title from "part:@sanity/dashboard/widget-styles";
+  composes: title from 'part:@sanity/dashboard/widget-styles';
 }
 
 .content {
   composes: content from 'part:@sanity/dashboard/widget-styles';
   border-top: 1px solid var(--hairline-color);
   padding: var(--small-padding) 0;
+}
+.listitem {
+  composes: item from 'part:@sanity/base/theme/layout/selectable-style';
+  display: block;
+  margin: 0px;
+  padding: 15px;
+  list-style-type: none;
+}
+li > span {
+  right-margin: auto;
+  padding-right: 20px;
+  font-weight: bold;
+}
+
+.listitem:nth-child(odd) {
+  background: rgb(245, 243, 243);
 }
 
 .link {

@@ -32,29 +32,28 @@ function Tags() {
             .groupBy('_id')
             .values()
             .map((group) => ({ ...group[0], qty: group.length }))
-            .value(),
+            .filter((t) => t.qty > 1)
+            .orderBy(['qty'], ['desc'])
+            .value(), // used to unwrap the lodash chain
         ),
       );
     return () => documentCount$.unsubscribe();
   }, []);
   return (
     <div className={styles.container}>
-      <h2>
-        <List>
-          {tags.map((tag) => {
-            const type = schema.get(tag._type);
-            console.log(type);
-            return (
-              <Item key={tag._id}>
-                <div>
-                  {tag.title}
-                  <span> {tag.qty}</span>
-                </div>
-              </Item>
-            );
-          })}
-        </List>
-      </h2>
+      <span className={styles.title}>Tags by Count</span>
+      <ul className={styles.content}>
+        {tags.map((tag) => {
+          const type = schema.get(tag._type);
+          console.log(type);
+          return (
+            <li className={styles.listitem} key={tag._id}>
+              <span> {tag.qty}</span>
+              {tag.title}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
