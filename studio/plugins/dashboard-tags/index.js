@@ -9,7 +9,7 @@ import sanityClient from 'part:@sanity/base/client';
 import IntentButton from 'part:@sanity/components/buttons/intent';
 import { List, Item } from 'part:@sanity/components/lists/default';
 import { getPublishedId } from 'part:@sanity/base/util/draft-utils';
-import { intersection, groupBy, values, chain, map, flatten } from 'lodash';
+import { chain } from 'lodash';
 import { getSubscription } from './sanityConnector';
 import styles from './Tag.css';
 
@@ -47,10 +47,19 @@ function Tags() {
           const type = schema.get(tag._type);
           console.log(type);
           return (
-            <li className={styles.listitem} key={tag._id}>
-              <span> {tag.qty}</span>
-              {tag.title}
-            </li>
+            <IntentLink
+              className={styles.link}
+              intent="edit"
+              params={{
+                type: tag._type,
+                id: tag._id,
+              }}
+            >
+              <li className={styles.listitem} key={tag._id}>
+                <span> {tag.qty}</span>
+                {tag.title}
+              </li>
+            </IntentLink>
           );
         })}
       </ul>

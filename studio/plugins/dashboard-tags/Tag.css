@@ -23,20 +23,12 @@
   padding: var(--small-padding) 0;
 }
 .listitem {
-  composes: item from 'part:@sanity/base/theme/layout/selectable-style';
-  display: block;
-  margin: 0px;
-  padding: 15px;
   list-style-type: none;
 }
 li > span {
   right-margin: auto;
   padding-right: 20px;
   font-weight: bold;
-}
-
-.listitem:nth-child(odd) {
-  background: rgb(245, 243, 243);
 }
 
 .link {
@@ -46,7 +38,6 @@ li > span {
   text-decoration: inherit;
   outline: none;
   padding: var(--small-padding) var(--medium-padding);
-  height: 100%;
 }
 
 .footer {
