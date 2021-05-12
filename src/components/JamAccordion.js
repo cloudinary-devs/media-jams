@@ -42,10 +42,10 @@ export default function JamAccordion({
   const [isBookmarked, setBookmark] = useState(false);
   const { data: dataBookmarks, isLoading } = useBookmarksQuery();
   const addBookmark = useAddBookmarkMutation({
-    onSuccess: () => setBookmark(true),
+    onMutate: () => setBookmark(true),
   });
   const removeBookmark = useRemoveBookmarkMutation({
-    onSuccess: () => setBookmark(true),
+    onMutate: () => setBookmark(false),
   });
 
   useEffect(() => {
