@@ -1,22 +1,17 @@
 /* eslint-disable complexity */
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { IntentLink } from 'part:@sanity/base/router';
-import SanityPreview from 'part:@sanity/base/preview';
-import Spinner from 'part:@sanity/components/loading/spinner';
 import schema from 'part:@sanity/base/schema';
 import sanityClient from 'part:@sanity/base/client';
-import IntentButton from 'part:@sanity/components/buttons/intent';
-import { List, Item } from 'part:@sanity/components/lists/default';
-import { getPublishedId } from 'part:@sanity/base/util/draft-utils';
 import { chain } from 'lodash';
-import { getSubscription } from './sanityConnector';
+import { userModerator } from '../../app/lib/user';
 import styles from './Tag.css';
 
 const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
 
 function Tags() {
   const [tags, setTags] = useState([]);
+  const isModerator = userModerator();
   useEffect(() => {
     const documentCount$ = client.observable
       .fetch(
@@ -39,6 +34,10 @@ function Tags() {
       );
     return () => documentCount$.unsubscribe();
   }, []);
+  /**
+   * Only render for Users with Moderator ROLE
+   */
+  if (!isModerator) return null;
   return (
     <div className={styles.container}>
       <span className={styles.title}>Tags by Count</span>
