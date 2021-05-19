@@ -94,7 +94,7 @@ export default function JamAccordion({
                     size="lg"
                     name={author.name}
                     mr={4}
-                    src={author.image.asset.url}
+                    src={author.image?.asset?.url}
                     borderWidth="3px"
                     borderColor={`${color}.400`}
                     showBorder
