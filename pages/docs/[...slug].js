@@ -1,25 +1,67 @@
 import hydrate from 'next-mdx-remote/hydrate';
-import { Box, chakra } from '@chakra-ui/react';
+import { Badge, Box, chakra, Flex } from '@chakra-ui/react';
+import { SkipNavContent, SkipNavLink } from '@chakra-ui/skip-nav';
 import PageTransition from '@components/PageTransition';
-
+import TableOfContent from '@components/TableOfContents';
 import MDXComponents from '@components/MDXComponents';
+
+function useHeadingFocusOnRouteChange() {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    const onRouteChange = () => {
+      const [heading] = Array.from(document.getElementsByTagName('h1'));
+      heading?.focus();
+    };
+    router.events.on('routeChangeComplete', onRouteChange);
+    return () => {
+      router.events.off('routeChangeComplete', onRouteChange);
+    };
+  }, []);
+}
 
 // This glob is what will be used to generate static routes
 const contentPath = 'src/documentation';
 export const contentGlob = `${contentPath}/**/*.mdx`;
 
 export default function Data({ mdxSource, frontMatter }) {
+  const headings = [];
   const content = hydrate(mdxSource, { components: MDXComponents });
 
   return (
-    <Box pt={3} px={5} mt="4.5rem" mx="auto" maxW="64rem" minH="76vh">
-      <PageTransition>
-        <chakra.h1 tabIndex={-1} outline={0} apply="mdx.h1">
-          {frontMatter.title}
-        </chakra.h1>
-        {content}
-      </PageTransition>
-    </Box>
+    <>
+      <SkipNavLink zIndex={20}>Skip to Content</SkipNavLink>
+      <Box as="main" className="main-content" w="full" maxW="8xl" mx="auto">
+        <Box display={{ md: 'flex' }}>
+          {/* {sidebar || null} */}
+          <Box flex="1" minW="0">
+            <SkipNavContent />
+            <Box id="content" px={5} mx="auto" minH="76vh">
+              <Flex>
+                <Box
+                  minW="0"
+                  flex="auto"
+                  px={{ base: '4', sm: '6', xl: '8' }}
+                  pt="10"
+                >
+                  <PageTransition style={{ maxWidth: '48rem' }}>
+                    <chakra.h1 tabIndex={-1} outline={0} apply="mdx.h1">
+                      {frontMatter.title}
+                    </chakra.h1>
+                    {content}
+                    <Box pb="20"></Box>
+                  </PageTransition>
+                </Box>
+                <TableOfContent
+                  visibility={headings.length === 0 ? 'hidden' : 'initial'}
+                  headings={headings}
+                />
+              </Flex>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </>
   );
 }
 
