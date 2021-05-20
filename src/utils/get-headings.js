@@ -11,6 +11,7 @@ export function getHeadings(children) {
   return React.Children.toArray(children)
     .filter((child) => React.isValidElement(child) && isHeading(child))
     .map((heading) => {
+      console.log(heading);
       if (React.isValidElement(heading)) {
         return {
           level: heading.props?.mdxType,

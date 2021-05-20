@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { contentGlob } from './[...slug]';
 
-export default function AllData({ allMdx }) {
+export default function AllDocs({ allMdx }) {
   return (
     <>
       {allMdx?.map((data) => (
