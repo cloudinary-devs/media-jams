@@ -29,7 +29,6 @@ export const contentGlob = `${contentPath}/**/*.mdx`;
 
 export default function DocumentationPage({ mdxSource, frontMatter, routes }) {
   const content = hydrate(mdxSource, { components: MDXComponents });
-  console.log(routes);
   return (
     <>
       <Box as="main" className="main-content" w="full" maxW="8xl" mx="auto">
@@ -94,17 +93,6 @@ export async function getStaticProps({ params: { slug } }) {
   const renderToString = require('next-mdx-remote/render-to-string');
   const matter = require('gray-matter');
 
-  const allDocs = files.map((file) => {
-    const slug = getFileSlug(file);
-
-    const mdxSource = fs.readFileSync(file);
-    const { data } = matter(mdxSource);
-
-    return {
-      slug,
-      ...data,
-    };
-  });
   function getDirectories(srcpath) {
     const subRoutes = fs.readdirSync(srcpath).map((file) => ({
       title: file.toUpperCase(),
