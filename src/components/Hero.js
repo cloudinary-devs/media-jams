@@ -74,7 +74,7 @@ export default function Hero() {
           Discover top practices and tools applying media technology in modern
           websites, apps, and stacks
         </Text>
-        <Link href="/post" passHref>
+        <Link href="/dashboard" passHref>
           <Button
             bg="grey.700"
             color="yellow.400"

@@ -47,8 +47,17 @@ export default function Navbar() {
         />
       </Link>
       <Box>
-        {!user && (
+        {!user ? (
           <ButtonGroup size="md" spacing="6">
+            <NavLink as={NextLink} href="/dashboard">
+              <Button
+                size={{ base: 'xs', md: 'lg' }}
+                variant="link"
+                color="yellow.400"
+              >
+                Dashboard
+              </Button>
+            </NavLink>
             <Link as={NextLink} href="/api/auth/login">
               <Button
                 size={{ base: 'xs', md: 'lg' }}
@@ -69,6 +78,16 @@ export default function Navbar() {
               </Button>
             </Link>
           </ButtonGroup>
+        ) : (
+          <NavLink as={NextLink} href="/dashboard">
+            <Button
+              size={{ base: 'xs', md: 'lg' }}
+              variant="link"
+              color="yellow.400"
+            >
+              Dashboard
+            </Button>
+          </NavLink>
         )}
       </Box>
     </Flex>
