@@ -127,7 +127,7 @@ export async function getStaticProps({ params: { slug } }) {
     const { data } = matter(fs.readFileSync(file));
     acc[0].routes.map((rootRoute) => {
       return rootRoute.dir === path.split('/')[0]
-        ? rootRoute.routes.push({ path: path.split('/')[1], ...data })
+        ? rootRoute.routes.push({ path: `/docs/${path}`, ...data })
         : rootRoute;
     });
     return acc;
