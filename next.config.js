@@ -71,6 +71,15 @@ const defaultConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/docs',
+        destination: '/docs/getting-started/installation',
+        permanent: true,
+      },
+    ];
+  },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // So ask Webpack to replace @sentry/node imports with @sentry/browser when
     // building the browser's bundle
