@@ -98,6 +98,7 @@ export async function getStaticProps({ params: { slug } }) {
       title: file.toUpperCase(),
       path: `/docs/${file}`,
       open: true,
+      sort: true,
       dir: file,
       routes: [],
     }));

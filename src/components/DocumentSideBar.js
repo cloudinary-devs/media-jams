@@ -168,9 +168,8 @@ export function SidebarContent(props) {
               const opened = selected || lvl2.open;
 
               const sortedRoutes = !!lvl2.sort
-                ? _.sortBy(lvl2.routes, (i) => i.title)
+                ? _.sortBy(lvl2.routes, (i) => i.order)
                 : lvl2.routes;
-
               return (
                 <SidebarCategory
                   contentRef={contentRef}
@@ -222,7 +221,6 @@ const Sidebar = ({ routes }) => {
       }}
       top="6.5rem"
       w="280px"
-      h="calc(((100vh - 1.5rem) - 64px) - 42px);"
       pr="8"
       pb="8"
       pl="3"
