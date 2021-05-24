@@ -11,16 +11,18 @@ import _ from 'lodash';
 import {
   Badge,
   Box,
-  Center,
   chakra,
-  Flex,
-  List,
-  ListItem,
-  ListProps,
   Stack,
   useColorModeValue,
   PropsOf,
 } from '@chakra-ui/react';
+
+/**
+ * Adapted from the great documentation site of Chakra-UI
+ * https://github.com/chakra-ui/chakra-ui/blob/42bcf81fc32a74464b6d33826d38f266f88c0d7e/website/src/components/page-container.tsx#L45
+ *
+ *
+ */
 
 function SidebarCategory(props) {
   const {
