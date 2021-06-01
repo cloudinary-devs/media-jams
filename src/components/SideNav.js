@@ -28,14 +28,20 @@ import {
   FaCog,
 } from 'react-icons/fa';
 
+import { useMixPanel } from '@lib/mixpanel';
 import { useUser } from '@auth0/nextjs-auth0';
 import { boxShadow } from '@utils/styles';
 import Image from '@components/Image';
 import NewNoteModal from '@components/NewNoteModal';
 
 export function SideNavContent({ user, onOpen }) {
+  const mixpanel = useMixPanel();
   const [studioURL, setStudioURL] = React.useState(null);
   const [refreshStudioURL, triggerRefresh] = React.useState(false);
+
+  React.useEffect(() => {
+    mixpanel.link('a');
+  }, []);
 
   React.useEffect(() => {
     if (user) {

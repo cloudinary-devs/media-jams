@@ -34,7 +34,6 @@ import { useMixPanel } from '@lib/mixpanel';
 
 export default function Index() {
   const mixpanel = useMixPanel();
-  mixpanel.pageView();
   return (
     <Flex direction="column" minH="calc(100vh - 50px)" w="100%">
       <Navbar />
