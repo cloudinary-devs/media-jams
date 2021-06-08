@@ -22,6 +22,7 @@ const App = ({ Component, pageProps, err }) => {
   }
 
   const router = useRouter();
+  // trigger pageView analytics on router events
   React.useEffect(() => {
     const handleRouteChange = (err, url) => {
       if (err.cancelled) return null;
