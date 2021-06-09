@@ -5,6 +5,8 @@ import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
 
 import { postBySlug, postsWithSlug } from '@lib/api';
+import { useMixPanel } from '@lib/mixpanel';
+import { useOnRead } from '@hooks/useOnRead';
 
 import { Flex, Text, Image, useDisclosure } from '@chakra-ui/react';
 import Layout from '@components/Layout';
@@ -26,6 +28,8 @@ const components = {
 
 export default function Post({ post, preview, error }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const mixpanel = useMixPanel();
+  const mainContentRef = React.useRef(null);
   const router = useRouter();
   if (error || (!router.isFallback && !post?.slug)) {
     return <ErrorPage statusCode={404} />;
@@ -35,6 +39,12 @@ export default function Post({ post, preview, error }) {
   }
   const content = hydrate(post.content, { components });
   const { author } = post;
+
+  useOnRead({
+    parentElRef: mainContentRef,
+    onRead: () =>
+      mixpanel.interaction('Read Jam', mainContentRef, { post, author }),
+  });
 
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
@@ -51,7 +61,9 @@ export default function Post({ post, preview, error }) {
           title={post.title}
           imageUrl={post.coverImage}
         ></JamContentHero>
-        <JamContent>{content}</JamContent>
+        <main ref={mainContentRef}>
+          <JamContent>{content}</JamContent>
+        </main>
         <JamAuthorBanner author={author}></JamAuthorBanner>
         <EmailSubscription />
       </Flex>

@@ -65,6 +65,7 @@ export default function CodeSandbox({
       iframeRef.current.addEventListener('mouseout', toogleIframeMouseover);
     }
     return () => {
+      if (!iframeRef?.current) return;
       iframeRef.current.removeEventListener('mouseover', toogleIframeMouseover);
       iframeRef.current.removeEventListener('mouseout', toogleIframeMouseover);
       window.removeEventListener('blur', captureEvent);
