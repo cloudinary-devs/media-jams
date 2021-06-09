@@ -2,13 +2,17 @@ import {
   Alert,
   Box,
   chakra,
+  Grid,
+  Flex,
   HTMLChakraProps,
   Kbd,
   useColorModeValue,
+  useTheme,
 } from '@chakra-ui/react';
 import React from 'react';
 import CodeBlock from './CodeBlock/index';
 import CodeSandbox from './CodeSandbox';
+import { ColorPalette, ColorPalettes, ColorWrapper } from './ColorPalette';
 
 const Pre = (props) => <chakra.div my="2em" borderRadius="sm" {...props} />;
 
@@ -107,6 +111,13 @@ const MDXComponents = {
     />
   ),
   CodeSandbox: CodeSandbox,
+  useTheme,
+  ColorPalette,
+  ColorPalettes,
+  ColorWrapper,
+  Box,
+  Grid,
+  Flex,
 };
 
 export default MDXComponents;

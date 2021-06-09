@@ -23,6 +23,7 @@ import {
   SimpleGrid,
   Stack,
   useColorModeValue as mode,
+  useTheme,
 } from '@chakra-ui/react';
 import Hero from '@components/Hero';
 import Footer from '@components/Footer';
@@ -34,6 +35,7 @@ import { useMixPanel } from '@lib/mixpanel';
 
 export default function Index() {
   const mixpanel = useMixPanel();
+  console.log(useTheme());
   return (
     <Flex direction="column" minH="calc(100vh - 50px)" w="100%">
       <Navbar />

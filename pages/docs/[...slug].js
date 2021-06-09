@@ -1,5 +1,6 @@
 import React from 'react';
-import hydrate from 'next-mdx-remote/hydrate';
+import { MDXRemote } from 'next-mdx-remote';
+import { serialize } from 'next-mdx-remote/serialize';
 import { Badge, Box, chakra, Flex } from '@chakra-ui/react';
 import { SkipNavContent, SkipNavLink } from '@chakra-ui/skip-nav';
 import getFileSlug from '@utils/get-file-slug';
@@ -28,7 +29,6 @@ const contentPath = 'src/documentation';
 export const contentGlob = `${contentPath}/**/*.mdx`;
 
 export default function DocumentationPage({ mdxSource, frontMatter, routes }) {
-  const content = hydrate(mdxSource, { components: MDXComponents });
   return (
     <>
       <Box as="main" className="main-content" w="full" maxW="8xl" mx="auto">
@@ -48,7 +48,7 @@ export default function DocumentationPage({ mdxSource, frontMatter, routes }) {
                     <chakra.h1 tabIndex={-1} outline={0} apply="mdx.h1">
                       {frontMatter.title}
                     </chakra.h1>
-                    {content}
+                    <MDXRemote {...mdxSource} components={MDXComponents} />
                     <Box pb="20"></Box>
                   </PageTransition>
                 </Box>
@@ -90,7 +90,6 @@ export async function getStaticProps({ params: { slug } }) {
   const path = require('path');
   const glob = require('fast-glob');
   const files = glob.sync(contentGlob);
-  const renderToString = require('next-mdx-remote/render-to-string');
   const matter = require('gray-matter');
 
   function getDirectories(srcpath) {
@@ -132,10 +131,7 @@ export async function getStaticProps({ params: { slug } }) {
   const mdxSource = await fs.promises.readFile(fullPath);
   const { content, data } = matter(mdxSource);
 
-  const mdx = await renderToString(content, {
-    components: MDXComponents,
-    scope: data,
-  });
+  const mdx = await serialize(content);
 
   return {
     props: {
