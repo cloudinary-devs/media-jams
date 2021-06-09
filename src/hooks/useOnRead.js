@@ -21,7 +21,6 @@ export function useOnRead({ parentElRef, onRead, enabled = true }) {
     let scrolledTheMain = false;
     const observer = new IntersectionObserver((entries) => {
       const isVisible = entries.some((entry) => {
-        console.log('entry', entry.target, entry.isIntersecting);
         return entry.target === visibilityEl && entry.isIntersecting;
       });
       if (isVisible) {

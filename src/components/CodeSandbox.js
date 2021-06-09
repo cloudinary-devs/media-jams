@@ -7,6 +7,7 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { useMixPanel } from '@lib/mixpanel';
+import { useElementInteration } from '@hooks/useElementInteraction';
 
 /**
  * Enum string value possible options for view.
@@ -41,36 +42,15 @@ export default function CodeSandbox({
 }) {
   const { colorMode = 'dark' } = useColorMode();
   const iframeRef = React.useRef(null);
-  const [iframeMouseOver, setIframeMouseOver] = React.useState(false);
   const mixpanel = useMixPanel();
   const urlEncodedFilePath = encodeURIComponent(showFile);
   const repoSlug = (str) => str.substring(str.lastIndexOf('/') + 1);
 
-  const toogleIframeMouseover = React.useCallback(() =>
-    setIframeMouseOver(!iframeMouseOver),
-  );
-
-  /**
-   * window on blur is triggered when the iframe window becomes focused
-   * using mouse over and out to know if that blur happens over the iframe or somewhere else.
-   */
-  React.useEffect(() => {
-    function captureEvent(e) {
-      if (!iframeMouseOver) return null;
-      mixpanel.interaction('CodeSandbox', null, { title, id, src });
-    }
-    window.addEventListener('blur', captureEvent);
-    if (iframeRef.current && iframeRef.current !== null) {
-      iframeRef.current.addEventListener('mouseover', toogleIframeMouseover);
-      iframeRef.current.addEventListener('mouseout', toogleIframeMouseover);
-    }
-    return () => {
-      if (!iframeRef?.current) return;
-      iframeRef.current.removeEventListener('mouseover', toogleIframeMouseover);
-      iframeRef.current.removeEventListener('mouseout', toogleIframeMouseover);
-      window.removeEventListener('blur', captureEvent);
-    };
-  }, [iframeRef]);
+  useElementInteration({
+    elementRef: iframeRef,
+    onInteraction: () =>
+      mixpanel.interaction('CodeSandbox', null, { title, id, src }),
+  });
 
   const baseUrl = src
     ? `https://codesandbox.io/embed/github/MediaJams/${repoSlug(src)}/tree/main`
