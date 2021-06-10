@@ -11,21 +11,21 @@ import colors from './foundations/colors';
 import textStyles from './foundations/textStyles';
 
 // Component style overrides
-import components from './components';
+import { Heading } from './components';
 
 const overrides = {
+  styles,
   fonts: {
     heading: 'DM Sans',
     body: 'DM Sans',
   },
-  styles,
   colors,
   textStyles,
   mdx,
   // Other foundational style overrides go here
   components: {
     // Other components go here
-    ...components,
+    Heading,
   },
 };
 
