@@ -1,0 +1,136 @@
+---
+title: Site Theme
+description: A guide for site wide theme
+---
+
+The theme object is where you define your application's color palette, type
+scale, font stacks, breakpoints, border radius values, and more.
+
+Theming with Chakra UI is based on the
+[Chakra UI](https://chakra-ui.com/docs/theming/theme)
+[Styled System Theme Specification](https://system-ui.com/theme/)
+
+## Colors
+
+### Primary
+
+<ColorWrapper>
+  <ColorPalettes color="primary" />
+</ColorWrapper>
+
+### Secondary
+
+<ColorWrapper>
+  <ColorPalettes color="secondary" />
+</ColorWrapper>
+
+### Helpers
+
+<ColorWrapper>
+  <ColorPalette color="error" name="Error" />
+  <ColorPalette color="warning" name="Warning" />
+  <ColorPalette color="success" name="Success" />
+  <ColorPalette color="link" name="Link" />
+  <ColorPalette color="visited" name="Visited" />
+</ColorWrapper>
+
+```js
+<Box bg="error">Hello</Box>
+```
+
+### Grey Scale
+
+<ColorWrapper>
+  <ColorPalettes color="gray" />
+</ColorWrapper>
+
+## Typography
+
+To manage Typography options, the theme object supports the following keys:
+
+- `fonts` (font families)
+- `fontSizes`
+- `fontWeights`
+- `lineHeights`
+- `letterSpacings`
+
+## Heading
+
+### Usage
+
+```jsx
+<Box as="h1" textStyle="H500">
+  I am an H500
+</Box>
+```
+
+<Stack spacing={3}>
+  <Box as="h1" textStyle="H500">
+    (H500) In love with Media Jams
+  </Box>
+  <Box textStyle="H400">(H400) In love with Media Jams</Box>
+  <Box textStyle="H300">(H300) In love with MediaJams</Box>
+  <Box textStyle="H200">(H200) In love with MediaJams</Box>
+  <Box textStyle="H100">(H100) In love with MediaJams</Box>
+</Stack>
+
+### Base Mapping Semantic HTML
+
+### Heading
+
+```jsx
+<Heading as="h1" size="H500">I'm an H500 with 'Heading h1'</Heading>
+<Heading as="h2" size="H400">I'm an H400 with 'Heading h2'</Heading>
+<Heading as="h3" size="H300">I'm an H300 with 'Heading h3'</Heading>
+<Heading size="H300">
+    I'm an H300 with no as prop that became an h2 by default
+</Heading>
+<h2>I'm a vanillia 'h2' element</h2>
+```
+
+<Stack spacing={3}>
+  <Heading as="h1" size="H500">
+    I'm an H500 with 'Heading h1'
+  </Heading>
+  <Heading as="h2" size="H400">
+    I'm an H400 with 'Heading h2'
+  </Heading>
+  <Heading as="h3" size="H300">
+    I'm an H300 with 'Heading h3'
+  </Heading>
+  <Heading size="H300">
+    I'm an H300 with no as prop that became an h2 by default
+  </Heading>
+  <h2>I'm a vanillia 'h2' element</h2>
+</Stack>
+
+### Text
+
+```jsx
+<Text variant="B500">
+    I am Body 500 Ultimate design system as the common design language
+</Text>
+<Text variant="B400">
+    I am Body 400 Ultimate design system as the common design language
+</Text>
+<p>I am a regular 'p' tag defaults to Body 400</p>
+```
+
+<Stack spacing={3}>
+  <Text variant="B500">
+    I am Body 500 Ultimate design system as the common design language
+  </Text>
+  <Text variant="B400">
+    I am Body 400 Ultimate design system as the common design language
+  </Text>
+  <Text variant="B300">
+    I am Body 300 Ultimate design system as the common design language
+  </Text>
+  <Text variant="B200">
+    I am Body 200 Ultimate design system as the common design language
+  </Text>
+  <Text variant="B100">
+    I am Body 100 Ultimate design system as the common design language
+  </Text>
+  <p>I am a regular 'p' tag defaults to Body 400</p>
+</Stack>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
-import renderToString from 'next-mdx-remote/render-to-string';
-import hydrate from 'next-mdx-remote/hydrate';
+import { MDXRemote } from 'next-mdx-remote';
+import { serialize } from 'next-mdx-remote/serialize';
 
 import { postBySlug, postsWithSlug } from '@lib/api';
 import { useMixPanel } from '@lib/mixpanel';
@@ -37,7 +37,6 @@ export default function Post({ post, preview, error }) {
   if (router.isFallback) {
     return null;
   }
-  const content = hydrate(post.content, { components });
   const { author } = post;
 
   useOnRead({
@@ -62,7 +61,9 @@ export default function Post({ post, preview, error }) {
           imageUrl={post.coverImage}
         ></JamContentHero>
         <main ref={mainContentRef}>
-          <JamContent>{content}</JamContent>
+          <JamContent>
+            <MDXRemote {...post.content} components={components} />
+          </JamContent>
         </main>
         <JamAuthorBanner author={author}></JamAuthorBanner>
         <EmailSubscription />
@@ -98,7 +99,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
   const jam = await postBySlug(slug, preview);
   try {
     // Then serialize to mdx formated string for hydration in components.
-    const mdx = await renderToString(jam.body, { components }, null);
+    const mdx = await serialize(jam.body);
     return {
       props: {
         error: null,

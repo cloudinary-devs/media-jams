@@ -23,6 +23,7 @@ import {
   SimpleGrid,
   Stack,
   useColorModeValue as mode,
+  useTheme,
 } from '@chakra-ui/react';
 import Hero from '@components/Hero';
 import Footer from '@components/Footer';
