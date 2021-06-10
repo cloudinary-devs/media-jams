@@ -10,6 +10,7 @@ import {
   useTheme,
   Stack,
   Heading,
+  Text,
 } from '@chakra-ui/react';
 import React from 'react';
 import CodeBlock from './CodeBlock/index';
@@ -122,6 +123,7 @@ const MDXComponents = {
   Flex,
   Stack,
   Heading,
+  Text,
 };
 
 export default MDXComponents;

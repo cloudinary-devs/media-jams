@@ -11,7 +11,7 @@ import colors from './foundations/colors';
 import textStyles from './foundations/textStyles';
 
 // Component style overrides
-import { Heading } from './components';
+import { Heading, Text } from './components';
 
 const overrides = {
   styles,
@@ -26,6 +26,7 @@ const overrides = {
   components: {
     // Other components go here
     Heading,
+    Text,
   },
 };
 

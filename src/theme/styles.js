@@ -4,9 +4,10 @@ const styles = {
   global: (props) => ({
     body: {
       fontFamily: 'DM Sans',
-      color: mode('gray.800', 'whiteAlpha.900')(props),
+      color: mode('text', 'whiteAlpha.900')(props),
       bg: mode('white', 'gray.800')(props),
-      lineHeight: 'base',
+      lineHeight: '154%',
+      fontSize: '18px',
     },
   }),
 };

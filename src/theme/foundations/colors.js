@@ -18,6 +18,7 @@ export default {
   success: '#4CAF50',
   link: '#0F62FE',
   visited: '#8A3FFC',
+  text: '#061328',
   grey: {
     900: '#1F2529',
     800: '#25292E',
