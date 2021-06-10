@@ -56,7 +56,13 @@ To manage Typography options, the theme object supports the following keys:
 
 ## Heading
 
-Usage
+### Usage
+
+```jsx
+<Box as="h1" textStyle="H500">
+  I am an H500
+</Box>
+```
 
 <Stack spacing={3}>
   <Box as="h1" textStyle="H500">
@@ -68,8 +74,17 @@ Usage
   <Box textStyle="H100">(H100) In love with MediaJams</Box>
 </Stack>
 
+### Base Mapping Semantic HTML
+
 ```jsx
-<Box as="h1" textStyle="H500">
-  I am an H500
-</Box>
+<Heading as='h2'> I'm an h2 with 'Heading' styling from the config</Heading>
+<h2>I'm a vanillia 'h2' element</h2>
 ```
+
+<Stack spacing={3}>
+  <Heading as="h2">
+    {' '}
+    I'm an h2 with 'Heading' styling from the config using className H400
+  </Heading>
+  <h2>I'm a vanillia 'h2' element</h2>
+</Stack>

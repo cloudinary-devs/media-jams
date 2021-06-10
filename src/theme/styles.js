@@ -1,15 +1,24 @@
-import { mode } from '@chakra-ui/react';
+import { mode } from '@chakra-ui/theme-tools';
 
 const styles = {
   global: (props) => ({
-    'html, body': {
-      fontFamily: 'Roboto, sans-serif',
-      fontSize: 'md',
-      color: props.colorMode === 'dark' ? 'white' : 'gray.900',
-      lineHeight: 'base',
+    h1: {
+      fontSize: { base: '32px', md: '52px' },
+      fontWeight: 'bold',
+      lineHeight: '120%',
+      letterSpacing: '0.02em',
     },
-    a: {
-      color: props.colorMode === 'dark' ? 'teal.300' : 'teal.500',
+    h2: {
+      fontSize: { base: '28px', md: '38px' },
+      fontWeight: 'bold',
+      lineHeight: { base: '122%', md: '126%' },
+      letterSpacing: '0.01em',
+    },
+    body: {
+      fontFamily: 'DM Sans',
+      color: mode('gray.800', 'whiteAlpha.900')(props),
+      bg: mode('white', 'gray.800')(props),
+      lineHeight: 'base',
     },
   }),
 };
