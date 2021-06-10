@@ -10,6 +10,14 @@ export default {
     200: '#DBEAFF',
     100: '#F5F9FD',
   },
+  secondary: {
+    600: '#6347E2',
+  },
+  error: '#F44336',
+  warning: '#FF9800',
+  success: '#4CAF50',
+  link: '#0F62FE',
+  visited: '#8A3FFC',
   grey: {
     900: '#1F2529',
     800: '#25292E',

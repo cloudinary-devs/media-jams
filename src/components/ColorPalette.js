@@ -46,7 +46,6 @@ export const ColorPalettes = (props) => {
   const { color } = props;
   const theme = useTheme();
   const keys = Object.keys(theme.colors[color]);
-
   return keys.map((item) => (
     <ColorPalette
       key={`${color}.${item}`}

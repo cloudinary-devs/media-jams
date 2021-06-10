@@ -7,11 +7,49 @@ The theme object is where you define your application's color palette, type
 scale, font stacks, breakpoints, border radius values, and more.
 
 Theming with Chakra UI is based on the
+[Chakra UI](https://chakra-ui.com/docs/theming/theme)
 [Styled System Theme Specification](https://system-ui.com/theme/)
+
+## Colors
+
+### Primary
+
+<ColorWrapper>
+  <ColorPalettes color="primary" />
+</ColorWrapper>
+
+### Secondary
+
+<ColorWrapper>
+  <ColorPalettes color="secondary" />
+</ColorWrapper>
+
+### Helpers
+
+<ColorWrapper>
+  <ColorPalette color="error" name="Error" />
+  <ColorPalette color="warning" name="Warning" />
+  <ColorPalette color="success" name="Success" />
+  <ColorPalette color="link" name="Link" />
+  <ColorPalette color="visited" name="Visited" />
+</ColorWrapper>
+
+```js
+<Box bg="error">Hello</Box>
+```
 
 ### Grey Scale
 
 <ColorWrapper>
-  <ColorPalette color="primary" name="Primary" />
-  <div />
+  <ColorPalettes color="gray" />
 </ColorWrapper>
+
+## Typography
+
+To manage Typography options, the theme object supports the following keys:
+
+- `fonts` (font families)
+- `fontSizes`
+- `fontWeights`
+- `lineHeights`
+- `letterSpacings`

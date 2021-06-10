@@ -1,7 +1,7 @@
 import React from 'react';
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
-import { Badge, Box, chakra, Flex } from '@chakra-ui/react';
+import { Badge, Box, chakra, Flex, useTheme } from '@chakra-ui/react';
 import { SkipNavContent, SkipNavLink } from '@chakra-ui/skip-nav';
 import getFileSlug from '@utils/get-file-slug';
 import PageTransition from '@components/PageTransition';
@@ -131,7 +131,7 @@ export async function getStaticProps({ params: { slug } }) {
   const mdxSource = await fs.promises.readFile(fullPath);
   const { content, data } = matter(mdxSource);
 
-  const mdx = await serialize(content);
+  const mdx = await serialize(content, { scope: data });
 
   return {
     props: {
