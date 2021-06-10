@@ -3,12 +3,14 @@ import { mode } from '@chakra-ui/theme-tools';
 const styles = {
   global: (props) => ({
     h1: {
+      fontFamily: 'DM Sans',
       fontSize: { base: '32px', md: '52px' },
       fontWeight: 'bold',
       lineHeight: '120%',
       letterSpacing: '0.02em',
     },
     h2: {
+      fontFamily: 'DM Sans',
       fontSize: { base: '28px', md: '38px' },
       fontWeight: 'bold',
       lineHeight: { base: '122%', md: '126%' },
