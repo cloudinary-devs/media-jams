@@ -8,6 +8,8 @@ import {
   Kbd,
   useColorModeValue,
   useTheme,
+  Stack,
+  Heading,
 } from '@chakra-ui/react';
 import React from 'react';
 import CodeBlock from './CodeBlock/index';
@@ -118,6 +120,8 @@ const MDXComponents = {
   Box,
   Grid,
   Flex,
+  Stack,
+  Heading,
 };
 
 export default MDXComponents;

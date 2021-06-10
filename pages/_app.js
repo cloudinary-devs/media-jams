@@ -10,7 +10,12 @@ import { DefaultSeo } from 'next-seo';
 import { UserProvider } from '@auth0/nextjs-auth0';
 import { buildImageUrl } from 'cloudinary-build-url';
 
-//initialize Sentry
+// Fonts Import
+import '@fontsource/dm-sans/700.css';
+import '@fontsource/dm-sans/400.css';
+import '@fontsource/montserrat/400.css';
+
+// Initialize Sentry Error Tracking
 import { initSentry } from '@lib/sentry';
 initSentry();
 

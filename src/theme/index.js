@@ -14,6 +14,10 @@ import textStyles from './foundations/textStyles';
 import components from './components';
 
 const overrides = {
+  fonts: {
+    heading: 'DM Sans',
+    body: 'DM Sans',
+  },
   styles,
   colors,
   textStyles,
