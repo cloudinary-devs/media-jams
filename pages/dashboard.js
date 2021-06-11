@@ -5,11 +5,10 @@ import { dehydrate } from 'react-query/hydration';
 import { jams as queryJams } from '@lib/queries/jams';
 import { authors as queryAuthors } from '@lib/queries/authors';
 import { tags as queryTags } from '@lib/queries/tags';
-import { bookmarks as queryBookmarks } from '@lib/queries/bookmarks';
 import { categories as queryCategories } from '@lib/queries/categories';
 import { useBookmarkedJamsQuery } from '@hooks/useBookmarks';
 import { useFeaturedJamsQuery } from '@hooks/useJams';
-import { useJamsQuery, useJamQueryBy } from '@hooks/useJams';
+
 import { useUser } from '@auth0/nextjs-auth0';
 
 import JamAccordion from '@components/JamAccordion';
