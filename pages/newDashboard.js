@@ -2,6 +2,7 @@ import React from 'react';
 import { Flex, Input, Text, useToken } from '@chakra-ui/react';
 
 import { QueryClient, useQuery } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
 import { tags as queryTags } from '@lib/queries/tags';
 
 function SideStrip() {
