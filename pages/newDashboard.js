@@ -10,6 +10,7 @@ import {
   Input,
   Text,
   useToken,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import {
   Author,
@@ -27,22 +28,33 @@ import { dehydrate } from 'react-query/hydration';
 import { tags as queryTags } from '@lib/queries/tags';
 import { useUser } from '@auth0/nextjs-auth0';
 
-// Navigation
-function SideStrip() {
-  return (
-    <Flex
-      direction="column"
-      w="80px"
-      h="100vh"
-      opacity="0.12"
-      bg="#FFFFFF"
-    ></Flex>
-  );
-}
+import Sidebar from '@components/Sidebar';
 
-function SideNav() {
-  return <Flex w="480px" h="100vh"></Flex>;
-}
+// // Navigation
+// function SideStrip() {
+//   return (
+//     <Flex
+//       direction="column"
+//       w="80px"
+//       h="100vh"
+//       opacity="0.12"
+//       bg="#FFFFFF"
+//     ></Flex>
+//   );
+// }
+
+// function SideNav() {
+//   return (
+//     <Flex
+//       h="100vh"
+//       width={{ base: 'full', sm: 'xs' }}
+//       direction="column"
+//       color="white"
+//       px={6}
+//       py={8}
+//     ></Flex>
+//   );
+// }
 
 function Tag() {}
 
@@ -193,7 +205,7 @@ function Tags() {
 
 function TagFilters() {
   return (
-    <Flex mt="22px" width="95%">
+    <Flex mt="22px" w="480px">
       <Text variant="B300" color={useToken('colors', 'grey.900')}>
         Topics:
       </Text>
@@ -226,17 +238,22 @@ function SearchInput() {
   );
 }
 
+const smVariant = { navigation: 'drawer', navigationButton: true };
+const mdVariant = { navigation: 'sidebar', navigationButton: false };
+
 // Page
 export default function NewDashboard() {
+  const [isSidebarOpen, setSidebarOpen] = React.useState(false);
+  const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
+  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
   return (
     <Flex bg="#F8F7FC">
-      <Flex
-        w="auto"
-        background="linear-gradient(180deg, #8472DF 0%, #7BCCFF 100%)"
-      >
-        <SideStrip />
-        <SideNav />
-      </Flex>
+      <Sidebar
+        variant={variants?.navigation}
+        isOpen={isSidebarOpen}
+        onClose={toggleSidebar}
+      />
+
       <Flex
         w="100%"
         height="100%"
