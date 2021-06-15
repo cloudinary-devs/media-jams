@@ -60,7 +60,7 @@ function Feature({ children, ...rest }) {
 
 function FeatureBlock({ header, text, LeftIcon }) {
   return (
-    <Flex w="280px" direction="column">
+    <Flex w="100%" direction="column">
       <Flex align="center">
         <LeftIcon />
         <Text ml="12px" variant="B400" fontWeight="bold" color="grey.900">
@@ -91,32 +91,31 @@ function Banner() {
   const { user, loading } = useUser();
 
   React.useEffect(() => {
-    if (user) {
+    console.log(window.localStorage.getItem('keep-hero-closed'));
+    if (user || window.localStorage.getItem('keep-hero-closed')) {
       setShow(false);
     }
   }, [user]);
 
   return show ? (
-    <Flex
-      bg="#FFFFFF"
-      direction="column"
-      h="420px"
-      w="100%"
-      p="24px"
-      align="center"
-    >
+    <Flex bg="#FFFFFF" direction="column" h="420px" w="100%" p="24px">
       <IconButton
         _hover={{ bg: 'none', outline: 'none' }}
         alignSelf="flex-end"
         bg="none"
         outline="none"
         w="auto"
-        onClick={() => setShow(false)}
+        onClick={() => {
+          window.localStorage.setItem('keep-hero-closed', 'true');
+          setShow(false);
+        }}
         icon={<Close />}
       />
-      <Flex h="100%" w="90%">
-        <Flex w="50%" h="260px" justify="space-evenly" direction="column">
-          <Heading as="h2">Learn Media for Apps</Heading>
+      <Flex h="100%" w="100%" justify="space-evenly">
+        <Flex h="260px" ml={8} justify="space-evenly" direction="column">
+          <Heading mt="-16px" as="h2">
+            Learn Media for Apps
+          </Heading>
           <Feature mt="17px">Create notes right in the app</Feature>
           <Feature>Bookmark your favorite jams</Feature>
           <Feature>Return to your recent jams</Feature>
@@ -129,7 +128,11 @@ function Banner() {
             </Button>
           </Flex>
         </Flex>
-        <SimpleGrid columns={2} spacingY={8} spacingX={20} w="520px">
+        <SimpleGrid
+          templateColumns="repeat(2, minmax(0, 310px))"
+          spacingY={8}
+          spacingX={4}
+        >
           <FeatureBlock
             LeftIcon={Stack}
             header="Bite-size Tutorials"
@@ -246,7 +249,10 @@ export default function NewDashboard() {
         justify="center"
       >
         <Banner />
-        <Flex direction="column" w="90%">
+        <Flex
+          direction="column"
+          maxW={{ base: '100%', md: '90%', lg: '980px' }}
+        >
           <SearchInput />
           <TagFilters />
         </Flex>
