@@ -213,20 +213,11 @@ function SearchInput() {
   );
 }
 
-const smVariant = { navigation: 'drawer', navigationButton: true };
-const mdVariant = { navigation: 'sidebar', navigationButton: false };
-
 // Page
 export default function NewDashboard() {
-  const [isSidebarOpen, toggleSideBar] = useToggle(false);
-  const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
   return (
     <Flex bg="#F8F7FC">
-      <Sidebar
-        variant={variants?.navigation}
-        isOpen={isSidebarOpen}
-        onClose={toggleSideBar}
-      />
+      <Sidebar />
 
       <Flex
         w="100%"
