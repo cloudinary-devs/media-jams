@@ -10,6 +10,7 @@ import {
   Input,
   Text,
   useToken,
+  useDisclosure,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import {
@@ -29,7 +30,6 @@ import { tags as queryTags } from '@lib/queries/tags';
 import { useUser } from '@auth0/nextjs-auth0';
 
 import Sidebar from '@components/Sidebar';
-import useToggle from '@hooks/useToggle';
 
 function Tag() {}
 
@@ -221,14 +221,14 @@ const mdVariant = { navigation: 'sidebar', navigationButton: false };
 
 // Page
 export default function NewDashboard() {
-  const [isSidebarOpen, toggleSideBar] = useToggle(false);
+  const { isOpen, onToggle } = useDisclosure();
   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
   return (
     <Flex bg="#F8F7FC">
       <Sidebar
         variant={variants?.navigation}
-        isOpen={isSidebarOpen}
-        onClose={toggleSideBar}
+        isOpen={isOpen}
+        onClose={onToggle}
       />
 
       <Flex
