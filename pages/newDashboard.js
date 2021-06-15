@@ -29,32 +29,7 @@ import { tags as queryTags } from '@lib/queries/tags';
 import { useUser } from '@auth0/nextjs-auth0';
 
 import Sidebar from '@components/Sidebar';
-
-// // Navigation
-// function SideStrip() {
-//   return (
-//     <Flex
-//       direction="column"
-//       w="80px"
-//       h="100vh"
-//       opacity="0.12"
-//       bg="#FFFFFF"
-//     ></Flex>
-//   );
-// }
-
-// function SideNav() {
-//   return (
-//     <Flex
-//       h="100vh"
-//       width={{ base: 'full', sm: 'xs' }}
-//       direction="column"
-//       color="white"
-//       px={6}
-//       py={8}
-//     ></Flex>
-//   );
-// }
+import useToggle from '@hooks/useToggle';
 
 function Tag() {}
 
@@ -243,15 +218,14 @@ const mdVariant = { navigation: 'sidebar', navigationButton: false };
 
 // Page
 export default function NewDashboard() {
-  const [isSidebarOpen, setSidebarOpen] = React.useState(false);
+  const [isSidebarOpen, toggleSideBar] = useToggle(false);
   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
-  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
   return (
     <Flex bg="#F8F7FC">
       <Sidebar
         variant={variants?.navigation}
         isOpen={isSidebarOpen}
-        onClose={toggleSidebar}
+        onClose={toggleSideBar}
       />
 
       <Flex

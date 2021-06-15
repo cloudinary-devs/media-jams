@@ -1,15 +1,14 @@
-import { Icon } from '@chakra-ui/react';
-
-export const SideBarToggle = (props) => (
-  <Icon color="grey.700" viewBox="0 0 16 16" {...props}>
+import { Icon, createIcon } from '@chakra-ui/react';
+const SideBarToggle = createIcon({
+  displayName: 'UpDownIcon',
+  viewBox: '0 0 200 200',
+  // path can also be an array of elements, if you have multiple paths, lines, shapes, etc.
+  path: (
     <path
-      d="M19 17L14 12L19 7"
-      stroke="white"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      fill="currentColor"
+      d="M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0"
     />
-  </Icon>
-);
+  ),
+});
 
 export default SideBarToggle;
