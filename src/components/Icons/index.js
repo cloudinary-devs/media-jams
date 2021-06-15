@@ -6,7 +6,7 @@ import Code from './Code';
 import Mashups from './Mashups';
 import Video from './Video';
 import Pencil from './Pencil';
-import SidebarToggle from './SidebarToggle';
+import SidebarToggle from './SideBarToggle';
 import MoreTab from './MoreTab';
 
 export {
