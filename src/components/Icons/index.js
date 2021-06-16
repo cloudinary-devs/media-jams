@@ -8,6 +8,7 @@ import Video from './Video';
 import Pencil from './Pencil';
 import SidebarToggle from './SideBarToggle';
 import MoreTab from './MoreTab';
+import Search from './Search';
 
 export {
   Author,
@@ -19,5 +20,6 @@ export {
   Video,
   Pencil,
   SidebarToggle,
+  Search,
   MoreTab,
 };

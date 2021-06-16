@@ -2,11 +2,53 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { tags as queryTags } from '@lib/queries/tags';
 
-import { Flex, Text, useToken } from '@chakra-ui/react';
+import { Button, Flex, Text, useToken } from '@chakra-ui/react';
+
+function ShowTagsButton({ text, setText, setTags }) {
+  if (text === 'Show All') {
+    return (
+      <Button
+        onClick={() => setTags(jamTagData.tags)}
+        _hover={{
+          border: ' none',
+          background: 'none',
+          textDecoration: 'underline',
+        }}
+        borderRadius="4px"
+        border="none"
+        bg="none"
+        color="primary.700"
+      >
+        <Text variant="B300">Show All</Text>
+      </Button>
+    );
+  } else if (text === 'Show Less') {
+    return (
+      <Button
+        onClick={() => setTags(featuredTags)}
+        _hover={{
+          border: ' none',
+          background: 'none',
+          textDecoration: 'underline',
+        }}
+        borderRadius="4px"
+        border="none"
+        bg="none"
+        color="primary.700"
+      >
+        <Text variant="B300">Show Less</Text>
+      </Button>
+    );
+  }
+}
 
 function Tags() {
   const [selectedFilters, setSelectedFilters] = React.useState([]);
-  const { data: jamTagData } = useQuery('jamTags', queryTags.get);
+  const { data } = useQuery('jamTags', queryTags.get);
+
+  console.log(data);
+
+  const [tags, setTags] = React.useState([]);
 
   function addTag(tag) {
     return setSelectedFilters((prev) => [...prev, tag]);
@@ -21,22 +63,22 @@ function Tags() {
     setSelectedFilters([]);
   };
 
-  return jamTagData?.tags
-    ? jamTagData?.tags
-        .slice(0, 8)
-        .map((tag) => <Text variant="B300">{tag.title}</Text>)
-    : null;
+  return (
+    <Flex w="100%" justify="space-around" align="center" flexWrap="wrap">
+      <Text variant="B300" color={useToken('colors', 'grey.900')}>
+        Topics:
+      </Text>
+    </Flex>
+  );
 }
 
 export default function TagFilters() {
   return (
-    <Flex mt="22px" w="480px">
-      <Text variant="B300" color={useToken('colors', 'grey.900')}>
-        Topics:
-      </Text>
-      <Flex w="632px" justify="space-evenly">
+    <Flex w="100%" mt="22px" align="center" justify="space-between">
+      <Flex w="70%">
         <Tags />
       </Flex>
+      <Button>x Clear all tags</Button>
     </Flex>
   );
 }
