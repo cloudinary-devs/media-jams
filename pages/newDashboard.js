@@ -4,7 +4,6 @@ import Banner from '@components/Banner';
 import Search from '@components/Search';
 import Sidebar from '@components/Sidebar';
 
-
 import { QueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { tags as queryTags } from '@lib/queries/tags';
@@ -22,16 +21,11 @@ export default function NewDashboard() {
         onClose={onToggle}
       />
 
-      <Flex
-        w="100%"
-        height="100%"
-        overflow="auto"
-        direction="column"
-        alignItems="center"
-        justify="center"
-      >
+      <Flex w="100%" height="100%" direction="column">
         <Banner />
-        <Search />
+        <Flex direction="column" w="100%">
+          <Search />
+        </Flex>
       </Flex>
     </Flex>
   );
@@ -39,7 +33,8 @@ export default function NewDashboard() {
 
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('jamTags', queryTags.getStatic);
+  await queryClient.fetchQuery('jamTags', queryTags.getStatic);
+  await queryClient.setQueryData('jamTags', (old) => ({ tags: old.tags }));
 
   return {
     props: {

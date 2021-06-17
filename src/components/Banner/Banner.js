@@ -33,9 +33,10 @@ export default function Banner() {
   }, [user]);
 
   return show ? (
-    <Flex bg="#FFFFFF" direction="column" h="420px" w="100%" p="24px">
+    <Flex bg="#FFFFFF" direction="column" h="420px" w="100%">
       <IconButton
         _hover={{ bg: 'none', outline: 'none' }}
+        m="12px"
         alignSelf="flex-end"
         bg="none"
         outline="none"
@@ -46,8 +47,8 @@ export default function Banner() {
         }}
         icon={<Close />}
       />
-      <Flex h="100%" w="100%" justify="space-evenly">
-        <Flex h="260px" ml={8} justify="space-evenly" direction="column">
+      <Flex h="100%" w="1000px" alignSelf="center" justify="space-between">
+        <Flex h="260px" justify="space-evenly" direction="column">
           <Heading mt="-16px" as="h2">
             Learn Media for Apps
           </Heading>
@@ -66,7 +67,7 @@ export default function Banner() {
         <SimpleGrid
           templateColumns="repeat(2, minmax(0, 310px))"
           spacingY={8}
-          spacingX={4}
+          spacingX={5}
         >
           <FeatureBlock
             LeftIcon={Stack}

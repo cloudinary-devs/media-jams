@@ -1,23 +1,52 @@
-import { Input, useToken } from '@chakra-ui/react';
+import {
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightAddon,
+  InputRightElement,
+  Select,
+  useToken,
+} from '@chakra-ui/react';
+import { Search } from '@components/Icons';
 
 export default function SearchInput() {
   return (
-    <Input
+    <InputGroup
+      size="lg"
       bg="#FFFFFF"
-      w="100%"
-      h="56px"
-      border="2px solid #88B1FC"
       borderRadius="8px"
-      boxSizing="border-box"
-      p="0px 16px"
       mt="24px"
-      placeholder="Search by tag, title, keyword, author, etc..."
-      _placeholder={{
-        fontFamily: 'DM Sans',
-        fontSize: '16px',
-        lineHeight: '152%',
-        color: useToken('colors', 'grey.700'),
-      }}
-    />
+      border="1px solid #D3DDE6"
+    >
+      <InputLeftElement pt={2}>
+        <Search />
+      </InputLeftElement>
+      <Input
+        h="56px"
+        placeholder="Search by tag, title, keyword, author, etc..."
+        _placeholder={{
+          fontFamily: 'DM Sans',
+          fontSize: '16px',
+          lineHeight: '152%',
+          color: useToken('colors', 'grey.700'),
+        }}
+      />
+      <InputRightAddon bg="#FFFFFF" h="auto">
+        <Select
+          fontFamily="DM Sans"
+          fontSize="16px"
+          lineHeight="152%"
+          color="grey.700"
+          fontWeight="400"
+          defaultValue="All jams"
+          borderRadius="0px"
+          border="0px"
+        >
+          <option value="All jams">All Jams</option>
+          <option value="Only bookmarked">Only bookmarked</option>
+          <option value="Not bookmarked">Not Bookmarked</option>
+        </Select>
+      </InputRightAddon>
+    </InputGroup>
   );
 }

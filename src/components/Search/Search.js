@@ -4,7 +4,7 @@ import TagFilters from './TagFilters';
 
 export default function Search() {
   return (
-    <Flex direction="column" maxW={{ base: '100%', md: '90%', lg: '980px' }}>
+    <Flex w="1000px" alignSelf="center" direction="column">
       <SearchInput />
       <TagFilters />
     </Flex>
