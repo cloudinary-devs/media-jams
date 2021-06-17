@@ -8,7 +8,7 @@ const Logo = (props) => (
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
   >
-    <g clip-path="url(#clip0)">
+    <g clipPath="url(#clip0)">
       <mask
         id="a"
         maskUnits="userSpaceOnUse"
@@ -23,7 +23,7 @@ const Logo = (props) => (
         <path fill="url(#pattern0)" d="M.85-6h83.93v34.29H.85z" />
       </g>
     </g>
-    <g clip-path="url(#clip1)">
+    <g clipPath="url(#clip1)">
       <mask
         id="b"
         maskUnits="userSpaceOnUse"

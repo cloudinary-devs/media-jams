@@ -7,11 +7,7 @@ const variants = {
     parts: ['dialog, dialogContainer', 'body'],
     dialog: {
       backgroundColor: 'blue',
-      height: 'calc(100vh - 56px)',
-    },
-    dialogContainer: {},
-    body: {
-      top: '56px',
+      top: '57px',
     },
   },
 };

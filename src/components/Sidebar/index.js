@@ -21,6 +21,7 @@ import {
 import { motion } from 'framer-motion';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
 import { Author, MoreTab } from '@components/Icons';
+import React from 'react';
 
 // Navigation
 const SideStrip = ({ onToggle }) => {
@@ -39,9 +40,9 @@ const SideBarToggle = createIcon({
     <path
       d="M19 17l-5-5 5-5"
       stroke="#fff"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   ),
 });
@@ -98,6 +99,11 @@ const SidebarContent = ({ onClose, isOpen }) => {
 };
 
 const LayoutSidebar = ({ variants, isOpen, onOpen, onClose, onToggle }) => {
+  React.useEffect(() => {
+    if (variants?.navigation === 'sidebar') {
+      onOpen();
+    }
+  }, []);
   return variants?.navigation === 'sidebar' ? (
     <motion.div
       style={{

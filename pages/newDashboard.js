@@ -214,40 +214,20 @@ function SearchInput() {
   );
 }
 
-// Mobile Navigation Bar
-const MobileNavBar = ({ onClose }) => {
-  return (
-    <Flex w="100%" h="64px">
-      <HStack spacing={3}>
-        <IconButton
-          onClick={onClose}
-          size="lg"
-          variant="ghost"
-          aria-label="expand collapse"
-          icon={<SideBarToggle />}
-        />
-      </HStack>
-      <Spacer />
-      <HStack spacing={3} px={4}>
-        <Button size="sm" variant="ghost" color="white" onClick={onClose}>
-          Login
-        </Button>
-        <Button size="sm" color="white" bg="rgba(255, 255, 255, 0.16)">
-          Sign Up
-        </Button>
-      </HStack>
-    </Flex>
-  );
-};
-
 // Page
-const smVariant = { navigation: 'drawer', navigationButton: true };
-const mdVariant = { navigation: 'sidebar', navigationButton: false };
+const smVariant = {
+  navigation: 'drawer',
+  navigationButton: true,
+  defaultOpen: false,
+};
+const mdVariant = {
+  navigation: 'sidebar',
+  navigationButton: false,
+  defaultOpen: true,
+};
 export default function NewDashboard() {
-  const { isOpen, onOpen, onClose, onToggle } = useDisclosure({
-    defaultIsOpen: true,
-  });
   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
+  const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   return (
     <Flex direction="column" bg="#F8F7FC">
       <Sidebar
