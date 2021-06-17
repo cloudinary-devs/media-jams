@@ -19,13 +19,13 @@ export default function NewDashboard() {
 
   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
   return (
-    <Flex bg="#F8F7FC">
+    <Flex bg="#F8F7FC" h="100vh">
       <Sidebar
         variant={variants?.navigation}
         isOpen={isOpen}
         onClose={onToggle}
       />
-      <Flex w="100%" height="100%" direction="column" overflow="auto">
+      <Flex w="100%" height="100%" direction="column" overflowY="auto">
         <Banner />
         <Flex direction="column" w="100%">
           <Search />
