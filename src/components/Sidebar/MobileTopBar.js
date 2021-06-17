@@ -5,15 +5,21 @@ import {
   DrawerOverlay,
   Flex,
   IconButton,
+  Icon,
   Link,
   useColorModeValue as mode,
 } from '@chakra-ui/react';
 import * as React from 'react';
-import { Author, MobileMenu } from '@components/Icons';
+import { MobileMenuClose, MobileMenuOpen, MobileLogo } from '@components/Icons';
 import { HiOutlineMenu } from 'react-icons/hi';
 import Image from '@components/Image';
 import NextLink from 'next/link';
 import Sidebar from './index';
+
+const ToggleMenuIcon = (isOpen) => {
+  const Icon = isOpen ? MobileMenuClose : MobileMenuOpen;
+  return <Icon fontSize="4.5rem" color="whiteAlpha.900" />;
+};
 
 export const MobileTopBar = ({ isOpen, onClose, onToggle, onOpen }) => {
   return (
@@ -24,16 +30,10 @@ export const MobileTopBar = ({ isOpen, onClose, onToggle, onOpen }) => {
       bg="linear-gradient(90deg, #8472DF 0%, #7BCCFF 100%)"
       display={{ base: 'flex', md: 'none' }}
       borderBottomWidth="1px"
-      h="57px"
+      h="54px"
     >
       <Link href="/">
-        <Image
-          cloudName="mediadevs"
-          publicId="mediajams/logo"
-          height={42}
-          width={72}
-          alt="MediaJams logo"
-        />
+        <MobileLogo />
       </Link>
       <IconButton
         onClick={onOpen}
@@ -41,7 +41,7 @@ export const MobileTopBar = ({ isOpen, onClose, onToggle, onOpen }) => {
         display="flex"
         cursor="pointer"
         aria-label="Menu"
-        icon={<MobileMenu fontSize="4.5rem" />}
+        icon={ToggleMenuIcon(isOpen)}
       />
     </Flex>
   );

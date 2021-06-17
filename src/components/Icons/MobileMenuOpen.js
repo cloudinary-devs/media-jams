@@ -1,7 +1,7 @@
 import { createIcon } from '@chakra-ui/react';
 
-const MobileMenu = createIcon({
-  displayName: 'Image_2',
+const MobileMenuOpen = createIcon({
+  displayName: 'MobileMenu',
   viewBox: '0 0 67 24',
   path: (
     <>
@@ -14,4 +14,4 @@ const MobileMenu = createIcon({
   ),
 });
 
-export default MobileMenu;
+export default MobileMenuOpen;

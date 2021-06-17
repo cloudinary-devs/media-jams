@@ -19,6 +19,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
+import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
 import { Author, MoreTab } from '@components/Icons';
 
 // Navigation
@@ -116,22 +117,24 @@ const LayoutSidebar = ({ variants, isOpen, onOpen, onClose, onToggle }) => {
       )}
     </motion.div>
   ) : (
-    <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="lg">
-      <DrawerOverlay>
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Chakra-UI</DrawerHeader>
-          <DrawerBody>
-            <SideStrip onClose={onClose} onToggle={onToggle} />
-            <SidebarContent
-              onClose={onClose}
-              isOpen={isOpen}
-              onToggle={onToggle}
-            />
-          </DrawerBody>
-        </DrawerContent>
-      </DrawerOverlay>
-    </Drawer>
+    <MobileDrawer
+      isOpen={isOpen}
+      placement="left"
+      onClose={onClose}
+      size="lg"
+      isFullHeight={false}
+    >
+      <MobileDrawerContent>
+        <DrawerBody>
+          <SideStrip onClose={onClose} onToggle={onToggle} />
+          <SidebarContent
+            onClose={onClose}
+            isOpen={isOpen}
+            onToggle={onToggle}
+          />
+        </DrawerBody>
+      </MobileDrawerContent>
+    </MobileDrawer>
   );
 };
 
