@@ -10,6 +10,7 @@ import {
   Input,
   Text,
   useToken,
+  useDisclosure,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import {
@@ -29,7 +30,7 @@ import { tags as queryTags } from '@lib/queries/tags';
 import { useUser } from '@auth0/nextjs-auth0';
 
 import Sidebar from '@components/Sidebar';
-import useToggle from '@hooks/useToggle';
+import { MobileTopBar } from '@components/Sidebar/MobileTopBar';
 
 function Tag() {}
 
@@ -213,16 +214,61 @@ function SearchInput() {
   );
 }
 
-// Page
-export default function NewDashboard() {
+// Mobile Navigation Bar
+const MobileNavBar = ({ onClose }) => {
   return (
-    <Flex bg="#F8F7FC">
-      <Sidebar />
+    <Flex w="100%" h="64px">
+      <HStack spacing={3}>
+        <IconButton
+          onClick={onClose}
+          size="lg"
+          variant="ghost"
+          aria-label="expand collapse"
+          icon={<SideBarToggle />}
+        />
+      </HStack>
+      <Spacer />
+      <HStack spacing={3} px={4}>
+        <Button size="sm" variant="ghost" color="white" onClick={onClose}>
+          Login
+        </Button>
+        <Button size="sm" color="white" bg="rgba(255, 255, 255, 0.16)">
+          Sign Up
+        </Button>
+      </HStack>
+    </Flex>
+  );
+};
 
+// Page
+const smVariant = { navigation: 'drawer', navigationButton: true };
+const mdVariant = { navigation: 'sidebar', navigationButton: false };
+export default function NewDashboard() {
+  const { isOpen, onOpen, onClose, onToggle } = useDisclosure({
+    defaultIsOpen: true,
+  });
+  const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
+  return (
+    <Flex direction="column" bg="#F8F7FC">
+      <Sidebar
+        variants={variants}
+        onClose={onClose}
+        isOpen={isOpen}
+        onToggle={onToggle}
+        onOpen={onOpen}
+      />
+
+      <MobileTopBar
+        variants={variants}
+        onClose={onClose}
+        isOpen={isOpen}
+        onToggle={onToggle}
+        onOpen={onOpen}
+      />
       <Flex
         w="100%"
         height="100%"
-        overflow="auto"
+        overflowY="auto"
         direction="column"
         alignItems="center"
         justify="center"

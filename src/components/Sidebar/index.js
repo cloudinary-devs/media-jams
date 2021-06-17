@@ -18,7 +18,7 @@ import {
   useDisclosure,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Author, MoreTab } from '@components/Icons';
 
 // Navigation
@@ -83,7 +83,7 @@ const animationVariants = {
 
 const SidebarContent = ({ onClose, isOpen }) => {
   return (
-    <Flex direction="column" h="100vh" width={{ base: 'xs' }}>
+    <Flex direction="column" h="100vh" width={{ base: '380px' }}>
       <SideTopBar onClose={onClose} />
       <Stack spacing={8}>
         <Stack px={6} py={8}>
@@ -95,21 +95,15 @@ const SidebarContent = ({ onClose, isOpen }) => {
     </Flex>
   );
 };
-const smVariant = { navigation: 'drawer', navigationButton: true };
-const mdVariant = { navigation: 'sidebar', navigationButton: false };
 
-const LayoutSidebar = () => {
-  const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
-  const { isOpen, onOpen, onClose, onToggle } = useDisclosure({
-    defaultIsOpen: true,
-  });
+const LayoutSidebar = ({ variants, isOpen, onOpen, onClose, onToggle }) => {
   return variants?.navigation === 'sidebar' ? (
     <motion.div
       style={{
         display: 'flex',
         width: 'auto',
         minWidth: '80px',
-        maxWidth: '480px',
+        maxWidth: '420px',
         background: `linear-gradient(180deg, #8472DF 0%, #7BCCFF 100%)`,
       }}
       animate={isOpen ? 'open' : 'closed'}

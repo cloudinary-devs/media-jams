@@ -8,6 +8,8 @@ import Video from './Video';
 import Pencil from './Pencil';
 import SidebarToggle from './SideBarToggle';
 import MoreTab from './MoreTab';
+import Logo from './Logo';
+import MobileMenu from './MobileMenu';
 
 export {
   Author,
@@ -20,4 +22,6 @@ export {
   Pencil,
   SidebarToggle,
   MoreTab,
+  Logo,
+  MobileMenu,
 };
