@@ -33,7 +33,8 @@ export default function NewDashboard() {
 
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('jamTags', queryTags.getStatic);
+  await queryClient.fetchQuery('jamTags', queryTags.getStatic);
+  await queryClient.setQueryData('jamTags', (old) => ({ tags: old.tags }));
 
   return {
     props: {

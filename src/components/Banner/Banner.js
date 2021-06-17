@@ -36,6 +36,7 @@ export default function Banner() {
     <Flex bg="#FFFFFF" direction="column" h="420px" w="100%">
       <IconButton
         _hover={{ bg: 'none', outline: 'none' }}
+        m="12px"
         alignSelf="flex-end"
         bg="none"
         outline="none"
