@@ -41,9 +41,7 @@ export const getStaticProps = async () => {
   await queryClient.fetchQuery('jamTags', queryTags.getStatic);
   await queryClient.setQueryData('jamTags', (old) => ({ tags: old.tags }));
   await queryClient.fetchQuery('allJams', queryJams.getStatic);
-  await queryClient.setQueryData('allJams', (old) => {
-    return { jams: old.data.jams };
-  });
+  await queryClient.setQueryData('allJams', (old) => ({ jams: old.data.jams }));
 
   return {
     props: {

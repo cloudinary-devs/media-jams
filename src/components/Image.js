@@ -1,5 +1,5 @@
 import NextImage from 'next/image';
-
+import { chakra, useStyleConfig } from '@chakra-ui/react';
 import { Box } from '@chakra-ui/react';
 import { buildImageUrl } from 'cloudinary-build-url';
 import useBlurredPlaceholder from '@hooks/useBlurredPlaceholder';
@@ -17,16 +17,25 @@ function decideStorageDefault(string) {
   }
 }
 
-export default function Image({
-  src,
-  cloudName,
+function CloudinaryNextImage({
+  // Cloudinary props
   publicId,
   transforms,
+  cloudName,
+  storageType,
+  blurPlaceholder,
+  // Next Image props
+  src,
   width,
   height,
-  storageType,
   alt,
-  blurPlaceholder,
+  loading,
+  objectFit,
+  objectPosition,
+  priority,
+  quality,
+  unoptimized,
+  // Chakra -- the rest are fed from the factory function
   container,
   ...rest
 }) {
@@ -69,24 +78,58 @@ export default function Image({
               src={cloudName ? cloudinaryUrl : src}
               width={width}
               height={height}
-              quality={quality || '100'}
               alt={alt}
-              {...rest}
+              className={className}
+              loading={loading}
+              objectFit={objectFit}
+              objectPosition={objectPosition}
+              priority={priority}
+              quality={quality}
+              unoptimized={unoptimized}
             />
           ))}
       </Box>
     );
   } else {
     return (
-      <Box sx={{ ...container }}>
-        <NextImage
-          src={cloudName ? cloudinaryUrl : src}
-          width={width}
-          height={height}
-          alt={alt}
-          {...rest}
-        />
-      </Box>
+      <NextImage
+        src={cloudName ? cloudinaryUrl : src}
+        width={width}
+        height={height}
+        alt={alt}
+        loading={loading}
+        objectFit={objectFit}
+        objectPosition={objectPosition}
+        priority={priority}
+        quality={quality}
+        unoptimized={unoptimized}
+        {...rest}
+      />
     );
   }
 }
+
+const Image = chakra(CloudinaryNextImage, {
+  shouldForwardProp: (prop) => {
+    return [
+      'src',
+      'cloudName',
+      'publicId',
+      'transforms',
+      'loading',
+      'objectFit',
+      'objectPosition',
+      'priority',
+      'quality',
+      'unoptimized',
+      'width',
+      'height',
+      'storageType',
+      'alt',
+      'blurPlaceholder',
+      'container',
+    ].includes(prop);
+  },
+});
+
+export default Image;
