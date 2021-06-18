@@ -33,7 +33,7 @@ export default function Banner() {
   }, [user]);
 
   return show ? (
-    <Flex bg="#FFFFFF" direction="column" h="420px" w="100%">
+    <Flex bg="#FFFFFF" direction="column" h="420px" w="100%" pb={10}>
       <IconButton
         _hover={{ bg: 'none', outline: 'none' }}
         m="12px"
