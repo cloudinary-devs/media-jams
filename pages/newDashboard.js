@@ -64,13 +64,26 @@ export default function NewDashboard() {
     }
   }, [searchValue, selectedFilters, isLoading]);
 
+  const smVariant = { navigation: 'drawer', navigationButton: true };
+  const mdVariant = { navigation: 'sidebar', navigationButton: false };
+  const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
+
+  function addTag(tag) {
+    return setSelectedFilters((prev) => [...prev, tag]);
+  }
+
+  function removeTag(tag) {
+    return setSelectedFilters((prev) => prev.filter((pt) => pt !== tag));
+  }
+
   const handleFilter = (data) => {
     setFilteredPosts(data);
   };
-  const smVariant = { navigation: 'drawer', navigationButton: true };
-  const mdVariant = { navigation: 'sidebar', navigationButton: false };
 
-  const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
+  const clearAllTags = () => {
+    setSelectedFilters([]);
+  };
+
   return (
     <Flex bg="#F8F7FC" h="100vh">
       <Sidebar
@@ -81,7 +94,15 @@ export default function NewDashboard() {
       <Flex w="100%" height="100%" direction="column" overflowY="auto">
         <Banner />
         <Flex direction="column" w="100%">
-          <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+          <Search
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+            selectedFilters={selectedFilters}
+            setSelectedFilters={setSelectedFilters}
+            addTag={addTag}
+            removeTag={removeTag}
+            clearAllTags={clearAllTags}
+          />
           <JamList jams={filteredPosts} />
         </Flex>
       </Flex>

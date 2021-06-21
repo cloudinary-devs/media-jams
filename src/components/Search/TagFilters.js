@@ -4,8 +4,8 @@ import { tags as queryTags } from '@lib/queries/tags';
 
 import { Button, Flex, Text, useToken } from '@chakra-ui/react';
 
-function TagButton({ tag, addTag, removeTag, selectedTagFilters, children }) {
-  const isTagSelected = selectedTagFilters.some(
+function TagButton({ tag, addTag, removeTag, selectedFilters, children }) {
+  const isTagSelected = selectedFilters.some(
     (selected) => selected.title === tag.title,
   );
   return (
@@ -47,7 +47,7 @@ function ToggleTagListButton({ children, onClick }) {
   );
 }
 
-function Tags({ selectedTagFilters, setSelectedTagFilters }) {
+function Tags({ selectedFilters, addTag, removeTag }) {
   const [showMore, setShowMore] = React.useState(false);
   const [featuredTags, setFeaturedTags] = React.useState([]);
   const { data } = useQuery('jamTags', queryTags.get);
@@ -59,14 +59,6 @@ function Tags({ selectedTagFilters, setSelectedTagFilters }) {
       setFeaturedTags(collectedFeaturedTags);
     }
   }, [data]);
-
-  function addTag(tag) {
-    return setSelectedTagFilters((prev) => [...prev, tag]);
-  }
-
-  function removeTag(tag) {
-    return setSelectedTagFilters((prev) => prev.filter((pt) => pt !== tag));
-  }
 
   return (
     <Flex
@@ -86,7 +78,7 @@ function Tags({ selectedTagFilters, setSelectedTagFilters }) {
               tag={tag}
               addTag={addTag}
               removeTag={removeTag}
-              selectedTagFilters={selectedTagFilters}
+              selectedFilters={selectedFilters}
             >
               {tag.title}
             </TagButton>
@@ -96,7 +88,7 @@ function Tags({ selectedTagFilters, setSelectedTagFilters }) {
               tag={tag}
               addTag={addTag}
               removeTag={removeTag}
-              selectedTagFilters={selectedTagFilters}
+              selectedFilters={selectedFilters}
             >
               {tag.title}
             </TagButton>
@@ -115,17 +107,21 @@ function Tags({ selectedTagFilters, setSelectedTagFilters }) {
   );
 }
 
-export default function TagFilters() {
-  const [selectedTagFilters, setSelectedTagFilters] = React.useState([]);
-
-  const clearAllTags = () => setSelectedTagFilters([]);
-
+export default function TagFilters({
+  selectedFilters,
+  setSelectedFilters,
+  addTag,
+  removeTag,
+  clearAllTags,
+}) {
   return (
     <Flex w="100%" mt="22px" align="center" justify="space-between">
       <Flex w="70%">
         <Tags
-          selectedTagFilters={selectedTagFilters}
-          setSelectedTagFilters={setSelectedTagFilters}
+          addTag={addTag}
+          removeTag={removeTag}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
         />
       </Flex>
       <Button onClick={clearAllTags} alignSelf="flex-start">
