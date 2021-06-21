@@ -64,6 +64,7 @@ const SideStrip = ({ onToggle }) => {
         colorScheme="ghost"
         aria-label="Signup"
         icon={<JoinDiscord />}
+        paddingBottom={6}
       />
     </VStack>
   );
