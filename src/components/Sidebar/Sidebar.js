@@ -13,6 +13,7 @@ import {
   Stack,
   Spacer,
   Slide,
+  Icon,
   IconButton,
   createIcon,
   useDisclosure,
@@ -23,23 +24,46 @@ import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
 import { GoGrabber } from 'react-icons/go';
 import {
   Authors,
-  MobileLogo,
+  Bookmark,
   MoreTab,
   BWLogo,
   SideToggle,
+  Note,
+  Signup,
+  JoinDiscord,
 } from '@components/Icons';
 import React from 'react';
 
 // Navigation
 const SideStrip = ({ onToggle }) => {
   return (
-    <VStack w="80px" h="100vh" bg="#E2E2FE">
-      <IconButton aria-label="Authors" icon={<Authors />} />
+    <VStack w="80px" h="100vh" bg="#E2E2FE" spacing={12}>
+      <VStack spacing={6}>
+        <IconButton
+          colorScheme="ghost"
+          aria-label="Authors"
+          icon={<Authors />}
+        />
+        <IconButton
+          colorScheme="ghost"
+          aria-label="Bookmark"
+          icon={<Bookmark />}
+        />
+        <IconButton colorScheme="ghost" aria-label="Notes" icon={<Note />} />
+        <IconButton
+          colorScheme="ghost"
+          aria-label="More Tab"
+          fontSize="44px"
+          icon={<MoreTab />}
+          onClick={onToggle}
+        />
+        <IconButton colorScheme="ghost" aria-label="Signup" icon={<Signup />} />
+      </VStack>
+      <Spacer />
       <IconButton
-        aria-label="More Tab"
-        fontSize="44px"
-        icon={<MoreTab />}
-        onClick={onToggle}
+        colorScheme="ghost"
+        aria-label="Signup"
+        icon={<JoinDiscord />}
       />
     </VStack>
   );

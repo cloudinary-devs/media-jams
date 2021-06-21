@@ -15,6 +15,9 @@ import Bookmark from './Bookmark';
 import BWLogo from './BWLogo';
 import Authors from './Authors';
 import SideToggle from './SideToggle';
+import Note from './Note';
+import Signup from './Signup';
+import JoinDiscord from './JoinDiscord';
 
 export {
   Authors,
@@ -34,4 +37,7 @@ export {
   MobileMenuClose,
   Bookmark,
   BWLogo,
+  Note,
+  Signup,
+  JoinDiscord,
 };
