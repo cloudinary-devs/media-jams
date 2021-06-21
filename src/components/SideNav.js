@@ -19,6 +19,7 @@ import {
   FaStickyNote,
   FaRegFlag,
   FaHome,
+  FaPhotoVideo,
   FaBookmark,
   FaChevronUp,
   FaPlusCircle,

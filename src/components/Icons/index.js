@@ -11,6 +11,7 @@ import MoreTab from './MoreTab';
 import MobileLogo from './MobileLogo';
 import MobileMenuOpen from './MobileMenuOpen';
 import MobileMenuClose from './MobileMenuClose';
+import Search from './Search';
 
 export {
   Author,
@@ -22,6 +23,7 @@ export {
   Video,
   Pencil,
   SidebarToggle,
+  Search,
   MoreTab,
   MobileLogo,
   MobileMenuOpen,
