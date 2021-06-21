@@ -138,7 +138,7 @@ const Sidebar = ({ variants, isOpen, onOpen, onClose, onToggle }) => {
       }}
       animate={isOpen ? 'open' : 'closed'}
       variants={animationVariants}
-      transition={{ type: 'spring', bounce: 0.25 }}
+      transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
     >
       <SideStrip onClose={onClose} onToggle={onToggle} />
       {isOpen && (
