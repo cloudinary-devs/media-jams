@@ -30,7 +30,6 @@ import Fuse from 'fuse.js';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
 
-import { Flex, useDisclosure, useBreakpointValue } from '@chakra-ui/react';
 import JamList from '@components/JamList';
 import Banner from '@components/Banner';
 import Search from '@components/Search';
@@ -125,65 +124,13 @@ export default function NewDashboard() {
   };
 
   return (
-    <Input
-      bg="#FFFFFF"
-      w="100%"
-      h="56px"
-      border="2px solid #88B1FC"
-      borderRadius="8px"
-      boxSizing="border-box"
-      p="0px 16px"
-      mt="24px"
-      placeholder="Search by tag, title, keyword, author, etc..."
-      _placeholder={{
-        fontFamily: 'DM Sans',
-        fontSize: '16px',
-        lineHeight: '152%',
-        color: useToken('colors', 'grey.700'),
-      }}
-    />
-  );
-}
-
-// Page
-const smVariant = {
-  navigation: 'drawer',
-  navigationButton: true,
-  defaultOpen: false,
-};
-const mdVariant = {
-  navigation: 'sidebar',
-  navigationButton: false,
-  defaultOpen: true,
-};
-export default function NewDashboard() {
-  const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
-  const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
-  return (
-    <Flex direction="column" bg="#F8F7FC">
+    <Flex bg="#F8F7FC" h="100vh">
       <Sidebar
-        variants={variants}
-        onClose={onClose}
+        variant={variants?.navigation}
         isOpen={isOpen}
-        onToggle={onToggle}
-        onOpen={onOpen}
+        onClose={onToggle}
       />
-
-      <MobileTopBar
-        variants={variants}
-        onClose={onClose}
-        isOpen={isOpen}
-        onToggle={onToggle}
-        onOpen={onOpen}
-      />
-      <Flex
-        w="100%"
-        height="100%"
-        overflowY="auto"
-        direction="column"
-        alignItems="center"
-        justify="center"
-      >
+      <Flex w="100%" height="100%" direction="column" overflowY="auto">
         <Banner />
         <Flex direction="column" w="100%">
           <Search
@@ -201,6 +148,63 @@ export default function NewDashboard() {
     </Flex>
   );
 }
+
+// Page
+const smVariant = {
+  navigation: 'drawer',
+  navigationButton: true,
+  defaultOpen: false,
+};
+const mdVariant = {
+  navigation: 'sidebar',
+  navigationButton: false,
+  defaultOpen: true,
+};
+// export default function NewDashboard() {
+//   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
+//   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
+//   return (
+//     <Flex direction="column" bg="#F8F7FC">
+//       <Sidebar
+//         variants={variants}
+//         onClose={onClose}
+//         isOpen={isOpen}
+//         onToggle={onToggle}
+//         onOpen={onOpen}
+//       />
+
+//       <MobileTopBar
+//         variants={variants}
+//         onClose={onClose}
+//         isOpen={isOpen}
+//         onToggle={onToggle}
+//         onOpen={onOpen}
+//       />
+//       <Flex
+//         w="100%"
+//         height="100%"
+//         overflowY="auto"
+//         direction="column"
+//         alignItems="center"
+//         justify="center"
+//       >
+//         <Banner />
+//         <Flex direction="column" w="100%">
+//           <Search
+//             searchValue={searchValue}
+//             setSearchValue={setSearchValue}
+//             selectedFilters={selectedFilters}
+//             setSelectedFilters={setSelectedFilters}
+//             addTag={addTag}
+//             removeTag={removeTag}
+//             clearAllTags={clearAllTags}
+//           />
+//           <JamList jams={filteredPosts} />
+//         </Flex>
+//       </Flex>
+//     </Flex>
+//   );
+// }
 
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
