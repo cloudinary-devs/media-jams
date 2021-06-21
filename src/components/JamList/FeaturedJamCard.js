@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  Box,
   Flex,
   Link,
   Heading,
@@ -20,7 +19,7 @@ import {
 } from '@hooks/useBookmarks';
 import { useUser } from '@auth0/nextjs-auth0';
 
-export default function JamCard({ jam }) {
+export default function FeaturedJamCard({ jam }) {
   const { author } = jam;
   const { user } = useUser();
   const [isBookmarked, setBookmark] = React.useState(false);
@@ -47,6 +46,7 @@ export default function JamCard({ jam }) {
     const toggleBookmark = isBookmarked ? removeBookmark : addBookmark;
     toggleBookmark.mutate(post);
   };
+
   return (
     <Flex
       w="100%"
@@ -108,10 +108,10 @@ export default function JamCard({ jam }) {
       <Flex align="center" justify="flex-end" flex="1">
         <Image
           src={jam.cover?.asset.url || '/placeholder.png'}
-          width={340}
-          height={168}
-          borderRadius="4px!important"
-          pl="12px!important"
+          width={400}
+          height={278}
+          borderRadius="8px!important"
+          pl="16px!important"
         />
       </Flex>
     </Flex>
