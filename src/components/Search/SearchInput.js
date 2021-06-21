@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Input,
   InputGroup,
@@ -7,8 +8,23 @@ import {
   useToken,
 } from '@chakra-ui/react';
 import { Search } from '@components/Icons';
+import useDebounce from '@hooks/useDebounce';
+import { useMixPanel } from '@lib/mixpanel';
 
-export default function SearchInput() {
+export default function SearchInput({ searchValue, setSearchValue }) {
+  const mixpanel = useMixPanel();
+  const debounceSearchValue = useDebounce(searchValue, 500);
+
+  React.useEffect(() => {
+    if (debounceSearchValue) {
+      mixpanel.searchBy(debounceSearchValue);
+    }
+  }, [mixpanel, debounceSearchValue]);
+
+  const onChange = (e) => {
+    const { value } = e.target;
+    setSearchValue(value);
+  };
   return (
     <InputGroup
       size="lg"
@@ -21,6 +37,8 @@ export default function SearchInput() {
         <Search />
       </InputLeftElement>
       <Input
+        value={searchValue}
+        onChange={onChange}
         h="56px"
         placeholder="Search by tag, title, keyword, author, etc..."
         _placeholder={{
