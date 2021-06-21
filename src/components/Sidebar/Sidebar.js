@@ -12,16 +12,22 @@ import {
   Flex,
   Stack,
   Spacer,
+  Slide,
   IconButton,
   createIcon,
+  useDisclosure,
+  useBreakpointValue,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
+import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
 import { Author, MoreTab } from '@components/Icons';
+import React from 'react';
 
 // Navigation
-const SideStrip = ({ onClose }) => {
+const SideStrip = ({ onToggle }) => {
   return (
     <VStack w="80px" h="100vh" opacity="0.12" bg="#FFFFFF">
-      <Button onClick={onClose}>More</Button>
+      <Button onClick={onToggle}>More</Button>
     </VStack>
   );
 };
@@ -34,9 +40,9 @@ const SideBarToggle = createIcon({
     <path
       d="M19 17l-5-5 5-5"
       stroke="#fff"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   ),
 });
@@ -72,49 +78,70 @@ const SideMenuButton = ({ children }) => (
   </Button>
 );
 
-const SidebarContent = ({ onClose, isOpen }) => (
-  <Flex
-    direction="column"
-    h="100vh"
-    display={isOpen ? 'block' : 'none'}
-    width={{ base: 'xs' }}
-  >
-    <SideTopBar onClose={onClose} />
-    <Stack spacing={8}>
-      <Stack px={6} py={8}>
-        <SideMenuButton>Home</SideMenuButton>
-        <SideMenuButton>About</SideMenuButton>
-        <SideMenuButton>Contact</SideMenuButton>
-      </Stack>
-    </Stack>
-  </Flex>
-);
+const animationVariants = {
+  open: { width: '100%' },
+  closed: { width: 0 },
+};
 
-const LayoutSidebar = ({ isOpen, variant, onClose }) => {
-  return variant === 'sidebar' ? (
-    <Flex
-      w="auto"
-      left={0}
-      top={0}
-      background="linear-gradient(180deg, #8472DF 0%, #7BCCFF 100%)"
-    >
-      <SideStrip onClose={onClose} />
-      <SidebarContent onClose={onClose} isOpen={isOpen} />
+const SidebarContent = ({ onClose, isOpen }) => {
+  return (
+    <Flex direction="column" h="100vh" width={{ base: '380px' }}>
+      <SideTopBar onClose={onClose} />
+      <Stack spacing={8}>
+        <Stack px={6} py={8}>
+          <SideMenuButton>Home</SideMenuButton>
+          <SideMenuButton>About</SideMenuButton>
+          <SideMenuButton>Contact</SideMenuButton>
+        </Stack>
+      </Stack>
     </Flex>
-  ) : (
-    <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="lg">
-      <DrawerOverlay>
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Chakra-UI</DrawerHeader>
-          <DrawerBody>
-            <SideStrip onClose={onClose} />
-            <SidebarContent onClose={onClose} />
-          </DrawerBody>
-        </DrawerContent>
-      </DrawerOverlay>
-    </Drawer>
   );
 };
 
-export default LayoutSidebar;
+const Sidebar = ({ variants, isOpen, onOpen, onClose, onToggle }) => {
+  React.useEffect(() => {
+    if (variants?.navigation === 'sidebar') {
+      onOpen();
+    }
+  }, []);
+  return variants?.navigation === 'sidebar' ? (
+    <motion.div
+      style={{
+        display: 'flex',
+        width: 'auto',
+        minWidth: '80px',
+        maxWidth: '420px',
+        background: `linear-gradient(180deg, #8472DF 0%, #7BCCFF 100%)`,
+      }}
+      animate={isOpen ? 'open' : 'closed'}
+      variants={animationVariants}
+      transition={{ type: 'spring', bounce: 0.25 }}
+    >
+      <SideStrip onClose={onClose} onToggle={onToggle} />
+      {isOpen && (
+        <SidebarContent onClose={onClose} isOpen={isOpen} onToggle={onToggle} />
+      )}
+    </motion.div>
+  ) : (
+    <MobileDrawer
+      isOpen={isOpen}
+      placement="left"
+      onClose={onClose}
+      size="lg"
+      isFullHeight={false}
+    >
+      <MobileDrawerContent>
+        <DrawerBody>
+          <SideStrip onClose={onClose} onToggle={onToggle} />
+          <SidebarContent
+            onClose={onClose}
+            isOpen={isOpen}
+            onToggle={onToggle}
+          />
+        </DrawerBody>
+      </MobileDrawerContent>
+    </MobileDrawer>
+  );
+};
+
+export default Sidebar;

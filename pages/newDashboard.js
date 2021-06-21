@@ -66,7 +66,8 @@ export default function NewDashboard() {
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [filteredPosts, setFilteredPosts] = React.useState([]);
   const { data, isLoading } = useQuery('allJams', queryJams.get);
-  const { isOpen, onToggle } = useDisclosure();
+  // Sidebar State Management
+  const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
 
   const fuse = new Fuse(data?.jams, fuseOptions);
 
@@ -124,11 +125,18 @@ export default function NewDashboard() {
   };
 
   return (
-    <Flex bg="#F8F7FC" h="100vh">
+    <Flex bg="#F8F7FC" flexDirection="column">
       <Sidebar
         variant={variants?.navigation}
         isOpen={isOpen}
         onClose={onToggle}
+      />
+      <MobileTopBar
+        variants={variants}
+        onClose={onClose}
+        isOpen={isOpen}
+        onToggle={onToggle}
+        onOpen={onOpen}
       />
       <Flex w="100%" height="100%" direction="column" overflowY="auto">
         <Banner />
@@ -148,63 +156,6 @@ export default function NewDashboard() {
     </Flex>
   );
 }
-
-// Page
-const smVariant = {
-  navigation: 'drawer',
-  navigationButton: true,
-  defaultOpen: false,
-};
-const mdVariant = {
-  navigation: 'sidebar',
-  navigationButton: false,
-  defaultOpen: true,
-};
-// export default function NewDashboard() {
-//   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
-//   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
-//   return (
-//     <Flex direction="column" bg="#F8F7FC">
-//       <Sidebar
-//         variants={variants}
-//         onClose={onClose}
-//         isOpen={isOpen}
-//         onToggle={onToggle}
-//         onOpen={onOpen}
-//       />
-
-//       <MobileTopBar
-//         variants={variants}
-//         onClose={onClose}
-//         isOpen={isOpen}
-//         onToggle={onToggle}
-//         onOpen={onOpen}
-//       />
-//       <Flex
-//         w="100%"
-//         height="100%"
-//         overflowY="auto"
-//         direction="column"
-//         alignItems="center"
-//         justify="center"
-//       >
-//         <Banner />
-//         <Flex direction="column" w="100%">
-//           <Search
-//             searchValue={searchValue}
-//             setSearchValue={setSearchValue}
-//             selectedFilters={selectedFilters}
-//             setSelectedFilters={setSelectedFilters}
-//             addTag={addTag}
-//             removeTag={removeTag}
-//             clearAllTags={clearAllTags}
-//           />
-//           <JamList jams={filteredPosts} />
-//         </Flex>
-//       </Flex>
-//     </Flex>
-//   );
-// }
 
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
