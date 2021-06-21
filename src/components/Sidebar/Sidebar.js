@@ -20,32 +20,30 @@ import {
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
-import { Author, MoreTab } from '@components/Icons';
+import { GoGrabber } from 'react-icons/go';
+import {
+  Authors,
+  MobileLogo,
+  MoreTab,
+  BWLogo,
+  SideToggle,
+} from '@components/Icons';
 import React from 'react';
 
 // Navigation
 const SideStrip = ({ onToggle }) => {
   return (
-    <VStack w="80px" h="100vh" opacity="0.12" bg="#FFFFFF">
-      <Button onClick={onToggle}>More</Button>
+    <VStack w="80px" h="100vh" bg="#E2E2FE">
+      <IconButton aria-label="Authors" icon={<Authors />} />
+      <IconButton
+        aria-label="More Tab"
+        fontSize="44px"
+        icon={<MoreTab />}
+        onClick={onToggle}
+      />
     </VStack>
   );
 };
-
-const SideBarToggle = createIcon({
-  displayName: 'UpDownIcon',
-  viewBox: '0 0 200 200',
-  // path can also be an array of elements, if you have multiple paths, lines, shapes, etc.
-  path: (
-    <path
-      d="M19 17l-5-5 5-5"
-      stroke="#fff"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  ),
-});
 
 const SideTopBar = ({ onClose }) => {
   return (
@@ -56,15 +54,15 @@ const SideTopBar = ({ onClose }) => {
           size="lg"
           variant="ghost"
           aria-label="expand collapse"
-          icon={<SideBarToggle />}
+          icon={<SideToggle />}
         />
       </HStack>
       <Spacer />
       <HStack spacing={3} px={4}>
-        <Button size="sm" variant="ghost" color="white" onClick={onClose}>
+        <Button size="sm" variant="ghost" color="primary.500" onClick={onClose}>
           Login
         </Button>
-        <Button size="sm" color="white" bg="rgba(255, 255, 255, 0.16)">
+        <Button size="sm" colorScheme="primary">
           Sign Up
         </Button>
       </HStack>
@@ -73,7 +71,7 @@ const SideTopBar = ({ onClose }) => {
 };
 
 const SideMenuButton = ({ children }) => (
-  <Button variant="solid" bg="rgba(255, 255, 255, 0.16)" w="100%" color="white">
+  <Button variant="solid" bg="white" w="100%" color="grey.900">
     {children}
   </Button>
 );
@@ -89,9 +87,9 @@ const SidebarContent = ({ onClose, isOpen }) => {
       <SideTopBar onClose={onClose} />
       <Stack spacing={8}>
         <Stack px={6} py={8}>
-          <SideMenuButton>Home</SideMenuButton>
-          <SideMenuButton>About</SideMenuButton>
-          <SideMenuButton>Contact</SideMenuButton>
+          <SideMenuButton>Creator Docs</SideMenuButton>
+          <SideMenuButton>Media Kit</SideMenuButton>
+          <SideMenuButton>Provide Feedback</SideMenuButton>
         </Stack>
       </Stack>
     </Flex>
@@ -101,17 +99,17 @@ const SidebarContent = ({ onClose, isOpen }) => {
 const Sidebar = ({ variants, isOpen, onOpen, onClose, onToggle }) => {
   React.useEffect(() => {
     if (variants?.navigation === 'sidebar') {
-      onOpen();
+      // onOpen();
     }
   }, []);
   return variants?.navigation === 'sidebar' ? (
     <motion.div
       style={{
         display: 'flex',
-        width: 'auto',
+        hieght: '100vh',
         minWidth: '80px',
         maxWidth: '420px',
-        background: `linear-gradient(180deg, #8472DF 0%, #7BCCFF 100%)`,
+        background: `radial-gradient(100% 100% at 50% 0%, #E1E2FF 0%, #F5F5FF 100%)`,
       }}
       animate={isOpen ? 'open' : 'closed'}
       variants={animationVariants}

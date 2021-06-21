@@ -104,8 +104,16 @@ export default function NewDashboard() {
     }
   }, [searchValue, selectedFilters, isLoading]);
 
-  const smVariant = { navigation: 'drawer', navigationButton: true };
-  const mdVariant = { navigation: 'sidebar', navigationButton: false };
+  const smVariant = {
+    navigation: 'drawer',
+    navigationButton: true,
+    defaultOpen: false,
+  };
+  const mdVariant = {
+    navigation: 'sidebar',
+    navigationButton: false,
+    defaultOpen: true,
+  };
   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
 
   function addTag(tag) {
@@ -125,11 +133,17 @@ export default function NewDashboard() {
   };
 
   return (
-    <Flex bg="#F8F7FC" flexDirection="column">
+    <Flex
+      bg="#F8F7FC"
+      h="100vh"
+      flexDirection={variants?.navigation === 'sidebar' ? 'row' : 'column'}
+    >
       <Sidebar
-        variant={variants?.navigation}
+        variants={variants}
+        onClose={onClose}
         isOpen={isOpen}
-        onClose={onToggle}
+        onToggle={onToggle}
+        onOpen={onOpen}
       />
       <MobileTopBar
         variants={variants}
