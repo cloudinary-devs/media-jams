@@ -117,6 +117,10 @@ export default function Banner() {
             LeftIcon={Pencil}
             header="Practical Use-Cases"
             text="Solutions to media challenges encountered in building apps"
+            pr={{
+              base: '12px',
+              md: 0,
+            }}
           />
         </SimpleGrid>
       </Flex>

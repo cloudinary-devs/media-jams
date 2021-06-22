@@ -12,7 +12,11 @@ export default function Search({
   clearAllTags,
 }) {
   return (
-    <Flex w="1000px" alignSelf="center" direction="column">
+    <Flex
+      w={{ base: '90%', lg: '1000px' }}
+      alignSelf="center"
+      direction="column"
+    >
       <SearchInput searchValue={searchValue} setSearchValue={setSearchValue} />
       <TagFilters
         selectedFilters={selectedFilters}

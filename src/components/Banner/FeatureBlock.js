@@ -1,6 +1,6 @@
 import { Flex, Text, useToken } from '@chakra-ui/react';
 
-export default function FeatureBlock({ header, text, LeftIcon }) {
+export default function FeatureBlock({ header, text, LeftIcon, ...rest }) {
   return (
     <Flex
       w="100%"
@@ -14,6 +14,7 @@ export default function FeatureBlock({ header, text, LeftIcon }) {
         md: '0',
       }}
       borderRadius={{ base: '8px' }}
+      {...rest}
     >
       <LeftIcon
         mt={{ base: 0, lg: 1 }}
