@@ -54,7 +54,6 @@ export const MobileDrawerContent = (props, ref) => {
 
   const dialogStyles = {
     display: 'flex',
-    flexDirection: 'column',
     position: 'relative',
     width: '100%',
     outline: 0,
@@ -65,7 +64,6 @@ export const MobileDrawerContent = (props, ref) => {
     display: 'flex',
     width: '100vw',
     height: '100vh',
-    position: 'fixed',
     left: 0,
     top: 0,
     ...styles.dialogContainer,
@@ -81,7 +79,7 @@ export const MobileDrawerContent = (props, ref) => {
     >
       <ModalFocusScope>
         <StyleSlide
-          style={{ top: '54px' }}
+          style={{ top: '50px' }}
           direction={placement}
           in={isOpen}
           className={_className}

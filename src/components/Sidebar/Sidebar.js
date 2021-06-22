@@ -18,6 +18,7 @@ import {
   createIcon,
   useDisclosure,
   useBreakpointValue,
+  useAriaHidden,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
@@ -37,8 +38,14 @@ import React from 'react';
 // Navigation
 const SideStrip = ({ onToggle }) => {
   return (
-    <VStack w="80px" h="100vh" bg="#E2E2FE" spacing={12}>
-      <VStack spacing={6}>
+    <VStack
+      w="80px"
+      h={{ base: '100%', md: '100vh' }}
+      bg="#E2E2FE"
+      spacing={12}
+    >
+      <VStack spacing={{ base: 2, md: 6 }}>
+        <Spacer />
         <IconButton
           colorScheme="ghost"
           aria-label="Authors"
@@ -70,10 +77,10 @@ const SideStrip = ({ onToggle }) => {
   );
 };
 
-const SideTopBar = ({ onClose }) => {
+const SideTopBar = ({ onClose, onToggle }) => {
   return (
     <Flex w="100%" h="64px">
-      <HStack spacing={3}>
+      <HStack display={{ base: 'none', md: 'block' }} spacing={3}>
         <IconButton
           onClick={onClose}
           size="lg"
@@ -153,15 +160,9 @@ const Sidebar = ({ variants, isOpen, onOpen, onClose, onToggle }) => {
       size="lg"
       isFullHeight={false}
     >
-      <MobileDrawerContent>
-        <DrawerBody>
-          <SideStrip onClose={onClose} onToggle={onToggle} />
-          <SidebarContent
-            onClose={onClose}
-            isOpen={isOpen}
-            onToggle={onToggle}
-          />
-        </DrawerBody>
+      <MobileDrawerContent bg="radial-gradient(100% 100% at 50% 0%, #E1E2FF 0%, #F5F5FF 100%)">
+        <SideStrip onClose={onClose} onToggle={onToggle} />
+        <SidebarContent onClose={onClose} isOpen={isOpen} onToggle={onToggle} />
       </MobileDrawerContent>
     </MobileDrawer>
   );

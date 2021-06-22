@@ -36,7 +36,7 @@ export const MobileTopBar = ({ isOpen, onClose, onToggle, onOpen }) => {
         <MobileLogo />
       </Link>
       <IconButton
-        onClick={onOpen}
+        onClick={onToggle}
         variant="unstyled"
         display="flex"
         cursor="pointer"
