@@ -33,10 +33,17 @@ export default function Banner() {
   }, [user]);
 
   return show ? (
-    <Flex bg="#FFFFFF" direction="column" h="420px" w="100%" pb={10}>
+    <Flex
+      bg="#FFFFFF"
+      direction="column"
+      h={{ base: 'auto', lg: '420px' }}
+      w="100%"
+      pb={{ base: 4, lg: 10 }}
+    >
       <IconButton
         _hover={{ bg: 'none', outline: 'none' }}
-        m="12px"
+        m={{ base: '0px', lg: '12px' }}
+        mt={{ base: '8px', md: 0 }}
         alignSelf="flex-end"
         bg="none"
         outline="none"
@@ -47,7 +54,15 @@ export default function Banner() {
         }}
         icon={<Close />}
       />
-      <Flex h="100%" w="1000px" alignSelf="center" justify="space-between">
+      <Flex
+        ml={{ base: '32px', md: 0 }}
+        px={{ base: 0, md: 0, lg: '12px' }}
+        h="100%"
+        w={{ base: '100%', lg: '1000px' }}
+        direction={{ base: 'column', lg: 'row' }}
+        alignSelf="center"
+        justify="space-between"
+      >
         <Flex h="260px" justify="space-evenly" direction="column">
           <Heading mt="-16px" as="h2">
             Learn Media for Apps
@@ -65,8 +80,12 @@ export default function Banner() {
           </Flex>
         </Flex>
         <SimpleGrid
-          templateColumns="repeat(2, minmax(0, 310px))"
-          spacingY={8}
+          templateColumns={{
+            base: 'repeat(6, 310px)',
+            lg: 'repeat(2, minmax(0, 310px))',
+          }}
+          overflowX={{ base: 'scroll' }}
+          spacingY={{ base: 0, lg: 8 }}
           spacingX={5}
         >
           <FeatureBlock

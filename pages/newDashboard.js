@@ -1,28 +1,12 @@
 import React from 'react';
 import NextLink from 'next/link';
 import {
-  SimpleGrid,
-  IconButton,
-  Link,
-  Button,
   Flex,
-  Heading,
-  Input,
   Text,
-  useToken,
   useDisclosure,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import {
-  Author,
-  Close,
-  GreenCheck,
-  Stack,
-  Code,
-  Mashups,
-  Video,
-  Pencil,
-} from '@components/Icons';
+import { GreenCheck } from '@components/Icons';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -35,20 +19,6 @@ import Banner from '@components/Banner';
 import Search from '@components/Search';
 import Sidebar from '@components/Sidebar';
 import { MobileTopBar } from '@components/Sidebar/MobileTopBar';
-
-function Tag() {}
-
-// Banner
-function Feature({ children, ...rest }) {
-  return (
-    <Flex w="auto" align="center" {...rest}>
-      <GreenCheck />
-      <Text variant="B400" color="grey.700" pl={3}>
-        {children}
-      </Text>
-    </Flex>
-  );
-}
 
 const fuseOptions = {
   threshold: 0.35,
