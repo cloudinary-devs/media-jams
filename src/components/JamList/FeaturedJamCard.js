@@ -52,7 +52,7 @@ export default function FeaturedJamCard({ jam }) {
       w="100%"
       border={`2px solid ${useToken('colors', 'primary.400')}`}
       borderRadius="8px"
-      h="300px"
+      h={{ base: '250', lg: '300px' }}
       boxShadow={`4px 3px 0px 3px ${useToken('colors', 'primary.400')}`}
       p={5}
     >

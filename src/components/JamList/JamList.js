@@ -21,7 +21,7 @@ export default function JamList({ jams }) {
 
   return (
     <Flex
-      w="1000px"
+      w={{ base: '90%', lg: '1000px' }}
       mt="26px"
       alignSelf="center"
       h="100%"
