@@ -6,11 +6,21 @@ import Code from './Code';
 import Mashups from './Mashups';
 import Video from './Video';
 import Pencil from './Pencil';
-import SidebarToggle from './SideBarToggle';
 import MoreTab from './MoreTab';
+import MobileLogo from './MobileLogo';
+import MobileMenuOpen from './MobileMenuOpen';
+import MobileMenuClose from './MobileMenuClose';
 import Search from './Search';
+import Bookmark from './Bookmark';
+import BWLogo from './BWLogo';
+import Authors from './Authors';
+import SideToggle from './SideToggle';
+import Note from './Note';
+import Signup from './Signup';
+import JoinDiscord from './JoinDiscord';
 
 export {
+  Authors,
   Author,
   Close,
   GreenCheck,
@@ -19,7 +29,15 @@ export {
   Mashups,
   Video,
   Pencil,
-  SidebarToggle,
+  SideToggle,
   Search,
   MoreTab,
+  MobileLogo,
+  MobileMenuOpen,
+  MobileMenuClose,
+  Bookmark,
+  BWLogo,
+  Note,
+  Signup,
+  JoinDiscord,
 };

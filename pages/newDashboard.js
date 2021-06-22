@@ -1,15 +1,54 @@
 import React from 'react';
+import NextLink from 'next/link';
+import {
+  SimpleGrid,
+  IconButton,
+  Link,
+  Button,
+  Flex,
+  Heading,
+  Input,
+  Text,
+  useToken,
+  useDisclosure,
+  useBreakpointValue,
+} from '@chakra-ui/react';
+import {
+  Author,
+  Close,
+  GreenCheck,
+  Stack,
+  Code,
+  Mashups,
+  Video,
+  Pencil,
+} from '@components/Icons';
+
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import Fuse from 'fuse.js';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
 
-import { Flex, useDisclosure, useBreakpointValue } from '@chakra-ui/react';
 import JamList from '@components/JamList';
 import Banner from '@components/Banner';
 import Search from '@components/Search';
 import Sidebar from '@components/Sidebar';
+import { MobileTopBar } from '@components/Sidebar/MobileTopBar';
+
+function Tag() {}
+
+// Banner
+function Feature({ children, ...rest }) {
+  return (
+    <Flex w="auto" align="center" {...rest}>
+      <GreenCheck />
+      <Text variant="B400" color="grey.700" pl={3}>
+        {children}
+      </Text>
+    </Flex>
+  );
+}
 
 const fuseOptions = {
   threshold: 0.35,
@@ -27,7 +66,8 @@ export default function NewDashboard() {
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [filteredPosts, setFilteredPosts] = React.useState([]);
   const { data, isLoading } = useQuery('allJams', queryJams.get);
-  const { isOpen, onToggle } = useDisclosure();
+  // Sidebar State Management
+  const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
 
   const fuse = new Fuse(data?.jams, fuseOptions);
 
@@ -64,8 +104,16 @@ export default function NewDashboard() {
     }
   }, [searchValue, selectedFilters, isLoading]);
 
-  const smVariant = { navigation: 'drawer', navigationButton: true };
-  const mdVariant = { navigation: 'sidebar', navigationButton: false };
+  const smVariant = {
+    navigation: 'drawer',
+    navigationButton: true,
+    defaultOpen: false,
+  };
+  const mdVariant = {
+    navigation: 'sidebar',
+    navigationButton: false,
+    defaultOpen: true,
+  };
   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
 
   function addTag(tag) {
@@ -85,11 +133,24 @@ export default function NewDashboard() {
   };
 
   return (
-    <Flex bg="#F8F7FC" h="100vh">
+    <Flex
+      bg="#F8F7FC"
+      h="100vh"
+      flexDirection={variants?.navigation === 'sidebar' ? 'row' : 'column'}
+    >
       <Sidebar
-        variant={variants?.navigation}
+        variants={variants}
+        onClose={onClose}
         isOpen={isOpen}
-        onClose={onToggle}
+        onToggle={onToggle}
+        onOpen={onOpen}
+      />
+      <MobileTopBar
+        variants={variants}
+        onClose={onClose}
+        isOpen={isOpen}
+        onToggle={onToggle}
+        onOpen={onOpen}
       />
       <Flex w="100%" height="100%" direction="column" overflowY="auto">
         <Banner />
