@@ -95,7 +95,7 @@ export default function JamCard({ jam }) {
             {jam.title}
           </Heading>
         </Link>
-        <Flex justify="flex-start" sx={{ gap: '12px' }}>
+        <Flex justify="flex-start" sx={{ gap: '12px' }} wrap="wrap">
           {jam.tags.map((tag) => (
             <Text variant="B100" color="primary.400">
               #{tag.title}
