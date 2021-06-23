@@ -29,7 +29,7 @@ export default function JamList({ jams }) {
       justify="space-around"
       sx={{ gap: '16px' }}
     >
-      <FeaturedJamCard jam={featuredJam} />
+      {featuredJam && <FeaturedJamCard jam={featuredJam} />}
       {jams.map((jam) => (
         <JamCard jam={jam} />
       ))}
