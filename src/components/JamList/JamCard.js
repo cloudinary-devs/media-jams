@@ -63,9 +63,11 @@ export default function JamCard({ jam }) {
               name={author.name}
               src={author.image?.asset.url}
             />
-            <Text variant="B100" color="grey.800" fontWeight="500">
-              {author.name}
-            </Text>
+            <Link href={`/author/${author.slug?.current || ''}`}>
+              <Text variant="B100" color="grey.800" fontWeight="500">
+                {author.name}
+              </Text>
+            </Link>
             <Text variant="B100" color="grey.600">
               1 June
             </Text>

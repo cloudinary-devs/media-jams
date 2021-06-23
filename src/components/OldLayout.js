@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 
 import { Flex, Box, Icon } from '@chakra-ui/react';
 import SEO from '@components/SEO';
