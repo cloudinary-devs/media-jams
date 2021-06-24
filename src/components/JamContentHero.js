@@ -1,15 +1,15 @@
 import React from 'react';
-
 import {
-  Button,
-  useBreakpointValue,
-  Heading,
-  Text,
-  Flex,
   Box,
-  HStack,
-  VStack,
-  Avatar,
+  Button,
+  Flex,
+  Heading,
+  Img,
+  SimpleGrid,
+  Spacer,
+  Stack,
+  Text,
+  useColorModeValue as mode,
 } from '@chakra-ui/react';
 import Image from '@components/Image';
 import styled from '@emotion/styled';
@@ -19,11 +19,10 @@ const AuthorByline = styled(Text)`
   text-indent: 5px;
 `;
 
-import Container from '@components/Container';
-import RawkButton from '@components/RawkButton';
 import { buildImageUrl } from 'cloudinary-build-url';
 const placeholderUrl = buildImageUrl('mediajams/placeholder', {
   cloud: { cloudName: 'mediadevs' },
+  layout: 'fill',
   transformations: {
     resize: {
       height: 0.6,
@@ -38,84 +37,39 @@ export default function JamContentHero({
   imageUrl = placeholderUrl,
   children,
 }) {
-  const isMobile = useBreakpointValue({
-    base: true,
-    md: true,
-    lg: false,
-  });
-
   return (
-    <>
-      {isMobile ? (
-        <Flex
-          h={{ base: 'lg', md: 'lg' }}
-          direction={{ base: 'column', md: 'row', lg: 'row' }}
-          justifyContent="center"
-          alignItems="center"
-          backgroundImage={`url(${imageUrl})`}
-          backgroundSize="cover"
-        >
-          <VStack align="center" backgroundColor="blue.200" opacity="90%">
-            <Heading as="h1" fontSize="4xl" textStyle="headline-accent" pt={4}>
+    <Box as="section" mt={{ base: '24px', md: '32px' }}>
+      <Box
+        maxW={{ base: 'xl', md: '7xl' }}
+        mx="auto"
+        px={{ base: '6', md: '8' }}
+      >
+        <Flex direction={{ base: 'column-reverse', lg: 'row' }} mb="20">
+          <Box
+            bg={{ base: 'none', md: mode('primary.200', 'primary.800') }}
+            flex="1"
+            maxW={{ lg: 'xl' }}
+            pt="6"
+            borderStartRadius={{ base: '0', md: '8px' }}
+          >
+            <Heading as="h2" size="H400" ml={{ base: '0', md: 8 }}>
               {title}
             </Heading>
-            <Text maxWidth="80%">{description}</Text>
-            <HStack align="start" color="grey.900" my={4} px={4}>
-              <Avatar
-                size="md"
-                alt={author.name}
-                src={author.image.asset.url}
-              />
-              <VStack spacing="0">
-                <Heading mt={4} fontSize="md" textStyle="headline-accent">
-                  {author.name}
-                </Heading>
-                <Text fontSize="xs">Media Developer Expert, Developer 🥑</Text>
-              </VStack>
-            </HStack>
-          </VStack>
+          </Box>
+          <Box flex="1">
+            <Img
+              pos="relative"
+              marginEnd="-16rem"
+              w="50rem"
+              src={imageUrl}
+              alt="Banner Image for Hero"
+              borderEndRadius={{ base: '0', md: '8px' }}
+              borderTopStartRadius={{ base: '8px', md: 0 }}
+              borderTopRadius={{ base: '8px', md: null }}
+            />
+          </Box>
         </Flex>
-      ) : (
-        <Flex
-          h="lg"
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          {/* <Image
-            src={imageUrl}
-            objectfit="contain"
-            layout="fill"
-            alt="Feature Image"
-            container={{
-              flexGrow: 1,
-              position: 'relative',
-              height: 300,
-            }}
-          /> */}
-          <HStack height="100%" width="100%" flex={2} zIndex={{ xl: 3 }}>
-            <VStack align="stretch" flex={1}>
-              <Box backgroundColor="yellow.400" height="100%" py={4}>
-                <Box
-                  backgroundColor="blue.200"
-                  ml="-10%"
-                  width="110%"
-                  display="block"
-                  py={4}
-                >
-                  <Box color="grey.900" my={4} pl={4}>
-                    <Heading as="h1" fontSize="4xl" textStyle="headline-accent">
-                      {title}
-                    </Heading>
-                    <AuthorByline fontSize="xs">By {author?.name}</AuthorByline>
-                    <Text maxWidth="80%">{description}</Text>
-                  </Box>
-                </Box>
-              </Box>
-            </VStack>
-          </HStack>
-        </Flex>
-      )}
-    </>
+      </Box>
+    </Box>
   );
 }
