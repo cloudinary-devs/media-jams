@@ -158,7 +158,7 @@ export default function AuthorPage({ author }) {
             setSearchValue={setSearchValue}
           />
           <Flex
-            w="1000px"
+            w="100%"
             mt="26px"
             alignSelf="center"
             h="100%"
