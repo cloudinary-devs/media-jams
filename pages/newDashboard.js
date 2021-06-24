@@ -26,6 +26,7 @@ export default function NewDashboard() {
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [filteredPosts, setFilteredPosts] = React.useState([]);
+  const [featuredJam, setFeaturedJam] = React.useState();
   const { data, isLoading } = useQuery('allJams', queryJams.get);
 
   const fuse = new Fuse(data?.jams, fuseOptions);
@@ -63,6 +64,13 @@ export default function NewDashboard() {
     }
   }, [searchValue, selectedFilters, isLoading]);
 
+  React.useEffect(() => {
+    const firstFeaturedJam = jams.find(
+      (jam) => jam.postMetadata.featured === true,
+    );
+    setFeaturedJam(firstFeaturedJam);
+  }, [jams]);
+
   function addTag(tag) {
     return setSelectedFilters((prev) => [...prev, tag]);
   }
@@ -92,6 +100,7 @@ export default function NewDashboard() {
           removeTag={removeTag}
           clearAllTags={clearAllTags}
         />
+        {!searchValue && <FeaturedJamCard jam={featuredJam} />}
         <JamList jams={filteredPosts} />
       </Flex>
     </Flex>

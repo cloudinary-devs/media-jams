@@ -4,21 +4,7 @@ import JamCard from './JamCard';
 import FeaturedJamCard from './FeaturedJamCard';
 
 export default function JamList({ jams }) {
-  const [featuredJam, setFeaturedJam] = React.useState();
-
-  // Grab off the first featured Jam for the FeaturedCard
-  /* 
-    TODO: 
-    - [] Remove the featured card from the list of Jams so it's not duplicated 
-    - [] Remove the FeaturedCard during search 
-  */
-  React.useEffect(() => {
-    const firstFeaturedJam = jams.find(
-      (jam) => jam.postMetadata.featured === true,
-    );
-    setFeaturedJam(firstFeaturedJam);
-  }, [jams]);
-
+  console.log(jams);
   return (
     <Flex
       w="1000px"
@@ -29,7 +15,6 @@ export default function JamList({ jams }) {
       justify="space-around"
       sx={{ gap: '16px' }}
     >
-      {featuredJam && <FeaturedJamCard jam={featuredJam} />}
       {jams.map((jam) => (
         <JamCard jam={jam} />
       ))}
