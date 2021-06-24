@@ -1,15 +1,15 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
+import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
+import JamList from '@components/JamList';
+import Banner from '@components/Banner';
+import Search from '@components/Search';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import Fuse from 'fuse.js';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
-
-import JamList from '@components/JamList';
-import Banner from '@components/Banner';
-import Search from '@components/Search';
 
 const fuseOptions = {
   threshold: 0.35,
@@ -29,11 +29,17 @@ export default function NewDashboard() {
   const [featuredJam, setFeaturedJam] = React.useState();
   const { data, isLoading } = useQuery('allJams', queryJams.get);
 
+  console.log(data);
+
   const fuse = new Fuse(data?.jams, fuseOptions);
 
   React.useEffect(() => {
     // do some checking here to ensure data exist
     if (isLoading === false && data?.jams) {
+      const firstFeaturedJam = data.jams.find(
+        (jam) => jam.postMetadata.featured === true,
+      );
+      setFeaturedJam(firstFeaturedJam);
       setFilteredPosts(data.jams);
     }
   }, [isLoading, data?.jams]);
@@ -64,13 +70,6 @@ export default function NewDashboard() {
     }
   }, [searchValue, selectedFilters, isLoading]);
 
-  React.useEffect(() => {
-    const firstFeaturedJam = jams.find(
-      (jam) => jam.postMetadata.featured === true,
-    );
-    setFeaturedJam(firstFeaturedJam);
-  }, [jams]);
-
   function addTag(tag) {
     return setSelectedFilters((prev) => [...prev, tag]);
   }
@@ -100,8 +99,21 @@ export default function NewDashboard() {
           removeTag={removeTag}
           clearAllTags={clearAllTags}
         />
-        {!searchValue && <FeaturedJamCard jam={featuredJam} />}
-        <JamList jams={filteredPosts} />
+
+        <Flex
+          w="1000px"
+          mt="26px"
+          alignSelf="center"
+          h="100%"
+          direction="column"
+          justify="space-around"
+          sx={{ gap: '16px' }}
+        >
+          {searchValue.length < 1 && featuredJam && (
+            <FeaturedJamCard jam={featuredJam} />
+          )}
+          <JamList jams={filteredPosts} />
+        </Flex>
       </Flex>
     </Flex>
   );

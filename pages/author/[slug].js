@@ -157,7 +157,17 @@ export default function AuthorPage({ author }) {
             searchValue={searchValue}
             setSearchValue={setSearchValue}
           />
-          {data?.allPost && <JamList jams={data.allPost} />}
+          <Flex
+            w="1000px"
+            mt="26px"
+            alignSelf="center"
+            h="100%"
+            direction="column"
+            justify="space-around"
+            sx={{ gap: '16px' }}
+          >
+            {data?.allPost && <JamList jams={data.allPost} />}
+          </Flex>
         </Flex>
       </Flex>
     </Flex>
