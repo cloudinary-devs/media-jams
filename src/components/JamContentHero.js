@@ -82,7 +82,7 @@ export default function JamContentHero({
           justifyContent="center"
           alignItems="center"
         >
-          <Image
+          {/* <Image
             src={imageUrl}
             objectfit="contain"
             layout="fill"
@@ -92,7 +92,7 @@ export default function JamContentHero({
               position: 'relative',
               height: 300,
             }}
-          />
+          /> */}
           <HStack height="100%" width="100%" flex={2} zIndex={{ xl: 3 }}>
             <VStack align="stretch" flex={1}>
               <Box backgroundColor="yellow.400" height="100%" py={4}>

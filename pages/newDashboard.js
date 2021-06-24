@@ -133,41 +133,21 @@ export default function NewDashboard() {
   };
 
   return (
-    <Flex
-      bg="#F8F7FC"
-      h="100vh"
-      flexDirection={variants?.navigation === 'sidebar' ? 'row' : 'column'}
-    >
-      <Sidebar
-        variants={variants}
-        onClose={onClose}
-        isOpen={isOpen}
-        onToggle={onToggle}
-        onOpen={onOpen}
-      />
-      <MobileTopBar
-        variants={variants}
-        onClose={onClose}
-        isOpen={isOpen}
-        onToggle={onToggle}
-        onOpen={onOpen}
-      />
-      <Flex w="100%" height="100%" direction="column" overflowY="auto">
-        <Banner />
-        <Flex direction="column" w="100%">
-          <Search
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-            selectedFilters={selectedFilters}
-            setSelectedFilters={setSelectedFilters}
-            addTag={addTag}
-            removeTag={removeTag}
-            clearAllTags={clearAllTags}
-          />
-          <JamList jams={filteredPosts} />
-        </Flex>
+    <>
+      <Banner />
+      <Flex direction="column" w="100%">
+        <Search
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          addTag={addTag}
+          removeTag={removeTag}
+          clearAllTags={clearAllTags}
+        />
+        <JamList jams={filteredPosts} />
       </Flex>
-    </Flex>
+    </>
   );
 }
 

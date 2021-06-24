@@ -9,6 +9,7 @@ import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
 import { UserProvider } from '@auth0/nextjs-auth0';
 import { buildImageUrl } from 'cloudinary-build-url';
+import { MainLayout } from '../layouts';
 
 // Fonts Import
 import '@fontsource/dm-sans/700.css';
@@ -68,7 +69,9 @@ const App = ({ Component, pageProps, err }) => {
                   siteName: 'MediaJams',
                 }}
               />
-              <Component {...pageProps} err={err} />
+              <MainLayout>
+                <Component {...pageProps} err={err} />
+              </MainLayout>
               <ReactQueryDevtools initialIsOpen={false} />
             </UserProvider>
           </Hydrate>
