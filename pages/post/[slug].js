@@ -46,29 +46,27 @@ export default function Post({ post, preview, error }) {
   });
 
   return (
-    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      <Flex
-        bg="white"
-        direction="column"
-        width="100%"
-        height="100%"
-        overflow="auto"
-      >
-        <JamContentHero
-          author={author}
-          description={post.description}
-          title={post.title}
-          imageUrl={post.coverImage}
-        ></JamContentHero>
-        <main ref={mainContentRef}>
-          <JamContent>
-            <MDXRemote {...post.content} components={components} />
-          </JamContent>
-        </main>
-        <JamAuthorBanner author={author}></JamAuthorBanner>
-        <EmailSubscription />
-      </Flex>
-    </Layout>
+    <Flex
+      bg="white"
+      direction="column"
+      width="100%"
+      height="100%"
+      overflow="auto"
+    >
+      <JamContentHero
+        author={author}
+        description={post.description}
+        title={post.title}
+        imageUrl={post.coverImage}
+      ></JamContentHero>
+      <main ref={mainContentRef}>
+        <JamContent>
+          <MDXRemote {...post.content} components={components} />
+        </JamContent>
+      </main>
+      <JamAuthorBanner author={author}></JamAuthorBanner>
+      <EmailSubscription />
+    </Flex>
   );
 }
 /**
