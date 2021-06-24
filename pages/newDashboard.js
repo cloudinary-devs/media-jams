@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import Layout from '@components/Layout/index';
+
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import Fuse from 'fuse.js';
@@ -80,23 +80,21 @@ export default function NewDashboard() {
   };
 
   return (
-    <Layout>
-      <Flex w="100%" height="100%" direction="column" overflowY="auto">
-        <Banner />
-        <Flex direction="column" w="100%">
-          <Search
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-            selectedFilters={selectedFilters}
-            setSelectedFilters={setSelectedFilters}
-            addTag={addTag}
-            removeTag={removeTag}
-            clearAllTags={clearAllTags}
-          />
-          <JamList jams={filteredPosts} />
-        </Flex>
+    <Flex w="100%" height="100%" direction="column" overflowY="auto">
+      <Banner />
+      <Flex direction="column" w="100%">
+        <Search
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          addTag={addTag}
+          removeTag={removeTag}
+          clearAllTags={clearAllTags}
+        />
+        <JamList jams={filteredPosts} />
       </Flex>
-    </Layout>
+    </Flex>
   );
 }
 

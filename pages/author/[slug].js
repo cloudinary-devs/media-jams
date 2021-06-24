@@ -1,5 +1,6 @@
-import { Flex } from '@chakra-ui/react';
-import Layout from '@components/Layout';
+import { Flex, Avatar, Text, useToken } from '@chakra-ui/react';
+
+import Image from '@components/Image';
 
 /* 
 TODO
@@ -17,13 +18,32 @@ function JamList() {}
 
 export default function AuthorPage({ author }) {
   return (
-    <Layout>
-      <Flex w="100%" height="100%" direction="column" overflowY="auto">
-        <AuthorBanner />
-        <Search />
-        <JamList />
+    <Flex w="100%" height="100%" direction="column" overflowY="auto">
+      <Flex
+        w="1000px"
+        border={`2px solid ${useToken('colors', 'primary.400')}`}
+        borderRadius="8px"
+        h="300px"
+        boxShadow={`4px 3px 0px 3px ${useToken('colors', 'primary.400')}`}
+        p={5}
+      >
+        <Flex w="60%" direction="column" justify="space-evenly">
+          <Flex align="center" justify="space-between" w="100%">
+            <Flex align="center" justify="space-evenly" sx={{ gap: '8px' }}>
+              <Avatar
+                width="28px"
+                height="28px"
+                name={author.name}
+                src={author.image?.asset.url}
+              />
+              <Text variant="B100" color="grey.800" fontWeight="500">
+                {author.name}
+              </Text>
+            </Flex>
+          </Flex>
+        </Flex>
       </Flex>
-    </Layout>
+    </Flex>
   );
 }
 
