@@ -42,10 +42,14 @@ const mdx = {
     },
   },
   p: {
+    color: 'red',
     mt: '1.25rem',
     lineHeight: 1.7,
     'blockquote &': {
       mt: 0,
+    },
+    p: {
+      marginTop: '16px',
     },
   },
   hr: {

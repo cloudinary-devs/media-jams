@@ -1,13 +1,10 @@
 import React from 'react';
 import {
   Box,
-  Button,
   Flex,
   Heading,
   Img,
-  SimpleGrid,
   Spacer,
-  Stack,
   HStack,
   VStack,
   Avatar,
@@ -17,7 +14,6 @@ import {
 import format from 'date-fns/format';
 import Image from '@components/Image';
 import styled from '@emotion/styled';
-import SocialGroup from '@components/SocialGroup';
 
 const AuthorByline = styled(Text)`
   text-indent: 5px;
@@ -61,7 +57,11 @@ export default function JamContentHero({
               {title}
             </Heading>
             <Spacer />
-            <HStack color="grey.700">
+            <HStack
+              color="grey.700"
+              alignSelf="start"
+              ml={{ base: '0', lg: 8 }}
+            >
               <Avatar name={author.name} src={author?.image?.asset?.url} />
               <Text fontSize="md">{author.name}</Text>
               <Text fontSize="md">
