@@ -8,9 +8,13 @@ import {
   SimpleGrid,
   Spacer,
   Stack,
+  HStack,
+  VStack,
+  Avatar,
   Text,
   useColorModeValue as mode,
 } from '@chakra-ui/react';
+import format from 'date-fns/format';
 import Image from '@components/Image';
 import styled from '@emotion/styled';
 import SocialGroup from '@components/SocialGroup';
@@ -35,6 +39,7 @@ export default function JamContentHero({
   title,
   author,
   imageUrl = placeholderUrl,
+  date,
   children,
 }) {
   return (
@@ -45,27 +50,36 @@ export default function JamContentHero({
         px={{ base: '6', md: '8' }}
       >
         <Flex direction={{ base: 'column-reverse', lg: 'row' }} mb="20">
-          <Box
-            bg={{ base: 'none', md: mode('primary.200', 'primary.800') }}
+          <VStack
+            bg={{ base: 'none', lg: mode('primary.200', 'primary.800') }}
             flex="1"
             maxW={{ lg: 'xl' }}
             pt="6"
-            borderStartRadius={{ base: '0', md: '8px' }}
+            borderStartRadius={{ base: '0', lg: '8px' }}
           >
-            <Heading as="h2" size="H400" ml={{ base: '0', md: 8 }}>
+            <Heading as="h2" size="H400" ml={{ base: '0', lg: 8 }}>
               {title}
             </Heading>
-          </Box>
+            <Spacer />
+            <HStack color="grey.700">
+              <Avatar name={author.name} src={author?.image?.asset?.url} />
+              <Text fontSize="md">{author.name}</Text>
+              <Text fontSize="md">
+                <time dateTime={date}>
+                  &middot; {format(new Date(date), 'dd MMMM')}
+                </time>
+              </Text>
+            </HStack>
+          </VStack>
           <Box flex="1">
             <Img
               pos="relative"
-              marginEnd="-16rem"
               w="50rem"
               src={imageUrl}
               alt="Banner Image for Hero"
-              borderEndRadius={{ base: '0', md: '8px' }}
-              borderTopStartRadius={{ base: '8px', md: 0 }}
-              borderTopRadius={{ base: '8px', md: null }}
+              borderEndRadius={{ base: '0', lg: '8px' }}
+              borderTopStartRadius={{ base: '8px', lg: 0 }}
+              borderTopRadius={{ base: '8px', lg: null }}
             />
           </Box>
         </Flex>

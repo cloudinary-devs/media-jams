@@ -58,6 +58,7 @@ export default function Post({ post, preview, error }) {
         description={post.description}
         title={post.title}
         imageUrl={post.coverImage}
+        date={post.updatedAt}
       ></JamContentHero>
       <main ref={mainContentRef}>
         <JamContent>
