@@ -115,7 +115,7 @@ export default function AuthorBanner({ author }) {
             <Box
               w="100%"
               textAlign="left"
-              fontSize="20px"
+              fontSize="16px"
               lineHeight="148%"
               color="#4D545C"
             >

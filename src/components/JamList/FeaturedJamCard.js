@@ -1,14 +1,14 @@
 import React from 'react';
-
 import {
   Flex,
-  Link,
   Heading,
   Text,
   Avatar,
   IconButton,
   useToken,
+  Link,
 } from '@chakra-ui/react';
+
 import Image from '@components/Image';
 
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
@@ -52,7 +52,7 @@ export default function FeaturedJamCard({ jam }) {
       w="100%"
       border={`2px solid ${useToken('colors', 'primary.400')}`}
       borderRadius="8px"
-      h={{ base: '250', lg: '300px' }}
+      h={{ base: '250px', lg: '300px' }}
       boxShadow={`4px 3px 0px 3px ${useToken('colors', 'primary.400')}`}
       p={5}
     >
@@ -65,9 +65,11 @@ export default function FeaturedJamCard({ jam }) {
               name={author.name}
               src={author.image?.asset.url}
             />
-            <Text variant="B100" color="grey.800" fontWeight="500">
-              {author.name}
-            </Text>
+            <Link href={`/author/${author.slug?.current}`}>
+              <Text variant="B100" color="grey.800" fontWeight="500">
+                {author.name}
+              </Text>
+            </Link>
             <Text variant="B100" color="grey.600">
               1 June
             </Text>
