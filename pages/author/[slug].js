@@ -1,15 +1,6 @@
 import React from 'react';
-import {
-  Box,
-  Heading,
-  Flex,
-  Avatar,
-  Text,
-  IconButton,
-  useToken,
-} from '@chakra-ui/react';
-import BlockContent from '@sanity/block-content-to-react';
-import { FaTwitter, FaGithub, FaGlobe } from 'react-icons/fa';
+import { Flex } from '@chakra-ui/react';
+import AuthorBanner from '@components/AuthorBanner';
 import SearchInput from '@components/Search/SearchInput';
 import JamList from '@components/JamList';
 
@@ -28,54 +19,10 @@ const fuseOptions = {
   keys: ['title', 'tags.title', 'author.name'],
 };
 
-function SocialHandlesCollection({ author }) {
-  return (
-    <Flex>
-      {author?.socialHandles &&
-        Object.keys(author?.socialHandles).map((key) => {
-          if (key === 'twitter') {
-            return (
-              <IconButton
-                key={key}
-                as="a"
-                color="black"
-                href={author.socialHandles[key]}
-                size="md"
-                Icon={FaTwitter}
-              />
-            );
-          } else if (key === 'github') {
-            return (
-              <IconButton
-                key={key}
-                as="a"
-                color="black"
-                href={author.socialHandles[key]}
-                size="md"
-                Icon={FaGithub}
-              />
-            );
-          } else if (key === 'website') {
-            return (
-              <IconButton
-                key={key}
-                as="a"
-                color="black"
-                href={author.socialHandles[key]}
-                size="md"
-                Icon={FaGlobe}
-              />
-            );
-          }
-        })}
-    </Flex>
-  );
-}
-
 export default function AuthorPage({ author }) {
   const [searchValue, setSearchValue] = React.useState('');
   const [filteredPosts, setFilteredPosts] = React.useState([]);
-  const { data, isLoading } = useQuery(`${author?.name}'s Jams`, () =>
+  const { data } = useQuery(`${author?.name}'s Jams`, () =>
     jams.getJamsByAuthor(author._id),
   );
 
@@ -113,40 +60,7 @@ export default function AuthorPage({ author }) {
       overflowY="auto"
       align="center"
     >
-      <Flex
-        w={{ base: '90%', lg: '1000px' }}
-        mt="24px"
-        border={`2px solid ${useToken('colors', 'primary.400')}`}
-        borderRadius="8px"
-        h="300px"
-        boxShadow={`4px 3px 0px 3px ${useToken('colors', 'primary.400')}`}
-        p={5}
-      >
-        <Flex w="60%" direction="column" justify="space-evenly">
-          <Flex align="center" justify="space-between" w="100%">
-            <Flex align="center" justify="space-evenly" sx={{ gap: '8px' }}>
-              <Avatar
-                width="124px"
-                height="124px"
-                name={author.name}
-                src={author.image?.asset.url}
-              />
-              <Flex direction="column">
-                <Flex w="100%" justify="space-between">
-                  <Heading size="H200" color="grey.800" fontWeight="500">
-                    {author.name}
-                  </Heading>
-                  <SocialHandlesCollection author={author} />
-                </Flex>
-                <Text variant="B100">{author.jobTitle}</Text>
-                <Box fontSize="sm" textAlign="center">
-                  <BlockContent blocks={author?.bioRaw} />
-                </Box>
-              </Flex>
-            </Flex>
-          </Flex>
-        </Flex>
-      </Flex>
+      <AuthorBanner author={author} />
       <Flex direction="column" w="100%" mb="24px">
         <Flex
           w={{ base: '90%', lg: '1000px' }}
