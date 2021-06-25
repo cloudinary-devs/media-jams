@@ -4,7 +4,14 @@ import { tags as queryTags } from '@lib/queries/tags';
 
 import { Button, Flex, Text, useToken } from '@chakra-ui/react';
 
-function TagButton({ tag, addTag, removeTag, selectedFilters, children }) {
+function TagButton({
+  tag,
+  addTag,
+  removeTag,
+  selectedFilters,
+  children,
+  ...rest
+}) {
   const isTagSelected = selectedFilters.some(
     (selected) => selected.title === tag.title,
   );
@@ -14,12 +21,14 @@ function TagButton({ tag, addTag, removeTag, selectedFilters, children }) {
         background: useToken('colors', 'primary.200'),
         color: useToken('colors', 'primary.800'),
       }}
-      padding="2px 6px"
+      padding={{ lg: '2px 6px' }}
+      minW={{ base: '' }}
       bg={() => (!isTagSelected ? 'grey.200' : 'primary.200')}
       color={() => (!isTagSelected ? 'grey.800' : 'primary.800')}
       borderRadius="4px"
       onClick={() => (isTagSelected ? removeTag(tag) : addTag(tag))}
       height="auto"
+      {...rest}
     >
       <Text variant="B300" fontWeight="500">
         {children}
@@ -28,7 +37,7 @@ function TagButton({ tag, addTag, removeTag, selectedFilters, children }) {
   );
 }
 
-function ToggleTagListButton({ children, onClick }) {
+function ToggleTagListButton({ children, onClick, ...rest }) {
   return (
     <Button
       _hover={{
@@ -41,6 +50,9 @@ function ToggleTagListButton({ children, onClick }) {
       border="none"
       bg="none"
       color="primary.700"
+      ml={{ base: '20px', md: 0 }}
+      _focus={{ outline: 'none' }}
+      {...rest}
     >
       <Text variant="B300">{children}</Text>
     </Button>
@@ -63,11 +75,12 @@ function Tags({ selectedFilters, addTag, removeTag }) {
   return (
     <Flex
       w="100%"
-      justify="space-around"
+      justify={{ base: '', lg: 'space-around' }}
       align="center"
-      flexWrap="wrap"
+      flexWrap={{ base: 'nowrap', lg: 'wrap' }}
       _after={{ content: "''", flex: 'auto' }}
       sx={{ gap: '4px' }}
+      overflowX="scroll"
     >
       <Text variant="B300" color={useToken('colors', 'grey.900')}>
         Topics:
@@ -115,8 +128,14 @@ export default function TagFilters({
   clearAllTags,
 }) {
   return (
-    <Flex w="100%" mt="22px" align="center" justify="space-between">
-      <Flex w="70%">
+    <Flex
+      w="100%"
+      mt="22px"
+      align="center"
+      justify="space-between"
+      direction={{ base: 'column', lg: 'row' }}
+    >
+      <Flex w={{ base: '100%', lg: '70%' }}>
         <Tags
           addTag={addTag}
           removeTag={removeTag}

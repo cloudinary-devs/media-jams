@@ -1,13 +1,11 @@
 import React from 'react';
-
 import {
-  Box,
   Flex,
-  Link,
   Heading,
   Text,
   Avatar,
   IconButton,
+  Link,
 } from '@chakra-ui/react';
 import Image from '@components/Image';
 
@@ -63,7 +61,7 @@ export default function JamCard({ jam }) {
               name={author.name}
               src={author.image?.asset.url}
             />
-            <Link href={`/author/${author.slug?.current || ''}`}>
+            <Link href={`/author/${author.slug?.current}`}>
               <Text variant="B100" color="grey.800" fontWeight="500">
                 {author.name}
               </Text>
@@ -97,7 +95,7 @@ export default function JamCard({ jam }) {
             {jam.title}
           </Heading>
         </Link>
-        <Flex justify="flex-start" sx={{ gap: '12px' }}>
+        <Flex justify="flex-start" sx={{ gap: '12px' }} wrap="wrap">
           {jam.tags.map((tag) => (
             <Text variant="B100" color="primary.400">
               #{tag.title}
