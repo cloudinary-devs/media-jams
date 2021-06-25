@@ -29,8 +29,6 @@ export default function NewDashboard() {
   const [featuredJam, setFeaturedJam] = React.useState();
   const { data, isLoading } = useQuery('allJams', queryJams.get);
 
-  console.log(data);
-
   const fuse = new Fuse(data?.jams, fuseOptions);
 
   React.useEffect(() => {

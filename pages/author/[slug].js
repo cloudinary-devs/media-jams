@@ -80,7 +80,7 @@ export default function AuthorPage({ author }) {
             justify="space-around"
             sx={{ gap: '16px' }}
           >
-            {data?.allPost && <JamList jams={data.allPost} />}
+            {filteredPosts && <JamList jams={filteredPosts} />}
           </Flex>
         </Flex>
       </Flex>
