@@ -48,7 +48,7 @@ export default function SearchInput({ searchValue, setSearchValue }) {
           color: useToken('colors', 'grey.700'),
         }}
       />
-      <InputRightAddon bg="#FFFFFF" h="auto">
+      {/* <InputRightAddon bg="#FFFFFF" h="auto">
         <Select
           fontFamily="DM Sans"
           fontSize="16px"
@@ -63,7 +63,7 @@ export default function SearchInput({ searchValue, setSearchValue }) {
           <option value="Only bookmarked">Only bookmarked</option>
           <option value="Not bookmarked">Not Bookmarked</option>
         </Select>
-      </InputRightAddon>
+      </InputRightAddon> */}
     </InputGroup>
   );
 }
