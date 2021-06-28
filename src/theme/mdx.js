@@ -33,8 +33,7 @@ const mdx = {
     fontSize: '1.125rem',
   },
   a: {
-    color: 'teal.500',
-    fontWeight: 'semibold',
+    color: 'link',
     transition: 'color 0.15s',
     transitionTimingFunction: 'ease-out',
     _hover: {
@@ -47,8 +46,8 @@ const mdx = {
     'blockquote &': {
       mt: 0,
     },
-    p: {
-      marginTop: '16px',
+    '& + p': {
+      mt: '0.75rem',
     },
   },
   hr: {
@@ -73,6 +72,8 @@ const mdx = {
   },
   code: {
     rounded: 'sm',
+    backgroundColor: '#EFE3F9',
+    borderRadius: '0.25rem',
     px: '1',
     fontSize: '0.875em',
     py: '2px',

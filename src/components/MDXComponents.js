@@ -71,7 +71,7 @@ const LinkedHeading = (props) => (
 const InlineCode = (props) => (
   <chakra.code
     apply="mdx.code"
-    color={useColorModeValue('purple.500', 'purple.200')}
+    color={useColorModeValue('inlineCode', 'purple.200')}
     {...props}
   />
 );
