@@ -6,6 +6,9 @@ const mdx = {
     fontWeight: 'bold',
     fontSize: '1.875rem',
     letterSpacing: '-.025em',
+    '& + p': {
+      mt: '0.50rem',
+    },
   },
   h2: {
     mt: '4rem',
@@ -17,6 +20,9 @@ const mdx = {
     '& + h3': {
       mt: '1.5rem',
     },
+    '& + p': {
+      mt: '0.50rem',
+    },
   },
   h3: {
     mt: '3rem',
@@ -25,12 +31,18 @@ const mdx = {
     fontWeight: 'semibold',
     fontSize: '1.25rem',
     letterSpacing: '-.025em',
+    '& + p': {
+      mt: '0.50rem',
+    },
   },
   h4: {
     mt: '3rem',
     lineHeight: 1.375,
     fontWeight: 'semibold',
     fontSize: '1.125rem',
+    '& + p': {
+      mt: '0.50rem',
+    },
   },
   a: {
     color: 'link',
