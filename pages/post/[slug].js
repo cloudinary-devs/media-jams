@@ -18,6 +18,7 @@ import EmailSubscription from '@components/EmailSubscription';
 import CodeBlock from '@components/CodeBlock';
 import CodeSandbox from '@components/CodeSandbox';
 import EmbeddedIframe from '@components/EmbeddedIframe';
+import MDXComponents from '@components/MDXComponents';
 
 const components = {
   CodeSandbox,
@@ -62,7 +63,7 @@ export default function Post({ post, preview, error }) {
       ></JamContentHero>
       <main ref={mainContentRef}>
         <JamContent>
-          <MDXRemote {...post.content} components={components} />
+          <MDXRemote {...post.content} components={MDXComponents} />
         </JamContent>
       </main>
       <JamAuthorBanner author={author}></JamAuthorBanner>

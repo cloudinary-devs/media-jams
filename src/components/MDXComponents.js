@@ -15,6 +15,7 @@ import {
 import React from 'react';
 import CodeBlock from './CodeBlock/index';
 import CodeSandbox from './CodeSandbox';
+import EmbeddedIframe from './EmbeddedIframe';
 import { ColorPalette, ColorPalettes, ColorWrapper } from './ColorPalette';
 
 const Pre = (props) => <chakra.div my="2em" borderRadius="sm" {...props} />;
@@ -114,6 +115,7 @@ const MDXComponents = {
     />
   ),
   CodeSandbox: CodeSandbox,
+  iframe: EmbeddedIframe,
   useTheme,
   ColorPalette,
   ColorPalettes,
