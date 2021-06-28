@@ -4,6 +4,7 @@ import {
   Flex,
   Heading,
   Img,
+  Stack,
   Spacer,
   HStack,
   VStack,
@@ -45,7 +46,10 @@ export default function JamContentHero({
         mx="auto"
         px={{ base: '6', md: '8' }}
       >
-        <Flex direction={{ base: 'column-reverse', lg: 'row' }} mb="20">
+        <Flex
+          direction={{ base: 'column-reverse', lg: 'row' }}
+          mb={{ base: 4, lg: 8 }}
+        >
           <VStack
             bg={{ base: 'none', lg: mode('primary.200', 'primary.800') }}
             flex="1"
@@ -57,19 +61,21 @@ export default function JamContentHero({
               {title}
             </Heading>
             <Spacer />
-            <HStack
-              color="grey.700"
-              alignSelf="start"
-              ml={{ base: '0', lg: 8 }}
-            >
-              <Avatar name={author.name} src={author?.image?.asset?.url} />
-              <Text fontSize="md">{author.name}</Text>
-              <Text fontSize="md">
-                <time dateTime={date}>
-                  &middot; {format(new Date(date), 'dd MMMM')}
-                </time>
-              </Text>
-            </HStack>
+            <Box alignSelf="start">
+              <HStack
+                color="grey.700"
+                ml={{ base: '0', lg: 8 }}
+                mb={{ base: '0', lg: 8 }}
+              >
+                <Avatar name={author.name} src={author?.image?.asset?.url} />
+                <Text fontSize="md">{author.name}</Text>
+                <Text fontSize="md">
+                  <time dateTime={date}>
+                    &middot; {format(new Date(date), 'dd MMMM')}
+                  </time>
+                </Text>
+              </HStack>
+            </Box>
           </VStack>
           <Box flex="1">
             <Img
