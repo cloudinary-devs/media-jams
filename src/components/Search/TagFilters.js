@@ -45,12 +45,17 @@ function ToggleTagListButton({ children, onClick, ...rest }) {
         background: 'none',
         textDecoration: 'underline',
       }}
+      _active={{
+        background: 'none',
+        width: 'none',
+      }}
       onClick={onClick}
       borderRadius="4px"
       border="none"
       bg="none"
+      w="none"
       color="primary.700"
-      ml={{ base: '20px', md: 0 }}
+      p="0"
       _focus={{ outline: 'none' }}
       {...rest}
     >
@@ -81,7 +86,7 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
       {showMore ? (
         <>
           <Flex
-            w={{ lg: '60%' }}
+            w={{ base: '100%', lg: '60%' }}
             justify={{ base: '', lg: 'space-around' }}
             align="center"
             flexWrap={{ base: 'nowrap', lg: 'wrap' }}
