@@ -55,15 +55,18 @@ export default function Banner() {
         icon={<Close />}
       />
       <Flex
-        ml={{ base: '32px', md: 0 }}
-        px={{ base: 0, md: 0, lg: '12px' }}
         h="100%"
         w={{ base: '100%', lg: '1000px' }}
         direction={{ base: 'column', lg: 'row' }}
         alignSelf="center"
         justify="space-between"
       >
-        <Flex h="260px" justify="space-evenly" direction="column">
+        <Flex
+          ml={{ base: '20px', lg: '0px' }}
+          h="260px"
+          justify="space-evenly"
+          direction="column"
+        >
           <Heading mt="-16px" as="h2">
             Learn Media for Apps
           </Heading>
@@ -84,9 +87,11 @@ export default function Banner() {
             base: 'repeat(6, 310px)',
             lg: 'repeat(2, minmax(0, 310px))',
           }}
-          overflowX={{ base: 'scroll' }}
+          overflowX={{ base: 'auto' }}
           spacingY={{ base: 0, lg: 8 }}
           spacingX={5}
+          ml={{ base: '20px', lg: '0px' }}
+          mr={{ base: '20px', lg: '0px' }}
         >
           <FeatureBlock
             LeftIcon={Stack}

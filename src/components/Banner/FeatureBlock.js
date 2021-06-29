@@ -5,14 +5,8 @@ export default function FeatureBlock({ header, text, LeftIcon, ...rest }) {
     <Flex
       w="100%"
       direction={{ base: 'column', lg: 'row' }}
-      p={{
-        base: '24px',
-        md: '0',
-      }}
-      border={{
-        base: `1px solid ${useToken('colors', 'grey.300')}`,
-        md: '0',
-      }}
+      p={{ base: '24px', md: '0' }}
+      border={{ base: `1px solid ${useToken('colors', 'grey.300')}`, md: '0' }}
       borderRadius={{ base: '8px' }}
       {...rest}
     >

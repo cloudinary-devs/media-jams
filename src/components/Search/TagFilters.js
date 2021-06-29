@@ -59,7 +59,7 @@ function ToggleTagListButton({ children, onClick, ...rest }) {
   );
 }
 
-function Tags({ selectedFilters, addTag, removeTag }) {
+function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
   const [showMore, setShowMore] = React.useState(false);
   const [featuredTags, setFeaturedTags] = React.useState([]);
   const { data } = useQuery('jamTags', queryTags.get);
@@ -75,46 +75,86 @@ function Tags({ selectedFilters, addTag, removeTag }) {
   return (
     <Flex
       w="100%"
-      justify={{ base: '', lg: 'space-around' }}
-      align="center"
-      flexWrap={{ base: 'nowrap', lg: 'wrap' }}
-      _after={{ content: "''", flex: 'auto' }}
-      sx={{ gap: '4px' }}
-      overflowX="scroll"
+      direction={{ base: 'column', lg: 'row' }}
+      justify={{ lg: 'space-between' }}
     >
-      <Text variant="B300" color={useToken('colors', 'grey.900')}>
-        Topics:
-      </Text>
-      {showMore
-        ? data.tags.map((tag) => (
-            <TagButton
-              tag={tag}
-              addTag={addTag}
-              removeTag={removeTag}
-              selectedFilters={selectedFilters}
-            >
-              {tag.title}
-            </TagButton>
-          ))
-        : featuredTags.map((tag) => (
-            <TagButton
-              tag={tag}
-              addTag={addTag}
-              removeTag={removeTag}
-              selectedFilters={selectedFilters}
-            >
-              {tag.title}
-            </TagButton>
-          ))}
-
-      {!showMore ? (
-        <ToggleTagListButton onClick={() => setShowMore(true)}>
-          Show More
-        </ToggleTagListButton>
+      {showMore ? (
+        <>
+          <Flex
+            w={{ lg: '60%' }}
+            justify={{ base: '', lg: 'space-around' }}
+            align="center"
+            flexWrap={{ base: 'nowrap', lg: 'wrap' }}
+            _after={{ content: "''", flex: 'auto' }}
+            sx={{ gap: '4px' }}
+            direction={{ base: 'column', lg: 'row' }}
+          >
+            <Text variant="B300" color={useToken('colors', 'grey.900')}>
+              Topics:
+            </Text>
+            {data.tags.map((tag) => (
+              <TagButton
+                tag={tag}
+                addTag={addTag}
+                removeTag={removeTag}
+                selectedFilters={selectedFilters}
+              >
+                {tag.title}
+              </TagButton>
+            ))}
+          </Flex>
+          <Flex
+            w={{ base: '100%', lg: '40%' }}
+            justify="space-between"
+            mt={{ base: '18px', lg: 0 }}
+          >
+            <ToggleTagListButton onClick={() => setShowMore(false)}>
+              Show Less
+            </ToggleTagListButton>
+            <Button onClick={clearAllTags} alignSelf="flex-start">
+              x Clear all tags
+            </Button>
+          </Flex>
+        </>
       ) : (
-        <ToggleTagListButton onClick={() => setShowMore(false)}>
-          Show Less
-        </ToggleTagListButton>
+        <>
+          <Flex
+            w={{ base: '100%', lg: '60%' }}
+            justify={{ base: '', lg: 'space-around' }}
+            align="center"
+            flexWrap={{ base: 'nowrap', lg: 'wrap' }}
+            _after={{ content: "''", flex: 'auto' }}
+            sx={{ gap: '4px' }}
+            direction={{ lg: 'row' }}
+            overflowX={{ base: 'scroll', lg: 'initial' }}
+          >
+            <Text variant="B300" color={useToken('colors', 'grey.900')}>
+              Topics:
+            </Text>
+            {featuredTags.map((tag) => (
+              <TagButton
+                tag={tag}
+                addTag={addTag}
+                removeTag={removeTag}
+                selectedFilters={selectedFilters}
+              >
+                {tag.title}
+              </TagButton>
+            ))}
+          </Flex>
+          <Flex
+            w={{ base: '100%', lg: '40%' }}
+            justify="space-between"
+            mt={{ base: '18px', lg: 0 }}
+          >
+            <ToggleTagListButton onClick={() => setShowMore(true)}>
+              Show All
+            </ToggleTagListButton>
+            <Button onClick={clearAllTags} alignSelf="flex-start">
+              x Clear all tags
+            </Button>
+          </Flex>
+        </>
       )}
     </Flex>
   );
@@ -135,17 +175,15 @@ export default function TagFilters({
       justify="space-between"
       direction={{ base: 'column', lg: 'row' }}
     >
-      <Flex w={{ base: '100%', lg: '70%' }}>
+      <Flex w={{ base: '100%', lg: '100%' }}>
         <Tags
           addTag={addTag}
           removeTag={removeTag}
           selectedFilters={selectedFilters}
           setSelectedFilters={setSelectedFilters}
+          clearAllTags={clearAllTags}
         />
       </Flex>
-      <Button onClick={clearAllTags} alignSelf="flex-start">
-        x Clear all tags
-      </Button>
     </Flex>
   );
 }
