@@ -95,10 +95,7 @@ function TagModal({ isOpen, onClose, tags, clearAllTags }) {
         <ModalCloseButton />
         <ModalBody>
           <Flex direction="column" justify="space-evenly">
-            <CheckboxGroup
-              colorScheme="green"
-              defaultValue={['naruto', 'kakashi']}
-            >
+            <CheckboxGroup colorScheme="green">
               {tags.tags?.map((tag) => (
                 <Flex
                   pt="18px"
@@ -209,8 +206,15 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
             <ToggleTagListButton onClick={() => setShowMore(false)}>
               Show Less
             </ToggleTagListButton>
-            <Button onClick={clearAllTags} alignSelf="flex-start">
-              x Clear all tags
+            <Button
+              onClick={clearAllTags}
+              alignSelf="flex-start"
+              bg="none"
+              _hover={{ background: 'none' }}
+            >
+              <Text color="primary.500" variant="B200" fontWeight="500">
+                x Clear all tags
+              </Text>
             </Button>
           </Flex>
         </>
@@ -248,8 +252,15 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
             <ToggleTagListButton onClick={showAllEventVariant}>
               Show All
             </ToggleTagListButton>
-            <Button onClick={clearAllTags} alignSelf="flex-start">
-              x Clear all tags
+            <Button
+              onClick={clearAllTags}
+              alignSelf="flex-start"
+              bg="none"
+              _hover={{ background: 'none' }}
+            >
+              <Text color="primary.500" variant="B200" fontWeight="500">
+                x Clear all tags
+              </Text>
             </Button>
           </Flex>
         </>
