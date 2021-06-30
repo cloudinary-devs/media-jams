@@ -6,6 +6,7 @@ import {
   Text,
   Box,
   useToken,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import BlockContent from '@sanity/block-content-to-react';
 import { FaTwitter, FaGithub, FaGlobe } from 'react-icons/fa';
@@ -29,7 +30,7 @@ function UnstyledIconButton(props) {
 }
 function SocialHandlesCollection({ author }) {
   return (
-    <Flex mt="8px">
+    <Flex mt="8px" alignSelf={{ base: 'center', lg: 'normal' }}>
       {author?.socialHandles &&
         Object.keys(author?.socialHandles).map((key) => {
           if (key === 'twitter') {
@@ -75,27 +76,34 @@ function SocialHandlesCollection({ author }) {
 }
 
 export default function AuthorBanner({ author }) {
+  const jobTitleVariant = useBreakpointValue({ base: 'B100', lg: 'B300' });
   return (
     <Flex
       w={{ base: '90%', lg: '1000px' }}
       mt="24px"
       border={`2px solid ${useToken('colors', 'primary.400')}`}
       borderRadius="8px"
-      h={{ base: '500px', lg: '300px' }}
+      h={{ base: '520px', lg: '300px' }}
       boxShadow={`4px 3px 0px 3px ${useToken('colors', 'primary.400')}`}
-      p={14}
+      p={{ base: 0, lg: 14 }}
     >
-      <Flex w="100%" direction="column">
-        <Flex sx={{ gap: '8px' }}>
+      <Flex w="100%">
+        <Flex
+          sx={{ gap: '8px' }}
+          direction={{ base: 'column', lg: 'row' }}
+          align={{ base: 'center' }}
+          textAlign={{ base: 'center', lg: 'initial' }}
+        >
           <Avatar
-            width="132px"
-            height="132px"
+            width={{ base: '96px', lg: '132px' }}
+            height={{ base: '96px', lg: '132px' }}
             name={author.name}
             src={author.image?.asset.url}
             border="1px solid #88B1FC"
             showBorder
+            mt={{ base: '8px' }}
           />
-          <Flex ml="20px" direction="column">
+          <Flex p="12px" ml={{ base: 0, lg: '20px' }} direction="column">
             <Flex
               w="100%"
               justify={{ base: '', lg: 'space-between' }}
@@ -103,10 +111,14 @@ export default function AuthorBanner({ author }) {
               mb="8px"
             >
               <Flex direction="column">
-                <Heading size="H300" color="grey.900" fontWeight="bold">
+                <Heading
+                  size={{ base: 'H200', lg: 'H300' }}
+                  color="grey.900"
+                  fontWeight="bold"
+                >
                   {author.name}
                 </Heading>
-                <Text mt="4px" color="grey.700" variant="B300">
+                <Text mt="4px" color="grey.700" variant={jobTitleVariant}>
                   {author.jobTitle}
                 </Text>
               </Flex>
@@ -117,7 +129,7 @@ export default function AuthorBanner({ author }) {
               textAlign="left"
               fontSize="16px"
               lineHeight="148%"
-              color="#4D545C"
+              color="grey.800"
             >
               <BlockContent blocks={author?.bioRaw} />
             </Box>

@@ -50,6 +50,7 @@ export default function JamCard({ jam }) {
       border="1px solid #D3DDE6"
       borderRadius="8px"
       h="200px"
+      bg="white"
       p={5}
     >
       <Flex w="60%" direction="column" justify="space-evenly">

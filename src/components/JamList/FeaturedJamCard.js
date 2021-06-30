@@ -55,6 +55,7 @@ export default function FeaturedJamCard({ jam }) {
       h={{ base: '250px', lg: '300px' }}
       boxShadow={`4px 3px 0px 3px ${useToken('colors', 'primary.400')}`}
       p={5}
+      bg="white"
     >
       <Flex w="60%" direction="column" justify="space-evenly">
         <Flex align="center" justify="space-between" w="100%">
