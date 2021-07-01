@@ -3,6 +3,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  useBreakpointValue,
   useToken,
 } from '@chakra-ui/react';
 import { Search } from '@components/Icons';
@@ -12,6 +13,10 @@ import { useMixPanel } from '@lib/mixpanel';
 export default function SearchInput({ searchValue, setSearchValue }) {
   const mixpanel = useMixPanel();
   const debounceSearchValue = useDebounce(searchValue, 500);
+  const placeHolderVariant = useBreakpointValue({
+    base: 'Search',
+    lg: 'Search by tag, title, keyword, author, etc...',
+  });
 
   React.useEffect(() => {
     if (debounceSearchValue) {
@@ -38,7 +43,7 @@ export default function SearchInput({ searchValue, setSearchValue }) {
         value={searchValue}
         onChange={onChange}
         h="56px"
-        placeholder="Search by tag, title, keyword, author, etc..."
+        placeholder={placeHolderVariant}
         _placeholder={{
           fontFamily: 'DM Sans',
           fontSize: '16px',
