@@ -2,8 +2,11 @@ import { Flex, useDisclosure, useBreakpointValue } from '@chakra-ui/react';
 import Sidebar from '@components/Sidebar';
 import { MobileTopBar } from '@components/Sidebar/MobileTopBar';
 
+import { useSidePanel } from '@components/SidePanelProvider';
+
 export default function Layout({ children }) {
-  const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
+  // const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
+  const { nav, isOpen, onClose, onOpen, onToggle } = useSidePanel();
   const smVariant = {
     navigation: 'drawer',
     navigationButton: true,
