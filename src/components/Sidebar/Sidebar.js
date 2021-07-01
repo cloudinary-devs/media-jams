@@ -1,28 +1,15 @@
 import {
-  Box,
   Button,
-  Drawer,
-  DrawerOverlay,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  DrawerContent,
   VStack,
   HStack,
   Flex,
   Stack,
   Spacer,
-  Slide,
-  Icon,
   IconButton,
-  createIcon,
-  useDisclosure,
-  useBreakpointValue,
-  useAriaHidden,
 } from '@chakra-ui/react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
-import { GoGrabber } from 'react-icons/go';
 import {
   Authors,
   Bookmark,
@@ -33,7 +20,7 @@ import {
   Signup,
   JoinDiscord,
 } from '@components/Icons';
-import React from 'react';
+import { useSidePanel } from '@components/SidePanelProvider';
 
 // Navigation
 const SideStrip = ({ onToggle }) => {
@@ -128,7 +115,8 @@ const SidebarContent = ({ onClose, isOpen }) => {
   );
 };
 
-const Sidebar = ({ variants, isOpen, onOpen, onClose, onToggle }) => {
+const Sidebar = () => {
+  const { nav, isOpen, onClose, onOpen, onToggle, variants } = useSidePanel();
   React.useEffect(() => {
     if (variants?.style === 'sidebar') {
       // onOpen();

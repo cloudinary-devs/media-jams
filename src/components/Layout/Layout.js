@@ -12,13 +12,7 @@ export default function Layout({ children }) {
       h="100vh"
       flexDirection={variants?.style === 'sidebar' ? 'row' : 'column'}
     >
-      <Sidebar
-        variants={variants}
-        onClose={onClose}
-        isOpen={isOpen}
-        onToggle={onToggle}
-        onOpen={onOpen}
-      />
+      <Sidebar />
       <MobileTopBar
         variants={variants}
         onClose={onClose}
