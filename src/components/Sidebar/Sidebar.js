@@ -130,11 +130,11 @@ const SidebarContent = ({ onClose, isOpen }) => {
 
 const Sidebar = ({ variants, isOpen, onOpen, onClose, onToggle }) => {
   React.useEffect(() => {
-    if (variants?.navigation === 'sidebar') {
+    if (variants?.style === 'sidebar') {
       // onOpen();
     }
   }, []);
-  return variants?.navigation === 'sidebar' ? (
+  return variants?.style === 'sidebar' ? (
     <motion.div
       style={{
         display: 'flex',
