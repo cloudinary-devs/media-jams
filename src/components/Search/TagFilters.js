@@ -123,7 +123,7 @@ function TagModal({ isOpen, onClose, tags, clearAllTags }) {
               _hover={{ background: 'none' }}
             >
               <Text color="primary.500" variant="B200" fontWeight="500">
-                x Clear all tags
+                X Clear all tags
               </Text>
             </Button>
             <Button
@@ -213,7 +213,7 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
               _hover={{ background: 'none' }}
             >
               <Text color="primary.500" variant="B200" fontWeight="500">
-                x Clear all tags
+                X Clear all tags
               </Text>
             </Button>
           </Flex>
@@ -229,6 +229,7 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
             sx={{ gap: '8px' }}
             direction={{ lg: 'row' }}
             overflowX={{ base: 'scroll', lg: 'initial' }}
+            mt={{ base: 0, lg: '8px' }}
           >
             <Text variant="B300" color={useToken('colors', 'grey.900')}>
               Topics:
@@ -245,9 +246,10 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
             ))}
           </Flex>
           <Flex
-            w={{ base: '100%', lg: '40%' }}
+            w={{ base: '100%', lg: '38%' }}
             justify="space-between"
             mt={{ base: '18px', lg: 0 }}
+            ml={{ base: '0', lg: '14px' }}
           >
             <ToggleTagListButton onClick={showAllEventVariant}>
               Show All
@@ -259,7 +261,7 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
               _hover={{ background: 'none' }}
             >
               <Text color="primary.500" variant="B200" fontWeight="500">
-                x Clear all tags
+                X Clear all tags
               </Text>
             </Button>
           </Flex>

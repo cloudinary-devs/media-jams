@@ -6,6 +6,7 @@ import {
   Avatar,
   IconButton,
   Link,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import Image from '@components/Image';
 
@@ -21,6 +22,7 @@ export default function JamCard({ jam }) {
   const { author } = jam;
   const { user } = useUser();
   const [isBookmarked, setBookmark] = React.useState(false);
+  const gapVariant = useBreakpointValue({ base: '4px', lg: '12px' });
 
   const { data: dataBookmarks, isLoading } = useBookmarksQuery();
 
@@ -96,7 +98,7 @@ export default function JamCard({ jam }) {
             {jam.title}
           </Heading>
         </Link>
-        <Flex justify="flex-start" sx={{ gap: '12px' }} wrap="wrap">
+        <Flex justify="flex-start" sx={{ gap: gapVariant }} wrap="wrap">
           {jam.tags.map((tag) => (
             <Text variant="B100" color="primary.400">
               #{tag.title}

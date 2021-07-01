@@ -22,7 +22,7 @@ const fuseOptions = {
   keys: ['title', 'tags.title', 'author.name'],
 };
 
-export default function NewDashboard() {
+export default function Dashboard() {
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [filteredPosts, setFilteredPosts] = React.useState([]);
