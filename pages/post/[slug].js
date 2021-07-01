@@ -18,6 +18,7 @@ import EmailSubscription from '@components/EmailSubscription';
 import CodeBlock from '@components/CodeBlock';
 import CodeSandbox from '@components/CodeSandbox';
 import EmbeddedIframe from '@components/EmbeddedIframe';
+import MDXComponents from '@components/MDXComponents';
 
 const components = {
   CodeSandbox,
@@ -46,29 +47,28 @@ export default function Post({ post, preview, error }) {
   });
 
   return (
-    <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      <Flex
-        bg="white"
-        direction="column"
-        width="100%"
-        height="100%"
-        overflow="auto"
-      >
-        <JamContentHero
-          author={author}
-          description={post.description}
-          title={post.title}
-          imageUrl={post.coverImage}
-        ></JamContentHero>
-        <main ref={mainContentRef}>
-          <JamContent>
-            <MDXRemote {...post.content} components={components} />
-          </JamContent>
-        </main>
-        <JamAuthorBanner author={author}></JamAuthorBanner>
-        <EmailSubscription />
-      </Flex>
-    </Layout>
+    <Flex
+      bg="white"
+      direction="column"
+      width="100%"
+      height="100%"
+      overflow="auto"
+    >
+      <JamContentHero
+        author={author}
+        description={post.description}
+        title={post.title}
+        imageUrl={post.coverImage}
+        date={post.updatedAt}
+      ></JamContentHero>
+      <main ref={mainContentRef}>
+        <JamContent>
+          <MDXRemote {...post.content} components={MDXComponents} />
+        </JamContent>
+      </main>
+      <JamAuthorBanner author={author}></JamAuthorBanner>
+      <EmailSubscription />
+    </Flex>
   );
 }
 /**
