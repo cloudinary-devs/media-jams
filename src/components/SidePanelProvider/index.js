@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDisclosure, useBreakpointValue } from '@chakra-ui/react';
 
-const TABS = {
-  authors: 'AUTHORS',
-  bookmarks: 'BOOKMARKS',
-  notes: 'NOTES',
-  more: 'MORE',
+export const TABS = {
+  AUTHORS: { value: 'AUTHORS', name: 'Authors' },
+  MORE: { value: 'MORE', name: 'Authors' },
+  BOOKMARKS: { value: 'BOOKMARKS', name: 'Authors' },
+  NOTES: { value: 'NOTES', name: 'Authors' },
 };
 
 // Create Context object.
@@ -23,17 +23,35 @@ const mdVariant = {
 };
 
 const initialNavState = {
-  activeTab: TABS.authors,
+  tabs: TABS,
+  activeTab: TABS.AUTHORS.value,
 };
 // Export Provider.
 export function SidePanelProvider({ nav = initialNavState, children }) {
-  const [state, setState] = React.useState({ nav });
+  const [state, setState] = React.useState({ ...nav });
   const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
 
+  const setActiveTab = (tabValue) => {
+    console.log(tabValue);
+    setState((prevState) => ({
+      ...prevState,
+      activeTab: TABS[tabValue].value,
+    }));
+  };
+
   return (
     <SidePanelContext.Provider
-      value={{ ...state, isOpen, onClose, onOpen, onToggle, variants }}
+      value={{
+        ...state,
+        isOpen,
+        onClose,
+        onOpen,
+        onToggle,
+        variants,
+        setActiveTab,
+        activeTab: state.activeTab,
+      }}
     >
       {children}
     </SidePanelContext.Provider>

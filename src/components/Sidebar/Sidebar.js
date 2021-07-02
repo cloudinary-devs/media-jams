@@ -3,9 +3,10 @@ import {
   VStack,
   HStack,
   Flex,
-  Stack,
+  Box,
   Spacer,
   IconButton,
+  ColorModeScript,
 } from '@chakra-ui/react';
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -20,10 +21,34 @@ import {
   Signup,
   JoinDiscord,
 } from '@components/Icons';
-import { useSidePanel } from '@components/SidePanelProvider';
+import { useSidePanel, TABS } from '@components/SidePanelProvider';
+import { MoreContentPanel, AuthorsPanel } from './SideContent';
+
+const SideStripButton = ({ value, onClick, icon, childern, ...props }) => (
+  <Box
+    as="button"
+    colorScheme="ghost"
+    aria-label={value}
+    onClick={onClick}
+    {...props}
+  >
+    {icon}
+    {childern}
+  </Box>
+);
 
 // Navigation
-const SideStrip = ({ onToggle }) => {
+const SideStrip = () => {
+  const { onToggle, setActiveTab, activeTab } = useSidePanel();
+  // onClick set nav.ActiveTab to name
+  // toogle only if click is activeTab
+  const handleOnClick = (e) => {
+    if (e.target.value === activeTab) {
+      onToggle();
+    }
+    setActiveTab(e.target.value);
+  };
+  const { AUTHORS, MORE } = TABS;
   return (
     <VStack
       w="80px"
@@ -33,25 +58,33 @@ const SideStrip = ({ onToggle }) => {
     >
       <VStack spacing={{ base: 2, md: 6 }}>
         <Spacer />
-        <IconButton
-          colorScheme="ghost"
-          aria-label="Authors"
-          icon={<Authors />}
-        />
-        <IconButton
-          colorScheme="ghost"
-          aria-label="Bookmark"
+        <Button
+          value={AUTHORS.value}
+          isActive={AUTHORS.value === activeTab ? true : false}
+          onClick={handleOnClick}
+        >
+          Authors
+        </Button>
+        <Button
+          value={MORE.value}
+          isActive={MORE.value === activeTab ? true : false}
+          onClick={handleOnClick}
+        >
+          More
+        </Button>
+        <SideStripButton
+          name="Bookmark"
           icon={<Bookmark />}
+          onClick={handleOnClick}
         />
-        <IconButton colorScheme="ghost" aria-label="Notes" icon={<Note />} />
-        <IconButton
-          colorScheme="ghost"
-          aria-label="More Tab"
+        <SideStripButton value="Notes" icon={<Note />} />
+        <SideStripButton
+          name="More Tab"
           fontSize="44px"
           icon={<MoreTab />}
-          onClick={onToggle}
+          onClick={handleOnClick}
         />
-        <IconButton colorScheme="ghost" aria-label="Signup" icon={<Signup />} />
+        <SideStripButton name="Signup" icon={<Signup />} />
       </VStack>
       <Spacer />
       <IconButton
@@ -89,32 +122,28 @@ const SideTopBar = ({ onClose, onToggle }) => {
   );
 };
 
-const SideMenuButton = ({ children }) => (
-  <Button variant="solid" bg="white" w="100%" color="grey.900">
-    {children}
-  </Button>
-);
+{
+  /* <Switch>
+<Route path={`${path}`} exact component={Profile} />
+<Route path={`${path}/comments`} component={Comments} />
+<Route path={`${path}/contact`} component={Contact} />
+</Switch> */
+}
+
+const SidebarContent = () => {
+  const { nav, isOpen, onClose, activeTab } = useSidePanel();
+  return (
+    <Flex direction="column" h="100vh" width={{ base: '380px' }}>
+      <SideTopBar onClose={onClose} />
+      {activeTab === TABS.MORE.value ? <MoreContentPanel /> : <AuthorsPanel />}
+    </Flex>
+  );
+};
 
 const animationVariants = {
   open: { width: '100%' },
   closed: { width: 0 },
 };
-
-const SidebarContent = ({ onClose, isOpen }) => {
-  return (
-    <Flex direction="column" h="100vh" width={{ base: '380px' }}>
-      <SideTopBar onClose={onClose} />
-      <Stack spacing={8}>
-        <Stack px={6} py={8}>
-          <SideMenuButton>Creator Docs</SideMenuButton>
-          <SideMenuButton>Media Kit</SideMenuButton>
-          <SideMenuButton>Provide Feedback</SideMenuButton>
-        </Stack>
-      </Stack>
-    </Flex>
-  );
-};
-
 const Sidebar = () => {
   const { nav, isOpen, onClose, onOpen, onToggle, variants } = useSidePanel();
   React.useEffect(() => {
