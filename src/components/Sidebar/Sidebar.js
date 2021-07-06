@@ -54,7 +54,7 @@ const SideNavButtonIcon = ({
 
 // Navigation
 const SideStrip = () => {
-  const { onToggle, setActiveTab, activeTab, isOpen } = useSidePanel();
+  const { onToggle, setActiveTab, activeTab } = useSidePanel();
   // onClick set nav.ActiveTab to name
   const handleOnClick = (e) => {
     setActiveTab(e.target.value);
