@@ -109,7 +109,7 @@ const SideTopBar = ({ onClose, onToggle }) => {
         />
       </HStack>
       <Spacer />
-      <HStack spacing={3} px={4}>
+      <HStack spacing={3} px={4} minH="48px">
         <Button size="sm" variant="ghost" color="primary.500" onClick={onClose}>
           Login
         </Button>

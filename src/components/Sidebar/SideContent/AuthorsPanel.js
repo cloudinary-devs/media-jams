@@ -113,6 +113,7 @@ const AuthorsPanel = () => {
   const { data, isLoading } = useQuery(`authors`, () => authors.get());
 
   React.useEffect(() => {
+    if (!data?.authors) return;
     if (!searchValue) {
       handleFilter(data?.authors);
     } else {
