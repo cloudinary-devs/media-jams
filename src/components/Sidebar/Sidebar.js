@@ -1,39 +1,28 @@
+import React from 'react';
 import {
-  Box,
   Button,
-  Drawer,
-  DrawerOverlay,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  DrawerContent,
   VStack,
   HStack,
   Flex,
   Stack,
   Spacer,
-  Slide,
-  Icon,
   IconButton,
-  createIcon,
   useDisclosure,
-  useBreakpointValue,
-  useAriaHidden,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
-import { GoGrabber } from 'react-icons/go';
+import NoteModal from '@components/NoteModal';
 import {
   Authors,
   Bookmark,
   MoreTab,
-  BWLogo,
   SideToggle,
   Note,
   Signup,
   JoinDiscord,
 } from '@components/Icons';
-import React from 'react';
+
+import { useUser } from '@auth0/nextjs-auth0';
 
 // Navigation
 const SideStrip = ({ onToggle }) => {
@@ -78,8 +67,12 @@ const SideStrip = ({ onToggle }) => {
 };
 
 const SideTopBar = ({ onClose, onToggle }) => {
+  const { user } = useUser();
+  const { isOpen, onOpen, onClose: onCloseModal } = useDisclosure();
+
   return (
     <Flex w="100%" h="64px">
+      <NoteModal isOpen={isOpen} onClose={onCloseModal} />
       <HStack display={{ base: 'none', md: 'block' }} spacing={3}>
         <IconButton
           onClick={onClose}
@@ -90,14 +83,23 @@ const SideTopBar = ({ onClose, onToggle }) => {
         />
       </HStack>
       <Spacer />
-      <HStack spacing={3} px={4}>
-        <Button size="sm" variant="ghost" color="primary.500" onClick={onClose}>
-          Login
-        </Button>
-        <Button size="sm" colorScheme="primary">
-          Sign Up
-        </Button>
-      </HStack>
+      {user ? (
+        <Button onClick={onOpen}>Create Note</Button>
+      ) : (
+        <HStack spacing={3} px={4}>
+          <Button
+            size="sm"
+            variant="ghost"
+            color="primary.500"
+            onClick={onClose}
+          >
+            Login
+          </Button>
+          <Button size="sm" colorScheme="primary">
+            Sign Up
+          </Button>
+        </HStack>
+      )}
     </Flex>
   );
 };
