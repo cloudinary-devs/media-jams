@@ -6,23 +6,13 @@ import {
   Box,
   Spacer,
   IconButton,
-  ColorModeScript,
+  Tooltip,
 } from '@chakra-ui/react';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
-import {
-  AuthorsIcon,
-  BookmarkIcon,
-  MoreTab,
-  BWLogo,
-  SideToggle,
-  Note,
-  Signup,
-  JoinDiscord,
-} from '@components/Icons';
+import { SideToggle, JoinDiscord } from '@components/Icons';
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
-import { MoreContentPanel, AuthorsPanel, BookmarksPanel } from './SideContent';
 
 const SideNavButtonIcon = ({
   value,
@@ -34,21 +24,30 @@ const SideNavButtonIcon = ({
   ...props
 }) => {
   return (
-    <Button
-      colorScheme="ghost"
-      aria-label={displayName}
-      value={value}
-      onClick={onClick}
-      isActive={value === activeTab ? true : false}
-      px="3"
-      _active={{
-        bg: 'primary.500',
-        transform: 'scale(0.98)',
-      }}
-      {...props}
+    <Tooltip
+      hasArrow
+      label={displayName}
+      placement="right"
+      openDelay={500}
+      bg="whiteAlpha.900"
+      color="grey.900"
     >
-      {children}
-    </Button>
+      <Button
+        colorScheme="ghost"
+        aria-label={displayName}
+        value={value}
+        onClick={onClick}
+        isActive={value === activeTab ? true : false}
+        px="3"
+        _active={{
+          bg: 'primary.500',
+          transform: 'scale(0.98)',
+        }}
+        {...props}
+      >
+        {children}
+      </Button>
+    </Tooltip>
   );
 };
 
