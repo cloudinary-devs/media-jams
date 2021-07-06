@@ -1,11 +1,32 @@
 import React from 'react';
+import { AuthorsIcon, BookmarkIcon, MoreTab } from '@components/Icons';
+import {
+  MoreContentPanel,
+  AuthorsPanel,
+  BookmarksPanel,
+} from '@components/Sidebar/SideContent';
 import { useDisclosure, useBreakpointValue } from '@chakra-ui/react';
 
 export const TABS = {
-  AUTHORS: { value: 'AUTHORS', name: 'Authors' },
-  MORE: { value: 'MORE', name: 'Authors' },
-  BOOKMARKS: { value: 'BOOKMARKS', name: 'Authors' },
-  NOTES: { value: 'NOTES', name: 'Authors' },
+  AUTHORS: {
+    value: 'AUTHORS',
+    displayName: 'Authors',
+    Icon: AuthorsIcon,
+    Content: AuthorsPanel,
+  },
+  MORE: {
+    value: 'MORE',
+    displayName: 'More Info',
+    Icon: MoreTab,
+    Content: MoreContentPanel,
+  },
+  BOOKMARKS: {
+    value: 'BOOKMARKS',
+    displayName: 'Bookmarks',
+    Icon: BookmarkIcon,
+    Content: BookmarksPanel,
+  },
+  NOTES: { value: 'NOTES', displayName: 'Notes' },
 };
 
 // Create Context object.
@@ -33,7 +54,12 @@ export function SidePanelProvider({ nav = initialNavState, children }) {
   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
 
   const setActiveTab = (tabValue) => {
-    console.log(tabValue);
+    if (
+      (tabValue !== state.activeTab && !isOpen) ||
+      tabValue === state.activeTab
+    ) {
+      onToggle();
+    }
     setState((prevState) => ({
       ...prevState,
       activeTab: TABS[tabValue].value,

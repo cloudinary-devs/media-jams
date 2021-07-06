@@ -12,8 +12,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
 import {
-  Authors,
-  Bookmark,
+  AuthorsIcon,
+  BookmarkIcon,
   MoreTab,
   BWLogo,
   SideToggle,
@@ -22,33 +22,45 @@ import {
   JoinDiscord,
 } from '@components/Icons';
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
-import { MoreContentPanel, AuthorsPanel } from './SideContent';
+import { MoreContentPanel, AuthorsPanel, BookmarksPanel } from './SideContent';
 
-const SideStripButton = ({ value, onClick, icon, childern, ...props }) => (
-  <Box
-    as="button"
-    colorScheme="ghost"
-    aria-label={value}
-    onClick={onClick}
-    {...props}
-  >
-    {icon}
-    {childern}
-  </Box>
-);
+const SideNavButtonIcon = ({
+  value,
+  displayName,
+  onClick,
+  icon,
+  activeTab,
+  children,
+  ...props
+}) => {
+  return (
+    <Button
+      colorScheme="ghost"
+      aria-label={displayName}
+      value={value}
+      onClick={onClick}
+      isActive={value === activeTab ? true : false}
+      px="3"
+      _active={{
+        bg: 'primary.500',
+        transform: 'scale(0.98)',
+      }}
+      {...props}
+    >
+      {children}
+    </Button>
+  );
+};
 
 // Navigation
 const SideStrip = () => {
-  const { onToggle, setActiveTab, activeTab } = useSidePanel();
+  const { onToggle, setActiveTab, activeTab, isOpen } = useSidePanel();
   // onClick set nav.ActiveTab to name
-  // toogle only if click is activeTab
   const handleOnClick = (e) => {
-    if (e.target.value === activeTab) {
-      onToggle();
-    }
     setActiveTab(e.target.value);
   };
-  const { AUTHORS, MORE } = TABS;
+  const { AUTHORS, MORE, BOOKMARKS, NOTES } = TABS;
+  const sideNavTabs = [AUTHORS, BOOKMARKS, MORE];
   return (
     <VStack
       w="80px"
@@ -58,33 +70,20 @@ const SideStrip = () => {
     >
       <VStack spacing={{ base: 2, md: 6 }}>
         <Spacer />
-        <Button
-          value={AUTHORS.value}
-          isActive={AUTHORS.value === activeTab ? true : false}
-          onClick={handleOnClick}
-        >
-          Authors
-        </Button>
-        <Button
-          value={MORE.value}
-          isActive={MORE.value === activeTab ? true : false}
-          onClick={handleOnClick}
-        >
-          More
-        </Button>
-        <SideStripButton
-          name="Bookmark"
-          icon={<Bookmark />}
-          onClick={handleOnClick}
-        />
-        <SideStripButton value="Notes" icon={<Note />} />
-        <SideStripButton
-          name="More Tab"
-          fontSize="44px"
-          icon={<MoreTab />}
-          onClick={handleOnClick}
-        />
-        <SideStripButton name="Signup" icon={<Signup />} />
+        {sideNavTabs.map(({ value, displayName, Icon }) => (
+          <SideNavButtonIcon
+            value={value}
+            displayName={displayName}
+            activeTab={activeTab}
+            onClick={handleOnClick}
+          >
+            <Icon
+              pointerEvents="none"
+              boxSize="6"
+              color={value !== activeTab ? 'primary.500' : 'white'}
+            />
+          </SideNavButtonIcon>
+        ))}
       </VStack>
       <Spacer />
       <IconButton
@@ -132,10 +131,11 @@ const SideTopBar = ({ onClose, onToggle }) => {
 
 const SidebarContent = () => {
   const { nav, isOpen, onClose, activeTab } = useSidePanel();
+  const { Content } = TABS[activeTab];
   return (
     <Flex direction="column" h="100vh" width={{ base: '380px' }}>
       <SideTopBar onClose={onClose} />
-      {activeTab === TABS.MORE.value ? <MoreContentPanel /> : <AuthorsPanel />}
+      <Content />
     </Flex>
   );
 };
