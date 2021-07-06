@@ -1,9 +1,10 @@
 import React from 'react';
-import { AuthorsIcon, BookmarkIcon, MoreTab } from '@components/Icons';
+import { AuthorsIcon, BookmarkIcon, MoreTab, Note } from '@components/Icons';
 import {
   MoreContentPanel,
   AuthorsPanel,
   BookmarksPanel,
+  NotesPanel,
 } from '@components/Sidebar/SideContent';
 import { useDisclosure, useBreakpointValue } from '@chakra-ui/react';
 
@@ -26,7 +27,12 @@ export const TABS = {
     Icon: BookmarkIcon,
     Content: BookmarksPanel,
   },
-  NOTES: { value: 'NOTES', displayName: 'Notes' },
+  NOTES: {
+    value: 'NOTES',
+    displayName: 'Notes',
+    Icon: Note,
+    Content: NotesPanel,
+  },
 };
 
 // Create Context object.

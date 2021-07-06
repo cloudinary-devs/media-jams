@@ -60,7 +60,7 @@ const SideStrip = () => {
     setActiveTab(e.target.value);
   };
   const { AUTHORS, MORE, BOOKMARKS, NOTES } = TABS;
-  const sideNavTabs = [AUTHORS, BOOKMARKS, MORE];
+  const sideNavTabs = [AUTHORS, BOOKMARKS, NOTES, MORE];
   return (
     <VStack
       w="80px"
