@@ -7,7 +7,7 @@ import { useSidePanel } from '@components/SidePanelProvider';
 
 export default function Layout({ children }) {
   const { user } = useUser();
-  const { isOpen, onClose, onOpen, onToggle, variants } = useSidePanel();
+  const { variants } = useSidePanel();
   return (
     <Flex
       bg="#F8F7FC"
@@ -15,13 +15,7 @@ export default function Layout({ children }) {
       flexDirection={variants?.style === 'sidebar' ? 'row' : 'column'}
     >
       <Sidebar />
-      <MobileTopBar
-        variants={variants}
-        onClose={onClose}
-        isOpen={isOpen}
-        onToggle={onToggle}
-        onOpen={onOpen}
-      />
+      <MobileTopBar />
       {children}
     </Flex>
   );
