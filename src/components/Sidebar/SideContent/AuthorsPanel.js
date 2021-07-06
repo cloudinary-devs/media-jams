@@ -9,7 +9,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  useBreakpointValue,
+  Link,
   useColorModeValue,
   useToken,
   VStack,
@@ -19,7 +19,6 @@ import { Search as SearchIcon } from '@components/Icons';
 import { useQuery } from 'react-query';
 import { authors } from '@lib/queries/authors';
 
-import SearchInput from '@components/Search/SearchInput';
 import { SocialHandlesCollection } from '@components/AuthorBanner';
 
 import Fuse from 'fuse.js';
@@ -28,11 +27,11 @@ const fuseOptions = {
   threshold: 0.35,
   location: 0,
   distance: 100,
-  minMatchCharLength: 1,
-  shouldSort: true,
+  minMatchCharLength: 2,
   includeScore: true,
   useExtendedSearch: true,
-  keys: ['author.name'],
+  isCaseSensitive: true,
+  keys: ['name'],
 };
 
 export const SearchField = ({ searchValue, onChange, ...props }) => {
@@ -84,9 +83,11 @@ export const AuthorCard = ({ author, ...props }) => {
           src={author.image?.asset.url}
         />
         <VStack alignItems="flex-start" ml="2">
-          <Heading as="h5" size="H100">
-            {author.name}
-          </Heading>
+          <Link href={`/author/${author.slug?.current}`}>
+            <Heading as="h5" size="H100">
+              {author.name}
+            </Heading>
+          </Link>
           <Text variant="B200">{author.jobTitle}</Text>
         </VStack>
         <Spacer />
@@ -113,12 +114,12 @@ const AuthorsPanel = () => {
 
   React.useEffect(() => {
     if (!searchValue) {
-      handleFilter(data?.allPost);
+      handleFilter(data?.authors);
     } else {
       const queries = {
         $or: [
           {
-            $path: ['author.name'],
+            $path: ['name'],
             $val: searchValue,
           },
         ],
@@ -128,7 +129,7 @@ const AuthorsPanel = () => {
     }
   }, [searchValue, data]);
 
-  const fuse = new Fuse(data?.allAuthors, fuseOptions);
+  const fuse = new Fuse(data?.authors, fuseOptions);
 
   const onChange = (e) => {
     const { value } = e.target;
@@ -149,7 +150,7 @@ const AuthorsPanel = () => {
     >
       <Stack>
         <SearchField value={searchValue} onChange={onChange} mb={6} />
-        {data.authors?.map((author) => (
+        {filteredAuthors.map((author) => (
           <AuthorCard author={author} />
         ))}
       </Stack>
