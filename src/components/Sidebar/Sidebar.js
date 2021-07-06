@@ -28,8 +28,8 @@ const SideNavButtonIcon = ({
       hasArrow
       label={displayName}
       placement="right"
-      openDelay={500}
-      bg="whiteAlpha.900"
+      openDelay={800}
+      bg="white"
       color="grey.900"
     >
       <Button
@@ -108,7 +108,7 @@ const SideTopBar = ({ onClose, onToggle }) => {
         />
       </HStack>
       <Spacer />
-      <HStack spacing={3} px={4} minH="48px">
+      <HStack spacing={3} px={4} minH="64px">
         <Button size="sm" variant="ghost" color="primary.500" onClick={onClose}>
           Login
         </Button>

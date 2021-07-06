@@ -27,7 +27,7 @@ import {
 } from '@chakra-ui/react';
 import Hero from '@components/Hero';
 import Footer from '@components/Footer';
-import Navbar from '@components/Navbar';
+
 import JamAccordion from '@components/JamAccordion';
 import { keyframes } from '@emotion/react';
 import { useMixPanel } from '@lib/mixpanel';
@@ -36,7 +36,6 @@ export default function Index() {
   const mixpanel = useMixPanel();
   return (
     <Flex direction="column" minH="calc(100vh - 50px)" w="100%">
-      <Navbar />
       <Flex direction="column">
         <Box flex={1}>
           <Hero />
