@@ -1,19 +1,26 @@
 import React from 'react';
 import {
-  Button,
+  Box,
+  Text,
+  Heading,
   Stack,
   Flex,
-  Text,
+  Avatar,
   Input,
   InputGroup,
   InputLeftElement,
   useBreakpointValue,
+  useColorModeValue,
   useToken,
+  VStack,
+  Spacer,
 } from '@chakra-ui/react';
 import { Search as SearchIcon } from '@components/Icons';
 import { useQuery } from 'react-query';
 import { authors } from '@lib/queries/authors';
+
 import SearchInput from '@components/Search/SearchInput';
+import { SocialHandlesCollection } from '@components/AuthorBanner';
 
 import Fuse from 'fuse.js';
 
@@ -57,10 +64,52 @@ export const SearchField = ({ searchValue, onChange, ...props }) => {
   );
 };
 
-const Authors = () => {
+export const AuthorCard = ({ author, ...props }) => {
+  return (
+    <Box
+      bg={useColorModeValue('white', 'gray.700')}
+      border="1px solid #D3DDE6"
+      borderRadius="8px"
+      maxWidth="2xl"
+      marginTop={2}
+      p={{ base: '2', md: '3' }}
+      shadow={{ md: 'base' }}
+      {...props}
+    >
+      <Flex direction="row" spacing={{ base: '1', md: '2' }}>
+        <Avatar
+          width="48px"
+          height="48px"
+          name={author.name}
+          src={author.image?.asset.url}
+        />
+        <VStack alignItems="flex-start" ml="2">
+          <Heading as="h5" size="H100">
+            {author.name}
+          </Heading>
+          <Text variant="B200">{author.jobTitle}</Text>
+        </VStack>
+        <Spacer />
+        <Flex
+          direction={{ base: 'column', md: 'row' }}
+          paddingTop={{ base: 0, md: '2' }}
+          justifyContent="space-around"
+        >
+          <SocialHandlesCollection
+            socialHandles={author?.socialHandles}
+            color="grey.600"
+            website={false}
+          />
+        </Flex>
+      </Flex>
+    </Box>
+  );
+};
+
+const AuthorsPanel = () => {
   const [searchValue, setSearchValue] = React.useState('');
   const [filteredAuthors, setFilteredAuthors] = React.useState([]);
-  const { data } = useQuery(`authors`, () => authors.get());
+  const { data, isLoading } = useQuery(`authors`, () => authors.get());
 
   React.useEffect(() => {
     if (!searchValue) {
@@ -87,13 +136,25 @@ const Authors = () => {
   };
 
   const handleFilter = (data) => setFilteredAuthors(data);
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
   return (
-    <Flex width={{ base: 'full' }} direction="column" px={6} py={8}>
+    <Flex
+      width={{ base: 'full' }}
+      direction="column"
+      px={{ base: 3, md: 6 }}
+      pb={8}
+      overflowY="auto"
+    >
       <Stack>
         <SearchField value={searchValue} onChange={onChange} mb={6} />
+        {data.authors?.map((author) => (
+          <AuthorCard author={author} />
+        ))}
       </Stack>
     </Flex>
   );
 };
 
-export default Authors;
+export default AuthorsPanel;

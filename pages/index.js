@@ -29,7 +29,6 @@ import Hero from '@components/Hero';
 import Footer from '@components/Footer';
 import Navbar from '@components/Navbar';
 import JamAccordion from '@components/JamAccordion';
-import AuthorCard from '@components/AuthorCard';
 import { keyframes } from '@emotion/react';
 import { useMixPanel } from '@lib/mixpanel';
 
@@ -154,8 +153,8 @@ function Authors() {
         mr="2"
       >
         {/* arbitrary set to the first 6 authors, update to 'feature flag' or wieghted */}
-        {data.allAuthor?.slice(0, 6).map((author) => (
-          <AuthorCard
+        {data.allAuthor?.slice(0, 6).map((author) => ({
+          /* <AuthorCard
             key={author?._id}
             h={72}
             mr={4}
@@ -170,8 +169,8 @@ function Authors() {
             _last={{
               marginRight: 10,
             }}
-          />
-        ))}
+          /> */
+        }))}
       </Flex>
     </Flex>
   );

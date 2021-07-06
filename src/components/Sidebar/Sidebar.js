@@ -121,19 +121,11 @@ const SideTopBar = ({ onClose, onToggle }) => {
   );
 };
 
-{
-  /* <Switch>
-<Route path={`${path}`} exact component={Profile} />
-<Route path={`${path}/comments`} component={Comments} />
-<Route path={`${path}/contact`} component={Contact} />
-</Switch> */
-}
-
 const SidebarContent = () => {
   const { nav, isOpen, onClose, activeTab } = useSidePanel();
   const { Content } = TABS[activeTab];
   return (
-    <Flex direction="column" h="100vh" width={{ base: '380px' }}>
+    <Flex direction="column" h="100vh" width={{ base: '430px' }}>
       <SideTopBar onClose={onClose} />
       <Content />
     </Flex>
@@ -157,7 +149,7 @@ const Sidebar = () => {
         display: 'flex',
         hieght: '100vh',
         minWidth: '80px',
-        maxWidth: '420px',
+        maxWidth: '480px',
         background: `radial-gradient(100% 100% at 50% 0%, #E1E2FF 0%, #F5F5FF 100%)`,
       }}
       animate={isOpen ? 'open' : 'closed'}

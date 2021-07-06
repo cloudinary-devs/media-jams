@@ -9,71 +9,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import BlockContent from '@sanity/block-content-to-react';
-import { FaTwitter, FaGithub, FaGlobe } from 'react-icons/fa';
-
-function UnstyledIconButton(props) {
-  return (
-    <IconButton
-      border="none"
-      bg="none"
-      outline="none"
-      _hover={{
-        bg: 'none',
-        border: 'none',
-      }}
-      _focus={{
-        outline: 'none',
-      }}
-      {...props}
-    />
-  );
-}
-function SocialHandlesCollection({ author }) {
-  return (
-    <Flex mt="8px" alignSelf={{ base: 'center', lg: 'normal' }}>
-      {author?.socialHandles &&
-        Object.keys(author?.socialHandles).map((key) => {
-          if (key === 'twitter') {
-            return (
-              <UnstyledIconButton
-                key={key}
-                as="a"
-                color="black"
-                href={author.socialHandles[key]}
-                size="md"
-                h="0"
-                icon={<FaTwitter />}
-              />
-            );
-          } else if (key === 'github') {
-            return (
-              <UnstyledIconButton
-                key={key}
-                as="a"
-                color="black"
-                href={author.socialHandles[key]}
-                size="md"
-                height="0"
-                icon={<FaGithub />}
-              />
-            );
-          } else if (key === 'website') {
-            return (
-              <UnstyledIconButton
-                key={key}
-                as="a"
-                color="black"
-                h="0"
-                href={author.socialHandles[key]}
-                size="md"
-                icon={<FaGlobe />}
-              />
-            );
-          }
-        })}
-    </Flex>
-  );
-}
+import { SocialHandlesCollection } from './SocialHandlesCollection';
 
 export default function AuthorBanner({ author }) {
   const jobTitleVariant = useBreakpointValue({ base: 'B100', lg: 'B300' });
@@ -122,7 +58,11 @@ export default function AuthorBanner({ author }) {
                   {author.jobTitle}
                 </Text>
               </Flex>
-              <SocialHandlesCollection author={author} />
+              <Flex mt="8px" alignSelf={{ base: 'center', lg: 'normal' }}>
+                <SocialHandlesCollection
+                  socialHandles={author?.socialHandles}
+                />
+              </Flex>
             </Flex>
             <Box
               w="100%"
