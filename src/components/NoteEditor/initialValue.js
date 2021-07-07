@@ -30,6 +30,15 @@ const createElement = (text = '', { type = ELEMENT_PARAGRAPH, mark } = {}) => {
   };
 };
 
+export const initialValueForcedLayout = (
+  <fragment>
+    <hh1>
+      <htext />
+    </hh1>
+    <hp></hp>
+  </fragment>
+);
+
 const initialValue = [
   createElement('🧱 Elements', { type: ELEMENT_H1 }),
   createElement('🔥 Basic Elements', { type: ELEMENT_H2 }),

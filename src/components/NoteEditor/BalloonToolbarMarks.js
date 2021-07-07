@@ -1,3 +1,5 @@
+import 'tippy.js/animations/scale.css';
+import 'tippy.js/dist/tippy.css';
 import {
   BalloonToolbar,
   useStoreEditorRef,
@@ -8,6 +10,7 @@ import {
   MARK_UNDERLINE,
   getSlatePluginType,
 } from '@udecode/slate-plugins';
+import { Box } from '@chakra-ui/react';
 import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
 
 export default function BalloonToolbarMarks() {
@@ -27,11 +30,13 @@ export default function BalloonToolbarMarks() {
   };
 
   return (
-    <BalloonToolbar
+    <Box
+      as={BalloonToolbar}
       direction={direction}
       hiddenDelay={hiddenDelay}
       theme={theme}
       arrow={arrow}
+      zIndex={999999}
     >
       <ToolbarMark
         type={getSlatePluginType(editor, MARK_BOLD)}
@@ -48,6 +53,6 @@ export default function BalloonToolbarMarks() {
         icon={<FaUnderline />}
         tooltip={{ content: 'Underline (⌘U)', ...tooltip }}
       />
-    </BalloonToolbar>
+    </Box>
   );
 }

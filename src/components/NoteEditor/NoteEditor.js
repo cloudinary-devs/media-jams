@@ -6,6 +6,7 @@ import { optionsAutoformat } from './autoFormat';
 
 import {
   SlatePlugins,
+  HeadingToolbar,
   createReactPlugin,
   createHistoryPlugin,
   createParagraphPlugin,
@@ -41,6 +42,7 @@ import {
 } from './pluginOptions';
 import { withStyledPlaceHolders } from './withStyledPlaceholders';
 
+import Toolbar from './Toolbar';
 let components = createSlatePluginsComponents();
 const options = createSlatePluginsOptions();
 
@@ -92,14 +94,23 @@ export default function NoteEditor() {
   };
 
   return (
-    <Box border="1px solid black" padding="30px">
+    <Box
+      padding="20px 20px 0px 20px"
+      border="1px solid #D3DDE6"
+      h="100%"
+      maxH="450px"
+      borderRadius="8px"
+    >
       <SlatePlugins
-        id="1"
+        id="NoteEditor"
         editableProps={editableProps}
         plugins={plugins}
         components={components}
         options={options}
       >
+        <HeadingToolbar>
+          <Toolbar />
+        </HeadingToolbar>
         <BalloonToolbarMarks />
       </SlatePlugins>
     </Box>
