@@ -15,6 +15,7 @@ import {
   VStack,
   Spacer,
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import { Search as SearchIcon } from '@components/Icons';
 import { useQuery } from 'react-query';
 import { authors } from '@lib/queries/authors';
@@ -83,11 +84,13 @@ export const AuthorCard = ({ author, ...props }) => {
           src={author.image?.asset.url}
         />
         <VStack alignItems="flex-start" ml="2">
-          <Link href={`/author/${author.slug?.current}`}>
-            <Heading as="h5" size="H100">
-              {author.name}
-            </Heading>
-          </Link>
+          <NextLink href={`/author/${author.slug?.current}`} passHref>
+            <Link>
+              <Heading as="h5" size="H100">
+                {author.name}
+              </Heading>
+            </Link>
+          </NextLink>
           <Text variant="B200">{author.jobTitle}</Text>
         </VStack>
         <Spacer />

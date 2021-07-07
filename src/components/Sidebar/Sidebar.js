@@ -71,7 +71,11 @@ const SideStrip = () => {
   const sideNavTabs = [AUTHORS, BOOKMARKS, NOTES, MORE];
   return (
     <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE">
-      <Link display={{ base: 'none', md: 'inline-flex' }} href="/">
+      <Link
+        as={NextLink}
+        display={{ base: 'none', md: 'inline-flex' }}
+        href="/"
+      >
         <IconButton
           size="lg"
           variant="unstyled"
