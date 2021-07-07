@@ -71,7 +71,11 @@ const SideStrip = () => {
   const sideNavTabs = [AUTHORS, BOOKMARKS, NOTES, MORE];
   return (
     <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE">
-      <Link display={{ base: 'none', md: 'inline-flex' }} href="/">
+      <Link
+        as={NextLink}
+        display={{ base: 'none', md: 'inline-flex' }}
+        href="/"
+      >
         <IconButton
           size="lg"
           variant="unstyled"
@@ -121,7 +125,7 @@ const SideStrip = () => {
   );
 };
 
-const SideTopBar = ({ onClose, onToggle }) => {
+const SideTopBar = ({ onClose }) => {
   const { user, isLoading: loadingUser } = useUser();
   return (
     <Flex w="100%" h="64px">
@@ -162,12 +166,13 @@ const SideTopBar = ({ onClose, onToggle }) => {
 };
 
 const SidebarContent = () => {
-  const { nav, isOpen, onClose, activeTab } = useSidePanel();
+  const { user, isLoading: loadingUser } = useUser();
+  const { onClose, activeTab } = useSidePanel();
   const { Content } = TABS[activeTab];
   return (
     <Flex direction="column" h="100vh" width={{ base: '430px' }}>
       <SideTopBar onClose={onClose} />
-      <Content />
+      <Content user={user} />
     </Flex>
   );
 };
@@ -177,7 +182,7 @@ const animationVariants = {
   closed: { width: 0 },
 };
 const Sidebar = () => {
-  const { nav, isOpen, onClose, onOpen, onToggle, variants } = useSidePanel();
+  const { isOpen, onClose, onOpen, onToggle, variants } = useSidePanel();
   React.useEffect(() => {
     if (variants?.style === 'sidebar') {
       // onOpen();

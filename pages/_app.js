@@ -50,6 +50,8 @@ const App = ({ Component, pageProps, err }) => {
     cloud: { cloudName: 'mediadevs' },
   });
 
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout || ((page) => page);
   const { user, nav } = pageProps;
 
   return (
@@ -71,9 +73,7 @@ const App = ({ Component, pageProps, err }) => {
                     siteName: 'MediaJams',
                   }}
                 />
-                <Layout>
-                  <Component {...pageProps} err={err} />
-                </Layout>
+                {getLayout(<Component {...pageProps} err={err} />)}
                 <ReactQueryDevtools initialIsOpen={false} />
               </SidePanelProvider>
             </UserProvider>

@@ -3,6 +3,7 @@ import { Flex } from '@chakra-ui/react';
 import AuthorBanner from '@components/AuthorBanner';
 import SearchInput from '@components/Search/SearchInput';
 import JamList from '@components/JamList';
+import Layout from '@components/Layout';
 
 import { useQuery } from 'react-query';
 import { jams } from '@lib/queries/jams';
@@ -87,6 +88,8 @@ export default function AuthorPage({ author }) {
     </Flex>
   );
 }
+
+AuthorPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export async function getStaticPaths() {
   const { authors } = require('../../lib/queries/authors');

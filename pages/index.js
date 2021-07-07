@@ -1,5 +1,6 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
+import Layout from '@components/Layout';
 import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
 import JamList from '@components/JamList';
 import Banner from '@components/Banner';
@@ -116,6 +117,8 @@ export default function Dashboard() {
     </Flex>
   );
 }
+
+Dashboard.getLayout = (page) => <Layout>{page}</Layout>;
 
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
