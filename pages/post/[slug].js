@@ -71,6 +71,8 @@ export default function Post({ post, preview, error }) {
     </Flex>
   );
 }
+
+Post.getLayout = (page) => <Layout>{page}</Layout>;
 /**
  * Get the paths we want to pre-render based on jams
  * filter out any jams that may not have a slug
