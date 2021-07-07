@@ -3,13 +3,14 @@ import {
   VStack,
   HStack,
   Flex,
-  Box,
+  Link,
   Spacer,
   IconButton,
   Tooltip,
 } from '@chakra-ui/react';
 import React from 'react';
 import { motion } from 'framer-motion';
+import NextLink from 'next/link';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
 import { SideToggle, JoinDiscord } from '@components/Icons';
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
@@ -112,9 +113,11 @@ const SideTopBar = ({ onClose, onToggle }) => {
       </HStack>
       <Spacer />
       <HStack spacing={3} px={4} minH="64px">
-        <Button size="sm" variant="ghost" color="primary.500" onClick={onClose}>
-          Login
-        </Button>
+        <NextLink href="/api/auth/login">
+          <Button size="sm" variant="ghost" color="primary.500">
+            Login
+          </Button>
+        </NextLink>
         <Button size="sm" colorScheme="primary">
           Sign Up
         </Button>

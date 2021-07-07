@@ -38,13 +38,13 @@ export default function JamCard({ jam }) {
       const postIds = dataBookmarks?.bookmarks?.map(
         ({ content_id }) => content_id,
       );
-      setBookmark(postIds.includes(post._id));
+      setBookmark(postIds.includes(jam._id));
     }
   }, [dataBookmarks, isLoading]);
 
   const handleBookmarkOnClick = () => {
     const toggleBookmark = isBookmarked ? removeBookmark : addBookmark;
-    toggleBookmark.mutate(post);
+    toggleBookmark.mutate(jam);
   };
   return (
     <Flex
