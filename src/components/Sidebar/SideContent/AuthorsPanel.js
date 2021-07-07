@@ -152,7 +152,7 @@ const AuthorsPanel = () => {
       <Stack>
         <SearchField value={searchValue} onChange={onChange} mb={6} />
         {filteredAuthors.map((author) => (
-          <AuthorCard author={author} />
+          <AuthorCard key={author._id} author={author} />
         ))}
       </Stack>
     </Flex>

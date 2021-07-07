@@ -18,7 +18,7 @@ export const BWLogo = (props) => (
       width="52"
       height="37"
     >
-      <g clip-path="url(#clip0)">
+      <g clipPath="url(#clip0)">
         <mask
           id="mask1"
           maskUnits="userSpaceOnUse"
@@ -42,7 +42,7 @@ export const BWLogo = (props) => (
           />
         </g>
       </g>
-      <g clip-path="url(#clip1)">
+      <g clipPath="url(#clip1)">
         <mask
           id="mask2"
           maskUnits="userSpaceOnUse"
