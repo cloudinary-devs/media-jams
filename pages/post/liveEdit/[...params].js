@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Error from '../../_error';
 import dynamic from 'next/dynamic';
-import { Flex } from '@chakra-ui/react';
+import Layout from '@components/Layout';
 import { useUser } from '@auth0/nextjs-auth0';
 import { postBySlug, queryDraftPostBody } from '@lib/api';
 import { previewClient } from '@lib/sanity';
@@ -72,3 +72,4 @@ export const getServerSideProps = async ({
 };
 
 export default LiveEdit;
+LiveEdit.getLayout = (page) => <Layout>{page}</Layout>;

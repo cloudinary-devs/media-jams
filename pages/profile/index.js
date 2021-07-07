@@ -144,4 +144,6 @@ export default function Profile({ user }) {
   );
 }
 
+Profile.getLayout = (page) => <Layout>{page}</Layout>;
+
 export const getServerSideProps = auth0.withPageAuthRequired();

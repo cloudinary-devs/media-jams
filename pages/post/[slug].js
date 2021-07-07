@@ -72,6 +72,13 @@ export default function Post({ post, preview, error }) {
   );
 }
 
+/**
+ *
+ * @param {ComponentPage} page
+ * share the same layout and sidebar
+ * https://github.com/vercel/next.js/tree/canary/examples/layout-component
+ * @returns
+ */
 Post.getLayout = (page) => <Layout>{page}</Layout>;
 /**
  * Get the paths we want to pre-render based on jams
