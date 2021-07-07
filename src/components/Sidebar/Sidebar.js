@@ -1,42 +1,68 @@
 import {
-  Box,
   Button,
-  Drawer,
-  DrawerOverlay,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  DrawerContent,
   VStack,
   HStack,
   Flex,
-  Stack,
+  Box,
   Spacer,
-  Slide,
-  Icon,
   IconButton,
-  createIcon,
-  useDisclosure,
-  useBreakpointValue,
-  useAriaHidden,
+  Tooltip,
 } from '@chakra-ui/react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
-import { GoGrabber } from 'react-icons/go';
-import {
-  Authors,
-  Bookmark,
-  MoreTab,
-  BWLogo,
-  SideToggle,
-  Note,
-  Signup,
-  JoinDiscord,
-} from '@components/Icons';
-import React from 'react';
+import { SideToggle, JoinDiscord } from '@components/Icons';
+import { useSidePanel, TABS } from '@components/SidePanelProvider';
+
+// Tooltip currently disabled
+// https://github.com/chakra-ui/chakra-ui/issues/4101
+const SideNavButtonIcon = ({
+  value,
+  displayName,
+  onClick,
+  icon,
+  activeTab,
+  children,
+  ...props
+}) => {
+  return (
+    <Tooltip
+      hasArrow
+      isDisabled={true}
+      label={displayName}
+      placement="right"
+      openDelay={800}
+      bg="white"
+      color="grey.900"
+    >
+      <Button
+        colorScheme="ghost"
+        aria-label={displayName}
+        value={value}
+        onClick={onClick}
+        isActive={value === activeTab ? true : false}
+        px="3"
+        _active={{
+          bg: 'primary.500',
+          transform: 'scale(0.98)',
+        }}
+        {...props}
+      >
+        {children}
+      </Button>
+    </Tooltip>
+  );
+};
 
 // Navigation
-const SideStrip = ({ onToggle }) => {
+const SideStrip = () => {
+  const { onToggle, setActiveTab, activeTab } = useSidePanel();
+  // onClick set nav.ActiveTab to name
+  const handleOnClick = (e) => {
+    setActiveTab(e.target.value);
+  };
+  const { AUTHORS, MORE, BOOKMARKS, NOTES } = TABS;
+  const sideNavTabs = [AUTHORS, BOOKMARKS, NOTES, MORE];
   return (
     <VStack
       w="80px"
@@ -46,25 +72,20 @@ const SideStrip = ({ onToggle }) => {
     >
       <VStack spacing={{ base: 2, md: 6 }}>
         <Spacer />
-        <IconButton
-          colorScheme="ghost"
-          aria-label="Authors"
-          icon={<Authors />}
-        />
-        <IconButton
-          colorScheme="ghost"
-          aria-label="Bookmark"
-          icon={<Bookmark />}
-        />
-        <IconButton colorScheme="ghost" aria-label="Notes" icon={<Note />} />
-        <IconButton
-          colorScheme="ghost"
-          aria-label="More Tab"
-          fontSize="44px"
-          icon={<MoreTab />}
-          onClick={onToggle}
-        />
-        <IconButton colorScheme="ghost" aria-label="Signup" icon={<Signup />} />
+        {sideNavTabs.map(({ value, displayName, Icon }) => (
+          <SideNavButtonIcon
+            value={value}
+            displayName={displayName}
+            activeTab={activeTab}
+            onClick={handleOnClick}
+          >
+            <Icon
+              pointerEvents="none"
+              boxSize="6"
+              color={value !== activeTab ? 'primary.500' : 'white'}
+            />
+          </SideNavButtonIcon>
+        ))}
       </VStack>
       <Spacer />
       <IconButton
@@ -90,7 +111,7 @@ const SideTopBar = ({ onClose, onToggle }) => {
         />
       </HStack>
       <Spacer />
-      <HStack spacing={3} px={4}>
+      <HStack spacing={3} px={4} minH="64px">
         <Button size="sm" variant="ghost" color="primary.500" onClick={onClose}>
           Login
         </Button>
@@ -102,45 +123,35 @@ const SideTopBar = ({ onClose, onToggle }) => {
   );
 };
 
-const SideMenuButton = ({ children }) => (
-  <Button variant="solid" bg="white" w="100%" color="grey.900">
-    {children}
-  </Button>
-);
+const SidebarContent = () => {
+  const { nav, isOpen, onClose, activeTab } = useSidePanel();
+  const { Content } = TABS[activeTab];
+  return (
+    <Flex direction="column" h="100vh" width={{ base: '430px' }}>
+      <SideTopBar onClose={onClose} />
+      <Content />
+    </Flex>
+  );
+};
 
 const animationVariants = {
   open: { width: '100%' },
   closed: { width: 0 },
 };
-
-const SidebarContent = ({ onClose, isOpen }) => {
-  return (
-    <Flex direction="column" h="100vh" width={{ base: '380px' }}>
-      <SideTopBar onClose={onClose} />
-      <Stack spacing={8}>
-        <Stack px={6} py={8}>
-          <SideMenuButton>Creator Docs</SideMenuButton>
-          <SideMenuButton>Media Kit</SideMenuButton>
-          <SideMenuButton>Provide Feedback</SideMenuButton>
-        </Stack>
-      </Stack>
-    </Flex>
-  );
-};
-
-const Sidebar = ({ variants, isOpen, onOpen, onClose, onToggle }) => {
+const Sidebar = () => {
+  const { nav, isOpen, onClose, onOpen, onToggle, variants } = useSidePanel();
   React.useEffect(() => {
-    if (variants?.navigation === 'sidebar') {
+    if (variants?.style === 'sidebar') {
       // onOpen();
     }
   }, []);
-  return variants?.navigation === 'sidebar' ? (
+  return variants?.style === 'sidebar' ? (
     <motion.div
       style={{
         display: 'flex',
         hieght: '100vh',
         minWidth: '80px',
-        maxWidth: '420px',
+        maxWidth: '480px',
         background: `radial-gradient(100% 100% at 50% 0%, #E1E2FF 0%, #F5F5FF 100%)`,
       }}
       animate={isOpen ? 'open' : 'closed'}

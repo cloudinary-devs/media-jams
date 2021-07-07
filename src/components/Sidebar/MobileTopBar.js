@@ -1,27 +1,20 @@
 import {
-  Drawer,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerOverlay,
   Flex,
   IconButton,
-  Icon,
   Link,
   useColorModeValue as mode,
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { MobileMenuClose, MobileMenuOpen, MobileLogo } from '@components/Icons';
-import { HiOutlineMenu } from 'react-icons/hi';
-import Image from '@components/Image';
-import NextLink from 'next/link';
-import Sidebar from './index';
+import { useSidePanel } from '@components/SidePanelProvider';
 
 const ToggleMenuIcon = (isOpen) => {
   const Icon = isOpen ? MobileMenuClose : MobileMenuOpen;
   return <Icon fontSize="4.5rem" color="whiteAlpha.900" />;
 };
 
-export const MobileTopBar = ({ isOpen, onClose, onToggle, onOpen }) => {
+export const MobileTopBar = () => {
+  const { nav, isOpen, onClose, onOpen, onToggle } = useSidePanel();
   return (
     <Flex
       align="center"

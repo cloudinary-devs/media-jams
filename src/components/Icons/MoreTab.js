@@ -1,17 +1,10 @@
-import { Icon } from '@chakra-ui/react';
+import { createIcon } from '@chakra-ui/react';
 
-const MoreTab = (props) => (
-  <svg
-    width="24"
-    height="20"
-    viewBox="0 0 24 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect y="0.5" width="24" height="3" rx="1" fill="#2066E9" />
-    <rect x="4" y="8.5" width="20" height="3" rx="1" fill="#2066E9" />
-    <rect y="16.5" width="24" height="3" rx="1" fill="#2066E9" />
-  </svg>
-);
+const MoreTab = createIcon({
+  displayName: 'MoreTab',
+  viewBox: '0 0 24 24',
+  d:
+    'M2 8a1 1 0 011-1h18a1 1 0 110 2H3a1 1 0 01-1-1zM2 12a1 1 0 011-1h18a1 1 0 110 2H3a1 1 0 01-1-1zM3 15a1 1 0 100 2h12a1 1 0 100-2H3z',
+});
 
 export default MoreTab;
