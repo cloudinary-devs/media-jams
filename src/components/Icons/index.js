@@ -19,6 +19,7 @@ import Note from './Note';
 import Signup from './Signup';
 import JoinDiscord from './JoinDiscord';
 import AuthorsIcon from './AuthorsIcon';
+import Plus from './Plus';
 
 export {
   Authors,
@@ -42,4 +43,5 @@ export {
   Note,
   Signup,
   JoinDiscord,
+  Plus,
 };

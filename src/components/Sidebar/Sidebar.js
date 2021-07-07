@@ -7,13 +7,17 @@ import {
   Spacer,
   IconButton,
   Tooltip,
+  Avatar,
 } from '@chakra-ui/react';
 import React from 'react';
 import { motion } from 'framer-motion';
 import NextLink from 'next/link';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
-import { SideToggle, JoinDiscord } from '@components/Icons';
+import { SideToggle, JoinDiscord, Plus } from '@components/Icons';
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
+import { useUser } from '@auth0/nextjs-auth0';
+
+import { RiLogoutBoxRLine } from 'react-icons/ri';
 
 // Tooltip currently disabled
 // https://github.com/chakra-ui/chakra-ui/issues/4101
@@ -57,6 +61,7 @@ const SideNavButtonIcon = ({
 
 // Navigation
 const SideStrip = () => {
+  const { user, isLoading: loadingUser } = useUser();
   const { onToggle, setActiveTab, activeTab } = useSidePanel();
   // onClick set nav.ActiveTab to name
   const handleOnClick = (e) => {
@@ -89,9 +94,24 @@ const SideStrip = () => {
         ))}
       </VStack>
       <Spacer />
+      {!loadingUser && user && (
+        <>
+          <Avatar name={user?.name} src={user?.picture} />
+          <NextLink href="/api/auth/logout">
+            <IconButton
+              size="lg"
+              isRound={true}
+              color="primary.500"
+              colorScheme="ghost"
+              aria-label="Logout"
+              icon={<RiLogoutBoxRLine />}
+            />
+          </NextLink>
+        </>
+      )}
       <IconButton
         colorScheme="ghost"
-        aria-label="Signup"
+        aria-label="Signup Discord"
         icon={<JoinDiscord />}
         paddingBottom={6}
       />
@@ -100,9 +120,10 @@ const SideStrip = () => {
 };
 
 const SideTopBar = ({ onClose, onToggle }) => {
+  const { user, isLoading: loadingUser } = useUser();
   return (
     <Flex w="100%" h="64px">
-      <HStack display={{ base: 'none', md: 'block' }} spacing={3}>
+      <HStack display={{ base: 'none', md: 'flex' }} spacing={3}>
         <IconButton
           onClick={onClose}
           size="lg"
@@ -112,16 +133,28 @@ const SideTopBar = ({ onClose, onToggle }) => {
         />
       </HStack>
       <Spacer />
-      <HStack spacing={3} px={4} minH="64px">
-        <NextLink href="/api/auth/login">
-          <Button size="sm" variant="ghost" color="primary.500">
-            Login
-          </Button>
-        </NextLink>
-        <Button size="sm" colorScheme="primary">
-          Sign Up
-        </Button>
-      </HStack>
+      {!loadingUser && (
+        <HStack spacing={3} px={4} minH="64px">
+          {user ? (
+            <Button leftIcon={<Plus />} variant="link" color="gray.900">
+              New Note
+            </Button>
+          ) : (
+            <>
+              <NextLink href="/api/auth/login">
+                <Button size="md" variant="ghost" color="primary.500">
+                  Login
+                </Button>
+              </NextLink>
+              <NextLink href="/api/auth/signup">
+                <Button size="md" colorScheme="primary">
+                  Sign Up
+                </Button>
+              </NextLink>
+            </>
+          )}
+        </HStack>
+      )}
     </Flex>
   );
 };
