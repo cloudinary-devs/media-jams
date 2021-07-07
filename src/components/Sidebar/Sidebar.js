@@ -13,7 +13,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import NextLink from 'next/link';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
-import { SideToggle, JoinDiscord, Plus } from '@components/Icons';
+import { SideToggle, JoinDiscord, Plus, BWLogo } from '@components/Icons';
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
 import { useUser } from '@auth0/nextjs-auth0';
 
@@ -70,14 +70,16 @@ const SideStrip = () => {
   const { AUTHORS, MORE, BOOKMARKS, NOTES } = TABS;
   const sideNavTabs = [AUTHORS, BOOKMARKS, NOTES, MORE];
   return (
-    <VStack
-      w="80px"
-      h={{ base: '100%', md: '100vh' }}
-      bg="#E2E2FE"
-      spacing={12}
-    >
+    <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE">
+      <Link display={{ base: 'none', md: 'inline-flex' }} href="/">
+        <IconButton
+          size="lg"
+          variant="unstyled"
+          aria-label="Logo"
+          icon={<BWLogo />}
+        />
+      </Link>
       <VStack spacing={{ base: 2, md: 6 }}>
-        <Spacer />
         {sideNavTabs.map(({ value, displayName, Icon }) => (
           <SideNavButtonIcon
             value={value}
