@@ -14,6 +14,8 @@ import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
 import { SideToggle, JoinDiscord } from '@components/Icons';
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
 
+// Tooltip currently disabled
+// https://github.com/chakra-ui/chakra-ui/issues/4101
 const SideNavButtonIcon = ({
   value,
   displayName,
@@ -26,6 +28,7 @@ const SideNavButtonIcon = ({
   return (
     <Tooltip
       hasArrow
+      isDisabled={true}
       label={displayName}
       placement="right"
       openDelay={800}
