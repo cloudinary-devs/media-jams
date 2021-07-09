@@ -1,5 +1,5 @@
-import { Box, Heading, Stack, StackProps } from '@chakra-ui/react';
 import React from 'react';
+import { Stack } from '@chakra-ui/react';
 
 export const FieldGroup = (props) => {
   const { children, ...flexProps } = props;
