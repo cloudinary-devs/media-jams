@@ -70,7 +70,6 @@ const EmptyBookmarks = ({ user }) => {
 export const BookmarkJamCard = ({ jam, ...props }) => {
   const toast = createStandaloneToast();
   const removeBookmark = useRemoveBookmarkMutation({
-    onMutate: () => {},
     onSuccess: () => {
       // toast message
       toast({
