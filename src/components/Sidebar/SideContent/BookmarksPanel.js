@@ -30,7 +30,7 @@ const fuseOptions = {
   threshold: 0.35,
   location: 0,
   distance: 100,
-  minMatchCharLength: 2,
+  minMatchCharLength: 1,
   includeScore: true,
   useExtendedSearch: true,
   isCaseSensitive: true,
@@ -141,6 +141,7 @@ const Bookmarks = ({ user = null }) => {
   const [searchValue, setSearchValue] = React.useState('');
   const { isLoading, data: bookmarkedJams } = useBookmarkedJamsQuery();
   React.useEffect(() => {
+    console.log(isLoading);
     if (!searchValue) {
       handleFilter(bookmarkedJams);
     } else {
@@ -179,12 +180,15 @@ const Bookmarks = ({ user = null }) => {
       pb={8}
       overflowY="auto"
     >
-      {!user || (!isLoading && bookmarkedJams?.length === 0) ? (
+      {/* check user
+        no jams and nothing in the search show empty
+     */}
+      {!user || (filteredJams?.length === 0 && !searchValue) ? (
         <EmptyBookmarks user={user} />
       ) : (
         <Stack>
           <SearchFieldInput value={searchValue} onChange={onChange} mb={6} />
-          {filteredJams.map((jam) => (
+          {filteredJams?.map((jam) => (
             <BookmarkJamCard key={jam._id} jam={jam} />
           ))}
         </Stack>
