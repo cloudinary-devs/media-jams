@@ -11,6 +11,8 @@ import {
   createStandaloneToast,
   Spacer,
   IconButton,
+  Button,
+  Image,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import format from 'date-fns/format';
@@ -35,37 +37,39 @@ const fuseOptions = {
   keys: ['title', 'tags.title', 'author.name'],
 };
 
-const EmptyBookmarks = ({ user }) => {
-  return user ? (
-    <Stack
-      spacing={16}
-      px={6}
-      py={8}
-      direction="column"
-      textAlign="center"
-      alignItems="center"
-    >
-      <Box size="xs">
-        <Image src="/emptyBookmarks.svg" alt="bookmarks empty" />
-      </Box>
-      <Heading size="H200" color="primary.900">
-        You don't have any bookmarks
-      </Heading>
-    </Stack>
-  ) : (
-    <>
-      <Box size="xs">
-        <Image src="/emptyBookmarks.svg" alt="bookmarks empty" />
-      </Box>
-      <Heading size="H200" color="primary.900">
-        You need to sign up to add articles
-      </Heading>
-      <Button as="a" size="md" colorScheme="primary" href="/api/auth/signup">
-        Sign Up
-      </Button>
-    </>
-  );
-};
+const EmptyBookmarks = ({ user }) => (
+  <Stack
+    spacing={16}
+    px={6}
+    py={8}
+    direction="column"
+    textAlign="center"
+    alignItems="center"
+  >
+    {user ? (
+      <>
+        <Box size="xs">
+          <Image src="/emptyBookmarks.svg" alt="bookmarks empty" />
+        </Box>
+        <Heading size="H200" color="primary.900">
+          You don't have any bookmarks
+        </Heading>
+      </>
+    ) : (
+      <>
+        <Box size="xs">
+          <Image src="/emptyBookmarks.svg" alt="bookmarks empty" />
+        </Box>
+        <Heading size="H200" color="primary.900">
+          You need to sign up to add articles
+        </Heading>
+        <Button as="a" size="md" colorScheme="primary" href="/api/auth/signup">
+          Sign Up
+        </Button>
+      </>
+    )}
+  </Stack>
+);
 
 export const BookmarkJamCard = ({ jam, ...props }) => {
   const toast = createStandaloneToast();
@@ -135,7 +139,7 @@ export const BookmarkJamCard = ({ jam, ...props }) => {
 const Bookmarks = ({ user = null }) => {
   const [filteredJams, setFilteredJams] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
-  const { isIdle, data: bookmarkedJams } = useBookmarkedJamsQuery();
+  const { isLoading, data: bookmarkedJams } = useBookmarkedJamsQuery();
   React.useEffect(() => {
     if (!searchValue) {
       handleFilter(bookmarkedJams);
@@ -175,13 +179,16 @@ const Bookmarks = ({ user = null }) => {
       pb={8}
       overflowY="auto"
     >
-      <Stack>
-        {/* <EmptyBookmarks user={user} /> */}
-        <SearchFieldInput value={searchValue} onChange={onChange} mb={6} />
-        {filteredJams.map((jam) => (
-          <BookmarkJamCard key={jam._id} jam={jam} />
-        ))}
-      </Stack>
+      {!user || (bookmarkedJams.length === 0 && !isLoading) ? (
+        <EmptyBookmarks user={user} />
+      ) : (
+        <Stack>
+          <SearchFieldInput value={searchValue} onChange={onChange} mb={6} />
+          {filteredJams.map((jam) => (
+            <BookmarkJamCard key={jam._id} jam={jam} />
+          ))}
+        </Stack>
+      )}
     </Flex>
   );
 };
