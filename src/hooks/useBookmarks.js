@@ -105,6 +105,7 @@ export function useRemoveBookmarkMutation({
     },
     // After success or failure, refetch the bookmarks and bookmark jams queries
     onSuccess: () => {
+      _onSuccess();
       queryClient.invalidateQueries('bookmarks');
     },
   });

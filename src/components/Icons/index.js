@@ -20,6 +20,7 @@ import Signup from './Signup';
 import JoinDiscord from './JoinDiscord';
 import AuthorsIcon from './AuthorsIcon';
 import Plus from './Plus';
+import Trashcan from './TrashCan';
 
 export {
   Authors,
@@ -44,4 +45,5 @@ export {
   Signup,
   JoinDiscord,
   Plus,
+  Trashcan,
 };
