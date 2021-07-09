@@ -179,7 +179,7 @@ const Bookmarks = ({ user = null }) => {
       pb={8}
       overflowY="auto"
     >
-      {!user || (bookmarkedJams.length === 0 && !isLoading) ? (
+      {!user || (!isLoading && bookmarkedJams?.length === 0) ? (
         <EmptyBookmarks user={user} />
       ) : (
         <Stack>
