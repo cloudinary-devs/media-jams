@@ -1,4 +1,5 @@
 import React from 'react';
+import Layout from '@components/Layout';
 import { useMixPanel } from '@lib/mixpanel';
 import Iframe from '@components/Iframe';
 
@@ -20,3 +21,5 @@ export default function Feedback() {
     </>
   );
 }
+
+Feedback.getLayout = (page) => <Layout>{page}</Layout>;

@@ -11,17 +11,21 @@ import MobileLogo from './MobileLogo';
 import MobileMenuOpen from './MobileMenuOpen';
 import MobileMenuClose from './MobileMenuClose';
 import Search from './Search';
-import Bookmark from './Bookmark';
+import BookmarkIcon from './BookmarkIcon';
 import BWLogo from './BWLogo';
 import Authors from './Authors';
 import SideToggle from './SideToggle';
 import Note from './Note';
 import Signup from './Signup';
 import JoinDiscord from './JoinDiscord';
+import AuthorsIcon from './AuthorsIcon';
+import Plus from './Plus';
+import Trashcan from './Trashcan';
 
 export {
   Authors,
   Author,
+  AuthorsIcon,
   Close,
   GreenCheck,
   Stack,
@@ -35,9 +39,11 @@ export {
   MobileLogo,
   MobileMenuOpen,
   MobileMenuClose,
-  Bookmark,
+  BookmarkIcon,
   BWLogo,
   Note,
   Signup,
   JoinDiscord,
+  Plus,
+  Trashcan,
 };

@@ -8,7 +8,7 @@ import {
   useToken,
   Link,
 } from '@chakra-ui/react';
-
+import NextLink from 'next/link';
 import Image from '@components/Image';
 
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
@@ -64,11 +64,13 @@ export default function FeaturedJamCard({ jam }) {
               name={author.name}
               src={author.image?.asset.url}
             />
-            <Link href={`/author/${author.slug?.current}`}>
-              <Text variant="B100" color="grey.800" fontWeight="500">
-                {author.name}
-              </Text>
-            </Link>
+            <NextLink href={`/author/${author.slug?.current}`} passHref>
+              <Link>
+                <Text variant="B100" color="grey.800" fontWeight="500">
+                  {author.name}
+                </Text>
+              </Link>
+            </NextLink>
             <Text variant="B100" color="grey.600">
               1 June
             </Text>
@@ -93,11 +95,13 @@ export default function FeaturedJamCard({ jam }) {
             onClick={handleBookmarkOnClick}
           />
         </Flex>
-        <Link href={`/post/${jam.slug.current}`}>
-          <Heading size="H300" w="100%">
-            {jam.title}
-          </Heading>
-        </Link>
+        <NextLink href={`/post/${jam.slug.current}`} passHref>
+          <Link>
+            <Heading size="H300" w="100%">
+              {jam.title}
+            </Heading>
+          </Link>
+        </NextLink>
         <Flex justify="flex-start" sx={{ gap: '12px' }}>
           {jam.tags.map((tag) => (
             <Text variant="B100" color="primary.400">
