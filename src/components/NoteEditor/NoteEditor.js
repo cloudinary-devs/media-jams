@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
 import BalloonToolbarMarks from './BalloonToolbarMarks';
 
 import { optionsAutoformat } from './autoFormat';
@@ -7,6 +7,8 @@ import { optionsAutoformat } from './autoFormat';
 import {
   SlatePlugins,
   HeadingToolbar,
+  ELEMENT_H1,
+  createNormalizeTypesPlugin,
   createReactPlugin,
   createHistoryPlugin,
   createParagraphPlugin,
@@ -33,6 +35,7 @@ import {
   createListPlugin,
   ELEMENT_PARAGRAPH,
   ELEMENT_IMAGE,
+  withProps,
 } from '@udecode/slate-plugins';
 
 import {
@@ -40,15 +43,12 @@ import {
   optionsExitBreakPlugin,
   optionsSoftBreakPlugin,
 } from './pluginOptions';
-import { withStyledPlaceHolders } from './withStyledPlaceholders';
 
 import Toolbar from './Toolbar';
 let components = createSlatePluginsComponents();
 const options = createSlatePluginsOptions();
 
-components = withStyledPlaceHolders(components);
-
-export default function NoteEditor() {
+export default function NoteEditor({ note, setNote }) {
   const plugins = React.useMemo(() => {
     const p = [
       // editor
@@ -66,6 +66,14 @@ export default function NoteEditor() {
       }),
       createSelectOnBackspacePlugin({
         allow: [ELEMENT_IMAGE],
+      }),
+      createNormalizeTypesPlugin({
+        rules: [
+          {
+            path: [1],
+            strictType: ELEMENT_PARAGRAPH,
+          },
+        ],
       }),
 
       // elements
@@ -89,7 +97,7 @@ export default function NoteEditor() {
   }, []);
 
   const editableProps = {
-    placeholder: 'Start editing here...',
+    placeholder: 'Type your notes here...',
     spellCheck: false,
   };
 
@@ -107,6 +115,8 @@ export default function NoteEditor() {
         plugins={plugins}
         components={components}
         options={options}
+        value={note}
+        onChange={(value) => setNote(value)}
       >
         <HeadingToolbar>
           <Toolbar />

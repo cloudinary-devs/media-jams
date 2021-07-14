@@ -11,12 +11,10 @@ import {
   Tooltip,
   Avatar,
 } from '@chakra-ui/react';
-import React from 'react';
 import { motion } from 'framer-motion';
 import NextLink from 'next/link';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
 import NoteModal from '@components/NoteModal';
-import { SideToggle, JoinDiscord } from '@components/Icons';
 
 import { SideToggle, JoinDiscord, Plus, BWLogo } from '@components/Icons';
 import { useSidePanel, TABS } from '@components/SidePanelProvider';

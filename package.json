@@ -49,6 +49,7 @@
     "@testing-library/react-hooks": "^5.1.1",
     "@tippyjs/react": "^4.2.5",
     "@udecode/slate-plugins": "1.0.0-next.31",
+    "@udecode/slate-plugins-test-utils": "^1.0.0-alpha.18",
     "@zeit/next-css": "^1.0.1",
     "cloudinary": "^1.25.0",
     "cloudinary-build-url": "0.2.1",

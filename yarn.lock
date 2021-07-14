@@ -3290,6 +3290,11 @@
     "@udecode/slate-plugins-common" "1.0.0-next.30"
     "@udecode/slate-plugins-core" "1.0.0-next.30"
 
+"@udecode/slate-plugins-test-utils@^1.0.0-alpha.18":
+  version "1.0.0-alpha.18"
+  resolved "https://registry.yarnpkg.com/@udecode/slate-plugins-test-utils/-/slate-plugins-test-utils-1.0.0-alpha.18.tgz#5ec8c414301506b904b5828c8ee9015dd3af07a9"
+  integrity sha512-G0KiBiT9/Icxk04Mxax9wOAxNzp+gtLUppLIsi5zY2OdZ1AHWI2g2rnnpErQVR9r0+eRW1IpcFbUgLgm4XTskA==
+
 "@udecode/slate-plugins-toolbar@1.0.0-next.30":
   version "1.0.0-next.30"
   resolved "https://registry.yarnpkg.com/@udecode/slate-plugins-toolbar/-/slate-plugins-toolbar-1.0.0-next.30.tgz#0c9b03cac123079db2c77e80d0cdd12e84bc35dc"
