@@ -70,20 +70,8 @@ const SideStrip = () => {
   const { AUTHORS, MORE, BOOKMARKS, NOTES } = TABS;
   const sideNavTabs = [AUTHORS, BOOKMARKS, NOTES, MORE];
   return (
-    <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE">
-      <Link
-        as={NextLink}
-        display={{ base: 'none', md: 'inline-flex' }}
-        href="/"
-      >
-        <IconButton
-          size="lg"
-          variant="unstyled"
-          aria-label="Logo"
-          icon={<BWLogo />}
-        />
-      </Link>
-      <VStack spacing={{ base: 2, md: 6 }}>
+    <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE" mt="42px">
+      <VStack spacing={{ base: '48px', md: 6 }}>
         {sideNavTabs.map(({ value, displayName, Icon }) => (
           <SideNavButtonIcon
             value={value}
