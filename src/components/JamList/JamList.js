@@ -7,5 +7,12 @@ export default function JamList({ jams }) {
     base: MobileJamCard,
     lg: JamCard,
   });
-  return jams.map((jam) => <ResponsiveJamCardComponent jam={jam} />);
+
+  return jams.map((jam) =>
+    ResponsiveJamCardComponent !== undefined ? (
+      <ResponsiveJamCardComponent jam={jam} />
+    ) : (
+      ''
+    ),
+  );
 }

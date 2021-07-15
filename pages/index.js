@@ -1,7 +1,9 @@
 import React from 'react';
-import { Flex } from '@chakra-ui/react';
+import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import Layout from '@components/Layout';
-import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
+import FeaturedJamCard, {
+  MobileFeaturedJamCard,
+} from '@components/JamList/FeaturedJamCard';
 import JamList from '@components/JamList';
 import Banner from '@components/Banner';
 import Search from '@components/Search';
@@ -24,6 +26,10 @@ const fuseOptions = {
 };
 
 export default function Dashboard() {
+  const ResonsiveFeaturedCard = useBreakpointValue({
+    base: MobileFeaturedJamCard,
+    lg: FeaturedJamCard,
+  });
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [filteredPosts, setFilteredPosts] = React.useState([]);
@@ -109,7 +115,7 @@ export default function Dashboard() {
           sx={{ gap: '16px' }}
         >
           {searchValue.length < 1 && featuredJam && (
-            <FeaturedJamCard jam={featuredJam} />
+            <ResonsiveFeaturedCard jam={featuredJam} />
           )}
           <JamList jams={filteredPosts} />
         </Flex>
