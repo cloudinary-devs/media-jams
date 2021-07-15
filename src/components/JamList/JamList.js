@@ -1,6 +1,11 @@
 import React from 'react';
-import JamCard from './JamCard';
+import { useBreakpointValue } from '@chakra-ui/react';
+import JamCard, { MobileJamCard } from './JamCard';
 
 export default function JamList({ jams }) {
-  return jams.map((jam) => <JamCard jam={jam} />);
+  const ResponsiveJamCardComponent = useBreakpointValue({
+    base: MobileJamCard,
+    lg: JamCard,
+  });
+  return jams.map((jam) => <ResponsiveJamCardComponent jam={jam} />);
 }

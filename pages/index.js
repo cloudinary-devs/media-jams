@@ -100,7 +100,7 @@ export default function Dashboard() {
         />
 
         <Flex
-          w={{ base: '90%', lg: '1000px' }}
+          w={{ base: '90%', lg: '884px' }}
           mt="26px"
           alignSelf="center"
           h="100%"
