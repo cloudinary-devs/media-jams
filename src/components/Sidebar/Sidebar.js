@@ -8,6 +8,7 @@ import {
   IconButton,
   Tooltip,
   Avatar,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -61,6 +62,7 @@ const SideNavButtonIcon = ({
 
 // Navigation
 const SideStrip = () => {
+  const displaySideStripLogo = useBreakpointValue({ base: false, md: true });
   const { user, isLoading: loadingUser } = useUser();
   const { onToggle, setActiveTab, activeTab } = useSidePanel();
   // onClick set nav.ActiveTab to name
@@ -70,7 +72,20 @@ const SideStrip = () => {
   const { AUTHORS, MORE, BOOKMARKS, NOTES } = TABS;
   const sideNavTabs = [AUTHORS, BOOKMARKS, NOTES, MORE];
   return (
-    <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE" mt="42px">
+    <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE">
+      <Link
+        as={NextLink}
+        display={{ base: 'none', md: 'inline-flex' }}
+        href="/"
+        display={displaySideStripLogo ? 'auto' : 'none'}
+      >
+        <IconButton
+          size="lg"
+          variant="unstyled"
+          aria-label="Logo"
+          icon={<BWLogo />}
+        />
+      </Link>
       <VStack spacing={{ base: '48px', md: 6 }}>
         {sideNavTabs.map(({ value, displayName, Icon }) => (
           <SideNavButtonIcon

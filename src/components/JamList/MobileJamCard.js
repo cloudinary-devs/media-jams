@@ -20,8 +20,7 @@ import {
 } from '@hooks/useBookmarks';
 import { useUser } from '@auth0/nextjs-auth0';
 
-export default function JamCard({ jam }) {
-  const { author } = jam;
+export default function MobileJamCard({ jam }) {
   const { user } = useUser();
   const [isBookmarked, setBookmark] = React.useState(false);
   const gapVariant = useBreakpointValue({ base: '4px', lg: '12px' });
@@ -55,12 +54,13 @@ export default function JamCard({ jam }) {
       borderRadius="8px"
       h="200px"
       bg="white"
+      overflow={{ base: 'scroll', md: 'none' }}
     >
       <Flex
-        w={{ lg: '536px' }}
+        w="100%"
         direction="column"
         align="flex-start"
-        m="24px 0px 24px 24px"
+        m="16px 16px 14px 16px"
       >
         <Flex align="center" justify="space-between" w="100%">
           <Flex
@@ -72,13 +72,13 @@ export default function JamCard({ jam }) {
             <Avatar
               width="28px"
               height="28px"
-              name={author.name}
-              src={author.image?.asset.url}
+              name={jam?.author.name}
+              src={jam?.author.image?.asset.url}
             />
-            <NextLink href={`/author/${author.slug?.current}`} passHref>
+            <NextLink href={`/author/${jam?.author.slug?.current}`} passHref>
               <Link>
                 <Text variant="B100" color="grey.800" fontWeight="500">
-                  {author.name}
+                  {jam?.author.name}
                 </Text>
               </Link>
             </NextLink>
@@ -106,33 +106,42 @@ export default function JamCard({ jam }) {
             onClick={handleBookmarkOnClick}
           />
         </Flex>
-        <NextLink href={`/post/${jam.slug.current}`} passHref>
-          <Link>
-            <Heading size="H200" w="100%">
-              {jam.title}
-            </Heading>
-          </Link>
-        </NextLink>
+        <Flex justify="space-between" w="100%">
+          <NextLink href={`/post/${jam.slug.current}`} passHref>
+            <Link>
+              <Heading
+                size="H200"
+                w="215px"
+                textOverflow="ellipsis"
+                h="85px"
+                overflow="hidden"
+              >
+                {jam.title}
+              </Heading>
+            </Link>
+          </NextLink>
+          <Image
+            src={jam.cover?.asset.url || '/placeholder.png'}
+            width={80}
+            height={80}
+            borderRadius="4px!important"
+            objectFit="cover"
+          />
+        </Flex>
         <Flex
+          w="85%"
           mt="16px"
           justify="flex-start"
           sx={{ gap: gapVariant }}
-          wrap="wrap"
+          wrap="nowrap"
+          textOverflow="ellipsis"
         >
-          {jam.tags.map((tag) => (
+          {jam.tags.slice(0, 4).map((tag) => (
             <Text variant="B100" color="primary.400">
               #{tag.title}
             </Text>
           ))}
         </Flex>
-      </Flex>
-      <Flex m="24px 24px 24px 68px" flex="1">
-        <Image
-          src={jam.cover?.asset.url || '/placeholder.png'}
-          width={240}
-          height={148}
-          borderRadius="4px!important"
-        />
       </Flex>
     </Flex>
   );

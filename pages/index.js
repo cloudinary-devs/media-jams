@@ -1,9 +1,8 @@
 import React from 'react';
 import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import Layout from '@components/Layout';
-import FeaturedJamCard, {
-  MobileFeaturedJamCard,
-} from '@components/JamList/FeaturedJamCard';
+import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
+import MobileFeaturedJamCard from '@components/JamList/MobileFeaturedJamCard';
 import JamList from '@components/JamList';
 import Banner from '@components/Banner';
 import Search from '@components/Search';
@@ -33,7 +32,7 @@ export default function Dashboard() {
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [filteredPosts, setFilteredPosts] = React.useState([]);
-  const [featuredJam, setFeaturedJam] = React.useState();
+  const [featuredJams, setFeaturedJams] = React.useState([]);
   const { data, isLoading } = useQuery('allJams', queryJams.get);
 
   const fuse = new Fuse(data?.jams, fuseOptions);
@@ -41,10 +40,11 @@ export default function Dashboard() {
   React.useEffect(() => {
     // do some checking here to ensure data exist
     if (isLoading === false && data?.jams) {
-      const firstFeaturedJam = data.jams.find(
+      const featured = data.jams?.filter(
         (jam) => jam.postMetadata.featured === true,
       );
-      setFeaturedJam(firstFeaturedJam);
+
+      setFeaturedJams(featured);
       setFilteredPosts(data.jams);
     }
   }, [isLoading, data?.jams]);
@@ -114,10 +114,10 @@ export default function Dashboard() {
           justify="space-around"
           sx={{ gap: '16px' }}
         >
-          {searchValue.length < 1 && featuredJam && (
-            <ResonsiveFeaturedCard jam={featuredJam} />
+          {searchValue.length < 1 && featuredJams.length > 0 && (
+            <ResonsiveFeaturedCard jam={featuredJams[0]} />
           )}
-          <JamList jams={filteredPosts} />
+          <JamList jams={filteredPosts} featuredJams={featuredJams} />
         </Flex>
       </Flex>
     </Flex>
