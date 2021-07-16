@@ -62,6 +62,7 @@ const SideNavButtonIcon = ({
 
 // Navigation
 const SideStrip = () => {
+  const mobileIconMargin = useBreakpointValue({ base: '32px', md: 0 });
   const displaySideStripLogo = useBreakpointValue({ base: false, md: true });
   const { user, isLoading: loadingUser } = useUser();
   const { onToggle, setActiveTab, activeTab } = useSidePanel();
@@ -75,7 +76,6 @@ const SideStrip = () => {
     <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE">
       <Link
         as={NextLink}
-        display={{ base: 'none', md: 'inline-flex' }}
         href="/"
         display={displaySideStripLogo ? 'auto' : 'none'}
       >
@@ -84,6 +84,7 @@ const SideStrip = () => {
           variant="unstyled"
           aria-label="Logo"
           icon={<BWLogo />}
+          display={{ base: 'none', md: 'inline-flex' }}
         />
       </Link>
       <VStack spacing={{ base: '48px', md: 6 }}>
@@ -93,6 +94,9 @@ const SideStrip = () => {
             displayName={displayName}
             activeTab={activeTab}
             onClick={handleOnClick}
+            _first={{
+              marginTop: mobileIconMargin,
+            }}
           >
             <Icon
               pointerEvents="none"
