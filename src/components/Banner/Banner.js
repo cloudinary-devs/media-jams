@@ -101,7 +101,7 @@ export default function Banner() {
           <FeatureBlock
             LeftIcon={Code}
             header="Run & Play Sandboxes"
-            text="Learn-by-example demox, open code reeady to run & modify"
+            text="Learn-by-example demos, open code ready to run & modify"
           />
           <FeatureBlock
             LeftIcon={Author}
