@@ -62,7 +62,7 @@ const SideNavButtonIcon = ({
 
 // Navigation
 const SideStrip = () => {
-  const mobileIconMargin = useBreakpointValue({ base: '32px', md: 0 });
+  const mobileIconMargin = useBreakpointValue({ base: '32px', md: '66px' });
   const displaySideStripLogo = useBreakpointValue({ base: false, md: true });
   const { user, isLoading: loadingUser } = useUser();
   const { onToggle, setActiveTab, activeTab } = useSidePanel();
@@ -109,11 +109,10 @@ const SideStrip = () => {
       <Spacer />
       {!loadingUser && user && (
         <>
-          <Avatar name={user?.name} src={user?.picture} />
+          <Avatar mb="20px" name={user?.name} src={user?.picture} />
           <NextLink href="/api/auth/logout">
             <IconButton
               size="lg"
-              isRound={true}
               color="primary.500"
               colorScheme="ghost"
               aria-label="Logout"
