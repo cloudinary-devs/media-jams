@@ -20,7 +20,6 @@ import {
 import { useUser } from '@auth0/nextjs-auth0';
 
 export default function FeaturedJamCard({ jam }) {
-  const { author } = jam;
   const { user } = useUser();
   const [isBookmarked, setBookmark] = React.useState(false);
 
@@ -38,7 +37,7 @@ export default function FeaturedJamCard({ jam }) {
       const postIds = dataBookmarks?.bookmarks?.map(
         ({ content_id }) => content_id,
       );
-      setBookmark(postIds.includes(jam._id));
+      setBookmark(postIds?.includes(jam._id));
     }
   }, [dataBookmarks, isLoading]);
 
@@ -54,22 +53,42 @@ export default function FeaturedJamCard({ jam }) {
       borderRadius="8px"
       h={{ base: '250px', lg: '300px' }}
       boxShadow={`4px 3px 0px 3px ${useToken('colors', 'primary.400')}`}
-      p={5}
-      bg="white"
     >
-      <Flex w="60%" direction="column" justify="space-evenly">
-        <Flex align="center" justify="space-between" w="100%">
-          <Flex align="center" justify="space-evenly" sx={{ gap: '8px' }}>
+      <Flex
+        w={{ lg: '436px' }}
+        direction="column"
+        align="flex-start"
+        m="24px 0px 24px 24px"
+      >
+        <Flex
+          align="center"
+          justify="center"
+          w="120px"
+          h="24px"
+          bg="#FFFBEA"
+          mt="24px"
+        >
+          <Text color="#B9850D" variant="B200" fontWeight="500">
+            Featured Jam
+          </Text>
+        </Flex>
+        <Flex align="center" justify="space-between" w="100%" mt="24px">
+          <Flex
+            align="center"
+            justify="space-evenly"
+            sx={{ gap: '8px' }}
+            mb="12px"
+          >
             <Avatar
               width="28px"
               height="28px"
-              name={author.name}
-              src={author.image?.asset.url}
+              name={jam?.author.name}
+              src={jam?.author.image?.asset.url}
             />
-            <NextLink href={`/author/${author.slug?.current}`} passHref>
+            <NextLink href={`/author/${jam?.author.slug?.current}`} passHref>
               <Link>
                 <Text variant="B100" color="grey.800" fontWeight="500">
-                  {author.name}
+                  {jam?.author.name}
                 </Text>
               </Link>
             </NextLink>
@@ -78,7 +97,7 @@ export default function FeaturedJamCard({ jam }) {
             </Text>
           </Flex>
           <IconButton
-            size="sm"
+            size="md"
             outline="none"
             bg="none"
             h="0"
@@ -99,12 +118,12 @@ export default function FeaturedJamCard({ jam }) {
         </Flex>
         <NextLink href={`/post/${jam.slug.current}`} passHref>
           <Link>
-            <Heading size="H300" w="100%">
+            <Heading letterSpacing="-0.01em" size="H300" w="100%">
               {jam.title}
             </Heading>
           </Link>
         </NextLink>
-        <Flex justify="flex-start" sx={{ gap: '12px' }}>
+        <Flex mt="72px" justify="flex-start" sx={{ gap: '12px' }}>
           {jam.tags.map((tag) => (
             <Text variant="B100" color="primary.400">
               #{tag.title}
@@ -112,13 +131,13 @@ export default function FeaturedJamCard({ jam }) {
           ))}
         </Flex>
       </Flex>
-      <Flex align="center" justify="flex-end" flex="1">
+      <Flex m="24px 24px 24px 68px" flex="1">
         <Image
           src={jam.cover?.asset.url || '/placeholder.png'}
-          width={400}
-          height={278}
+          width={352}
+          height={252}
           borderRadius="8px!important"
-          pl="16px!important"
+          objectFit="cover"
         />
       </Flex>
     </Flex>

@@ -5,7 +5,7 @@ export default function Feature({ children, ...rest }) {
   return (
     <Flex w="auto" align="center" {...rest}>
       <GreenCheck />
-      <Text variant="B400" color="grey.700" pl={3}>
+      <Text variant="B200" color="grey.700" pl={3}>
         {children}
       </Text>
     </Flex>

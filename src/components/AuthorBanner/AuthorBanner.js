@@ -15,11 +15,11 @@ export default function AuthorBanner({ author }) {
   const jobTitleVariant = useBreakpointValue({ base: 'B100', lg: 'B300' });
   return (
     <Flex
-      w={{ base: '90%', lg: '1000px' }}
+      w={{ base: '90%', lg: '884px' }}
       mt="24px"
       border={`2px solid ${useToken('colors', 'primary.400')}`}
       borderRadius="8px"
-      h={{ base: '520px', lg: '300px' }}
+      h={{ base: 'auto', lg: '300px' }}
       boxShadow={`4px 3px 0px 3px ${useToken('colors', 'primary.400')}`}
       p={{ base: 0, lg: 14 }}
     >

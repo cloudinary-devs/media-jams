@@ -13,7 +13,7 @@ export default function Search({
 }) {
   return (
     <Flex
-      w={{ base: '90%', lg: '1000px' }}
+      w={{ base: '90%', lg: '884px' }}
       alignSelf="center"
       direction="column"
     >
