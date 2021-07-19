@@ -79,9 +79,10 @@ export default {
       },
     },
     {
-      title: 'Cover',
+      title: 'Feature Image',
       name: 'cover',
       type: 'image',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'author',
