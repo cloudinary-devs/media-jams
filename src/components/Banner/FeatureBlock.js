@@ -16,10 +16,10 @@ export default function FeatureBlock({ header, text, LeftIcon, ...rest }) {
         mb={{ base: '12px', md: '0px' }}
       />
       <Flex direction="column" align="flex-start">
-        <Text variant="B400" fontWeight="bold" color="grey.900">
+        <Text variant="B300" fontWeight="bold" color="grey.900">
           {header}
         </Text>
-        <Text variant="B300" color="grey.700">
+        <Text variant="B100" color="grey.700">
           {text}
         </Text>
       </Flex>

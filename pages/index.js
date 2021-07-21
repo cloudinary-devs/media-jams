@@ -1,7 +1,8 @@
 import React from 'react';
-import { Flex } from '@chakra-ui/react';
+import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
+import MobileFeaturedJamCard from '@components/JamList/MobileFeaturedJamCard';
 import JamList from '@components/JamList';
 import Banner from '@components/Banner';
 import Search from '@components/Search';
@@ -11,6 +12,7 @@ import { dehydrate } from 'react-query/hydration';
 import Fuse from 'fuse.js';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
+import { authors as queryAuthors } from '@lib/queries/authors';
 
 const fuseOptions = {
   threshold: 0.35,
@@ -24,10 +26,14 @@ const fuseOptions = {
 };
 
 export default function Dashboard() {
+  const ResonsiveFeaturedCard = useBreakpointValue({
+    base: MobileFeaturedJamCard,
+    lg: FeaturedJamCard,
+  });
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [filteredPosts, setFilteredPosts] = React.useState([]);
-  const [featuredJam, setFeaturedJam] = React.useState();
+  const [featuredJams, setFeaturedJams] = React.useState([]);
   const { data, isLoading } = useQuery('allJams', queryJams.get);
 
   const fuse = new Fuse(data?.jams, fuseOptions);
@@ -35,10 +41,11 @@ export default function Dashboard() {
   React.useEffect(() => {
     // do some checking here to ensure data exist
     if (isLoading === false && data?.jams) {
-      const firstFeaturedJam = data.jams.find(
+      const featured = data.jams?.filter(
         (jam) => jam.postMetadata.featured === true,
       );
-      setFeaturedJam(firstFeaturedJam);
+
+      setFeaturedJams(featured);
       setFilteredPosts(data.jams);
     }
   }, [isLoading, data?.jams]);
@@ -100,7 +107,7 @@ export default function Dashboard() {
         />
 
         <Flex
-          w={{ base: '90%', lg: '1000px' }}
+          w={{ base: '90%', lg: '884px' }}
           mt="26px"
           alignSelf="center"
           h="100%"
@@ -108,10 +115,10 @@ export default function Dashboard() {
           justify="space-around"
           sx={{ gap: '16px' }}
         >
-          {searchValue.length < 1 && featuredJam && (
-            <FeaturedJamCard jam={featuredJam} />
+          {searchValue.length < 1 && featuredJams.length > 0 && (
+            <ResonsiveFeaturedCard jam={featuredJams[0]} />
           )}
-          <JamList jams={filteredPosts} />
+          <JamList jams={filteredPosts} featuredJams={featuredJams} />
         </Flex>
       </Flex>
     </Flex>
