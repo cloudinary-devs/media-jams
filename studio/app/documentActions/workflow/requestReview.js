@@ -17,18 +17,11 @@ export function requestReviewAction(props) {
    * otherwise it will be disabled
    */
   React.useEffect(() => {
-    if (!isValidating) {
-      setDisabled(markers.length !== 0);
+    if (!isValidating && markers) {
+      setDisabled(markers?.length !== 0);
     }
     console.log(markers);
   }, [isValidating, markers]);
-
-  // const isDisabled =
-  //   props.draft.slug?.current &&
-  //   props.draft.cover &&
-  //   props.draft.tags.length > 0
-  //     ? false
-  //     : true;
 
   const onHandle = () => {
     metadata.setState('inReview');
