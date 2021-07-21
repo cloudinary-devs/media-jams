@@ -9,6 +9,12 @@ export const states = [
     badgeColor: 'caution',
   },
   {
+    id: 'updatedReview',
+    title: 'Updated Review',
+    color: 'warning',
+    badgeColor: 'caution',
+  },
+  {
     id: 'approved',
     title: 'Approved',
     color: 'success',

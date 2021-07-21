@@ -3,7 +3,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { getDocumentMutations$ } from '../lib/document';
 import { getDocumentQuery$ } from '../lib/document';
 import { getCurrentUser$ } from '../lib/user';
-import { MdThumbUp, MdSync, MdRateReview } from 'react-icons/md';
+import { MdThumbUp, MdSync, MdRateReview, MdUpdate } from 'react-icons/md';
 
 const WORKFLOW_DOCUMENTS_FILTER = `_type == $type && $state == state`;
 const WORKFLOW_DOCUMENTS_QUERY = `
@@ -17,16 +17,23 @@ const WORKFLOW_DOCUMENTS_QUERY = `
 
 const workFlowDirectories = [
   {
-    title: 'In Review',
+    title: 'Initial Review',
     id: 'in-review',
-    subTitle: 'Needs Review',
+    subTitle: 'New Jam for review',
     icon: MdRateReview,
     state: 'inReview',
   },
   {
+    title: 'Updated Review',
+    id: 'updated-review',
+    subTitle: 'Published Jam, updates to be reviewed',
+    icon: MdUpdate,
+    state: 'updatedReview',
+  },
+  {
     title: 'Changes Requested',
     id: 'in-change',
-    subTitle: 'Pending Author Changes',
+    subTitle: 'Awaiting Changes By Author',
     icon: MdSync,
     state: 'changesRequested',
   },
