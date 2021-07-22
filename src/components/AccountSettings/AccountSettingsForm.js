@@ -82,13 +82,20 @@ function EmailFieldGroup({ email, register }) {
   );
 }
 
-function PasswordFieldGroup() {
+function PasswordFieldGroup({ email }) {
+  async function initiateChangePasswordFlow() {
+    const res = await fetch('/api/user/change-password', {
+      method: 'POST',
+      body: JSON.stringify({ email: email }),
+    });
+  }
+
   return (
     <Flex direction="column" w="100%">
       <Text mb="20px" color="grey.900" variant="B200" fontWeight="bold">
         Password
       </Text>
-      <Link>
+      <Link as={Button} onClick={() => initiateChangePasswordFlow()}>
         <Text color="grey.900" variant="B200" fontWeight="bold">
           Change password
         </Text>
@@ -177,7 +184,7 @@ export default function AccountSettingsForm({ user }) {
           <FormHeading register={register} />
           <NameFieldGroup name={user.name} register={register} />
           <EmailFieldGroup register={register} email={user.email} />
-          <PasswordFieldGroup />
+          <PasswordFieldGroup email={user.email} />
           <PictureFieldGroup user={user} />
         </Stack>
       </form>
