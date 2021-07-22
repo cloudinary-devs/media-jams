@@ -83,11 +83,22 @@ function EmailFieldGroup({ email, register }) {
 }
 
 function PasswordFieldGroup({ email }) {
+  const toast = createStandaloneToast();
   async function initiateChangePasswordFlow() {
     const res = await fetch('/api/user/change-password', {
       method: 'POST',
       body: JSON.stringify({ email: email }),
     });
+
+    if (res.status === 200) {
+      toast({
+        title: 'Successfully sent password reset email',
+        status: 'success',
+        duration: 3000,
+        position: 'top',
+        isClosable: true,
+      });
+    }
   }
 
   return (
@@ -95,7 +106,25 @@ function PasswordFieldGroup({ email }) {
       <Text mb="20px" color="grey.900" variant="B200" fontWeight="bold">
         Password
       </Text>
-      <Link as={Button} onClick={() => initiateChangePasswordFlow()}>
+      <Link
+        as={Button}
+        onClick={() => initiateChangePasswordFlow()}
+        outline="none"
+        bg="none"
+        h="0"
+        w="0"
+        paddingRight="0"
+        paddingTop="0"
+        paddingBottom="0"
+        ml="36px"
+        _focus={{
+          boxShadow: 'none',
+        }}
+        _hover={{
+          bg: 'none',
+          textDecor: 'underline',
+        }}
+      >
         <Text color="grey.900" variant="B200" fontWeight="bold">
           Change password
         </Text>
