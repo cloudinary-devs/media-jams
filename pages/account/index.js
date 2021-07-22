@@ -19,7 +19,6 @@ export default function Profile({ user }) {
       w="100%"
       overflowY="scroll"
       h="100%"
-      m={5}
     >
       <AccountSettingsForm user={user} />
     </Flex>

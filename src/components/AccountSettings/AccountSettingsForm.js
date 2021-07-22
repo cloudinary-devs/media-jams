@@ -53,7 +53,7 @@ function NameFieldGroup({ register, name }) {
         </FormLabel>
         <Input
           height="48px"
-          width="456px"
+          width={{ base: '343px', md: '456px' }}
           type="text"
           defaultValue={name}
           {...register('name')}
@@ -63,7 +63,7 @@ function NameFieldGroup({ register, name }) {
   );
 }
 
-function EmailFieldGroup({ email, register }) {
+function EmailFieldGroup({ verifiedEmail, email, register }) {
   return (
     <FormControl justifyContent="flex-start" id="name">
       <FormLabel display="flex" w="50px">
@@ -71,13 +71,43 @@ function EmailFieldGroup({ email, register }) {
           Email
         </Text>
       </FormLabel>
-      <Input
-        height="48px"
-        width="456px"
-        type="email"
-        defaultValue={email}
-        {...register('email')}
-      />
+      {verifiedEmail ? (
+        <Input
+          height="48px"
+          width={{ base: '343px', md: '456px' }}
+          type="email"
+          defaultValue={email}
+          {...register('email')}
+        />
+      ) : (
+        <Flex
+          direction="column"
+          justify="center"
+          p="24px"
+          w={{ base: '343px', md: '456px' }}
+          h={{ base: '256px', md: '192px' }}
+          bg="primary.200"
+        >
+          <Heading fontWeight="700" color="grey.900" size="H100">
+            You still need to verify your email!
+          </Heading>
+          <Text
+            mt="8px"
+            variant="B300"
+            color="grey.700"
+          >{`We've sent a confirmation email to ${email}. You must click that link in the message before your email is verified`}</Text>
+          <Button
+            mt="16px"
+            bg="primary.500"
+            color="white"
+            w={{ base: '80%', md: '60%' }}
+          >
+            <Text variant="B300" fontWeight="bold">
+              Resend email confirmation
+            </Text>
+          </Button>
+        </Flex>
+      )}
     </FormControl>
   );
 }
@@ -103,7 +133,7 @@ function PasswordFieldGroup({ email }) {
 
   return (
     <Flex direction="column" w="100%">
-      <Text mb="20px" color="grey.900" variant="B200" fontWeight="bold">
+      <Text color="grey.900" variant="B200" fontWeight="bold">
         Password
       </Text>
       <Link
@@ -116,6 +146,8 @@ function PasswordFieldGroup({ email }) {
         paddingRight="0"
         paddingTop="0"
         paddingBottom="0"
+        mt="20px"
+        mb="10px"
         ml="36px"
         _focus={{
           boxShadow: 'none',
@@ -150,13 +182,11 @@ function PictureFieldGroup({ user }) {
         <Box>
           <HStack spacing="5">
             <Button leftIcon={<HiCloudUpload />}>Change photo</Button>
-            <Button variant="ghost" colorScheme="red">
-              Delete
-            </Button>
           </HStack>
           <Text
             fontSize="sm"
             mt="3"
+            overflowWrap="wrap"
             color={useColorModeValue('gray.500', 'whiteAlpha.600')}
           >
             .jpg, .gif, or .png. Max file size 700K.
@@ -209,10 +239,14 @@ export default function AccountSettingsForm({ user }) {
   return (
     <Flex w="100%" justify="center">
       <form onSubmit={handleSubmit(submitFormValues)} style={{ width: '100%' }}>
-        <Stack ml={8} spacing="4" divider={<StackDivider />}>
+        <Stack ml={{ base: 0, md: 8 }} spacing="4" divider={<StackDivider />}>
           <FormHeading register={register} />
           <NameFieldGroup name={user.name} register={register} />
-          <EmailFieldGroup register={register} email={user.email} />
+          <EmailFieldGroup
+            verifiedEmail={user.email_verified}
+            register={register}
+            email={user.email}
+          />
           <PasswordFieldGroup email={user.email} />
           <PictureFieldGroup user={user} />
         </Stack>
