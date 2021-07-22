@@ -21,6 +21,7 @@ import JoinDiscord from './JoinDiscord';
 import AuthorsIcon from './AuthorsIcon';
 import Plus from './Plus';
 import Trashcan from './Trashcan';
+import Star from './Star';
 
 export {
   Authors,
@@ -46,4 +47,5 @@ export {
   JoinDiscord,
   Plus,
   Trashcan,
+  Star,
 };

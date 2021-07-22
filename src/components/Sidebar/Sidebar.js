@@ -10,6 +10,7 @@ import {
   useDisclosure,
   Tooltip,
   Avatar,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import NextLink from 'next/link';
@@ -64,6 +65,8 @@ const SideNavButtonIcon = ({
 
 // Navigation
 const SideStrip = () => {
+  const mobileIconMargin = useBreakpointValue({ base: '32px', md: '66px' });
+  const displaySideStripLogo = useBreakpointValue({ base: false, md: true });
   const { user, isLoading: loadingUser } = useUser();
   const { onToggle, setActiveTab, activeTab } = useSidePanel();
   // onClick set nav.ActiveTab to name
@@ -76,23 +79,27 @@ const SideStrip = () => {
     <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE">
       <Link
         as={NextLink}
-        display={{ base: 'none', md: 'inline-flex' }}
         href="/"
+        display={displaySideStripLogo ? 'auto' : 'none'}
       >
         <IconButton
           size="lg"
           variant="unstyled"
           aria-label="Logo"
           icon={<BWLogo />}
+          display={{ base: 'none', md: 'inline-flex' }}
         />
       </Link>
-      <VStack spacing={{ base: 2, md: 6 }}>
+      <VStack spacing={{ base: '48px', md: 6 }}>
         {sideNavTabs.map(({ value, displayName, Icon }) => (
           <SideNavButtonIcon
             value={value}
             displayName={displayName}
             activeTab={activeTab}
             onClick={handleOnClick}
+            _first={{
+              marginTop: mobileIconMargin,
+            }}
           >
             <Icon
               pointerEvents="none"
@@ -105,11 +112,10 @@ const SideStrip = () => {
       <Spacer />
       {!loadingUser && user && (
         <>
-          <Avatar name={user?.name} src={user?.picture} />
+          <Avatar mb="20px" name={user?.name} src={user?.picture} />
           <NextLink href="/api/auth/logout">
             <IconButton
               size="lg"
-              isRound={true}
               color="primary.500"
               colorScheme="ghost"
               aria-label="Logout"

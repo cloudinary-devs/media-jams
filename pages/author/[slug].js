@@ -1,6 +1,7 @@
 import React from 'react';
-import { Flex } from '@chakra-ui/react';
+import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import AuthorBanner from '@components/AuthorBanner';
+import MobileAuthorBanner from '@components/AuthorBanner/MobileAuthorBanner';
 import SearchInput from '@components/Search/SearchInput';
 import JamList from '@components/JamList';
 import Layout from '@components/Layout';
@@ -21,6 +22,10 @@ const fuseOptions = {
 };
 
 export default function AuthorPage({ author }) {
+  const ResponsiveAuthorBanner = useBreakpointValue({
+    base: MobileAuthorBanner,
+    lg: AuthorBanner,
+  });
   const [searchValue, setSearchValue] = React.useState('');
   const [filteredPosts, setFilteredPosts] = React.useState([]);
   const { data } = useQuery(`${author?.name}'s Jams`, () =>
@@ -61,10 +66,14 @@ export default function AuthorPage({ author }) {
       overflowY="auto"
       align="center"
     >
-      <AuthorBanner author={author} />
+      {ResponsiveAuthorBanner !== undefined ? (
+        <ResponsiveAuthorBanner author={author} />
+      ) : (
+        ''
+      )}
       <Flex direction="column" w="100%" mb="24px">
         <Flex
-          w={{ base: '90%', lg: '1000px' }}
+          w={{ base: '90%', lg: '884px' }}
           alignSelf="center"
           direction="column"
         >
