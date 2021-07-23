@@ -6,6 +6,8 @@ import {
   Flex,
   Box,
 } from '@chakra-ui/react';
+import { useMixPanel } from '@lib/mixpanel';
+import { useElementInteration } from '@hooks/useElementInteraction';
 
 /**
  * Enum string value possible options for view.
@@ -39,8 +41,16 @@ export default function CodeSandbox({
   src = null,
 }) {
   const { colorMode = 'dark' } = useColorMode();
+  const iframeRef = React.useRef(null);
+  const mixpanel = useMixPanel();
   const urlEncodedFilePath = encodeURIComponent(showFile);
   const repoSlug = (str) => str.substring(str.lastIndexOf('/') + 1);
+
+  useElementInteration({
+    elementRef: iframeRef,
+    onInteraction: () =>
+      mixpanel.interaction('CodeSandbox', null, { title, id, src }),
+  });
 
   const baseUrl = src
     ? `https://codesandbox.io/embed/github/MediaJams/${repoSlug(src)}/tree/main`
@@ -49,7 +59,7 @@ export default function CodeSandbox({
   const codeSandboxUrlOptions = `?runonclick=1&autoresize=1&codemirror=1&fontsize=14&hidenavigation=1&theme=${!colorMode}&view=${view}&module=${urlEncodedFilePath}&initialpath=${initialPath}`;
 
   return (
-    <Flex justifyContent="center">
+    <Flex justifyContent="center" ref={iframeRef}>
       <Box
         as="iframe"
         allowFullScreen

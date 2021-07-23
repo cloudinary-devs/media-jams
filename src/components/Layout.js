@@ -1,5 +1,7 @@
+import React from 'react';
+import { useRouter } from 'next/router';
+
 import { Flex, Box, Icon } from '@chakra-ui/react';
-import { useMixPanel } from '@lib/mixpanel';
 import SEO from '@components/SEO';
 import SideNav from '@components/SideNav';
 import SideNavDrawer from '@components/SideNavDrawer';
@@ -13,8 +15,6 @@ export default function Layout({
   onOpen,
   ...rest
 }) {
-  const mixpanel = useMixPanel();
-  mixpanel.pageView();
   return (
     <Flex
       minW="100%"

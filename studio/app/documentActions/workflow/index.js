@@ -13,8 +13,8 @@ export function resolveWorkflowActions(/* docInfo */) {
   return [
     syncAction,
     requestReviewAction,
-    approveAction,
     requestChangesAction,
+    approveAction,
     prodPreviewAction,
     publishAction,
     unpublishAction,

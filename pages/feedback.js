@@ -3,8 +3,6 @@ import { useMixPanel } from '@lib/mixpanel';
 import Iframe from '@components/Iframe';
 
 export default function Feedback() {
-  const mixpanel = useMixPanel();
-  mixpanel.pageView();
   return (
     <>
       <Iframe

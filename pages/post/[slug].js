@@ -1,10 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
-import renderToString from 'next-mdx-remote/render-to-string';
-import hydrate from 'next-mdx-remote/hydrate';
+import { MDXRemote } from 'next-mdx-remote';
+import { serialize } from 'next-mdx-remote/serialize';
 
 import { postBySlug, postsWithSlug } from '@lib/api';
+import { useMixPanel } from '@lib/mixpanel';
+import { useOnRead } from '@hooks/useOnRead';
 
 import { Flex, Text, Image, useDisclosure } from '@chakra-ui/react';
 import Layout from '@components/Layout';
@@ -26,6 +28,8 @@ const components = {
 
 export default function Post({ post, preview, error }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const mixpanel = useMixPanel();
+  const mainContentRef = React.useRef(null);
   const router = useRouter();
   if (error || (!router.isFallback && !post?.slug)) {
     return <ErrorPage statusCode={404} />;
@@ -33,8 +37,13 @@ export default function Post({ post, preview, error }) {
   if (router.isFallback) {
     return null;
   }
-  const content = hydrate(post.content, { components });
   const { author } = post;
+
+  useOnRead({
+    parentElRef: mainContentRef,
+    onRead: () =>
+      mixpanel.interaction('Read Jam', mainContentRef, { post, author }),
+  });
 
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
@@ -51,7 +60,11 @@ export default function Post({ post, preview, error }) {
           title={post.title}
           imageUrl={post.coverImage}
         ></JamContentHero>
-        <JamContent>{content}</JamContent>
+        <main ref={mainContentRef}>
+          <JamContent>
+            <MDXRemote {...post.content} components={components} />
+          </JamContent>
+        </main>
         <JamAuthorBanner author={author}></JamAuthorBanner>
         <EmailSubscription />
       </Flex>
@@ -86,7 +99,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
   const jam = await postBySlug(slug, preview);
   try {
     // Then serialize to mdx formated string for hydration in components.
-    const mdx = await renderToString(jam.body, { components }, null);
+    const mdx = await serialize(jam.body);
     return {
       props: {
         error: null,

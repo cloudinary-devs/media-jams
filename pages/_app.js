@@ -1,5 +1,6 @@
 import React from 'react';
-import { MixPanelProvider } from '@lib/mixpanel';
+import { useRouter } from 'next/router';
+import { MixPanelProvider, pageView } from '@lib/mixpanel';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -9,7 +10,12 @@ import { DefaultSeo } from 'next-seo';
 import { UserProvider } from '@auth0/nextjs-auth0';
 import { buildImageUrl } from 'cloudinary-build-url';
 
-//initialize Sentry
+// Fonts Import
+import '@fontsource/dm-sans/700.css';
+import '@fontsource/dm-sans/400.css';
+import '@fontsource/montserrat/400.css';
+
+// Initialize Sentry Error Tracking
 import { initSentry } from '@lib/sentry';
 initSentry();
 
@@ -19,6 +25,24 @@ const App = ({ Component, pageProps, err }) => {
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient();
   }
+
+  const router = useRouter();
+  // trigger pageView analytics on router events
+  React.useEffect(() => {
+    const handleRouteChange = (err, url) => {
+      if (err.cancelled) return null;
+      pageView(router.pathname, router.query);
+    };
+    //When the component is mounted, subscribe to router changes
+    //and log those page views
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
 
   const ogImage = buildImageUrl('mediajams/og-image', {
     cloud: { cloudName: 'mediadevs' },

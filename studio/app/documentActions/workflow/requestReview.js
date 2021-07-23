@@ -1,26 +1,29 @@
 import React from 'react';
 import EyeIcon from 'part:@sanity/base/eye-icon';
-import { RequestReviewWizard } from '../../components/requestReviewWizard';
+import { useValidationStatus } from '@sanity/react-hooks';
 import { inferMetadataState, useWorkflowMetadata } from '../../lib/workflow';
 
 export function requestReviewAction(props) {
+  const { markers } = useValidationStatus(props.id, props.type);
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
   const { state } = metadata.data;
   if (
     !props.draft ||
-    !props.draft.slug?.current ||
     state === 'inReview' ||
+    state === 'updatedReview' ||
     state === 'approved'
   ) {
     return null;
   }
 
   const onHandle = () => {
-    metadata.setState('inReview');
+    const status = props.published ? 'updatedReview' : 'inReview';
+    metadata.setState(status);
     props.onComplete();
   };
 
   return {
+    disabled: markers.length !== 0,
     icon: EyeIcon,
     label: 'Request review',
     onHandle,

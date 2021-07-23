@@ -1,6 +1,5 @@
 import TagButton from './tag-button';
 import RawkButton from './rawk-button';
-export default {
-  TagButton,
-  RawkButton,
-};
+import Heading from './heading';
+import Text from './text';
+export { TagButton, RawkButton, Heading, Text };
