@@ -5,10 +5,10 @@ import { inferMetadataState, useWorkflowMetadata } from '../../lib/workflow';
 export function requestChangesAction(props) {
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
   const buttonDisabled = !userModerator();
-  if (metadata.data.state !== 'inReview') {
+  // if it's not in the following state, do not show
+  if (!['inReview', 'updatedReview'].includes(metadata.data.state)) {
     return null;
   }
-
   const onHandle = () => {
     metadata.setState('changesRequested');
     props.onComplete();
