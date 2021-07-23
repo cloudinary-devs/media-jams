@@ -22,12 +22,15 @@ export default function NoteModal({ isOpen, onClose }) {
   const queryClient = useQueryClient();
   const toast = createStandaloneToast();
 
+  const resetNoteFields = () => {
+    setTitle('');
+    setNote('');
+  };
+
   const createNote = useMutation(
-    ({ title, note }) => notes.add({ title, body: JSON.stringify(note) }),
+    ({ title, body }) => notes.add({ title, body }),
     {
-      onMutate: async ({ title, note }) => {
-        setTitle('');
-        setNote('');
+      onMutate: async ({ title, body }) => {
         await queryClient.cancelQueries('notes');
         const previousValue = queryClient.getQueryData('notes');
 
@@ -35,11 +38,11 @@ export default function NoteModal({ isOpen, onClose }) {
           if (old) {
             return {
               ...old,
-              notes: [...old?.notes, { title, body: note }],
+              notes: [...old?.notes, { title, body }],
             };
           } else {
             return {
-              notes: [{ title, body: note }],
+              notes: [{ title, body }],
             };
           }
         });
@@ -70,6 +73,7 @@ export default function NoteModal({ isOpen, onClose }) {
             isClosable: true,
           }),
         );
+        resetNoteFields();
       },
     },
   );
@@ -87,7 +91,7 @@ export default function NoteModal({ isOpen, onClose }) {
           />
           <NoteEditor note={currentNote} setNote={setNote} />
           <Button
-            onClick={() => createNote.mutate({ title, note: currentNote })}
+            onClick={() => createNote.mutate({ title, body: currentNote })}
             mt="6px"
             mb="12px"
             alignSelf="flex-end"
