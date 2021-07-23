@@ -181,7 +181,7 @@ const Notes = ({ user = null }) => {
         <Stack>
           <SearchFieldInput value={searchValue} onChange={onChange} mb={6} />
           {filteredNotes?.map((note) => (
-            <NoteCard key={note._id} note={note} />
+            <NoteCard key={note.id} note={note} />
           ))}
         </Stack>
       )}
