@@ -16,6 +16,7 @@ import {
   createStandaloneToast,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
+import { useUser } from '@auth0/nextjs-auth0';
 import { HiCloudUpload } from 'react-icons/hi';
 
 function FormHeading() {
@@ -197,7 +198,8 @@ function PictureFieldGroup({ user }) {
   );
 }
 
-export default function AccountSettingsForm({ user }) {
+export default function AccountSettingsForm() {
+  const { user, isLoading: loadingUser, checkSession } = useUser();
   const toast = createStandaloneToast();
 
   const {
@@ -218,6 +220,7 @@ export default function AccountSettingsForm({ user }) {
     });
 
     if (res.status === 200) {
+      checkSession();
       toast({
         title: 'Successfully updated your profile',
         status: 'success',
@@ -238,6 +241,7 @@ export default function AccountSettingsForm({ user }) {
 
   return (
     <Flex w="100%" justify="center">
+      {user.name}
       <form onSubmit={handleSubmit(submitFormValues)} style={{ width: '100%' }}>
         <Stack ml={{ base: 0, md: 8 }} spacing="4" divider={<StackDivider />}>
           <FormHeading register={register} />

@@ -109,7 +109,15 @@ const SideStrip = () => {
       <Spacer />
       {!loadingUser && user && (
         <>
-          <Avatar mb="20px" name={user?.name} src={user?.picture} />
+          <NextLink href="/account">
+            <IconButton
+              size="lg"
+              color="primary.500"
+              colorScheme="ghost"
+              aria-label="Account"
+              icon={<Avatar mb="20px" name={user?.name} src={user?.picture} />}
+            />
+          </NextLink>
           <NextLink href="/api/auth/logout">
             <IconButton
               size="lg"
