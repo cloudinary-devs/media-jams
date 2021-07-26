@@ -1,18 +1,26 @@
-import { Button, Stack } from '@chakra-ui/react';
+import { Button, Stack, Link } from '@chakra-ui/react';
+import NextLink from 'next/link';
 
-const SideMenuButton = ({ children }) => (
-  <Button variant="solid" bg="white" w="100%" color="grey.900">
-    {children}
-  </Button>
-);
+const SideMenuButton = ({ internal = true, link, children }) => {
+  const ToLink = internal ? NextLink : Link;
+  return (
+    <Button variant="solid" bg="white" w="100%" color="grey.900">
+      <ToLink href={link}>{children}</ToLink>
+    </Button>
+  );
+};
 
 const MoreContent = () => {
   return (
     <Stack spacing={8}>
-      <Stack px={6} py={8}>
-        <SideMenuButton>Creator Docs</SideMenuButton>
-        <SideMenuButton>Media Kit</SideMenuButton>
-        <SideMenuButton>Provide Feedback</SideMenuButton>
+      <Stack px={{ base: 6, md: 10 }} py={8}>
+        <SideMenuButton internal={false} link="/docs/">
+          Creator Docs
+        </SideMenuButton>
+        <SideMenuButton link="/feedback">Provide Feedback</SideMenuButton>
+        <SideMenuButton internal={false} link="/docs">
+          MDE Studio
+        </SideMenuButton>
       </Stack>
     </Stack>
   );
