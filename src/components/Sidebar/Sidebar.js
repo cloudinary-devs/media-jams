@@ -90,6 +90,7 @@ const SideStrip = () => {
       <VStack spacing={{ base: '48px', md: 6 }}>
         {sideNavTabs.map(({ value, displayName, Icon }) => (
           <SideNavButtonIcon
+            key={value}
             value={value}
             displayName={displayName}
             activeTab={activeTab}

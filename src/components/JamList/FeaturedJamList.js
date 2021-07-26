@@ -143,6 +143,7 @@ function JamListCard({ jam }) {
       >
         {jam.tags.slice(0, 4).map((tag) => (
           <Text
+            key={tag._id}
             fontWeight="500"
             letterSpacing="0.02em"
             variant="B100"
@@ -195,7 +196,7 @@ export default function FeaturedJamList({ jams }) {
 
       <HStack w="100%" gap="28px" overflowX="scroll">
         {jams?.map((jam) => (
-          <JamListCard jam={jam} />
+          <JamListCard key={jam._id} jam={jam} />
         ))}
       </HStack>
     </Flex>
