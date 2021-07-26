@@ -8,17 +8,24 @@ import {
   IconButton,
   Tooltip,
   Avatar,
+  Stack,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import React from 'react';
 import { motion } from 'framer-motion';
 import NextLink from 'next/link';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
-import { SideToggle, JoinDiscord, Plus, BWLogo } from '@components/Icons';
+import {
+  SideToggle,
+  JoinDiscord,
+  Plus,
+  BWLogo,
+  Logout,
+} from '@components/Icons';
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
 import { useUser } from '@auth0/nextjs-auth0';
 
-import { RiLogoutBoxRLine } from 'react-icons/ri';
+import { FiLogOut } from 'react-icons/fi';
 
 // Tooltip currently disabled
 // https://github.com/chakra-ui/chakra-ui/issues/4101
@@ -108,26 +115,28 @@ const SideStrip = () => {
         ))}
       </VStack>
       <Spacer />
-      {!loadingUser && user && (
-        <>
-          <Avatar mb="20px" name={user?.name} src={user?.picture} />
-          <NextLink href="/api/auth/logout">
-            <IconButton
-              size="lg"
-              color="primary.500"
-              colorScheme="ghost"
-              aria-label="Logout"
-              icon={<RiLogoutBoxRLine />}
-            />
-          </NextLink>
-        </>
-      )}
-      <IconButton
-        colorScheme="ghost"
-        aria-label="Signup Discord"
-        icon={<JoinDiscord />}
-        paddingBottom={6}
-      />
+      <Stack spacing={8} my={4}>
+        {!loadingUser && user && (
+          <>
+            <Avatar name={user?.name} src={user?.picture} />
+            <NextLink href="/api/auth/logout">
+              <IconButton
+                size="lg"
+                color="grey.700"
+                colorScheme="ghost"
+                aria-label="Logout"
+                icon={<FiLogOut />}
+              />
+            </NextLink>
+          </>
+        )}
+        <IconButton
+          colorScheme="ghost"
+          aria-label="Signup Discord"
+          paddingBottom={6}
+          icon={<JoinDiscord />}
+        />
+      </Stack>
     </VStack>
   );
 };
