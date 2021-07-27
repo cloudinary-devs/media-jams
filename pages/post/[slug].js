@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
+import { NextSEO } from 'next-seo';
 
 import { postBySlug, postsWithSlug } from '@lib/api';
 import { useMixPanel } from '@lib/mixpanel';
@@ -14,11 +15,12 @@ import JamContentHero from '@components/JamContentHero';
 import JamContent from '@components/JamContent';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
-
 import CodeBlock from '@components/CodeBlock';
 import CodeSandbox from '@components/CodeSandbox';
 import EmbeddedIframe from '@components/EmbeddedIframe';
 import MDXComponents from '@components/MDXComponents';
+
+import { buildImageUrl } from 'cloudinary-build-url';
 
 const components = {
   CodeSandbox,
@@ -28,6 +30,9 @@ const components = {
 };
 
 export default function Post({ post, preview, error }) {
+  const ogImage = buildImageUrl('mediajams/og-image-author', {
+    cloud: { cloudName: 'mediadevs' },
+  });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mixpanel = useMixPanel();
   const mainContentRef = React.useRef(null);
@@ -47,28 +52,52 @@ export default function Post({ post, preview, error }) {
   });
 
   return (
-    <Flex
-      bg="white"
-      direction="column"
-      width="100%"
-      height="100%"
-      overflow="auto"
-    >
-      <JamContentHero
-        author={author}
-        description={post.description}
-        title={post.title}
-        imageUrl={post.coverImage}
-        date={post.updatedAt}
-      ></JamContentHero>
-      <main ref={mainContentRef}>
-        <JamContent>
-          <MDXRemote {...post.content} components={MDXComponents} />
-        </JamContent>
-      </main>
-      <JamAuthorBanner author={author}></JamAuthorBanner>
-      <EmailSubscription />
-    </Flex>
+    <>
+      <NextSEO
+        openGraph={{
+          type: 'website',
+          url: 'https://www.example.com/page',
+          title: 'Open Graph Title',
+          description: 'Open Graph Description',
+          images: [
+            {
+              url: 'https://www.example.ie/og-image.jpg',
+              width: 800,
+              height: 600,
+              alt: 'Og Image Alt',
+            },
+            {
+              url: 'https://www.example.ie/og-image-2.jpg',
+              width: 800,
+              height: 600,
+              alt: 'Og Image Alt 2',
+            },
+          ],
+        }}
+      />
+      <Flex
+        bg="white"
+        direction="column"
+        width="100%"
+        height="100%"
+        overflow="auto"
+      >
+        <JamContentHero
+          author={author}
+          description={post.description}
+          title={post.title}
+          imageUrl={post.coverImage}
+          date={post.updatedAt}
+        ></JamContentHero>
+        <main ref={mainContentRef}>
+          <JamContent>
+            <MDXRemote {...post.content} components={MDXComponents} />
+          </JamContent>
+        </main>
+        <JamAuthorBanner author={author}></JamAuthorBanner>
+        <EmailSubscription />
+      </Flex>
+    </>
   );
 }
 

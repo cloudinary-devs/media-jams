@@ -46,7 +46,7 @@ const App = ({ Component, pageProps, err }) => {
     };
   }, [router.events]);
 
-  const ogImage = buildImageUrl('mediajams/og-image', {
+  const ogImage = buildImageUrl('mediajams/open-graph-base.jpg', {
     cloud: { cloudName: 'mediadevs' },
   });
 
@@ -65,11 +65,19 @@ const App = ({ Component, pageProps, err }) => {
                   title="Front End Developer Companion to Rich Media"
                   description="Media Jams offer numerous useful examples through which developers can sharpen their expertise in leveraging media for apps and tech stacks"
                   url="www.mediajams.dev"
-                  ogImage={{
+                  openGraph={{
                     url: 'www.mediajams.dev',
                     title: 'Putting Media to work is hard',
                     description: '',
-                    image: ogImage,
+                    images: [
+                      {
+                        url: ogImage,
+                        width: 1200,
+                        height: 630,
+                        alt:
+                          'Discover Top practices and tools applying media technology with Media Jams',
+                      },
+                    ],
                     siteName: 'MediaJams',
                   }}
                 />
