@@ -5,7 +5,6 @@ import {
   Heading,
   Stack,
   Flex,
-  Avatar,
   Link,
   useColorModeValue,
   createStandaloneToast,
@@ -13,13 +12,22 @@ import {
   IconButton,
   Button,
   Image,
+  useDisclosure,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import format from 'date-fns/format';
+import { Node } from 'slate';
 import { useNotesQuery } from '@hooks/useNotes';
 
+import { useMutation } from 'react-query';
+import { notes } from '@lib/queries/notes';
+import { NOTE_ACTIONS } from '@utils/constants';
+const { EDIT_NOTE } = NOTE_ACTIONS;
+
+import NoteModal from '@components/NoteModal';
 import { SearchFieldInput } from './SearchFieldInput';
 import { Trashcan } from '@components/Icons';
+import { FaEdit } from 'react-icons/fa';
 
 import Fuse from 'fuse.js';
 
@@ -77,55 +85,121 @@ const EmptyNotes = ({ user }) => {
 
 export const NoteCard = ({ note, ...props }) => {
   const toast = createStandaloneToast();
-  // const removeBookmark = useRemoveBookmarkMutation({
-  //   onSuccess: () => {
-  //     // toast message
-  //     toast({
-  //       title: `Bookmark: ${jam.title} removed.`,
-  //       status: 'success',
-  //       duration: 2000,
-  //       isClosable: true,
-  //       position: 'top',
-  //     });
-  //   },
-  // });
-  const { title, body } = note;
+  const { isOpen, onOpen, onClose: onCloseModal } = useDisclosure();
+  const serialize = (value) => {
+    return (
+      value
+        // Return the string content of each paragraph in the value's children.
+        .map((n) => Node.string(n))
+        // Join them all with line breaks denoting paragraphs.
+        .join('\n')
+    );
+  };
+
+  const deleteNote = useMutation((noteId) => notes.delete(noteId), {
+    onMutate: async (noteId) => {
+      await queryClient.cancelQueries('notes');
+      const previousValue = queryClient.getQueryData('notes');
+
+      queryClient.setQueryData('notes', (old) => ({
+        ...old,
+        notes: old.notes.filter((oldNote) => oldNote.id !== noteId),
+      }));
+
+      return previousValue;
+    },
+    // On failure, roll back to the previous value
+    onError: (err, variables, previousValue) => {
+      queryClient.setQueryData('notes', previousValue);
+      toast({
+        title: 'Oh no!',
+        description: 'Something went wrong while deleting your note!',
+        status: 'error',
+        duration: 3000,
+        position: 'top',
+        isClosable: true,
+      });
+    },
+
+    // After success or failure, refetch the notes query
+    onSuccess: () => {
+      queryClient.invalidateQueries('notes');
+      toast({
+        title: 'Successfully deleted your note!',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top',
+      });
+    },
+  });
+
+  const { title } = note;
   return (
-    <Box
-      bg={useColorModeValue('white', 'gray.700')}
-      border="1px solid #D3DDE6"
-      borderRadius="8px"
-      maxWidth="2xl"
-      marginTop={2}
-      p={{ base: '2', md: '3' }}
-      shadow={{ md: 'base' }}
-      {...props}
-    >
-      <Stack
-        direction="row"
-        spacing="4"
-        spacing={{ base: '1', md: '2' }}
-        alignItems="center"
+    <>
+      <NoteModal
+        isOpen={isOpen}
+        onClose={onCloseModal}
+        note={note}
+        action={EDIT_NOTE}
+      />
+      <Box
+        bg={useColorModeValue('white', 'gray.700')}
+        border="1px solid #D3DDE6"
+        borderRadius="8px"
+        maxWidth="2xl"
+        marginTop={2}
+        p={{ base: '2', md: '3' }}
+        shadow={{ md: 'base' }}
+        {...props}
       >
-        <NextLink href={`/`} passHref>
-          <Link>
-            <Text fontSize="md" variant="B500" color="gray.800">
-              {title}
+        <Stack
+          direction="row"
+          spacing="4"
+          spacing={{ base: '1', md: '2' }}
+          alignItems="center"
+        >
+          {note.created_at && (
+            <Text variant="B100" color="grey.600">
+              {format(new Date(note.created_at), 'PPPP')}
             </Text>
-          </Link>
-        </NextLink>
-        <Spacer />
-        <IconButton
-          onClick={() => {}}
-          variant="ghost"
-          aria-label="Remove Note"
-          icon={<Trashcan />}
-        />
-      </Stack>
-      <Flex paddingTop={{ base: 0, md: '2' }} alignItems="start">
-        <Heading size="H100">{title}</Heading>
-      </Flex>
-    </Box>
+          )}
+          <Spacer />
+          <IconButton
+            onClick={onOpen}
+            variant="ghost"
+            aria-label="Edit Note"
+            icon={<FaEdit />}
+          />
+
+          <IconButton
+            onClick={() => {
+              deleteNote.mutate(note.id);
+              onClose();
+            }}
+            variant="ghost"
+            aria-label="Remove Note"
+            icon={<Trashcan />}
+          />
+        </Stack>
+        <Flex
+          paddingTop={{ base: 0, md: '2' }}
+          direction="column"
+          alignItems="start"
+        >
+          <NextLink href={`/`} passHref>
+            <Link>
+              <Heading size="H100" color="gray.900" mb="8px">
+                {title}
+              </Heading>
+            </Link>
+          </NextLink>
+          <Text variant="B200" color="gray.900">
+            {serialize(note.body)}
+          </Text>
+        </Flex>
+      </Box>
+    </>
   );
 };
 

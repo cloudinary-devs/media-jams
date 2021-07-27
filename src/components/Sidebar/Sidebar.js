@@ -16,6 +16,8 @@ import { motion } from 'framer-motion';
 import NextLink from 'next/link';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
 import NoteModal from '@components/NoteModal';
+import { NOTE_ACTIONS } from '@utils/constants';
+const { CREATE_NOTE } = NOTE_ACTIONS;
 
 import { SideToggle, JoinDiscord, Plus, BWLogo } from '@components/Icons';
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
@@ -140,7 +142,7 @@ const SideTopBar = ({ onClose, onToggle }) => {
 
   return (
     <Flex w="100%" h="64px">
-      <NoteModal isOpen={isOpen} onClose={onCloseModal} />
+      <NoteModal isOpen={isOpen} onClose={onCloseModal} action={CREATE_NOTE} />
       <HStack display={{ base: 'none', md: 'flex' }} spacing={3}>
         <IconButton
           onClick={onClose}

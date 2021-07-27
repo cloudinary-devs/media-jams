@@ -115,7 +115,7 @@ export default function NoteEditor({ note, setNote }) {
         plugins={plugins}
         components={components}
         options={options}
-        value={note}
+        value={note.body}
         onChange={(value) => setNote(value)}
       >
         <HeadingToolbar>
