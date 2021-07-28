@@ -38,7 +38,7 @@ function Footer() {
         <Flex
           direction="column"
           justify="space-between"
-          mb={{ base: '6' }}
+          mb={{ base: '2', md: '6' }}
           align="center"
           alignSelf="flex-end"
           id="top"
@@ -52,7 +52,7 @@ function Footer() {
         <HStack
           justifyContent="center"
           spacing="2"
-          mb={{ base: '4' }}
+          mb={{ base: '0', md: '6' }}
           as="ul"
           listStyleType="none"
         >

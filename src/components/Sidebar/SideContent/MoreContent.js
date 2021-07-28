@@ -14,12 +14,16 @@ const SideMenuButton = ({ internal = true, link, children }) => {
   );
 };
 
+/**
+ *
+ * maxH (-104px) is the h minus the mobile title bar AND the NewNote
+ */
 const MoreContent = () => {
   const { user, loading } = useUser();
   const openStudio = useStudio();
   return (
-    <Stack flex={1} spacing={8}>
-      <Stack px={{ base: 6, md: 10 }} py={8}>
+    <Stack flex={1} maxH="calc(100% - 104px)">
+      <Stack px={{ base: 6, md: 10 }} py={{ base: 0, md: 8 }}>
         <SideMenuButton internal={false} link="/docs/">
           Creator Docs
         </SideMenuButton>
@@ -36,7 +40,7 @@ const MoreContent = () => {
           </Button>
         )}
       </Stack>
-      <Spacer />
+      <Spacer margin={0} />
       <Footer />
     </Stack>
   );
