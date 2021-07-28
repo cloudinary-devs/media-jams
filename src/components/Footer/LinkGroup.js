@@ -1,4 +1,4 @@
-import { Box, Stack, Text } from '@chakra-ui/react';
+import { Box, HStack, Text } from '@chakra-ui/react';
 import { useMixPanel } from '@lib/mixpanel';
 import React from 'react';
 import NextLink from 'next/link';
@@ -13,17 +13,13 @@ export const LinkGroup = ({ data }) => {
   };
 
   return (
-    <Box>
-      <Text
-        textTransform="uppercase"
-        mb={{ base: '6', md: '10' }}
-        fontWeight="bold"
-        letterSpacing="wide"
-        textColor="white"
+    <Box marginBottom={8}>
+      <HStack
+        as="ul"
+        spacing={{ base: 12 }}
+        listStyleType="none"
+        justifyContent="center"
       >
-        {title}
-      </Text>
-      <Stack as="ul" spacing={{ base: 2, md: 4 }} listStyleType="none">
         {links.map((link, idx) => (
           <Box as="li" key={idx}>
             <NextLink href={link.href} passHref>
@@ -31,10 +27,10 @@ export const LinkGroup = ({ data }) => {
                 as="a"
                 ref={anchorLink}
                 onClick={handleOnClick}
-                color="yellow.200"
+                color="grey.700"
                 _hover={{ textDecoration: 'underline' }}
               >
-                <span>{link.label}</span>
+                <Text fontSize="xs">{link.label}</Text>
                 {link.badge && (
                   <Box as="span" ms="2">
                     {link.badge}
@@ -44,7 +40,7 @@ export const LinkGroup = ({ data }) => {
             </NextLink>
           </Box>
         ))}
-      </Stack>
+      </HStack>
     </Box>
   );
 };

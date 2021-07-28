@@ -1,8 +1,9 @@
-import { Button, Stack, Link } from '@chakra-ui/react';
+import { Button, Stack, Link, Spacer } from '@chakra-ui/react';
+import { useUser } from '@auth0/nextjs-auth0';
 import NextLink from 'next/link';
 
 import useStudio from '@hooks/useStudio';
-import { useUser } from '@auth0/nextjs-auth0';
+import Footer from '@components/Footer';
 
 const SideMenuButton = ({ internal = true, link, children }) => {
   const ToLink = internal ? NextLink : Link;
@@ -17,7 +18,7 @@ const MoreContent = () => {
   const { user, loading } = useUser();
   const openStudio = useStudio();
   return (
-    <Stack spacing={8}>
+    <Stack flex={1} spacing={8}>
       <Stack px={{ base: 6, md: 10 }} py={8}>
         <SideMenuButton internal={false} link="/docs/">
           Creator Docs
@@ -35,6 +36,8 @@ const MoreContent = () => {
           </Button>
         )}
       </Stack>
+      <Spacer />
+      <Footer />
     </Stack>
   );
 };
