@@ -104,6 +104,7 @@ function TagModal({ isOpen, onClose, tags, clearAllTags }) {
                   w="100%"
                   justify="space-between"
                   pb="18px"
+                  key={tag._id}
                 >
                   <Text variant="B300">{tag.title} </Text>
                   <Checkbox size="lg" colorScheme="primary" value={tag.title} />
@@ -189,6 +190,7 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
             </Text>
             {data.tags.map((tag) => (
               <TagButton
+                key={tag._id}
                 tag={tag}
                 addTag={addTag}
                 removeTag={removeTag}
@@ -236,6 +238,7 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
             </Text>
             {featuredTags.map((tag) => (
               <TagButton
+                key={tag._id}
                 tag={tag}
                 addTag={addTag}
                 removeTag={removeTag}
