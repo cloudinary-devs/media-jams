@@ -31,7 +31,7 @@ export const SubscribeForm = () => (
           w={{ base: 'full', md: 'auto' }}
           fontSize="md"
           px="8"
-          roundedStart={{ base: '0' }}
+          roundedStart={{ md: '0' }}
           colorScheme="blue"
           textTransform="uppercase"
           fontWeight="bold"
