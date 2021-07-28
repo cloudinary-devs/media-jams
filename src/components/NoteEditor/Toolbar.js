@@ -11,8 +11,8 @@ import {
   ToolbarMark,
   useStoreEditorRef,
   useEventEditorId,
-  getSlatePluginType,
-} from '@udecode/slate-plugins';
+  getPlatePluginType,
+} from '@udecode/plate';
 
 import {
   FaBold,
@@ -29,31 +29,31 @@ export default function Toolbar() {
   return (
     <>
       <ToolbarMark
-        type={getSlatePluginType(editor, MARK_BOLD)}
+        type={getPlatePluginType(editor, MARK_BOLD)}
         icon={<FaBold />}
       />
       <ToolbarMark
-        type={getSlatePluginType(editor, MARK_ITALIC)}
+        type={getPlatePluginType(editor, MARK_ITALIC)}
         icon={<FaItalic />}
       />
       <ToolbarMark
-        type={getSlatePluginType(editor, MARK_UNDERLINE)}
+        type={getPlatePluginType(editor, MARK_UNDERLINE)}
         icon={<FaUnderline />}
       />
       <ToolbarMark
-        type={getSlatePluginType(editor, MARK_STRIKETHROUGH)}
+        type={getPlatePluginType(editor, MARK_STRIKETHROUGH)}
         icon={<FaStrikethrough />}
       />
       <ToolbarList
-        type={getSlatePluginType(editor, ELEMENT_UL)}
+        type={getPlatePluginType(editor, ELEMENT_UL)}
         icon={<FaListUl />}
       />
       <ToolbarList
-        type={getSlatePluginType(editor, ELEMENT_OL)}
+        type={getPlatePluginType(editor, ELEMENT_OL)}
         icon={<FaListOl />}
       />
       <ToolbarCodeBlock
-        type={getSlatePluginType(editor, ELEMENT_CODE_BLOCK)}
+        type={getPlatePluginType(editor, ELEMENT_CODE_BLOCK)}
         icon={<FaCode />}
       />
     </>
