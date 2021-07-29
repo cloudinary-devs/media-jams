@@ -123,7 +123,7 @@ export default function FeaturedJamCard({ jam }) {
         </NextLink>
         <Flex mt="72px" justify="flex-start" sx={{ gap: '12px' }}>
           {jam.tags.map((tag) => (
-            <Text variant="B100" color="primary.400">
+            <Text key={tag._id} variant="B100" color="primary.400">
               #{tag.title}
             </Text>
           ))}
