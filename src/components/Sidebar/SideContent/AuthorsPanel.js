@@ -17,6 +17,7 @@ import { authors } from '@lib/queries/authors';
 
 import { SocialHandlesCollection } from '@components/AuthorBanner';
 import { SearchFieldInput } from './SearchFieldInput';
+import { LoadingSkeleton } from './LoadingSkeleton';
 
 import Fuse from 'fuse.js';
 
@@ -108,9 +109,7 @@ const AuthorsPanel = () => {
   };
 
   const handleFilter = (data) => setFilteredAuthors(data);
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+
   return (
     <Flex
       width={{ base: 'full' }}
@@ -121,6 +120,7 @@ const AuthorsPanel = () => {
     >
       <Stack>
         <SearchFieldInput value={searchValue} onChange={onChange} mb={6} />
+        <LoadingSkeleton isLoading={isLoading} />
         {filteredAuthors.map((author) => (
           <AuthorCard key={author._id} author={author} />
         ))}

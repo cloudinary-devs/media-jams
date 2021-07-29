@@ -22,6 +22,7 @@ import {
 } from '@hooks/useBookmarks';
 
 import { SearchFieldInput } from './SearchFieldInput';
+import { LoadingSkeleton } from './LoadingSkeleton';
 import { Trashcan } from '@components/Icons';
 
 import Fuse from 'fuse.js';
@@ -187,6 +188,7 @@ const Bookmarks = ({ user = null }) => {
       ) : (
         <Stack>
           <SearchFieldInput value={searchValue} onChange={onChange} mb={6} />
+          <LoadingSkeleton isLoading={isLoading} />
           {filteredJams?.map((jam) => (
             <BookmarkJamCard key={jam._id} jam={jam} />
           ))}

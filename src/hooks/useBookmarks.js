@@ -8,7 +8,6 @@ export function useBookmarksQuery(select) {
 
   const queryInfo = useQuery('bookmarks', bookmarksQuery.get, {
     // The query will not execute until the user exists
-    initialData: [],
     enabled: !!user?.sub,
     select,
     staleTime: 300000, // 5 minutes
