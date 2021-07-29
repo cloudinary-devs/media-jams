@@ -83,18 +83,27 @@ const EmptyNotes = ({ user }) => {
   );
 };
 
+function truncateText(text, length) {
+  if (text.length <= length) {
+    return text;
+  }
+
+  return text.substr(0, length) + '\u2026';
+}
+
+const serialize = (value) => {
+  return (
+    value
+      // Return the string content of each paragraph in the value's children.
+      .map((n) => Node.string(n))
+      // Join them all with line breaks denoting paragraphs.
+      .join('\n')
+  );
+};
+
 export const NoteCard = ({ note, ...props }) => {
   const toast = createStandaloneToast();
   const { isOpen, onOpen, onClose: onCloseModal } = useDisclosure();
-  const serialize = (value) => {
-    return (
-      value
-        // Return the string content of each paragraph in the value's children.
-        .map((n) => Node.string(n))
-        // Join them all with line breaks denoting paragraphs.
-        .join('\n')
-    );
-  };
 
   const deleteNote = useMutation((noteId) => notes.delete(noteId), {
     onMutate: async (noteId) => {
@@ -194,7 +203,7 @@ export const NoteCard = ({ note, ...props }) => {
               </Heading>
             </Link>
           </NextLink>
-          <Text variant="B200" color="gray.900">
+          <Text noOfLines="2" variant="B200" color="gray.900">
             {serialize(note.body)}
           </Text>
         </Flex>

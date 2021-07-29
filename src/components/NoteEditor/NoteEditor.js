@@ -48,9 +48,8 @@ import Toolbar from './Toolbar';
 let components = createPlateComponents();
 const options = createPlateOptions();
 
-export default function NoteEditor({ title, body, setBody }) {
+export default function NoteEditor({ body, setBody }) {
   const [value, setValue] = React.useState(body);
-  console.log(value);
   const plugins = React.useMemo(() => {
     const p = [
       // editor

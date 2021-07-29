@@ -36,7 +36,6 @@ export default function NoteModal({ action, isOpen, onClose, note }) {
         return (
           <Button
             onClick={() => {
-              console.log({ title, body, ...currentNote });
               createNote.mutate({ title, body });
             }}
             mt="6px"
@@ -50,8 +49,12 @@ export default function NoteModal({ action, isOpen, onClose, note }) {
         return (
           <Button
             onClick={() => {
-              console.log({ title, body, ...currentNote });
-              editNote.mutate({ title, body, id: note.id });
+              editNote.mutate({
+                title,
+                body,
+                id: note.id,
+                created_at: currentNote.created_at,
+              });
               onClose();
             }}
           >
@@ -63,33 +66,27 @@ export default function NoteModal({ action, isOpen, onClose, note }) {
 
   const resetNoteFields = () => {
     setTitle('');
-    setNote('');
+    setBody('');
   };
 
   const editNote = useMutation(
-    ({ title, body, ...currentNote }) =>
-      notes.edit({ title, body, ...currentNote }),
+    ({ title, body, id, createdAt }) =>
+      notes.edit({ title, body, id, createdAt }),
     {
       onMutate: async (editedNote) => {
         await queryClient.cancelQueries('notes');
 
-        const previousValue = queryClient.getQueryData('notes');
+        const { notes } = await queryClient.getQueryData('notes');
 
-        const findNoteIndex = previousValue.notes.findIndex(
+        const findNoteIndex = notes.findIndex(
           (note) => note.id === editedNote.id,
         );
 
-        const replacedNoteArr = previousValue.notes.splice(
-          findNoteIndex,
-          1,
-          editedNote,
-        );
+        notes[findNoteIndex] = editedNote;
 
         queryClient.setQueryData('notes', () => ({
-          notes: replacedNoteArr,
+          notes,
         }));
-
-        return previousValue;
       },
       // On failure, roll back to the previous value
       onError: (err, variables, previousValue) => {
@@ -106,7 +103,6 @@ export default function NoteModal({ action, isOpen, onClose, note }) {
 
       // After success or failure, refetch the notes query
       onSuccess: () => {
-        queryClient.invalidateQueries('notes');
         onClose(
           toast({
             title: 'Successfully updated your note!',
@@ -123,7 +119,7 @@ export default function NoteModal({ action, isOpen, onClose, note }) {
   const createNote = useMutation(
     ({ title, body }) => notes.add({ title, body }),
     {
-      onMutate: async (newNote) => {
+      onMutate: async ({ title, body }) => {
         await queryClient.cancelQueries('notes');
         const previousValue = queryClient.getQueryData('notes');
 
@@ -182,7 +178,7 @@ export default function NoteModal({ action, isOpen, onClose, note }) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <NoteEditor title={title} body={body} setBody={setBody} />
+          <NoteEditor body={body} setBody={setBody} />
           {renderNoteActionButton()}
         </ModalBody>
       </ModalContent>
