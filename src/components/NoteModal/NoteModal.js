@@ -167,9 +167,18 @@ export default function NoteModal({ action, isOpen, onClose, note }) {
     },
   );
   return (
-    <Modal size="3xl" onClose={onClose} isOpen={isOpen} isCentered>
-      <ModalOverlay />
-      <ModalContent h="600px" padding="48px 48px 76px 48px">
+    <Modal
+      size={{ base: 'full', md: '3xl' }}
+      onClose={onClose}
+      isOpen={isOpen}
+      isCentered={{ base: false, md: true }}
+      blockScrollOnMount
+    >
+      <ModalOverlay height="100%" />
+      <ModalContent
+        h={{ base: '100%', md: '600px' }}
+        padding="48px 48px 76px 48px"
+      >
         <ModalCloseButton bg="none" _focus={{ background: 'none' }} />
         <ModalBody p="0px !important">
           <Input
