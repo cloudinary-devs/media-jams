@@ -47,6 +47,8 @@
     "@sentry/node": "^5.30.0",
     "@sentry/webpack-plugin": "^1.14.2",
     "@testing-library/react-hooks": "^5.1.1",
+    "@tippyjs/react": "^4.2.5",
+    "@udecode/plate": "^1.1.1",
     "@zeit/next-css": "^1.0.1",
     "cloudinary": "^1.25.0",
     "cloudinary-build-url": "0.2.1",
@@ -83,6 +85,10 @@
     "reading-time": "^1.3.0",
     "remark-mdx-remove-exports": "^1.6.19",
     "remark-mdx-remove-imports": "^1.6.19",
+    "slate": "0.60.11",
+    "slate-history": "0.60.11",
+    "slate-hyperscript": "0.60.11",
+    "slate-react": "0.60.11",
     "streamifier": "^0.1.1"
   },
   "devDependencies": {

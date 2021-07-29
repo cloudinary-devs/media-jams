@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Button,
   VStack,
@@ -6,15 +7,19 @@ import {
   Link,
   Spacer,
   IconButton,
+  useDisclosure,
   Tooltip,
   Avatar,
   Stack,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import React from 'react';
 import { motion } from 'framer-motion';
 import NextLink from 'next/link';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
+import NoteModal from '@components/NoteModal';
+import { NOTE_ACTIONS } from '@utils/constants';
+const { CREATE_NOTE } = NOTE_ACTIONS;
+
 import {
   SideToggle,
   JoinDiscord,
@@ -22,6 +27,7 @@ import {
   BWLogo,
   Logout,
 } from '@components/Icons';
+
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
 import { useUser } from '@auth0/nextjs-auth0';
 
@@ -141,10 +147,13 @@ const SideStrip = () => {
   );
 };
 
-const SideTopBar = ({ onClose }) => {
+const SideTopBar = ({ onClose, onToggle }) => {
   const { user, isLoading: loadingUser } = useUser();
+  const { isOpen, onOpen, onClose: onCloseModal } = useDisclosure();
+
   return (
     <Flex w="100%" h="64px">
+      <NoteModal isOpen={isOpen} onClose={onCloseModal} action={CREATE_NOTE} />
       <HStack display={{ base: 'none', md: 'flex' }} spacing={3}>
         <IconButton
           onClick={onClose}
@@ -158,7 +167,12 @@ const SideTopBar = ({ onClose }) => {
       {!loadingUser && (
         <HStack spacing={3} px={4} minH="64px">
           {user ? (
-            <Button leftIcon={<Plus />} variant="link" color="gray.900">
+            <Button
+              onClick={onOpen}
+              leftIcon={<Plus />}
+              variant="link"
+              color="gray.900"
+            >
               New Note
             </Button>
           ) : (

@@ -141,7 +141,6 @@ const Bookmarks = ({ user = null }) => {
   const [searchValue, setSearchValue] = React.useState('');
   const { isLoading, data: bookmarkedJams } = useBookmarkedJamsQuery();
   React.useEffect(() => {
-    console.log(isLoading);
     if (!searchValue) {
       handleFilter(bookmarkedJams);
     } else {

@@ -23,7 +23,7 @@ export default function FeaturedJamCard({ jam }) {
   const { user } = useUser();
   const [isBookmarked, setBookmark] = React.useState(false);
 
-  const { data: dataBookmarks, isLoading } = useBookmarksQuery();
+  const { data: bookmarks, isLoading } = useBookmarksQuery();
 
   const addBookmark = useAddBookmarkMutation({
     onMutate: () => setBookmark(true),
@@ -33,13 +33,11 @@ export default function FeaturedJamCard({ jam }) {
   });
 
   React.useEffect(() => {
-    if (user && dataBookmarks) {
-      const postIds = dataBookmarks?.bookmarks?.map(
-        ({ content_id }) => content_id,
-      );
-      setBookmark(postIds?.includes(jam._id));
+    if (user && bookmarks) {
+      const postIds = bookmarks?.bookmarks?.map(({ content_id }) => content_id);
+      setBookmark(postIds.includes(jam._id));
     }
-  }, [dataBookmarks, isLoading]);
+  }, [bookmarks, isLoading]);
 
   const handleBookmarkOnClick = () => {
     const toggleBookmark = isBookmarked ? removeBookmark : addBookmark;
