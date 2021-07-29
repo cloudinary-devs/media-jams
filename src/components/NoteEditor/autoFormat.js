@@ -12,7 +12,7 @@ import {
   ELEMENT_H6,
   ELEMENT_BLOCKQUOTE,
   ELEMENT_CODE_BLOCK,
-  createSlatePluginsOptions,
+  createPlateOptions,
   ELEMENT_LI,
   ELEMENT_TODO_LI,
   toggleList,
@@ -20,9 +20,9 @@ import {
   insertCodeBlock,
   ELEMENT_UL,
   ELEMENT_OL,
-} from '@udecode/slate-plugins';
+} from '@udecode/plate';
 
-const options = createSlatePluginsOptions();
+const options = createPlateOptions();
 
 const preFormat = (editor) => unwrapList(editor);
 

@@ -17,11 +17,16 @@ import { notes } from '@lib/queries/notes';
 import { NOTE_ACTIONS } from '@utils/constants';
 const { CREATE_NOTE, EDIT_NOTE } = NOTE_ACTIONS;
 
-export default function NoteModal({ action, isOpen, onClose, note = '' }) {
+export default function NoteModal({ action, isOpen, onClose, note }) {
   const [title, setTitle] = React.useState(
-    typeof note !== 'string' ? note.title : '',
+    typeof note !== 'undefined' ? note.title : '',
   );
+  const [body, setBody] = React.useState(
+    typeof note !== 'undefined' ? note.body : '',
+  );
+
   const [currentNote, setNote] = React.useState(note);
+
   const queryClient = useQueryClient();
   const toast = createStandaloneToast();
 
@@ -30,7 +35,9 @@ export default function NoteModal({ action, isOpen, onClose, note = '' }) {
       case CREATE_NOTE:
         return (
           <Button
-            onClick={() => createNote.mutate({ title, body: currentNote })}
+            onClick={() => {
+              createNote.mutate({ title, body });
+            }}
             mt="6px"
             mb="12px"
             alignSelf="flex-end"
@@ -42,7 +49,12 @@ export default function NoteModal({ action, isOpen, onClose, note = '' }) {
         return (
           <Button
             onClick={() => {
-              editNote.mutate({ body: note.body, id: note.id });
+              editNote.mutate({
+                title,
+                body,
+                id: note.id,
+                created_at: currentNote.created_at,
+              });
               onClose();
             }}
           >
@@ -54,40 +66,52 @@ export default function NoteModal({ action, isOpen, onClose, note = '' }) {
 
   const resetNoteFields = () => {
     setTitle('');
-    setNote('');
+    setBody('');
   };
 
   const editNote = useMutation(
-    (note) => notes.edit({ body: currentNote.body, id: note.id }),
+    ({ title, body, id, createdAt }) =>
+      notes.edit({ title, body, id, createdAt }),
     {
-      onMutate: async (newNote) => {
+      onMutate: async (editedNote) => {
         await queryClient.cancelQueries('notes');
 
-        const previousValue = queryClient.getQueryData('notes');
+        const { notes } = await queryClient.getQueryData('notes');
 
-        const findNoteIndex = previousValue.notes.findIndex(
-          (note) => note.id === newNote.id,
+        const findNoteIndex = notes.findIndex(
+          (note) => note.id === editedNote.id,
         );
 
-        const replacedNoteArr = previousValue.notes.splice(
-          findNoteIndex,
-          1,
-          newNote,
-        );
+        notes[findNoteIndex] = editedNote;
 
         queryClient.setQueryData('notes', () => ({
-          notes: replacedNoteArr,
+          notes,
         }));
-
-        return previousValue;
       },
       // On failure, roll back to the previous value
-      onError: (err, variables, previousValue) =>
-        // TODO: Revisit and add a toast on failure and rollback
-        queryClient.setQueryData('notes', previousValue),
+      onError: (err, variables, previousValue) => {
+        queryClient.setQueryData('notes', previousValue);
+        toast({
+          title: 'Oh no!',
+          description: 'Something went wrong while updating your note!',
+          status: 'error',
+          duration: 3000,
+          position: 'top',
+          isClosable: true,
+        });
+      },
+
       // After success or failure, refetch the notes query
       onSuccess: () => {
-        queryClient.invalidateQueries('notes');
+        onClose(
+          toast({
+            title: 'Successfully updated your note!',
+            status: 'success',
+            duration: 3000,
+            position: 'top',
+            isClosable: true,
+          }),
+        );
       },
     },
   );
@@ -154,7 +178,7 @@ export default function NoteModal({ action, isOpen, onClose, note = '' }) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <NoteEditor note={currentNote} setNote={setNote} />
+          <NoteEditor body={body} setBody={setBody} />
           {renderNoteActionButton()}
         </ModalBody>
       </ModalContent>

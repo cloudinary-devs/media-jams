@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box, Heading } from '@chakra-ui/react';
-import BalloonToolbarMarks from './BalloonToolbarMarks';
+import BalloonToolbar from './BalloonToolbar';
 
 import { optionsAutoformat } from './autoFormat';
 
 import {
-  SlatePlugins,
+  Plate,
   HeadingToolbar,
   ELEMENT_H1,
   createNormalizeTypesPlugin,
@@ -20,8 +20,8 @@ import {
   createUnderlinePlugin,
   createStrikethroughPlugin,
   createCodePlugin,
-  createSlatePluginsComponents,
-  createSlatePluginsOptions,
+  createPlateComponents,
+  createPlateOptions,
   createAutoformatPlugin,
   createResetNodePlugin,
   createDeserializeHTMLPlugin,
@@ -36,7 +36,7 @@ import {
   ELEMENT_PARAGRAPH,
   ELEMENT_IMAGE,
   withProps,
-} from '@udecode/slate-plugins';
+} from '@udecode/plate';
 
 import {
   optionsResetBlockTypePlugin,
@@ -45,10 +45,11 @@ import {
 } from './pluginOptions';
 
 import Toolbar from './Toolbar';
-let components = createSlatePluginsComponents();
-const options = createSlatePluginsOptions();
+let components = createPlateComponents();
+const options = createPlateOptions();
 
-export default function NoteEditor({ note, setNote }) {
+export default function NoteEditor({ body, setBody }) {
+  const [value, setValue] = React.useState(body);
   const plugins = React.useMemo(() => {
     const p = [
       // editor
@@ -109,20 +110,23 @@ export default function NoteEditor({ note, setNote }) {
       maxH="450px"
       borderRadius="8px"
     >
-      <SlatePlugins
+      <Plate
         id="NoteEditor"
         editableProps={editableProps}
         plugins={plugins}
         components={components}
         options={options}
-        value={note.body}
-        onChange={(value) => setNote(value)}
+        value={value}
+        onChange={(v) => {
+          setValue(v);
+          setBody(v);
+        }}
       >
         <HeadingToolbar>
           <Toolbar />
         </HeadingToolbar>
-        <BalloonToolbarMarks />
-      </SlatePlugins>
+        <BalloonToolbar />
+      </Plate>
     </Box>
   );
 }

@@ -16,20 +16,20 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import format from 'date-fns/format';
-import { Node } from 'slate';
 import { useNotesQuery } from '@hooks/useNotes';
-
 import { useMutation } from 'react-query';
+import Fuse from 'fuse.js';
+
 import { notes } from '@lib/queries/notes';
 import { NOTE_ACTIONS } from '@utils/constants';
 const { EDIT_NOTE } = NOTE_ACTIONS;
+
+import serializeSlateBody from '@utils/serializeSlateBody';
 
 import NoteModal from '@components/NoteModal';
 import { SearchFieldInput } from './SearchFieldInput';
 import { Trashcan } from '@components/Icons';
 import { FaEdit } from 'react-icons/fa';
-
-import Fuse from 'fuse.js';
 
 const fuseOptions = {
   threshold: 0.35,
@@ -86,15 +86,6 @@ const EmptyNotes = ({ user }) => {
 export const NoteCard = ({ note, ...props }) => {
   const toast = createStandaloneToast();
   const { isOpen, onOpen, onClose: onCloseModal } = useDisclosure();
-  const serialize = (value) => {
-    return (
-      value
-        // Return the string content of each paragraph in the value's children.
-        .map((n) => Node.string(n))
-        // Join them all with line breaks denoting paragraphs.
-        .join('\n')
-    );
-  };
 
   const deleteNote = useMutation((noteId) => notes.delete(noteId), {
     onMutate: async (noteId) => {
@@ -194,8 +185,8 @@ export const NoteCard = ({ note, ...props }) => {
               </Heading>
             </Link>
           </NextLink>
-          <Text variant="B200" color="gray.900">
-            {serialize(note.body)}
+          <Text noOfLines="2" variant="B200" color="gray.900">
+            {serializeSlateBody(note.body)}
           </Text>
         </Flex>
       </Box>

@@ -1,10 +1,9 @@
-import { Heading } from '@chakra-ui/react';
 import {
   ELEMENT_H1,
   ELEMENT_PARAGRAPH,
   withPlaceholders,
   withProps,
-} from '@udecode/slate-plugins';
+} from '@udecode/plate';
 
 export const withStyledPlaceHolders = (components) =>
   withPlaceholders(components, [

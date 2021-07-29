@@ -8,11 +8,11 @@ import {
   ELEMENT_IMAGE,
   isBlockAboveEmpty,
   isSelectionAtBlockStart,
-  createSlatePluginsOptions,
+  createPlateOptions,
   KEYS_HEADING,
-} from '@udecode/slate-plugins';
+} from '@udecode/plate';
 
-export const options = createSlatePluginsOptions();
+export const options = createPlateOptions();
 
 const resetBlockTypesCommonRule = {
   types: [options[ELEMENT_BLOCKQUOTE].type, options[ELEMENT_TODO_LI].type],
