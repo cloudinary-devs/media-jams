@@ -13,6 +13,8 @@ import {
   IconButton,
   Button,
   Image,
+  VStack,
+  HStack,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import format from 'date-fns/format';
@@ -23,7 +25,7 @@ import {
 
 import { SearchFieldInput } from './SearchFieldInput';
 import { LoadingSkeleton } from './LoadingSkeleton';
-import { Trashcan } from '@components/Icons';
+import { Trashcan, SwiggleArrow } from '@components/Icons';
 
 import Fuse from 'fuse.js';
 
@@ -48,14 +50,22 @@ const EmptyBookmarks = ({ user }) => (
     alignItems="center"
   >
     {user ? (
-      <>
+      <VStack>
         <Box size="xs">
           <Image src="/emptyBookmarks.svg" alt="bookmarks empty" />
         </Box>
-        <Heading size="H200" color="primary.900">
-          You don't have any bookmarks
-        </Heading>
-      </>
+        <HStack>
+          <VStack>
+            <Heading size="H200" color="primary.900">
+              You don't have
+            </Heading>
+            <Heading size="H200" color="primary.900">
+              any bookmarks
+            </Heading>
+          </VStack>
+          <SwiggleArrow color="primary.500" w="46px" h="61px" />
+        </HStack>
+      </VStack>
     ) : (
       <>
         <Box size="xs">
