@@ -17,7 +17,7 @@ import {
 import NextLink from 'next/link';
 import format from 'date-fns/format';
 import { useNotesQuery } from '@hooks/useNotes';
-import { useMutation } from 'react-query';
+import { useQueryClient, useMutation } from 'react-query';
 import Fuse from 'fuse.js';
 
 import { notes } from '@lib/queries/notes';
@@ -86,18 +86,16 @@ const EmptyNotes = ({ user }) => {
 export const NoteCard = ({ note, ...props }) => {
   const toast = createStandaloneToast();
   const { isOpen, onOpen, onClose: onCloseModal } = useDisclosure();
+  const queryClient = useQueryClient();
 
   const deleteNote = useMutation((noteId) => notes.delete(noteId), {
     onMutate: async (noteId) => {
       await queryClient.cancelQueries('notes');
-      const previousValue = queryClient.getQueryData('notes');
 
-      queryClient.setQueryData('notes', (old) => ({
+      await queryClient.setQueryData('notes', (old) => ({
         ...old,
         notes: old.notes.filter((oldNote) => oldNote.id !== noteId),
       }));
-
-      return previousValue;
     },
     // On failure, roll back to the previous value
     onError: (err, variables, previousValue) => {
@@ -164,10 +162,7 @@ export const NoteCard = ({ note, ...props }) => {
           />
 
           <IconButton
-            onClick={() => {
-              deleteNote.mutate(note.id);
-              onClose();
-            }}
+            onClick={() => deleteNote.mutate(note.id)}
             variant="ghost"
             aria-label="Remove Note"
             icon={<Trashcan />}
@@ -178,13 +173,9 @@ export const NoteCard = ({ note, ...props }) => {
           direction="column"
           alignItems="start"
         >
-          <NextLink href={`/`} passHref>
-            <Link>
-              <Heading size="H100" color="gray.900" mb="8px">
-                {title}
-              </Heading>
-            </Link>
-          </NextLink>
+          <Heading size="H100" color="gray.900" mb="8px">
+            {title}
+          </Heading>
           <Text noOfLines="2" variant="B200" color="gray.900">
             {serializeSlateBody(note.body)}
           </Text>
