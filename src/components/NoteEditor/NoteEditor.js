@@ -109,6 +109,7 @@ export default function NoteEditor({ body, setBody }) {
       h="100%"
       maxH="450px"
       borderRadius="8px"
+      overflowY="scroll"
     >
       <Plate
         id="NoteEditor"
@@ -117,6 +118,33 @@ export default function NoteEditor({ body, setBody }) {
         components={components}
         options={options}
         value={value}
+        onSelect={() => {
+          /**
+           * Chrome doesn't scroll at bottom of the page. This fixes that.
+           */
+          if (!window.chrome) return;
+          if (editor.selection == null) return;
+          try {
+            /**
+             * Need a try/catch because sometimes you get an error like:
+             *
+             * Error: Cannot resolve a DOM node from Slate node: {"type":"p","children":[{"text":"","by":-1,"at":-1}]}
+             */
+            const domPoint = ReactEditor.toDOMPoint(
+              editor,
+              editor.selection.focus,
+            );
+            const node = domPoint[0];
+            if (node == null) return;
+            const element = node.parentElement;
+            if (element == null) return;
+            element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } catch (e) {
+            /**
+             * Empty catch. Do nothing if there is an error.
+             */
+          }
+        }}
         onChange={(v) => {
           setValue(v);
           setBody(v);

@@ -179,7 +179,15 @@ export default function NoteModal({ action, isOpen, onClose, note }) {
         padding="48px 48px 76px 48px"
         w={{ base: '100vw', md: '800px' }}
       >
-        <ModalCloseButton bg="none" _focus={{ background: 'none' }} />
+        <ModalCloseButton
+          onClick={() => {
+            onClose();
+            setTitle(title);
+            setBody(body);
+          }}
+          bg="none"
+          _focus={{ background: 'none' }}
+        />
         <ModalBody p="0px !important">
           <Input
             placeholder="Untitled..."
