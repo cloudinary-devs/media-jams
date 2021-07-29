@@ -177,7 +177,7 @@ export default function NoteModal({ action, isOpen, onClose, note }) {
       <ModalContent
         h={{ base: '100%', md: '600px' }}
         padding="48px 48px 76px 48px"
-        w={{ md: '800px' }}
+        w={{ base: '100vw', md: '800px' }}
       >
         <ModalCloseButton bg="none" _focus={{ background: 'none' }} />
         <ModalBody p="0px !important">

@@ -27,19 +27,18 @@ export default function BalloonToolbar() {
     hideOnClick: false,
     offset: [0, 17],
     placement: 'top',
-    zIndex: '999999',
   };
 
   return (
     <Box
+      styles={{
+        zIndex: '999999 !important',
+      }}
       as={BalloonToolbarMarks}
       direction={direction}
       hiddenDelay={hiddenDelay}
       theme={theme}
       arrow={arrow}
-      sx={{
-        zIndex: '999999!important',
-      }}
     >
       <ToolbarMark
         type={getPlatePluginType(editor, MARK_BOLD)}
