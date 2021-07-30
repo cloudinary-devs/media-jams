@@ -1,3 +1,4 @@
+import 'tippy.js/dist/tippy.css';
 import React from 'react';
 import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import Layout from '@components/Layout';

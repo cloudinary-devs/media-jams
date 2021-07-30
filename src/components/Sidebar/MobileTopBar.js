@@ -15,7 +15,7 @@ import { useSidePanel } from '@components/SidePanelProvider';
 
 const ToggleMenuIcon = (isOpen) => {
   const Icon = isOpen ? MobileMenuClose : MobileMenuOpen;
-  return <Icon fontSize="4.5rem" color="whiteAlpha.900" />;
+  return <Icon fontSize="4.5rem" color="grey.900" />;
 };
 
 export const MobileTopBar = () => {
@@ -25,7 +25,7 @@ export const MobileTopBar = () => {
       align="center"
       justify="space-between"
       px="4"
-      bg="linear-gradient(90deg, #8472DF 0%, #7BCCFF 100%)"
+      bg="#DBDBFF"
       display={{ base: 'flex', md: 'none' }}
       borderBottomWidth="1px"
       h="54px"

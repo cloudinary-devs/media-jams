@@ -13,6 +13,10 @@ import {
   IconButton,
   Button,
   Image,
+  VStack,
+  HStack,
+  ListItem,
+  UnorderedList,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import format from 'date-fns/format';
@@ -22,7 +26,8 @@ import {
 } from '@hooks/useBookmarks';
 
 import { SearchFieldInput } from './SearchFieldInput';
-import { Trashcan } from '@components/Icons';
+import { LoadingSkeleton } from './LoadingSkeleton';
+import { Trashcan, SwiggleArrow } from '@components/Icons';
 
 import Fuse from 'fuse.js';
 
@@ -47,14 +52,34 @@ const EmptyBookmarks = ({ user }) => (
     alignItems="center"
   >
     {user ? (
-      <>
-        <Box size="xs">
-          <Image src="/emptyBookmarks.svg" alt="bookmarks empty" />
+      <VStack spacing={10}>
+        <Image size="xs" src="/emptyBookmarks.svg" alt="bookmarks empty" />
+        <HStack spacing={12}>
+          <VStack>
+            <Heading size="H200" color="primary.900">
+              You don't have
+            </Heading>
+            <Heading size="H200" color="primary.900">
+              any bookmarks
+            </Heading>
+          </VStack>
+          <SwiggleArrow color="primary.500" w="46px" h="61px" />
+        </HStack>
+        <Box textAlign="left">
+          <UnorderedList spacing={4}>
+            {[
+              'Check the articles you like',
+              'Save articles of your favorite authors',
+              'Search for articles you like by tags',
+            ].map((item, index) => (
+              <ListItem key={index}>
+                <Text variant="B300">{item}</Text>
+              </ListItem>
+            ))}
+          </UnorderedList>
         </Box>
-        <Heading size="H200" color="primary.900">
-          You don't have any bookmarks
-        </Heading>
-      </>
+        <HStack></HStack>
+      </VStack>
     ) : (
       <>
         <Box size="xs">
@@ -141,7 +166,6 @@ const Bookmarks = ({ user = null }) => {
   const [searchValue, setSearchValue] = React.useState('');
   const { isLoading, data: bookmarkedJams } = useBookmarkedJamsQuery();
   React.useEffect(() => {
-    console.log(isLoading);
     if (!searchValue) {
       handleFilter(bookmarkedJams);
     } else {
@@ -188,6 +212,7 @@ const Bookmarks = ({ user = null }) => {
       ) : (
         <Stack>
           <SearchFieldInput value={searchValue} onChange={onChange} mb={6} />
+          <LoadingSkeleton isLoading={isLoading} />
           {filteredJams?.map((jam) => (
             <BookmarkJamCard key={jam._id} jam={jam} />
           ))}

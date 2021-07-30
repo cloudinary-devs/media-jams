@@ -13,7 +13,7 @@ export default function Feedback() {
         onmousewheel=""
         style={{
           width: '100%',
-          height: 'calc(100vh - 5em)',
+          height: '100%',
           background: 'transparent',
           border: '1px solid #ccc',
         }}
