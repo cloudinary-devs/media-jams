@@ -48,7 +48,7 @@
     "@sentry/webpack-plugin": "^1.14.2",
     "@testing-library/react-hooks": "^5.1.1",
     "@tippyjs/react": "^4.2.5",
-    "@udecode/plate": "^1.1.1",
+    "@udecode/plate": "^1.1.2",
     "@zeit/next-css": "^1.0.1",
     "cloudinary": "^1.25.0",
     "cloudinary-build-url": "0.2.1",
