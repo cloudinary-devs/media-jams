@@ -58,7 +58,7 @@ export default function JamAuthorBanner({ author }) {
               <Heading mt={4} fontSize="4xl" textStyle="headline-accent">
                 {author.name}
               </Heading>
-              <Text fontSize="xs">Media Developer Expert, Developer 🥑</Text>
+              <Text fontSize="xs">{author?.jobTitle}</Text>
               <ButtonGroup alignSelf="start" color="gray.600" variant="ghost">
                 <SocialGroup />
               </ButtonGroup>
@@ -87,7 +87,7 @@ export default function JamAuthorBanner({ author }) {
               </Heading>
               <Flex color="grey.900" my={2}>
                 <Text mr={2} alignSelf="center" fontSize="xs">
-                  By Media Developer Expert, Developer 🥑
+                  {author?.jobTitle}
                 </Text>
                 <ButtonGroup
                   alignSelf="center"
