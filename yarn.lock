@@ -3194,16 +3194,16 @@
     "@udecode/plate-table" "^1.0.0"
     papaparse "^5.3.1"
 
-"@udecode/plate-dnd@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-dnd/-/plate-dnd-1.0.0.tgz#63b601d59bb4ca3e4ed8cdb20f64318bf1359b9e"
-  integrity sha512-KquNjJKRw376Khzm0mPIRCCsxS5/IUcnk9SPHE+9h0eYF3dEkkv7GnBvEHmaBbAoycvFyno6WAVSeroGbnGd1A==
+"@udecode/plate-dnd@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@udecode/plate-dnd/-/plate-dnd-1.1.2.tgz#619da3066d4cceb81cb0a757c760271be81b8906"
+  integrity sha512-K7pQZ7DXJ89LkPH2Ky0fuqJvHfL0um86xwvKv3ceIw2vhms59IwV+6XvUoqO4bb9YZb8q3L0aQHjsiKlk/eyYg==
   dependencies:
     "@react-hook/merged-ref" "^1.3.0"
     "@tippyjs/react" "^4.2.0"
-    "@udecode/plate-common" "^1.0.0"
-    "@udecode/plate-core" "^1.0.0"
-    "@udecode/plate-styled-components" "^1.0.0"
+    "@udecode/plate-common" "1.0.0"
+    "@udecode/plate-core" "1.0.0"
+    "@udecode/plate-styled-components" "1.0.0"
     react-dnd "^14.0.2"
     react-dnd-html5-backend "^14.0.0"
 
@@ -3355,10 +3355,10 @@
     remark-slate "^1.4.0"
     unified "^9.2.0"
 
-"@udecode/plate-media-embed-ui@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-media-embed-ui/-/plate-media-embed-ui-1.1.1.tgz#e19058ef10c62e4474df0e5d0c94a52b4dc5e1e0"
-  integrity sha512-bcQJBQzvoqOz4E77HEB9ItfvP9C9WMPSHjtiJqzXnZmH0MRP7K8UIcP6EAeQ3GDIfcfl11n/RqyXwMhF8usqaA==
+"@udecode/plate-media-embed-ui@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@udecode/plate-media-embed-ui/-/plate-media-embed-ui-1.1.2.tgz#c2d19edd1708fc4ec9089fa92baa28caf4603688"
+  integrity sha512-wCbcS9KrJ4kxV2Xd0OQyOPoJKHtMiSqGKco4nDdnikt27oAv4nyfuWXgjAP1hcNskwKLL4Hs1mAvLdsh5YvT/Q==
   dependencies:
     "@udecode/plate-common" "1.0.0"
     "@udecode/plate-core" "1.0.0"
@@ -3496,10 +3496,10 @@
     "@udecode/plate-common" "^1.0.0"
     "@udecode/plate-core" "^1.0.0"
 
-"@udecode/plate@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@udecode/plate/-/plate-1.1.1.tgz#a26036fbb41868cf9559b47914952899a255fc21"
-  integrity sha512-TEWqyEUMuQXZ6M01wM5+UjzYIRZjv7E76RlhtsmYhAca0qB2riYdB0g/q9QhZFAY6milcx1n6Mn7fxqo22yuew==
+"@udecode/plate@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@udecode/plate/-/plate-1.1.2.tgz#dad6ec499d9f9d1d469d7cd6be91af80b5aab2c1"
+  integrity sha512-BoZXcIvTMFsQ4tLwVbP30iMWvpH8513Ww/4xN7Qf9fKBYin6BLcF5ktxz0axO7BlwGWabtCR3m2yUwXwAj4KTw==
   dependencies:
     "@udecode/plate-alignment" "1.0.0"
     "@udecode/plate-alignment-ui" "1.0.0"
@@ -3515,7 +3515,7 @@
     "@udecode/plate-common" "1.0.0"
     "@udecode/plate-core" "1.0.0"
     "@udecode/plate-csv-serializer" "1.0.0"
-    "@udecode/plate-dnd" "1.0.0"
+    "@udecode/plate-dnd" "1.1.2"
     "@udecode/plate-find-replace" "1.0.0"
     "@udecode/plate-find-replace-ui" "1.0.0"
     "@udecode/plate-font" "1.0.0"
@@ -3532,7 +3532,7 @@
     "@udecode/plate-list-ui" "1.0.0"
     "@udecode/plate-md-serializer" "1.0.0"
     "@udecode/plate-media-embed" "1.0.0"
-    "@udecode/plate-media-embed-ui" "1.1.1"
+    "@udecode/plate-media-embed-ui" "1.1.2"
     "@udecode/plate-mention" "1.0.0"
     "@udecode/plate-mention-ui" "1.0.0"
     "@udecode/plate-node-id" "1.0.0"
