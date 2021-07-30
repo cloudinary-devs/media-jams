@@ -17,12 +17,6 @@ import scope from './react-live-scope';
  * and https://github.com/prisma/docs/blob/master/src/components/customMdx/code.tsx
  */
 
-export const liveEditorStyle = {
-  fontSize: 14,
-  overflowX: 'auto',
-  fontFamily: 'SF Mono, Menlo, monospace',
-};
-
 export const liveErrorStyle = {
   fontFamily: 'SF Mono, Menlo, monospace',
   fontSize: 14,
@@ -57,34 +51,6 @@ const CopyButton = (props) => (
   />
 );
 
-const EditableNotice = (props) => {
-  return (
-    <Box
-      position="absolute"
-      width="full"
-      top="-1.25em"
-      roundedTop="8px"
-      bg="#011627"
-      py="2"
-      zIndex="0"
-      letterSpacing="wide"
-      color="gray.400"
-      fontSize="xs"
-      fontWeight="semibold"
-      textAlign="center"
-      textTransform="uppercase"
-      pointerEvents="none"
-      {...props}
-    >
-      Editable Example
-    </Box>
-  );
-};
-
-const CodeContainer = (props) => (
-  <Box padding="5" rounded="8px" my="8" bg="#011627" {...props} />
-);
-
 const propList = ['copy', 'bash-symbol', 'terminal', 'no-lines'];
 function CodeBlock(props) {
   const {
@@ -104,15 +70,28 @@ function CodeBlock(props) {
 
   return (
     <Box position="relative" zIndex="0">
-      <CodeContainer px="0" overflow="hidden" {...rest}>
+      <Box
+        padding="5"
+        mx={{ base: '-6', md: '0' }}
+        rounded={{ base: 0, md: '8px' }}
+        my="8"
+        bg="#011627"
+        px="0"
+        overflow="hidden"
+        lineHeight="120%"
+      >
         <Highlight
           codeString={editorCode}
           language={language}
           metastring={metastring}
           showLines={!hasNoLine}
         />
-      </CodeContainer>
-      <CopyButton top="4" onClick={onCopy}>
+      </Box>
+      <CopyButton
+        display={{ base: 'none', md: 'inline' }}
+        top="4"
+        onClick={onCopy}
+      >
         {hasCopied ? 'copied' : 'copy'}
       </CopyButton>
     </Box>
