@@ -15,6 +15,8 @@ import {
   Image,
   VStack,
   HStack,
+  ListItem,
+  UnorderedList,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import format from 'date-fns/format';
@@ -50,11 +52,9 @@ const EmptyBookmarks = ({ user }) => (
     alignItems="center"
   >
     {user ? (
-      <VStack>
-        <Box size="xs">
-          <Image src="/emptyBookmarks.svg" alt="bookmarks empty" />
-        </Box>
-        <HStack>
+      <VStack spacing={10}>
+        <Image size="xs" src="/emptyBookmarks.svg" alt="bookmarks empty" />
+        <HStack spacing={12}>
           <VStack>
             <Heading size="H200" color="primary.900">
               You don't have
@@ -65,6 +65,20 @@ const EmptyBookmarks = ({ user }) => (
           </VStack>
           <SwiggleArrow color="primary.500" w="46px" h="61px" />
         </HStack>
+        <Box textAlign="left">
+          <UnorderedList spacing={4}>
+            {[
+              'Check the articles you like',
+              'Save articles of your favorite authors',
+              'Search for articles you like by tags',
+            ].map((item, index) => (
+              <ListItem key={index}>
+                <Text variant="B300">{item}</Text>
+              </ListItem>
+            ))}
+          </UnorderedList>
+        </Box>
+        <HStack></HStack>
       </VStack>
     ) : (
       <>
