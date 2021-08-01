@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Flex,
   Heading,
@@ -12,12 +13,15 @@ import {
   FormLabel,
   Box,
   Avatar,
+  Spinner,
   useColorModeValue,
   createStandaloneToast,
 } from '@chakra-ui/react';
+
 import { useForm } from 'react-hook-form';
 import { useUser } from '@auth0/nextjs-auth0';
 import { HiCloudUpload } from 'react-icons/hi';
+import { createPlateComponents } from '@udecode/plate';
 
 function FormHeading() {
   return (
@@ -166,7 +170,73 @@ function PasswordFieldGroup({ email }) {
   );
 }
 
-function PictureFieldGroup({ user }) {
+const baseAPIUrl =
+  process.env.NODE_ENV === 'production'
+    ? process.env.VERCEL_ENV === 'production'
+      ? `https://mediajams.dev`
+      : `https://mediajams-git-studio-creator-input-mediajams.vercel.app`
+    : `http://localhost:3000`;
+
+function PictureFieldGroup({ checkSession, user }) {
+  const [fileToUpload, setFileToUpload] = React.useState(null);
+  const [cloudinaryFile, setCloudinaryFile] = React.useState(null);
+  const [uploadStatus, setStatus] = React.useState('idle');
+  const toast = createStandaloneToast();
+
+  async function submitFormValues(url) {
+    const res = await fetch('/api/user/update-user-picture', {
+      method: 'POST',
+      body: JSON.stringify({ picture: url, userId: user.sub }),
+    });
+
+    if (res.status === 200) {
+      checkSession();
+      toast({
+        title: 'Successfully updated your picture',
+        status: 'success',
+        duration: 3000,
+        position: 'top',
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: 'Something went wrong! Try again.',
+        status: 'error',
+        duration: 3000,
+        position: 'top',
+        isClosable: true,
+      });
+    }
+  }
+
+  function onChange(event) {
+    setFileToUpload({
+      file: event.target.files[0],
+      preview: URL.createObjectURL(event.target.files[0]),
+    });
+  }
+
+  async function handleOnClick() {
+    setStatus('uploading');
+    var formdata = new FormData();
+    formdata.append('image', fileToUpload.file);
+    formdata.append('folder', user.sub);
+
+    fetch(`${baseAPIUrl}/api/upload`, {
+      method: 'POST',
+      body: formdata,
+      headers: { 'Content-Key': 'application/json' },
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        setStatus('idle');
+        setCloudinaryFile(result);
+        console.log(result);
+        submitFormValues(result.url);
+      })
+      .catch((error) => setStatus(`Error: ${error}`));
+  }
+
   return (
     <Flex direction="column" w="100%">
       <Heading size="H200" mb="52px">
@@ -179,10 +249,23 @@ function PictureFieldGroup({ user }) {
         width="50%"
         justify="space-between"
       >
-        <Avatar size="3xl" name={user.name} src={user.picture} />
+        <Avatar maxH="4xl" maxW="4xl" name={user.name} src={user.picture} />
         <Box>
           <HStack spacing="5">
-            <Button leftIcon={<HiCloudUpload />}>Change photo</Button>
+            <input type="file" placeholder="Choose File" onChange={onChange} />
+            <Button
+              onClick={handleOnClick}
+              padding={[3, 3, 4]}
+              text={uploadStatus == 'uploading' ? 'Processing...' : 'Upload'}
+              tone="primary"
+              disabled={!fileToUpload}
+              onClick={handleOnClick}
+              leftIcon={
+                uploadStatus == 'uploading' ? <Spinner /> : <HiCloudUpload />
+              }
+            >
+              Upload
+            </Button>
           </HStack>
           <Text
             fontSize="sm"
@@ -193,6 +276,13 @@ function PictureFieldGroup({ user }) {
             .jpg, .gif, or .png. Max file size 700K.
           </Text>
         </Box>
+        {fileToUpload && (
+          <Flex direction="column" marginTop={16}>
+            <div>
+              <img src={fileToUpload.preview} />
+            </div>
+          </Flex>
+        )}
       </Stack>
     </Flex>
   );
@@ -241,7 +331,6 @@ export default function AccountSettingsForm() {
 
   return (
     <Flex w="100%" justify="center">
-      {user.name}
       <form onSubmit={handleSubmit(submitFormValues)} style={{ width: '100%' }}>
         <Stack ml={{ base: 0, md: 8 }} spacing="4" divider={<StackDivider />}>
           <FormHeading register={register} />
@@ -252,7 +341,7 @@ export default function AccountSettingsForm() {
             email={user.email}
           />
           <PasswordFieldGroup email={user.email} />
-          <PictureFieldGroup user={user} />
+          <PictureFieldGroup checkSession={checkSession} user={user} />
         </Stack>
       </form>
     </Flex>

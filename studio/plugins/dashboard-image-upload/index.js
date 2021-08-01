@@ -1,7 +1,6 @@
 /* eslint-disable complexity */
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
-import r2 from 'r2';
 import Spinner from 'part:@sanity/components/loading/spinner';
 import { MdPublish, MdClear } from 'react-icons/md';
 import {
@@ -18,7 +17,6 @@ import {
 } from '@sanity/ui';
 
 import styles from './DashboardImageUpload.css';
-import useUpload from './hooks/useUpload';
 import CopyToClipBoard from './CopyToClipboard';
 import { useCurrentUser } from './hooks/getCurrentUser';
 
@@ -32,7 +30,7 @@ const baseAPIUrl =
 // TODO: generate status object with icon, name, message
 const MediaPortal = () => {
   const [fileToUpload, setFileToUpload] = React.useState(null);
-  const [cloudiaryFile, setCloudinaryFile] = React.useState(null);
+  const [cloudinaruFile, setCloudinaryFile] = React.useState(null);
   const [uploadStatus, setStatus] = React.useState('idle');
   const { id } = useCurrentUser();
 
@@ -90,8 +88,8 @@ const MediaPortal = () => {
                 <div className={styles.thumbImage}>
                   <img className={styles.img} src={fileToUpload.preview} />
                 </div>
-                {cloudiaryFile && (
-                  <CopyToClipBoard text={cloudiaryFile.secure_url} />
+                {cloudinaruFile && (
+                  <CopyToClipBoard text={cloudinaruFile.secure_url} />
                 )}
               </Flex>
             )}

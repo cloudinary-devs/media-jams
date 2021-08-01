@@ -124,7 +124,12 @@ const SideStrip = () => {
       <Stack spacing={8} my={4}>
         {!loadingUser && user && (
           <>
-            <Avatar name={user?.name} src={user?.picture} />
+            <Avatar
+              as={Link}
+              href="/account"
+              name={user?.name}
+              src={user?.picture}
+            />
             <NextLink href="/api/auth/logout">
               <IconButton
                 size="lg"

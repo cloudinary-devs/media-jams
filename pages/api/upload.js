@@ -1,4 +1,5 @@
 import { initSentry } from '@lib/sentry';
+import auth0 from '@lib/auth0';
 import multer from 'multer';
 import streamifier from 'streamifier';
 const cloudinary = require('cloudinary').v2;
@@ -53,7 +54,7 @@ const handler = async (req, res) => {
   });
 };
 
-export default allowCors(handler);
+export default auth0.withApiAuthRequired(allowCors(handler));
 export const config = {
   api: {
     bodyParser: false,
