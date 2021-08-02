@@ -166,6 +166,7 @@ export default function FeaturedJamList({ jams }) {
       right={{ base: '50%', md: '0' }}
       ml={{ base: '-50vw', md: 0 }}
       mr={{ base: '-50vw', md: 0 }}
+      mb="24px"
       border={{
         base: 'none',
         lg: `2px solid ${useToken('colors', 'primary.400')}`,
