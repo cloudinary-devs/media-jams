@@ -138,7 +138,7 @@ function JamListCard({ jam }) {
         maxW="232px"
         px="16px"
         sx={{ gap: gapVariant }}
-        wrap="nowrap"
+        wrap="wrap"
         textOverflow="ellipsis"
       >
         {jam.tags.slice(0, 4).map((tag) => (

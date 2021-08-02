@@ -121,7 +121,7 @@ export default function FeaturedJamCard({ jam }) {
             </Heading>
           </Link>
         </NextLink>
-        <Flex mt="72px" justify="flex-start" sx={{ gap: '12px' }}>
+        <Flex mt="62px" justify="flex-start" sx={{ gap: '12px' }}>
           {jam.tags.map((tag) => (
             <Text key={tag._id} variant="B100" color="primary.400">
               #{tag.title}
@@ -129,11 +129,11 @@ export default function FeaturedJamCard({ jam }) {
           ))}
         </Flex>
       </Flex>
-      <Flex m="24px 24px 24px 68px" flex="1">
+      <Flex m="24px 24px 24px 24px" flex="1">
         <Image
           src={jam.cover?.asset.url || '/placeholder.png'}
-          width={352}
-          height={252}
+          width={452}
+          height={352}
           borderRadius="8px!important"
           objectFit="cover"
         />
