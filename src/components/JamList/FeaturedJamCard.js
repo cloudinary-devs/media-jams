@@ -129,11 +129,11 @@ export default function FeaturedJamCard({ jam }) {
           ))}
         </Flex>
       </Flex>
-      <Flex m="24px 24px 24px 68px" flex="1">
+      <Flex m="24px 24px 24px 24px" flex="1">
         <Image
           src={jam.cover?.asset.url || '/placeholder.png'}
-          width={352}
-          height={252}
+          width={452}
+          height={352}
           borderRadius="8px!important"
           objectFit="cover"
         />
