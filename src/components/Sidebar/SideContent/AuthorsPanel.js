@@ -10,6 +10,7 @@ import {
   useColorModeValue,
   VStack,
   Spacer,
+  HStack,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useQuery } from 'react-query';
@@ -119,8 +120,12 @@ const AuthorsPanel = () => {
       overflowY="auto"
     >
       <Stack>
-        <SearchFieldInput value={searchValue} onChange={onChange} mb={6} />
-        <LoadingSkeleton isLoading={isLoading} />
+        <SearchFieldInput value={searchValue} onChange={onChange} mb={2} />
+        <LoadingSkeleton isLoading={isLoading}>
+          <HStack mb={2}>
+            <Text variant="B200">{data?.authors?.length} Authors</Text>
+          </HStack>
+        </LoadingSkeleton>
         {filteredAuthors.map((author) => (
           <AuthorCard key={author._id} author={author} />
         ))}
