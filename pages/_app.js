@@ -46,7 +46,23 @@ const App = ({ Component, pageProps, err }) => {
     };
   }, [router.events]);
 
-  const ogImage = buildImageUrl('mediajams/open-graph-base.jpg', {
+  const ogImage1 = buildImageUrl('mediajams/og-image-base-1.jpg', {
+    cloud: { cloudName: 'mediadevs' },
+  });
+
+  const ogImage2 = buildImageUrl('mediajams/og-image-base-2.jpg', {
+    cloud: { cloudName: 'mediadevs' },
+  });
+
+  const ogImage3 = buildImageUrl('mediajams/og-image-base-3.jpg', {
+    cloud: { cloudName: 'mediadevs' },
+  });
+
+  const ogImage4 = buildImageUrl('mediajams/og-image-base-4.jpg', {
+    cloud: { cloudName: 'mediadevs' },
+  });
+
+  const ogImage5 = buildImageUrl('mediajams/og-image-base-5.jpg', {
     cloud: { cloudName: 'mediadevs' },
   });
 
@@ -71,7 +87,35 @@ const App = ({ Component, pageProps, err }) => {
                     description: '',
                     images: [
                       {
-                        url: ogImage,
+                        url: ogImage1,
+                        width: 1200,
+                        height: 630,
+                        alt:
+                          'Discover Top practices and tools applying media technology with Media Jams',
+                      },
+                      {
+                        url: ogImage2,
+                        width: 1200,
+                        height: 630,
+                        alt:
+                          'Discover Top practices and tools applying media technology with Media Jams',
+                      },
+                      {
+                        url: ogImage3,
+                        width: 1200,
+                        height: 630,
+                        alt:
+                          'Discover Top practices and tools applying media technology with Media Jams',
+                      },
+                      {
+                        url: ogImage4,
+                        width: 1200,
+                        height: 630,
+                        alt:
+                          'Discover Top practices and tools applying media technology with Media Jams',
+                      },
+                      {
+                        url: ogImage5,
                         width: 1200,
                         height: 630,
                         alt:
