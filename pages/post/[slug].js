@@ -9,7 +9,7 @@ import { postBySlug, postsWithSlug } from '@lib/api';
 import { useMixPanel } from '@lib/mixpanel';
 import { useOnRead } from '@hooks/useOnRead';
 
-import { Flex, Text, Image, useDisclosure } from '@chakra-ui/react';
+import { Flex, Text, Image, useDisclosure, Stack } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import JamContentHero from '@components/JamContentHero';
 import JamContent from '@components/JamContent';

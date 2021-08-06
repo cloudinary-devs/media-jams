@@ -23,7 +23,7 @@ export default function FeaturedJamCard({ jam }) {
   const { user } = useUser();
   const [isBookmarked, setBookmark] = React.useState(false);
 
-  const { data: dataBookmarks, isLoading } = useBookmarksQuery();
+  const { data: bookmarks, isLoading } = useBookmarksQuery();
 
   const addBookmark = useAddBookmarkMutation({
     onMutate: () => setBookmark(true),
@@ -33,13 +33,11 @@ export default function FeaturedJamCard({ jam }) {
   });
 
   React.useEffect(() => {
-    if (user && dataBookmarks) {
-      const postIds = dataBookmarks?.bookmarks?.map(
-        ({ content_id }) => content_id,
-      );
-      setBookmark(postIds?.includes(jam._id));
+    if (user && bookmarks) {
+      const postIds = bookmarks?.bookmarks?.map(({ content_id }) => content_id);
+      setBookmark(postIds.includes(jam._id));
     }
-  }, [dataBookmarks, isLoading]);
+  }, [bookmarks, isLoading]);
 
   const handleBookmarkOnClick = () => {
     const toggleBookmark = isBookmarked ? removeBookmark : addBookmark;
@@ -123,19 +121,19 @@ export default function FeaturedJamCard({ jam }) {
             </Heading>
           </Link>
         </NextLink>
-        <Flex mt="72px" justify="flex-start" sx={{ gap: '12px' }}>
+        <Flex mt="62px" justify="flex-start" sx={{ gap: '12px' }}>
           {jam.tags.map((tag) => (
-            <Text variant="B100" color="primary.400">
+            <Text key={tag._id} variant="B100" color="primary.400">
               #{tag.title}
             </Text>
           ))}
         </Flex>
       </Flex>
-      <Flex m="24px 24px 24px 68px" flex="1">
+      <Flex m="24px 24px 24px 24px" flex="1">
         <Image
           src={jam.cover?.asset.url || '/placeholder.png'}
-          width={352}
-          height={252}
+          width={452}
+          height={352}
           borderRadius="8px!important"
           objectFit="cover"
         />

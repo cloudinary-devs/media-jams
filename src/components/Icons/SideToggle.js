@@ -12,9 +12,9 @@ const SideToggle = (props) => (
     <path
       d="M19 17L14 12L19 7"
       stroke="#4D545C"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );

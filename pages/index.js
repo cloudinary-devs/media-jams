@@ -1,3 +1,4 @@
+import 'tippy.js/dist/tippy.css';
 import React from 'react';
 import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import Layout from '@components/Layout';
@@ -12,7 +13,6 @@ import { dehydrate } from 'react-query/hydration';
 import Fuse from 'fuse.js';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
-import { authors as queryAuthors } from '@lib/queries/authors';
 
 const fuseOptions = {
   threshold: 0.35,

@@ -120,7 +120,7 @@ export default function JamCard({ jam }) {
           wrap="wrap"
         >
           {jam.tags.map((tag) => (
-            <Text variant="B100" color="primary.400">
+            <Text key={tag._id} variant="B100" color="primary.400">
               #{tag.title}
             </Text>
           ))}

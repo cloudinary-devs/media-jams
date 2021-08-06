@@ -10,6 +10,7 @@ import {
   useColorModeValue,
   VStack,
   Spacer,
+  HStack,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useQuery } from 'react-query';
@@ -17,6 +18,7 @@ import { authors } from '@lib/queries/authors';
 
 import { SocialHandlesCollection } from '@components/AuthorBanner';
 import { SearchFieldInput } from './SearchFieldInput';
+import { LoadingSkeleton } from './LoadingSkeleton';
 
 import Fuse from 'fuse.js';
 
@@ -108,9 +110,7 @@ const AuthorsPanel = () => {
   };
 
   const handleFilter = (data) => setFilteredAuthors(data);
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+
   return (
     <Flex
       width={{ base: 'full' }}
@@ -120,7 +120,12 @@ const AuthorsPanel = () => {
       overflowY="auto"
     >
       <Stack>
-        <SearchFieldInput value={searchValue} onChange={onChange} mb={6} />
+        <SearchFieldInput value={searchValue} onChange={onChange} mb={2} />
+        <LoadingSkeleton isLoading={isLoading}>
+          <HStack mb={2}>
+            <Text variant="B200">{data?.authors?.length} Authors</Text>
+          </HStack>
+        </LoadingSkeleton>
         {filteredAuthors.map((author) => (
           <AuthorCard key={author._id} author={author} />
         ))}
