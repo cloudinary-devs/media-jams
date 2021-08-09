@@ -130,8 +130,9 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
   const url = cloudinary.url('mediajams/og-image-blog', {
     transformation: [
       {
+        // Author image overlay
         overlay: {
-          url: jam.author.image?.asset.url,
+          url: jam.author.image?.asset.url || '',
         },
         height: 90,
         width: 90,
@@ -141,6 +142,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
         x: 57,
         radius: 90,
       },
+      // Jam header image overlay
       {
         overlay: {
           url: jam?.coverImage || placeholder,
@@ -154,6 +156,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
         radius: 8,
       },
       {
+        // Author name overlay
         overlay: {
           text: jam.author.name,
           font_family: 'Arial',
@@ -163,6 +166,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
         y: 130,
         x: 160,
       },
+      // Author job title
       {
         overlay: {
           text: jam.author.jobTitle,
@@ -175,6 +179,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
         width: 376,
         crop: 'fit',
       },
+      // Jam Title
       {
         overlay: {
           text: jam.title,
