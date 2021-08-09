@@ -4,21 +4,17 @@ import ErrorPage from 'next/error';
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 import { NextSeo } from 'next-seo';
-import imageToBase64 from 'image-to-base64';
 
 import { postBySlug, postsWithSlug } from '@lib/api';
 import { useMixPanel } from '@lib/mixpanel';
 import { useOnRead } from '@hooks/useOnRead';
 
-import { Flex, Text, Image, useDisclosure, Stack } from '@chakra-ui/react';
+import { Flex, useDisclosure } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import JamContentHero from '@components/JamContentHero';
 import JamContent from '@components/JamContent';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
-import CodeBlock from '@components/CodeBlock';
-import CodeSandbox from '@components/CodeSandbox';
-import EmbeddedIframe from '@components/EmbeddedIframe';
 import MDXComponents from '@components/MDXComponents';
 export default function Post({ post, preview, error, og }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,14 +35,24 @@ export default function Post({ post, preview, error, og }) {
       mixpanel.interaction('Read Jam', mainContentRef, { post, author }),
   });
 
+  const baseUrl = () => {
+    if (process.env.NODE_ENV === 'production') {
+      return `https://mediajams.dev`;
+    } else if (process.env.VERCEL_ENV === 'production') {
+      return `https://v2.mediajams.dev`;
+    } else {
+      return `http://localhost:3000`;
+    }
+  };
+
   return (
     <>
       <NextSeo
         openGraph={{
           type: 'website',
-          url: `http://localhost:3000/post/${post.slug}`,
-          title: 'Open Graph Title',
-          description: 'Open Graph Description',
+          url: `${baseUrl()}/post/${post.slug}`,
+          title: post.title,
+          description: post.description,
           images: [
             {
               url: og,
