@@ -46,7 +46,23 @@ const App = ({ Component, pageProps, err }) => {
     };
   }, [router.events]);
 
-  const ogImage = buildImageUrl('mediajams/og-image', {
+  const ogImage1 = buildImageUrl('mediajams/og-image-base-1.jpg', {
+    cloud: { cloudName: 'mediadevs' },
+  });
+
+  const ogImage2 = buildImageUrl('mediajams/og-image-base-2.jpg', {
+    cloud: { cloudName: 'mediadevs' },
+  });
+
+  const ogImage3 = buildImageUrl('mediajams/og-image-base-3.jpg', {
+    cloud: { cloudName: 'mediadevs' },
+  });
+
+  const ogImage4 = buildImageUrl('mediajams/og-image-base-4.jpg', {
+    cloud: { cloudName: 'mediadevs' },
+  });
+
+  const ogImage5 = buildImageUrl('mediajams/og-image-base-5.jpg', {
     cloud: { cloudName: 'mediadevs' },
   });
 
@@ -65,11 +81,47 @@ const App = ({ Component, pageProps, err }) => {
                   title="Front End Developer Companion to Rich Media"
                   description="Media Jams offer numerous useful examples through which developers can sharpen their expertise in leveraging media for apps and tech stacks"
                   url="www.mediajams.dev"
-                  ogImage={{
+                  openGraph={{
                     url: 'www.mediajams.dev',
                     title: 'Putting Media to work is hard',
                     description: '',
-                    image: ogImage,
+                    images: [
+                      {
+                        url: ogImage1,
+                        width: 1200,
+                        height: 630,
+                        alt:
+                          'Discover Top practices and tools applying media technology with Media Jams',
+                      },
+                      {
+                        url: ogImage2,
+                        width: 1200,
+                        height: 630,
+                        alt:
+                          'Discover Top practices and tools applying media technology with Media Jams',
+                      },
+                      {
+                        url: ogImage3,
+                        width: 1200,
+                        height: 630,
+                        alt:
+                          'Discover Top practices and tools applying media technology with Media Jams',
+                      },
+                      {
+                        url: ogImage4,
+                        width: 1200,
+                        height: 630,
+                        alt:
+                          'Discover Top practices and tools applying media technology with Media Jams',
+                      },
+                      {
+                        url: ogImage5,
+                        width: 1200,
+                        height: 630,
+                        alt:
+                          'Discover Top practices and tools applying media technology with Media Jams',
+                      },
+                    ],
                     siteName: 'MediaJams',
                   }}
                 />
