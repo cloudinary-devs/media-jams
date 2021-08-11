@@ -14,11 +14,6 @@ import {
 } from '@chakra-ui/react';
 import format from 'date-fns/format';
 import Image from '@components/Image';
-import styled from '@emotion/styled';
-
-const AuthorByline = styled(Text)`
-  text-indent: 5px;
-`;
 
 import { buildImageUrl } from 'cloudinary-build-url';
 const placeholderUrl = buildImageUrl('mediajams/placeholder', {
@@ -77,17 +72,19 @@ export default function JamContentHero({
               </HStack>
             </Box>
           </VStack>
-          <Box flex="1">
-            <Img
+          <Stack flex="1">
+            <Image
               pos="relative"
-              w="50rem"
+              width={552}
+              height={400}
               src={imageUrl}
               alt="Banner Image for Hero"
+              objectFit="cover"
               borderEndRadius={{ base: '0', lg: '8px' }}
               borderTopStartRadius={{ base: '8px', lg: 0 }}
               borderTopRadius={{ base: '8px', lg: null }}
             />
-          </Box>
+          </Stack>
         </Flex>
       </Box>
     </Box>
