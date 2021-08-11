@@ -9,7 +9,7 @@ import { postBySlug, postsWithSlug } from '@lib/api';
 import { useMixPanel } from '@lib/mixpanel';
 import { useOnRead } from '@hooks/useOnRead';
 
-import { Flex, useDisclosure } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import JamContentHero from '@components/JamContentHero';
 import JamContent from '@components/JamContent';
@@ -17,7 +17,6 @@ import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
 import MDXComponents from '@components/MDXComponents';
 export default function Post({ post, preview, error, og }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const mixpanel = useMixPanel();
   const mainContentRef = React.useRef(null);
   const router = useRouter();
@@ -49,7 +48,6 @@ export default function Post({ post, preview, error, og }) {
     <>
       <NextSeo
         openGraph={{
-          type: 'website',
           url: `${baseUrl()}/post/${post.slug}`,
           title: post.title,
           description: post.description,
@@ -138,7 +136,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
       {
         // Author image overlay
         overlay: {
-          url: jam.author.image?.asset.url || '',
+          url: jam.author.image.asset.url,
         },
         height: 90,
         width: 90,

@@ -72,7 +72,7 @@
     "next-auth": "^3.1.0",
     "next-mdx-remote": "^3.0.2",
     "next-sanity": "^0.1.8",
-    "next-seo": "^4.7.3",
+    "next-seo": "^4.26.0",
     "path-browserify": "^1.0.1",
     "prism-react-renderer": "^1.1.1",
     "react": "^17.0.2",
