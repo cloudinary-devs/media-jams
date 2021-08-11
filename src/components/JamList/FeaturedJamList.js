@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import Image from '@components/Image';
+import imageFetch from '@utils/image-fetch';
 import { Star } from '@components/Icons';
 
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
@@ -85,7 +86,7 @@ function JamListCard({ jam }) {
             width="28px"
             height="28px"
             name={jam?.author.name}
-            src={jam?.author.image?.asset.url}
+            src={imageFetch(jam?.author.image?.asset.url)}
           />
           <NextLink href={`/author/${jam?.author.slug?.current}`} passHref>
             <Link>

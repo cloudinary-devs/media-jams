@@ -12,6 +12,7 @@ import {
   Spacer,
   HStack,
 } from '@chakra-ui/react';
+import imageFetch from '@utils/image-fetch';
 import NextLink from 'next/link';
 import { useQuery } from 'react-query';
 import { authors } from '@lib/queries/authors';
@@ -46,12 +47,7 @@ export const AuthorCard = ({ author, ...props }) => {
       {...props}
     >
       <Flex direction="row" spacing={{ base: '1', md: '2' }}>
-        <Avatar
-          width="48px"
-          height="48px"
-          name={author.name}
-          src={author.image?.asset.url}
-        />
+        <Avatar name={author.name} src={imageFetch(author.image?.asset.url)} />
         <VStack alignItems="flex-start" ml="2">
           <NextLink href={`/author/${author.slug?.current}`} passHref>
             <Link>
