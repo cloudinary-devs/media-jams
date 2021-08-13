@@ -68,6 +68,7 @@ function JamListCard({ jam }) {
         borderRadiusTopRight="8px!important"
         borderRadiusTopLeft="8px!important"
         objectFit="cover"
+        alt="feature banner of jam"
       />
       <Flex
         align="center"
