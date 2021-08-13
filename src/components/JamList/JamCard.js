@@ -76,8 +76,7 @@ export default function JamCard({ jam }) {
             mb="12px"
           >
             <Avatar
-              width="28px"
-              height="28px"
+              size="sm"
               name={author.name}
               src={imageFetch(author.image?.asset.url)}
             />
