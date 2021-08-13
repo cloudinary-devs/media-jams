@@ -20,6 +20,7 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import format from 'date-fns/format';
+import imageFetch from '@utils/image-fetch';
 import {
   useBookmarkedJamsQuery,
   useRemoveBookmarkMutation,

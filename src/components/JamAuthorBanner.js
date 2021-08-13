@@ -24,6 +24,7 @@ import {
 } from 'react-icons/fa';
 import BlockContent from '@sanity/block-content-to-react';
 import { buildImageUrl } from 'cloudinary-build-url';
+import imageFetch from '@utils/image-fetch';
 
 import SocialGroup from '@components/SocialGroup';
 

@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import Image from '@components/Image';
+import imageFetch from '@utils/image-fetch';
 
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import {
