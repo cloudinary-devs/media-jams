@@ -24,6 +24,7 @@ import {
 } from 'react-icons/fa';
 import BlockContent from '@sanity/block-content-to-react';
 import { buildImageUrl } from 'cloudinary-build-url';
+import imageFetch from '@utils/image-fetch';
 
 import SocialGroup from '@components/SocialGroup';
 
@@ -52,7 +53,7 @@ export default function JamAuthorBanner({ author }) {
             <Avatar
               size="2xl"
               alt={author.name}
-              src={author.image?.asset.url}
+              src={imageFetch(author.image?.asset.url)}
             />
             <VStack spacing="0" pt={4}>
               <Heading mt={4} fontSize="4xl" textStyle="headline-accent">
@@ -74,7 +75,7 @@ export default function JamAuthorBanner({ author }) {
             <Avatar
               size="2xl"
               alt={author.name}
-              src={author.image?.asset.url}
+              src={imageFetch(author.image?.asset.url)}
             />
             <Box mt={4} ml={{ md: 6 }} flex="2 1 auto">
               <Heading

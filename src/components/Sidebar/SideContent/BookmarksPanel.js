@@ -20,6 +20,7 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import format from 'date-fns/format';
+import imageFetch from '@utils/image-fetch';
 import {
   useBookmarkedJamsQuery,
   useRemoveBookmarkMutation,
@@ -132,7 +133,7 @@ export const BookmarkJamCard = ({ jam, ...props }) => {
           width="20px"
           height="20px"
           name={author.name}
-          src={author.image?.asset.url}
+          src={imageFetch(author.image?.asset.url)}
         />
         <NextLink href={`/author/${author.slug?.current}`} passHref>
           <Link>

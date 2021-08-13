@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import Image from '@components/Image';
+import imageFetch from '@utils/image-fetch';
 
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import {
@@ -73,7 +74,7 @@ export default function MobileJamCard({ jam }) {
               width="28px"
               height="28px"
               name={jam?.author.name}
-              src={jam?.author.image?.asset.url}
+              src={imageFetch(jam?.author.image?.asset.url)}
             />
             <NextLink href={`/author/${jam?.author.slug?.current}`} passHref>
               <Link>

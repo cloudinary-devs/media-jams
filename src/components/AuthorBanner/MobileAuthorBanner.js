@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import BlockContent from '@sanity/block-content-to-react';
 import { SocialHandlesCollection } from './SocialHandlesCollection';
+import imageFetch from '@utils/image-fetch';
 
 export default function MobileAuthorBanner({ author }) {
   const jobTitleVariant = useBreakpointValue({ base: 'B100', lg: 'B300' });
@@ -36,7 +37,7 @@ export default function MobileAuthorBanner({ author }) {
               width="96px"
               height={{ base: '96px', lg: '132px' }}
               name={author.name}
-              src={author.image?.asset.url}
+              src={imageFetch(author.image?.asset.url)}
               border="1px solid #88B1FC"
               showBorder
               mt={{ base: '8px' }}
