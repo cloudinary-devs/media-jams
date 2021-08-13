@@ -56,6 +56,7 @@ export default function Post({ post, preview, error, og }) {
               url: og,
               height: 630,
               width: 1200,
+              alt: post.description,
             },
           ],
         }}
