@@ -76,8 +76,7 @@ export default function JamCard({ jam }) {
             mb="12px"
           >
             <Avatar
-              width="28px"
-              height="28px"
+              size="sm"
               name={author.name}
               src={imageFetch(author.image?.asset.url)}
             />
@@ -95,6 +94,7 @@ export default function JamCard({ jam }) {
           <IconButton
             size="md"
             outline="none"
+            aria-label="bookmark jam"
             bg="none"
             h="0"
             w="0"
@@ -108,6 +108,7 @@ export default function JamCard({ jam }) {
             _hover={{
               bg: 'none',
             }}
+            aria-label="bookmark jam"
             icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
             onClick={handleBookmarkOnClick}
           />
@@ -138,6 +139,7 @@ export default function JamCard({ jam }) {
           width={240}
           height={148}
           borderRadius="4px!important"
+          alt="feature banner of jam"
         />
       </Flex>
     </Flex>

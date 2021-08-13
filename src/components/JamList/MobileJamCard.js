@@ -102,6 +102,7 @@ export default function MobileJamCard({ jam }) {
             _hover={{
               bg: 'none',
             }}
+            aria-label="bookmark jam"
             icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
             onClick={handleBookmarkOnClick}
           />
@@ -126,6 +127,7 @@ export default function MobileJamCard({ jam }) {
             height={80}
             borderRadius="4px!important"
             objectFit="cover"
+            alt="Banner Image for Jam"
           />
         </Flex>
         <Flex

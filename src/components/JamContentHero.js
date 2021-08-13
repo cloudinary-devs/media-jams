@@ -78,7 +78,7 @@ export default function JamContentHero({
               width={552}
               height={400}
               src={imageUrl}
-              alt="Banner Image for Hero"
+              alt="Banner Image for Jam"
               objectFit="cover"
               borderEndRadius={{ base: '0', lg: '8px' }}
               borderTopStartRadius={{ base: '8px', lg: 0 }}

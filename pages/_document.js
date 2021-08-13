@@ -9,7 +9,7 @@ class Document extends NextDocument {
   }
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
           <link
             href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto&display=swap"
