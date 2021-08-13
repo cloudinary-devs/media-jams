@@ -39,13 +39,13 @@ export function SocialHandlesCollection({
           if (key === 'twitter') {
             return (
               <UnstyledIconButton
-                key={key}
                 as="a"
                 color={color}
                 href={socialHandles[key]}
                 size="md"
                 h="0"
                 icon={<FaTwitter />}
+                aria-label="Twitter Profile"
               />
             );
           } else if (key === 'github') {
@@ -58,6 +58,7 @@ export function SocialHandlesCollection({
                 size="md"
                 height="0"
                 icon={<FaGithub />}
+                aria-label="Github Profile"
               />
             );
           } else if (key === 'website' && website) {
@@ -70,6 +71,7 @@ export function SocialHandlesCollection({
                 href={socialHandles[key]}
                 size="md"
                 icon={<FaGlobe />}
+                aria-label="Author Website"
               />
             );
           }
