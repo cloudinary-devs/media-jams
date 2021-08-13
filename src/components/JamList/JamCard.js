@@ -95,6 +95,7 @@ export default function JamCard({ jam }) {
           <IconButton
             size="md"
             outline="none"
+            aria-label="bookmark jam"
             bg="none"
             h="0"
             w="0"

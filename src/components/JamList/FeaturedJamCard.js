@@ -111,6 +111,7 @@ export default function FeaturedJamCard({ jam }) {
             _hover={{
               bg: 'none',
             }}
+            aria-label="bookmark jam"
             icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
             onClick={handleBookmarkOnClick}
           />

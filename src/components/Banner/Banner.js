@@ -48,6 +48,7 @@ export default function Banner() {
         bg="none"
         outline="none"
         w="auto"
+        aria-label="close banner"
         onClick={() => {
           window.localStorage.setItem('keep-hero-closed', 'true');
           setShow(false);
