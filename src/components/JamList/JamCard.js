@@ -139,6 +139,7 @@ export default function JamCard({ jam }) {
           width={240}
           height={148}
           borderRadius="4px!important"
+          alt="feature banner of jam"
         />
       </Flex>
     </Flex>
