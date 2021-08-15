@@ -37,6 +37,8 @@ const fuseOptions = {
 export const AuthorCard = ({ author, ...props }) => {
   return (
     <Box
+      as={Link}
+      href={`/author/${author.slug?.current}`}
       bg={useColorModeValue('white', 'gray.700')}
       border="1px solid #D3DDE6"
       borderRadius="8px"
@@ -49,13 +51,9 @@ export const AuthorCard = ({ author, ...props }) => {
       <Flex direction="row" spacing={{ base: '1', md: '2' }}>
         <Avatar name={author.name} src={imageFetch(author.image?.asset.url)} />
         <VStack alignItems="flex-start" ml="2">
-          <NextLink href={`/author/${author.slug?.current}`} passHref>
-            <Link>
-              <Heading as="h5" size="H100">
-                {author.name}
-              </Heading>
-            </Link>
-          </NextLink>
+          <Heading as="h5" size="H100">
+            {author.name}
+          </Heading>
           <Text variant="B200">{author.jobTitle}</Text>
         </VStack>
         <Spacer />

@@ -50,6 +50,11 @@ export default function MobileJamCard({ jam }) {
   };
   return (
     <Flex
+      _visited={{
+        color: 'inherit',
+      }}
+      as={Link}
+      href={`/author/${jam?.author.slug?.current}`}
       w="100%"
       border="1px solid #D3DDE6"
       borderRadius="8px"
@@ -76,13 +81,9 @@ export default function MobileJamCard({ jam }) {
               name={jam?.author.name}
               src={imageFetch(jam?.author.image?.asset.url)}
             />
-            <NextLink href={`/author/${jam?.author.slug?.current}`} passHref>
-              <Link>
-                <Text variant="B100" color="grey.800" fontWeight="500">
-                  {jam?.author.name}
-                </Text>
-              </Link>
-            </NextLink>
+            <Text variant="B100" color="grey.800" fontWeight="500">
+              {jam?.author.name}
+            </Text>
             <Text variant="B100" color="grey.600">
               1 June
             </Text>

@@ -56,6 +56,11 @@ export default function JamCard({ jam }) {
   };
   return (
     <Flex
+      as={Link}
+      _visited={{
+        color: 'inherit',
+      }}
+      href={`/author/${author.slug?.current}`}
       w="100%"
       border="1px solid #D3DDE6"
       borderRadius="8px"
@@ -80,13 +85,9 @@ export default function JamCard({ jam }) {
               name={author.name}
               src={imageFetch(author.image?.asset.url)}
             />
-            <NextLink href={`/author/${author.slug?.current}`} passHref>
-              <Link>
-                <Text variant="B100" color="grey.800" fontWeight="500">
-                  {author.name}
-                </Text>
-              </Link>
-            </NextLink>
+            <Text variant="B100" color="grey.800" fontWeight="500">
+              {author.name}
+            </Text>
             <Text variant="B100" color="grey.600">
               1 June
             </Text>
