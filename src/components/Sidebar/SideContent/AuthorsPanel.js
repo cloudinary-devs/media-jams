@@ -8,6 +8,7 @@ import {
   Avatar,
   Link,
   useColorModeValue,
+  useMediaQuery,
   VStack,
   Spacer,
   HStack,
@@ -22,6 +23,7 @@ import { SearchFieldInput } from './SearchFieldInput';
 import { LoadingSkeleton } from './LoadingSkeleton';
 
 import Fuse from 'fuse.js';
+import { useSidePanel } from '@components/SidePanelProvider';
 
 const fuseOptions = {
   threshold: 0.35,
@@ -35,9 +37,16 @@ const fuseOptions = {
 };
 
 export const AuthorCard = ({ author, ...props }) => {
+  const { onClose } = useSidePanel();
+  const isMobile = useMediaQuery('(min-width: 30em)');
   return (
     <Box
       as={Link}
+      onClick={() => {
+        if (isMobile) {
+          return onClose;
+        }
+      }}
       href={`/author/${author.slug?.current}`}
       bg={useColorModeValue('white', 'gray.700')}
       border="1px solid #D3DDE6"
