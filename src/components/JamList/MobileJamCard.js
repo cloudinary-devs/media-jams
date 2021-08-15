@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import Image from '@components/Image';
+import format from 'date-fns/format';
 import imageFetch from '@utils/image-fetch';
 
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
@@ -85,7 +86,9 @@ export default function MobileJamCard({ jam }) {
               {jam?.author.name}
             </Text>
             <Text variant="B100" color="grey.600">
-              1 June
+              <time dateTime={jam.publishedAt}>
+                {format(new Date(jam.publishedAt), 'dd MMMM')}
+              </time>
             </Text>
           </Flex>
           <IconButton

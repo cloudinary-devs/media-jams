@@ -10,6 +10,7 @@ import {
   HStack,
   useBreakpointValue,
 } from '@chakra-ui/react';
+import format from 'date-fns/format';
 import NextLink from 'next/link';
 import Image from '@components/Image';
 import imageFetch from '@utils/image-fetch';
@@ -97,7 +98,9 @@ function JamListCard({ jam }) {
             </Link>
           </NextLink>
           <Text variant="B100" color="grey.600">
-            1 June
+            <time dateTime={jam.publishedAt}>
+              {format(new Date(jam.publishedAt), 'dd MMMM')}
+            </time>
           </Text>
         </Flex>
         <IconButton

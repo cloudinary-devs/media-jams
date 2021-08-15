@@ -12,6 +12,7 @@ import {
 import NextLink from 'next/link';
 import Image from '@components/Image';
 import imageFetch from '@utils/image-fetch';
+import format from 'date-fns/format';
 import { buildImageUrl } from 'cloudinary-build-url';
 
 const ogImage1 = buildImageUrl('mediajams/og-image-base-1.jpg', {
@@ -89,7 +90,9 @@ export default function JamCard({ jam }) {
               {author.name}
             </Text>
             <Text variant="B100" color="grey.600">
-              1 June
+              <time dateTime={jam.publishedAt}>
+                {format(new Date(jam.publishedAt), 'dd MMMM')}
+              </time>
             </Text>
           </Flex>
           <IconButton

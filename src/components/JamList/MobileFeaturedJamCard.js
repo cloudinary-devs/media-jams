@@ -11,6 +11,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import format from 'date-fns/format';
 import Image from '@components/Image';
 import imageFetch from '@utils/image-fetch';
 
@@ -86,7 +87,9 @@ export default function MobileFeaturedJamCard({ jam }) {
               {author.name}
             </Text>
             <Text variant="B100" color="grey.600">
-              1 June
+              <time dateTime={jam.publishedAt}>
+                {format(new Date(jam.publishedAt), 'dd MMMM')}
+              </time>
             </Text>
           </Flex>
           <IconButton
