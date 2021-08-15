@@ -71,7 +71,16 @@ export default function Banner() {
           <Feature>Return to your recent jams</Feature>
           <Flex mt="25px">
             <SignupButton />
-            <Button p="6px 32px" borderRadius="8px" bg="primary.200" ml={4}>
+            <Button
+              onClick={() => {
+                window.localStorage.setItem('keep-hero-closed', 'true');
+                setShow(false);
+              }}
+              p="6px 32px"
+              borderRadius="8px"
+              bg="primary.200"
+              ml={4}
+            >
               <Text fontWeight="700" variant="B400" color="primary.500">
                 Got It
               </Text>
