@@ -97,7 +97,7 @@ const MDXComponents = {
   table: Table,
   th: THead,
   td: TData,
-  a: (props) => <chakra.a apply="mdx.a" {...props} />,
+  a: (props) => <chakra.a apply="mdx.a" target="_blank" {...props} />,
   p: (props) => <chakra.p apply="mdx.p" {...props} />,
   ul: (props) => <chakra.ul apply="mdx.ul" {...props} />,
   ol: (props) => <chakra.ol apply="mdx.ul" {...props} />,
