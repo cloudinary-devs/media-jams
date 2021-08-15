@@ -6,6 +6,9 @@ const mdx = {
     fontWeight: 'bold',
     fontSize: '1.875rem',
     letterSpacing: '-.025em',
+    '& + p': {
+      mt: '0.50rem',
+    },
   },
   h2: {
     mt: '4rem',
@@ -17,6 +20,9 @@ const mdx = {
     '& + h3': {
       mt: '1.5rem',
     },
+    '& + p': {
+      mt: '0.50rem',
+    },
   },
   h3: {
     mt: '3rem',
@@ -25,16 +31,21 @@ const mdx = {
     fontWeight: 'semibold',
     fontSize: '1.25rem',
     letterSpacing: '-.025em',
+    '& + p': {
+      mt: '0.50rem',
+    },
   },
   h4: {
     mt: '3rem',
     lineHeight: 1.375,
     fontWeight: 'semibold',
     fontSize: '1.125rem',
+    '& + p': {
+      mt: '0.50rem',
+    },
   },
   a: {
-    color: 'teal.500',
-    fontWeight: 'semibold',
+    color: 'link',
     transition: 'color 0.15s',
     transitionTimingFunction: 'ease-out',
     _hover: {
@@ -46,6 +57,9 @@ const mdx = {
     lineHeight: 1.7,
     'blockquote &': {
       mt: 0,
+    },
+    '& + p': {
+      mt: '0.75rem',
     },
   },
   hr: {
@@ -70,6 +84,8 @@ const mdx = {
   },
   code: {
     rounded: 'sm',
+    backgroundColor: '#EFE3F9',
+    borderRadius: '0.25rem',
     px: '1',
     fontSize: '0.875em',
     py: '2px',

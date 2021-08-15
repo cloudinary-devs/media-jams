@@ -1,3 +1,4 @@
+import { profileHandler } from '@auth0/nextjs-auth0/dist/handlers';
 import auth0 from '@lib/auth0';
 import { initSentry, sentryHandler } from '@lib/sentry';
 //initialize Sentry
@@ -45,6 +46,10 @@ export default auth0.handleAuth({
     } catch (error) {
       res.status(error.status || 400).end(error.message);
     }
+  },
+
+  async profile(req, res) {
+    await auth0.handleProfile(req, res, { refetch: true });
   },
 
   async logout(req, res) {

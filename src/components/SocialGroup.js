@@ -7,19 +7,19 @@ const SocialGroup = () => (
     <IconButton
       as="a"
       href="www.google.com"
-      aria-label="LinkedIn"
+      aria-label="LinkedIn Profile"
       icon={<FaLinkedin />}
     />
     <IconButton
       as="a"
       href="www.google.com"
-      aria-label="LinkedIn"
+      aria-label="Github Profile"
       icon={<FaGithub />}
     />
     <IconButton
       as="a"
       href="www.google.com"
-      aria-label="LinkedIn"
+      aria-label="Twitter Profile"
       icon={<FaTwitter />}
     />
   </>

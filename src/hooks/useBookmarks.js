@@ -70,9 +70,9 @@ export function useAddBookmarkMutation({
 }
 
 export function useRemoveBookmarkMutation({
-  onSuccess: _onSuccess,
-  onMutate: _onMutate,
-  onError: _onError,
+  onSuccess: _onSuccess = () => {},
+  onMutate: _onMutate = () => {},
+  onError: _onError = () => {},
 }) {
   const queryClient = useQueryClient();
   return useMutation((post) => bookmarksQuery.remove(post._id), {
@@ -82,7 +82,6 @@ export function useRemoveBookmarkMutation({
       await queryClient.cancelQueries('bookmark jams');
       const previousBookmarkIds = queryClient.getQueryData('bookmarks');
       const previousBookmarks = queryClient.getQueryData('bookmark jams');
-      console.log(previousBookmarks);
       const newBookmarkedPosts = previousBookmarks?.allPost?.filter(
         (data) => data._id !== post._id,
       );
@@ -105,6 +104,7 @@ export function useRemoveBookmarkMutation({
     },
     // After success or failure, refetch the bookmarks and bookmark jams queries
     onSuccess: () => {
+      _onSuccess();
       queryClient.invalidateQueries('bookmarks');
     },
   });

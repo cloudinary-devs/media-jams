@@ -1,8 +1,4 @@
-import { promisify } from 'util';
-import { initSentry, sentryHandler } from '@lib/sentry';
-import initMiddleware from '@lib/init-middleware';
-import Cors from 'cors';
-import auth0 from '@lib/auth0';
+import { initSentry } from '@lib/sentry';
 import multer from 'multer';
 import streamifier from 'streamifier';
 const cloudinary = require('cloudinary').v2;

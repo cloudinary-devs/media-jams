@@ -57,7 +57,7 @@ const studioAuth = sentryHandler(async (req, res) => {
       sanitySession: `${studioSession?.endUserClaimUrl}?origin=${
         process.env.NODE_ENV == 'production'
           ? studioURL
-          : 'http://localhost:3000'
+          : 'http://localhost:3333'
       }`,
     });
   } catch (error) {

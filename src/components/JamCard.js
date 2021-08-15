@@ -33,7 +33,7 @@ export default function Card({ post }) {
       whiletap={{ scale: 0.99 }}
       href={`/post/${post.slug.current}`}
       boxShadow={boxShadow}
-      backgroundColor="white"
+      bg="white"
       h={64}
       w={{ base: '100%', md: '80%', lg: '100%' }}
       maxW="360px"

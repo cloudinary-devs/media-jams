@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Layout from '@components/Layout';
 import { contentGlob } from './[...slug]';
 
 export default function AllDocs({ allMdx }) {
@@ -21,6 +22,8 @@ export default function AllDocs({ allMdx }) {
     </>
   );
 }
+
+AllDocs.getLayout = (page) => <Layout>{page}</Layout>;
 
 export function getStaticProps() {
   const fs = require('fs');

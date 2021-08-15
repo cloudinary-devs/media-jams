@@ -1,8 +1,7 @@
-import { chakra } from '@chakra-ui/react';
+import { chakra, useBreakpointValue } from '@chakra-ui/react';
 import BaseHighlight, { defaultProps, Language } from 'prism-react-renderer';
 import theme from 'prism-react-renderer/themes/nightOwl';
 import React from 'react';
-import { liveEditorStyle } from '.';
 
 const RE = /{([\d,-]+)}/;
 
@@ -23,12 +22,6 @@ const calculateLinesToHighlight = (meta) => {
   };
 };
 
-// interface HighlightProps {
-//   codeString: string
-//   language: Language
-//   metastring?: string
-//   showLines?: boolean
-// }
 function cleanTokens(tokens) {
   const tokensLength = tokens.length;
   if (tokensLength === 0) {
@@ -43,6 +36,10 @@ function cleanTokens(tokens) {
 }
 
 function Highlight({ codeString, language, metastring, showLines, ...props }) {
+  const variant = useBreakpointValue({
+    base: { display: 'none' },
+    md: { display: 'inline' },
+  });
   const shouldHighlightLine = calculateLinesToHighlight(metastring);
   const highlightlines = props?.highlight;
   return (
@@ -54,19 +51,28 @@ function Highlight({ codeString, language, metastring, showLines, ...props }) {
       {...props}
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <div style={liveEditorStyle} data-language={language}>
+        <chakra.div
+          fontSize={{ base: '12px', md: 'xs' }}
+          overflowX="auto"
+          fontFamily="SF Mono, Menlo, monospace"
+          data-language={language}
+        >
           <pre className={className} style={style}>
             {cleanTokens(tokens).map((line, i) => {
               const lineProps = getLineProps({ line, key: i });
 
               return (
                 <chakra.div
-                  px="5"
+                  px={{ base: '2', md: '5' }}
                   bg={shouldHighlightLine(i) ? 'whiteAlpha.200' : undefined}
                   {...lineProps}
                 >
                   {showLines && (
-                    <chakra.span opacity={0.3} mr="6" fontSize="xs">
+                    <chakra.span
+                      display={{ base: 'none', md: 'inline' }}
+                      opacity={0.3}
+                      mr="6"
+                    >
                       {i + 1}
                     </chakra.span>
                   )}
@@ -77,7 +83,7 @@ function Highlight({ codeString, language, metastring, showLines, ...props }) {
               );
             })}
           </pre>
-        </div>
+        </chakra.div>
       )}
     </BaseHighlight>
   );

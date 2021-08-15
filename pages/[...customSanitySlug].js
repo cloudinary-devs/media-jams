@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { Flex, Spacer, Box, useDisclosure, Heading } from '@chakra-ui/react';
-import NextSeo from 'next-seo';
 import Layout from '@components/Layout';
 import PageSections from '@components/PageSections';
 
