@@ -142,6 +142,9 @@ const SideStrip = () => {
           </>
         )}
         <IconButton
+          as={Link}
+          href="https://discord.gg/AYjxxTb53c"
+          isExternal
           colorScheme="ghost"
           aria-label="Signup Discord"
           paddingBottom={6}
