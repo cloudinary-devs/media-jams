@@ -15,6 +15,7 @@ import {
 import React from 'react';
 import CodeBlock from './CodeBlock/index';
 import CodeSandbox from './CodeSandbox';
+import EmbeddedIframe from './EmbeddedIframe';
 import { ColorPalette, ColorPalettes, ColorWrapper } from './ColorPalette';
 
 const Pre = (props) => <chakra.div my="2em" borderRadius="sm" {...props} />;
@@ -70,7 +71,7 @@ const LinkedHeading = (props) => (
 const InlineCode = (props) => (
   <chakra.code
     apply="mdx.code"
-    color={useColorModeValue('purple.500', 'purple.200')}
+    color={useColorModeValue('inlineCode', 'purple.200')}
     {...props}
   />
 );
@@ -96,7 +97,14 @@ const MDXComponents = {
   table: Table,
   th: THead,
   td: TData,
-  a: (props) => <chakra.a apply="mdx.a" {...props} />,
+  a: (props) => (
+    <chakra.a
+      apply="mdx.a"
+      rel="noreferrer noopener"
+      target="_blank"
+      {...props}
+    />
+  ),
   p: (props) => <chakra.p apply="mdx.p" {...props} />,
   ul: (props) => <chakra.ul apply="mdx.ul" {...props} />,
   ol: (props) => <chakra.ol apply="mdx.ul" {...props} />,
@@ -114,6 +122,7 @@ const MDXComponents = {
     />
   ),
   CodeSandbox: CodeSandbox,
+  iframe: EmbeddedIframe,
   useTheme,
   ColorPalette,
   ColorPalettes,

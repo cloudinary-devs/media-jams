@@ -1,4 +1,5 @@
 import React from 'react';
+import Layout from '@components/Layout';
 import { useMixPanel } from '@lib/mixpanel';
 import Iframe from '@components/Iframe';
 
@@ -12,7 +13,7 @@ export default function Feedback() {
         onmousewheel=""
         style={{
           width: '100%',
-          height: 'calc(100vh - 5em)',
+          height: '100%',
           background: 'transparent',
           border: '1px solid #ccc',
         }}
@@ -20,3 +21,5 @@ export default function Feedback() {
     </>
   );
 }
+
+Feedback.getLayout = (page) => <Layout>{page}</Layout>;

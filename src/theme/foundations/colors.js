@@ -19,6 +19,7 @@ export default {
   link: '#0F62FE',
   visited: '#8A3FFC',
   text: '#061328',
+  inlineCode: '#72399D',
   grey: {
     900: '#1F2529',
     800: '#25292E',
