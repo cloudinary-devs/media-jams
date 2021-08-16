@@ -16,6 +16,7 @@ import format from 'date-fns/format';
 import Image from '@components/Image';
 
 import { buildImageUrl } from 'cloudinary-build-url';
+import imageFetch from '@utils/image-fetch';
 const placeholderUrl = buildImageUrl('mediajams/placeholder', {
   cloud: { cloudName: 'mediadevs' },
   layout: 'fill',
@@ -62,7 +63,10 @@ export default function JamContentHero({
                 ml={{ base: '0', lg: 8 }}
                 mb={{ base: '0', lg: 8 }}
               >
-                <Avatar name={author.name} src={author?.image?.asset?.url} />
+                <Avatar
+                  name={author.name}
+                  src={imageFetch(author.image?.asset.url, { w: 128, h: 128 })}
+                />
                 <Text fontSize="md">{author.name}</Text>
                 <Text fontSize="md">
                   <time dateTime={date}>
