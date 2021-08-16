@@ -1,16 +1,11 @@
-import { Box, HStack, Text } from '@chakra-ui/react';
+import { Box, HStack, Text, Link } from '@chakra-ui/react';
 import { useMixPanel } from '@lib/mixpanel';
 import React from 'react';
 import NextLink from 'next/link';
 
 export const LinkGroup = ({ data }) => {
   const { links, title } = data;
-  const anchorLink = React.useRef(null);
   const mixpanel = useMixPanel();
-
-  const handleOnClick = (e) => {
-    mixpanel.link(anchorLink.current);
-  };
 
   return (
     <Box marginBottom={8}>
@@ -21,12 +16,10 @@ export const LinkGroup = ({ data }) => {
         justifyContent="center"
       >
         {links.map((link, idx) => (
-          <Box as="li" key={idx}>
-            <NextLink href={link.href} passHref>
+          <Box as="li" key={link.href}>
+            <NextLink href={`/${link.href}`} passHref>
               <Box
                 as="a"
-                ref={anchorLink}
-                onClick={handleOnClick}
                 color="grey.700"
                 _hover={{ textDecoration: 'underline' }}
               >
