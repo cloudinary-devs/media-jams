@@ -21,6 +21,7 @@ export const LinkGroup = ({ data }) => {
               <Box
                 as="a"
                 color="grey.700"
+                onClick={() => mixpanel.link(link.href)}
                 _hover={{ textDecoration: 'underline' }}
               >
                 <Text fontSize="xs">{link.label}</Text>
