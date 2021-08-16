@@ -1,4 +1,4 @@
-import { Box, HStack, Text, Link } from '@chakra-ui/react';
+import { Box, HStack, Text } from '@chakra-ui/react';
 import { useMixPanel } from '@lib/mixpanel';
 import React from 'react';
 import NextLink from 'next/link';
