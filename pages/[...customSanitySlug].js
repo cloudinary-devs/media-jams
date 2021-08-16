@@ -19,13 +19,12 @@ function CustomSanity({ slug }) {
   return (
     <Layout isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
       <Flex
-        alignSelf="center"
-        flexDirection="column"
-        alignItems="center"
-        width="100%"
-        overflow={{ md: 'auto', lg: 'auto', xl: 'none' }}
-        px={{ base: 2, md: 8 }}
         bg="white"
+        direction="column"
+        width="100%"
+        height="100%"
+        overflow="auto"
+        px={{ base: 2, md: 8 }}
       >
         {data?.route && (
           <>
