@@ -1,6 +1,7 @@
 import 'tippy.js/dist/tippy.css';
 import React from 'react';
 import { Flex, useBreakpointValue } from '@chakra-ui/react';
+import { useMixPanel } from '@lib/mixpanel';
 import Layout from '@components/Layout';
 import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
 import MobileFeaturedJamCard from '@components/JamList/MobileFeaturedJamCard';
@@ -30,6 +31,7 @@ export default function Dashboard() {
     base: MobileFeaturedJamCard,
     lg: FeaturedJamCard,
   });
+  const mixpanel = useMixPanel();
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [filteredPosts, setFilteredPosts] = React.useState([]);
@@ -57,11 +59,12 @@ export default function Dashboard() {
     } else {
       // Allow for a search for tag
       const formattedTags = selectedFilters.map((item) => item.title);
-
+      mixpanel.searchTags(formattedTags);
       const queries = {
         $or: [
           { title: searchValue },
-          { author: searchValue },
+          { 'author.name': searchValue },
+          { 'tags.title': searchValue },
           {
             $and:
               formattedTags.length > 0
