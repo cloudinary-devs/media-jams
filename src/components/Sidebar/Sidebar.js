@@ -221,11 +221,7 @@ const animationVariants = {
 };
 const Sidebar = () => {
   const { isOpen, onClose, onOpen, onToggle, variants } = useSidePanel();
-  React.useEffect(() => {
-    if (variants?.style === 'sidebar') {
-      // onOpen();
-    }
-  }, []);
+
   return variants?.style === 'sidebar' ? (
     <motion.div
       style={{

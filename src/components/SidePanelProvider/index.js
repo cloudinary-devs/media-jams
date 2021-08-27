@@ -59,14 +59,6 @@ export function SidePanelProvider({ nav = initialNavState, children }) {
   const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
 
-  // Default to open on md and greater
-  // Default to closed on base / mobile
-  React.useEffect(() => {
-    if (variants?.defaultOpen) {
-      onOpen();
-    }
-  }, [variants]);
-
   const setActiveTab = (tabValue) => {
     if (
       (tabValue !== state.activeTab && !isOpen) ||
