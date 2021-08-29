@@ -89,7 +89,7 @@ const EmptyBookmarks = ({ user }) => (
           <Image src="/emptyBookmarks.svg" alt="bookmarks empty" />
         </Box>
         <Heading size="H200" color="primary.900">
-          You need to sign up to add articles
+          You need to sign up to add bookmarks
         </Heading>
         <Button as="a" size="md" colorScheme="primary" href="/api/auth/signup">
           Sign Up
