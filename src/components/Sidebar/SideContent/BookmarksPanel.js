@@ -17,6 +17,8 @@ import {
   HStack,
   ListItem,
   UnorderedList,
+  LinkBox,
+  LinkOverlay,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import format from 'date-fns/format';
@@ -113,8 +115,11 @@ export const BookmarkJamCard = ({ jam, ...props }) => {
   });
   const { author, publishedAt } = jam;
   return (
-    <Box
+    <LinkBox
       bg={useColorModeValue('white', 'gray.700')}
+      display="flex"
+      justifyContent="space-between"
+      alignContent="flex-start"
       border="1px solid #D3DDE6"
       borderRadius="8px"
       maxWidth="2xl"
@@ -123,42 +128,41 @@ export const BookmarkJamCard = ({ jam, ...props }) => {
       shadow={{ md: 'base' }}
       {...props}
     >
-      <Stack
-        direction="row"
-        spacing="4"
-        spacing={{ base: '1', md: '2' }}
-        alignItems="center"
-      >
-        <Avatar
-          width="20px"
-          height="20px"
-          name={author.name}
-          src={imageFetch(author.image?.asset.url)}
-        />
-        <NextLink href={`/author/${author.slug?.current}`} passHref>
-          <Link>
-            <Text fontSize="md" variant="B500" color="gray.800">
-              {author.name}
-            </Text>
-          </Link>
-        </NextLink>
-        <Text fontSize="md" color="gray.600">
-          <time dateTime={publishedAt}>
-            &middot; {format(new Date(publishedAt), 'dd MMMM')}
-          </time>
-        </Text>
+      <Stack direction="column" spacing={{ base: '1', md: '2' }}>
+        <Flex sx={{ gap: '8px' }}>
+          <Avatar
+            width="20px"
+            height="20px"
+            name={author.name}
+            src={imageFetch(author.image?.asset.url)}
+          />
+          <NextLink href={`/author/${author.slug?.current}`} passHref>
+            <Link>
+              <Text fontSize="md" variant="B500" color="gray.800">
+                {author.name}
+              </Text>
+            </Link>
+          </NextLink>
+          <Text fontSize="md" color="gray.600">
+            <time dateTime={publishedAt}>
+              &middot; {format(new Date(publishedAt), 'dd MMMM')}
+            </time>
+          </Text>
+        </Flex>
         <Spacer />
-        <IconButton
-          onClick={() => removeBookmark.mutate(jam)}
-          variant="ghost"
-          aria-label="Remove Bookmark"
-          icon={<Trashcan />}
-        />
+        <LinkOverlay href={`/post/${jam.slug.current}`}>
+          <Heading size="H100">{jam.title}</Heading>
+        </LinkOverlay>
       </Stack>
-      <Flex paddingTop={{ base: 0, md: '2' }} alignItems="start">
-        <Heading size="H100">{jam.title}</Heading>
-      </Flex>
-    </Box>
+
+      <IconButton
+        as="a"
+        onClick={() => removeBookmark.mutate(jam)}
+        variant="ghost"
+        aria-label="Remove Bookmark"
+        icon={<Trashcan />}
+      />
+    </LinkBox>
   );
 };
 

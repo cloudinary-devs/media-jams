@@ -1,6 +1,8 @@
 import React from 'react';
 import {
   Box,
+  LinkBox,
+  LinkOverlay,
   Flex,
   Heading,
   Text,
@@ -52,11 +54,7 @@ export default function MobileFeaturedJamCard({ jam }) {
     toggleBookmark.mutate(jam);
   };
   return (
-    <Flex
-      as={Link}
-      _visited={{
-        color: 'inherit',
-      }}
+    <LinkBox
       href={`/author/${jam?.author.slug?.current}`}
       w="100%"
       border={`2px solid ${useToken('colors', 'primary.400')}`}
@@ -83,9 +81,13 @@ export default function MobileFeaturedJamCard({ jam }) {
               name={author.name}
               src={imageFetch(author.image?.asset.url)}
             />
-            <Text variant="B100" color="grey.800" fontWeight="500">
-              {author.name}
-            </Text>
+            <NextLink href={`/author/${jam?.author.slug?.current}`} passHref>
+              <Link>
+                <Text variant="B100" color="grey.800" fontWeight="500">
+                  {author.name}
+                </Text>
+              </Link>
+            </NextLink>
             <Text variant="B100" color="grey.600">
               <time dateTime={jam.publishedAt}>
                 {format(new Date(jam.publishedAt), 'dd MMMM')}
@@ -114,19 +116,17 @@ export default function MobileFeaturedJamCard({ jam }) {
           />
         </Flex>
         <Flex justify="space-between" w="100%">
-          <NextLink href={`/post/${jam.slug.current}`} passHref>
-            <Link>
-              <Heading
-                size="H200"
-                w="215px"
-                textOverflow="ellipsis"
-                h="85px"
-                overflow="hidden"
-              >
-                {jam.title}
-              </Heading>
-            </Link>
-          </NextLink>
+          <LinkOverlay href={`/post/${jam.slug.current}`}>
+            <Heading
+              size="H200"
+              w="215px"
+              textOverflow="ellipsis"
+              h="85px"
+              overflow="hidden"
+            >
+              {jam.title}
+            </Heading>
+          </LinkOverlay>
           <Image
             src={jam.cover?.asset.url || '/placeholder.png'}
             width={80}
@@ -151,6 +151,6 @@ export default function MobileFeaturedJamCard({ jam }) {
           ))}
         </Flex>
       </Flex>
-    </Flex>
+    </LinkBox>
   );
 }

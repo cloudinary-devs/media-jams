@@ -1,6 +1,8 @@
 import React from 'react';
 import {
   Flex,
+  LinkBox,
+  LinkOverlay,
   Heading,
   Text,
   Avatar,
@@ -47,12 +49,8 @@ export default function FeaturedJamCard({ jam }) {
   };
 
   return (
-    <Flex
-      as={Link}
-      _visited={{
-        color: 'inherit',
-      }}
-      href={`/author/${jam?.author.slug?.current}`}
+    <LinkBox
+      display="flex"
       w="100%"
       border={`2px solid ${useToken('colors', 'primary.400')}`}
       borderRadius="8px"
@@ -90,10 +88,13 @@ export default function FeaturedJamCard({ jam }) {
               name={jam?.author.name}
               src={imageFetch(jam?.author.image?.asset.url)}
             />
-
-            <Text variant="B100" color="grey.800" fontWeight="500">
-              {jam?.author.name}
-            </Text>
+            <NextLink href={`/author/${jam?.author.slug?.current}`} passHref>
+              <Link>
+                <Text variant="B100" color="grey.800" fontWeight="500">
+                  {jam?.author.name}
+                </Text>
+              </Link>
+            </NextLink>
 
             <Text variant="B100" color="grey.600">
               <time dateTime={jam.publishedAt}>
@@ -122,13 +123,11 @@ export default function FeaturedJamCard({ jam }) {
             onClick={handleBookmarkOnClick}
           />
         </Flex>
-        <NextLink href={`/post/${jam.slug.current}`} passHref>
-          <Link>
-            <Heading letterSpacing="-0.01em" size="H300" w="100%">
-              {jam.title}
-            </Heading>
-          </Link>
-        </NextLink>
+        <LinkOverlay href={`/post/${jam.slug.current}`}>
+          <Heading letterSpacing="-0.01em" size="H300" w="100%">
+            {jam.title}
+          </Heading>
+        </LinkOverlay>
         <Flex mt="62px" justify="flex-start" sx={{ gap: '12px' }}>
           {jam.tags.map((tag) => (
             <Text key={tag._id} variant="B100" color="primary.400">
@@ -147,6 +146,6 @@ export default function FeaturedJamCard({ jam }) {
           alt="feature banner of jam"
         />
       </Flex>
-    </Flex>
+    </LinkBox>
   );
 }
