@@ -79,10 +79,10 @@ export default function MobileJamCard({ jam }) {
               name={jam?.author.name}
               src={imageFetch(jam?.author.image?.asset.url)}
             />
-            <NextLink href={`/author/${author.slug?.current}`} passHref>
+            <NextLink href={`/author/${jam.author.slug?.current}`} passHref>
               <Link>
                 <Text variant="B100" color="grey.800" fontWeight="500">
-                  {author.name}
+                  {jam.author.name}
                 </Text>
               </Link>
             </NextLink>
