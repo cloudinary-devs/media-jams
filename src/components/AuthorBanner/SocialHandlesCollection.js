@@ -1,13 +1,4 @@
-import {
-  IconButton,
-  Flex,
-  Avatar,
-  Heading,
-  Text,
-  Box,
-  useToken,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { IconButton } from '@chakra-ui/react';
 import { FaTwitter, FaGithub, FaGlobe } from 'react-icons/fa';
 
 function UnstyledIconButton(props) {

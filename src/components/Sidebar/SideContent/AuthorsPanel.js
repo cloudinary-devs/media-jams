@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  Box,
+  LinkBox,
+  LinkOverlay,
   Text,
   Heading,
   Stack,
   Flex,
   Avatar,
-  Link,
   useColorModeValue,
   useMediaQuery,
   VStack,
@@ -40,14 +40,12 @@ export const AuthorCard = ({ author, ...props }) => {
   const { onClose } = useSidePanel();
   const isMobile = useMediaQuery('(min-width: 30em)');
   return (
-    <Box
-      as={Link}
+    <LinkBox
       onClick={() => {
         if (isMobile) {
           return onClose;
         }
       }}
-      href={`/author/${author.slug?.current}`}
       bg={useColorModeValue('white', 'gray.700')}
       border="1px solid #D3DDE6"
       borderRadius="8px"
@@ -60,9 +58,11 @@ export const AuthorCard = ({ author, ...props }) => {
       <Flex direction="row" spacing={{ base: '1', md: '2' }}>
         <Avatar name={author.name} src={imageFetch(author.image?.asset.url)} />
         <VStack alignItems="flex-start" ml="2">
-          <Heading as="h5" size="H100">
-            {author.name}
-          </Heading>
+          <LinkOverlay href={`/author/${author.slug?.current}`}>
+            <Heading as="h5" size="H100">
+              {author.name}
+            </Heading>
+          </LinkOverlay>
           <Text variant="B200">{author.jobTitle}</Text>
         </VStack>
         <Spacer />
@@ -78,7 +78,7 @@ export const AuthorCard = ({ author, ...props }) => {
           />
         </Flex>
       </Flex>
-    </Box>
+    </LinkBox>
   );
 };
 
