@@ -27,18 +27,20 @@ export default function Post({ post, preview, error, og }) {
     return null;
   }
   const { author } = post;
-
   useOnRead({
     parentElRef: mainContentRef,
     onRead: () =>
-      mixpanel.interaction('Read Jam', mainContentRef, { post, author }),
+      mixpanel.interaction('Read Jam', mainContentRef, {
+        post,
+        author: author,
+      }),
   });
 
   const baseUrl = () => {
     if (process.env.NODE_ENV === 'production') {
       return `https://mediajams.dev`;
     } else if (process.env.VERCEL_ENV === 'production') {
-      return `https://v2.mediajams.dev`;
+      return `https://stage.mediajams.dev`;
     } else {
       return `http://localhost:3000`;
     }
@@ -128,79 +130,77 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
 
-  const jam = await postBySlug(slug, preview);
-
-  const placeholder = cloudinary.url('mediajams/placeholder');
-
-  const url = cloudinary.url('mediajams/og-image-blog', {
-    transformation: [
-      {
-        // Author image overlay
-        overlay: {
-          url: jam?.author.image?.asset.url,
-        },
-        height: 90,
-        width: 90,
-        crop: 'scale',
-        gravity: 'south_west',
-        y: 72,
-        x: 57,
-        radius: 90,
-      },
-      // Jam header image overlay
-      {
-        overlay: {
-          url: jam?.coverImage || placeholder,
-        },
-        height: 490,
-        width: 490,
-        crop: 'scale',
-        gravity: 'east',
-        y: -7,
-        x: 101,
-        radius: 8,
-      },
-      {
-        // Author name overlay
-        overlay: {
-          text: jam.author.name,
-          font_family: 'Arial',
-          font_size: 28,
-        },
-        gravity: 'south_west',
-        y: 130,
-        x: 160,
-      },
-      // Author job title
-      {
-        overlay: {
-          text: jam.author.jobTitle,
-          font_family: 'Arial',
-          font_size: 24,
-        },
-        gravity: 'south_west',
-        y: 80,
-        x: 160,
-        width: 376,
-        crop: 'fit',
-      },
-      // Jam Title
-      {
-        overlay: {
-          text: jam.title,
-          font_family: 'Arial',
-          font_size: 52,
-        },
-        gravity: 'west',
-        x: 50,
-        y: -30,
-        width: 488,
-        crop: 'fit',
-      },
-    ],
-  });
-
   try {
+    const jam = await postBySlug(slug, preview);
+    const placeholder = cloudinary.url('mediajams/placeholder');
+    const url = cloudinary.url('mediajams/og-image-blog', {
+      transformation: [
+        {
+          // Author image overlay
+          overlay: {
+            url: jam?.author.image?.asset.url,
+          },
+          height: 90,
+          width: 90,
+          crop: 'scale',
+          gravity: 'south_west',
+          y: 72,
+          x: 57,
+          radius: 90,
+        },
+        // Jam header image overlay
+        {
+          overlay: {
+            url: jam?.coverImage || placeholder,
+          },
+          height: 490,
+          width: 490,
+          crop: 'scale',
+          gravity: 'east',
+          y: -7,
+          x: 101,
+          radius: 8,
+        },
+        {
+          // Author name overlay
+          overlay: {
+            text: jam.author.name,
+            font_family: 'Arial',
+            font_size: 28,
+          },
+          gravity: 'south_west',
+          y: 130,
+          x: 160,
+        },
+        // Author job title
+        {
+          overlay: {
+            text: jam.author.jobTitle,
+            font_family: 'Arial',
+            font_size: 24,
+          },
+          gravity: 'south_west',
+          y: 80,
+          x: 160,
+          width: 376,
+          crop: 'fit',
+        },
+        // Jam Title
+        {
+          overlay: {
+            text: jam.title,
+            font_family: 'Arial',
+            font_size: 52,
+          },
+          gravity: 'west',
+          x: 50,
+          y: -30,
+          width: 488,
+          crop: 'fit',
+        },
+      ],
+    });
+
     // Then serialize to mdx formated string for hydration in components.
     const mdx = await serialize(jam.body);
     return {

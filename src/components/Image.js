@@ -27,7 +27,7 @@ function CloudinaryNextImage({
   container,
   ...rest
 }) {
-  const { generateImageUrl } = useImage(cloudName);
+  const { generateImageUrl } = useImage({ cloudName });
 
   const cloudinaryUrl =
     cloudName &&
