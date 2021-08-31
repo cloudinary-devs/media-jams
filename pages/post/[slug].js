@@ -21,6 +21,7 @@ export default function Post({ post, preview, error, og }) {
   const mainContentRef = React.useRef(null);
   const router = useRouter();
   if (error || (!router.isFallback && !post?.slug)) {
+    console.log(error);
     return <ErrorPage statusCode={404} />;
   }
   if (router.isFallback) {
