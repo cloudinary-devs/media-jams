@@ -91,7 +91,8 @@
     "slate-history": "0.60.11",
     "slate-hyperscript": "0.60.11",
     "slate-react": "0.60.11",
-    "streamifier": "^0.1.1"
+    "streamifier": "^0.1.1",
+    "use-cloudinary": "^4.1.0"
   },
   "devDependencies": {
     "@babel/helper-validator-option": "^7.12.1",

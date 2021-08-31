@@ -1,5 +1,5 @@
 import React from 'react';
-import { VStack, chakra, Box } from '@chakra-ui/react';
+import { VStack, chakra, Flex } from '@chakra-ui/react';
 
 const round = (num) =>
   num
@@ -15,8 +15,9 @@ const em = (px, base) => `${round(px / base)}em`;
 
 export default function JamContent({ children }) {
   return (
-    <Box
+    <Flex
       w="full"
+      direction="column"
       pb="12"
       pt="3"
       maxW={{ base: 'xl', md: '7xl' }}
@@ -24,6 +25,6 @@ export default function JamContent({ children }) {
       px={{ base: '6', md: '8' }}
     >
       {children}
-    </Box>
+    </Flex>
   );
 }
