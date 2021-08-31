@@ -28,14 +28,14 @@ export default function Post({ post, preview, error, og }) {
     return null;
   }
   // const { author } = post;
-  useOnRead({
-    parentElRef: mainContentRef,
-    onRead: () =>
-      mixpanel.interaction('Read Jam', mainContentRef, {
-        post,
-        author: post[author],
-      }),
-  });
+  // useOnRead({
+  //   parentElRef: mainContentRef,
+  //   onRead: () =>
+  //     mixpanel.interaction('Read Jam', mainContentRef, {
+  //       post,
+  //       author: post[author],
+  //     }),
+  // });
 
   const baseUrl = () => {
     if (process.env.NODE_ENV === 'production') {
