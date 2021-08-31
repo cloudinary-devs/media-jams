@@ -38,7 +38,7 @@ export default function Post({ post, preview, error, og }) {
     if (process.env.NODE_ENV === 'production') {
       return `https://mediajams.dev`;
     } else if (process.env.VERCEL_ENV === 'production') {
-      return `https://v2.mediajams.dev`;
+      return `https://stage.mediajams.dev`;
     } else {
       return `http://localhost:3000`;
     }
@@ -46,21 +46,6 @@ export default function Post({ post, preview, error, og }) {
 
   return (
     <>
-      <NextSeo
-        openGraph={{
-          url: `${baseUrl()}/post/${post.slug}`,
-          title: post.title,
-          description: post.description,
-          images: [
-            {
-              url: og,
-              height: 630,
-              width: 1200,
-              alt: post.description,
-            },
-          ],
-        }}
-      />
       <Flex
         bg="white"
         direction="column"
