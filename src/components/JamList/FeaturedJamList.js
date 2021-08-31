@@ -4,6 +4,8 @@ import {
   Heading,
   Text,
   Avatar,
+  LinkBox,
+  LinkOverlay,
   IconButton,
   useToken,
   Link,
@@ -54,13 +56,14 @@ function JamListCard({ jam }) {
   };
 
   return (
-    <Flex
+    <LinkBox
+      display="flex"
       bg="white"
       border={`1px solid ${grey}`}
       w="268px"
       h="364px"
       borderRadius="8px"
-      direction="column"
+      flexDirection="column"
     >
       <Image
         src={jam.cover?.asset.url || '/placeholder.png'}
@@ -103,7 +106,22 @@ function JamListCard({ jam }) {
             </time>
           </Text>
         </Flex>
+      </Flex>
+      <Flex p={5}>
+        <LinkOverlay href={`/post/${jam.slug.current}`}>
+          <Heading
+            size="H200"
+            w="200px"
+            textOverflow="ellipsis"
+            h="85px"
+            overflow="hidden"
+          >
+            {jam.title}
+          </Heading>
+        </LinkOverlay>
         <IconButton
+          as="a"
+          mt={4}
           size="md"
           outline="none"
           bg="none"
@@ -118,48 +136,14 @@ function JamListCard({ jam }) {
           }}
           _hover={{
             bg: 'none',
+            cursor: 'pointer',
           }}
           aria-label="bookmark jam"
           icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
           onClick={handleBookmarkOnClick}
         />
       </Flex>
-
-      <NextLink href={`/post/${jam.slug.current}`} passHref>
-        <Link>
-          <Heading
-            size="H200"
-            w="236px"
-            textOverflow="ellipsis"
-            h="85px"
-            overflow="hidden"
-            ml="16px"
-          >
-            {jam.title}
-          </Heading>
-        </Link>
-      </NextLink>
-
-      <Flex
-        maxW="232px"
-        px="16px"
-        sx={{ gap: gapVariant }}
-        wrap="wrap"
-        textOverflow="ellipsis"
-      >
-        {jam.tags.slice(0, 4).map((tag) => (
-          <Text
-            key={tag._id}
-            fontWeight="500"
-            letterSpacing="0.02em"
-            variant="B100"
-            color="primary.500"
-          >
-            #{tag.title}
-          </Text>
-        ))}
-      </Flex>
-    </Flex>
+    </LinkBox>
   );
 }
 
