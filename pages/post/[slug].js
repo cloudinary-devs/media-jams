@@ -21,17 +21,20 @@ export default function Post({ post, preview, error, og }) {
   const mainContentRef = React.useRef(null);
   const router = useRouter();
   if (error || (!router.isFallback && !post?.slug)) {
+    console.log(error);
     return <ErrorPage statusCode={404} />;
   }
   if (router.isFallback) {
     return null;
   }
-  const { author } = post;
-
+  // const { author } = post;
   useOnRead({
     parentElRef: mainContentRef,
     onRead: () =>
-      mixpanel.interaction('Read Jam', mainContentRef, { post, author }),
+      mixpanel.interaction('Read Jam', mainContentRef, {
+        post,
+        author: post[author],
+      }),
   });
 
   const baseUrl = () => {
@@ -46,6 +49,21 @@ export default function Post({ post, preview, error, og }) {
 
   return (
     <>
+      <NextSeo
+        openGraph={{
+          url: `${baseUrl()}/post/${post.slug}`,
+          title: post.title,
+          description: post.description,
+          images: [
+            {
+              url: og,
+              height: 630,
+              width: 1200,
+              alt: post.description,
+            },
+          ],
+        }}
+      />
       <Flex
         bg="white"
         direction="column"
@@ -54,7 +72,7 @@ export default function Post({ post, preview, error, og }) {
         overflow="auto"
       >
         <JamContentHero
-          author={author}
+          author={post?.author}
           description={post.description}
           title={post.title}
           imageUrl={post.coverImage}
@@ -65,7 +83,7 @@ export default function Post({ post, preview, error, og }) {
             <MDXRemote {...post.content} components={MDXComponents} />
           </JamContent>
         </main>
-        <JamAuthorBanner author={author}></JamAuthorBanner>
+        <JamAuthorBanner author={post?.author}></JamAuthorBanner>
         <EmailSubscription />
       </Flex>
     </>
@@ -116,7 +134,6 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
   const jam = await postBySlug(slug, preview);
 
   const placeholder = cloudinary.url('mediajams/placeholder');
-
   const url = cloudinary.url('mediajams/og-image-blog', {
     transformation: [
       {
