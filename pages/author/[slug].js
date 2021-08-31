@@ -56,7 +56,7 @@ export default function AuthorPage({ author }) {
 
   const fuse = new Fuse(data?.allPost, fuseOptions);
 
-  const handleFilter = (data) => setFilteredPosts(data);
+  const handleFilter = React.useCallback((data) => setFilteredPosts(data));
 
   return (
     <Flex
