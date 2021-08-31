@@ -21,19 +21,18 @@ export default function Post({ post, preview, error, og }) {
   const mainContentRef = React.useRef(null);
   const router = useRouter();
   if (error || (!router.isFallback && !post?.slug)) {
-    console.log(error);
     return <ErrorPage statusCode={404} />;
   }
   if (router.isFallback) {
     return null;
   }
-  // const { author } = post;
+  const { author } = post;
   useOnRead({
     parentElRef: mainContentRef,
     onRead: () =>
       mixpanel.interaction('Read Jam', mainContentRef, {
         post,
-        author: post[author],
+        author: author,
       }),
   });
 
@@ -72,7 +71,7 @@ export default function Post({ post, preview, error, og }) {
         overflow="auto"
       >
         <JamContentHero
-          author={post?.author}
+          author={author}
           description={post.description}
           title={post.title}
           imageUrl={post.coverImage}
@@ -83,7 +82,7 @@ export default function Post({ post, preview, error, og }) {
             <MDXRemote {...post.content} components={MDXComponents} />
           </JamContent>
         </main>
-        <JamAuthorBanner author={post?.author}></JamAuthorBanner>
+        <JamAuthorBanner author={author}></JamAuthorBanner>
         <EmailSubscription />
       </Flex>
     </>
