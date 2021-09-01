@@ -115,7 +115,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params: { slug } }) {
   const { authors } = require('../../lib/queries/authors');
   const { data } = await authors.getStaticAuthorBy(slug);
-
+  console.log(data);
   return {
     props: { author: data.author[0] },
   };
