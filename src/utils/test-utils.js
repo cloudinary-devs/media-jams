@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ChakraProvider } from '@chakra-ui/react';
 import { MixPanelProvider } from '@lib/mixpanel';
 import { UserProvider, useUser } from '@auth0/nextjs-auth0';
-import { RouterContext } from 'next/dist/shared/lib/router-context';
+import { RouterContext } from 'next/dist/next-server/lib/router-context';
 import theme from '../theme';
 const user = {
   email: 'foo@example.com',
