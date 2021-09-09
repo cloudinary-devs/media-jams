@@ -75,7 +75,7 @@ export default function JamAuthorBanner({ author }) {
             <Avatar
               size="2xl"
               alt={author.name}
-              src={imageFetch(author.image?.asset.url, { w: 128, h: 128 })}
+              src={imageFetch(author.image?.asset.url)}
             />
             <Box mt={4} ml={{ md: 6 }} flex="2 1 auto">
               <Heading
