@@ -1,21 +1,9 @@
 import NextImage from 'next/image';
-import { chakra, useStyleConfig } from '@chakra-ui/react';
+import { chakra } from '@chakra-ui/react';
 import { Box } from '@chakra-ui/react';
-import { buildImageUrl } from 'cloudinary-build-url';
+import { useImage } from 'use-cloudinary';
+
 import useBlurredPlaceholder from '@hooks/useBlurredPlaceholder';
-
-const isUrl = (string) =>
-  string.match(
-    /^(ht|f)tps?:\/\/[a-z0-9-.]+\.[a-z]{2,4}\/?([^\s<>#%",{}\\|\\^[\]`]+)?$/,
-  );
-
-function decideStorageDefault(string) {
-  if (isUrl(string)) {
-    return 'fetch';
-  } else {
-    return 'upload';
-  }
-}
 
 function CloudinaryNextImage({
   // Cloudinary props
@@ -39,24 +27,26 @@ function CloudinaryNextImage({
   container,
   ...rest
 }) {
+  const { generateImageUrl } = useImage(cloudName);
+
+  const cloudinaryUrl =
+    cloudName &&
+    generateImageUrl({
+      delivery: {
+        publicId,
+        storageType: storageType ? storageType : 'upload',
+      },
+      transformation: [...transforms],
+    });
+
+  console.log(cloudinaryUrl);
+
   const {
     blurredPlaceholderUrl,
     supportsLazyLoading,
     ref,
     inView,
   } = useBlurredPlaceholder(cloudName ? cloudName : '');
-
-  const cloudinaryUrl =
-    cloudName &&
-    buildImageUrl(publicId, {
-      cloud: {
-        cloudName,
-        storageType: storageType ? storageType : decideStorageDefault(publicId),
-      },
-      transformations: {
-        ...transforms,
-      },
-    });
 
   if (blurPlaceholder) {
     return (
@@ -79,7 +69,6 @@ function CloudinaryNextImage({
               width={width}
               height={height}
               alt={alt}
-              className={className}
               loading={loading}
               objectFit={objectFit}
               objectPosition={objectPosition}
@@ -102,7 +91,6 @@ function CloudinaryNextImage({
         objectPosition={objectPosition}
         priority={priority}
         quality={quality}
-        unoptimized={unoptimized}
         {...rest}
       />
     );

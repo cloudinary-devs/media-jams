@@ -7,6 +7,8 @@ import {
   Avatar,
   IconButton,
   Link,
+  LinkBox,
+  LinkOverlay,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
@@ -50,18 +52,13 @@ export default function MobileJamCard({ jam }) {
     toggleBookmark.mutate(jam);
   };
   return (
-    <Flex
-      _visited={{
-        color: 'inherit',
-      }}
-      as={Link}
-      href={`/author/${jam?.author.slug?.current}`}
+    <LinkBox
+      display="flex"
       w="100%"
       border="1px solid #D3DDE6"
       borderRadius="8px"
       h="200px"
       bg="white"
-      overflow={{ base: 'scroll', md: 'none' }}
     >
       <Flex
         w="100%"
@@ -82,9 +79,13 @@ export default function MobileJamCard({ jam }) {
               name={jam?.author.name}
               src={imageFetch(jam?.author.image?.asset.url)}
             />
-            <Text variant="B100" color="grey.800" fontWeight="500">
-              {jam?.author.name}
-            </Text>
+            <NextLink href={`/author/${jam.author.slug?.current}`} passHref>
+              <Link>
+                <Text variant="B100" color="grey.800" fontWeight="500">
+                  {jam.author.name}
+                </Text>
+              </Link>
+            </NextLink>
             <Text variant="B100" color="grey.600">
               <time dateTime={jam.publishedAt}>
                 {format(new Date(jam.publishedAt), 'dd MMMM')}
@@ -113,19 +114,17 @@ export default function MobileJamCard({ jam }) {
           />
         </Flex>
         <Flex justify="space-between" w="100%">
-          <NextLink href={`/post/${jam.slug.current}`} passHref>
-            <Link>
-              <Heading
-                size="H200"
-                w="215px"
-                textOverflow="ellipsis"
-                h="85px"
-                overflow="hidden"
-              >
-                {jam.title}
-              </Heading>
-            </Link>
-          </NextLink>
+          <LinkOverlay href={`/post/${jam.slug.current}`}>
+            <Heading
+              size="H200"
+              w="215px"
+              textOverflow="ellipsis"
+              h="85px"
+              overflow="hidden"
+            >
+              {jam.title}
+            </Heading>
+          </LinkOverlay>
           <Image
             src={jam.cover?.asset.url || '/placeholder.png'}
             width={80}
@@ -150,6 +149,6 @@ export default function MobileJamCard({ jam }) {
           ))}
         </Flex>
       </Flex>
-    </Flex>
+    </LinkBox>
   );
 }

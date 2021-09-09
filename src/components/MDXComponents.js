@@ -11,8 +11,10 @@ import {
   Stack,
   Heading,
   Text,
+  Image as ChakraImage,
 } from '@chakra-ui/react';
 import React from 'react';
+import { useImage } from 'use-cloudinary';
 import CodeBlock from './CodeBlock/index';
 import CodeSandbox from './CodeSandbox';
 import EmbeddedIframe from './EmbeddedIframe';
@@ -76,6 +78,25 @@ const InlineCode = (props) => (
   />
 );
 
+const Image = (props) => {
+  const { generateImageUrl } = useImage('mediadevs');
+
+  const cloudinaryUrl = generateImageUrl({
+    delivery: {
+      publicId: props.src,
+      storageType: 'fetch',
+    },
+    transformation: [
+      {
+        format: 'auto',
+        quality: 'auto',
+      },
+    ],
+  });
+
+  return <ChakraImage src={cloudinaryUrl} borderRadius="8px" margin="0 auto" />;
+};
+
 const MDXComponents = {
   h1: (props) => <chakra.h1 apply="mdx.h1" {...props} />,
   h2: (props) => <LinkedHeading apply="mdx.h2" {...props} />,
@@ -105,6 +126,7 @@ const MDXComponents = {
       {...props}
     />
   ),
+  img: Image,
   p: (props) => <chakra.p apply="mdx.p" {...props} />,
   ul: (props) => <chakra.ul apply="mdx.ul" {...props} />,
   ol: (props) => <chakra.ol apply="mdx.ul" {...props} />,

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Box,
   Flex,
   Heading,
   Text,
@@ -8,16 +7,13 @@ import {
   IconButton,
   Link,
   useBreakpointValue,
+  LinkBox,
+  LinkOverlay,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import Image from '@components/Image';
 import imageFetch from '@utils/image-fetch';
 import format from 'date-fns/format';
-import { buildImageUrl } from 'cloudinary-build-url';
-
-const ogImage1 = buildImageUrl('mediajams/og-image-base-1.jpg', {
-  cloud: { cloudName: 'mediadevs' },
-});
 
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import {
@@ -56,12 +52,8 @@ export default function JamCard({ jam }) {
     toggleBookmark.mutate(jam);
   };
   return (
-    <Flex
-      as={Link}
-      _visited={{
-        color: 'inherit',
-      }}
-      href={`/author/${author.slug?.current}`}
+    <LinkBox
+      display="flex"
       w="100%"
       border="1px solid #D3DDE6"
       borderRadius="8px"
@@ -86,9 +78,13 @@ export default function JamCard({ jam }) {
               name={author.name}
               src={imageFetch(author.image?.asset.url)}
             />
-            <Text variant="B100" color="grey.800" fontWeight="500">
-              {author.name}
-            </Text>
+            <NextLink href={`/author/${author.slug?.current}`} passHref>
+              <Link>
+                <Text variant="B100" color="grey.800" fontWeight="500">
+                  {author.name}
+                </Text>
+              </Link>
+            </NextLink>
             <Text variant="B100" color="grey.600">
               <time dateTime={jam.publishedAt}>
                 {format(new Date(jam.publishedAt), 'dd MMMM')}
@@ -117,13 +113,11 @@ export default function JamCard({ jam }) {
             onClick={handleBookmarkOnClick}
           />
         </Flex>
-        <NextLink href={`/post/${jam.slug.current}`} passHref>
-          <Link>
-            <Heading size="H200" w="100%">
-              {jam.title}
-            </Heading>
-          </Link>
-        </NextLink>
+        <LinkOverlay href={`/post/${jam.slug.current}`}>
+          <Heading size="H200" w="100%">
+            {jam.title}
+          </Heading>
+        </LinkOverlay>
         <Flex
           mt="16px"
           justify="flex-start"
@@ -146,6 +140,6 @@ export default function JamCard({ jam }) {
           alt="feature banner of jam"
         />
       </Flex>
-    </Flex>
+    </LinkBox>
   );
 }

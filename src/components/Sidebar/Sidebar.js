@@ -20,13 +20,7 @@ import NoteModal from '@components/NoteModal';
 import { NOTE_ACTIONS } from '@utils/constants';
 const { CREATE_NOTE } = NOTE_ACTIONS;
 
-import {
-  SideToggle,
-  JoinDiscord,
-  Plus,
-  BWLogo,
-  Logout,
-} from '@components/Icons';
+import { SideToggle, JoinDiscord, Plus, BWLogo } from '@components/Icons';
 
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
 import { useUser } from '@auth0/nextjs-auth0';
@@ -221,11 +215,7 @@ const animationVariants = {
 };
 const Sidebar = () => {
   const { isOpen, onClose, onOpen, onToggle, variants } = useSidePanel();
-  React.useEffect(() => {
-    if (variants?.style === 'sidebar') {
-      // onOpen();
-    }
-  }, []);
+
   return variants?.style === 'sidebar' ? (
     <motion.div
       style={{

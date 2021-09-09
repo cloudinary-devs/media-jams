@@ -24,10 +24,7 @@ export default function SearchInput({ searchValue, setSearchValue }) {
     }
   }, [mixpanel, debounceSearchValue]);
 
-  const onChange = (e) => {
-    const { value } = e.target;
-    setSearchValue(value);
-  };
+  const onChange = React.useCallback((e) => setSearchValue(e.target.value));
   return (
     <InputGroup
       size="lg"
@@ -51,22 +48,6 @@ export default function SearchInput({ searchValue, setSearchValue }) {
           color: useToken('colors', 'grey.700'),
         }}
       />
-      {/* <InputRightAddon bg="#FFFFFF" h="auto">
-        <Select
-          fontFamily="DM Sans"
-          fontSize="16px"
-          lineHeight="152%"
-          color="grey.700"
-          fontWeight="400"
-          defaultValue="All jams"
-          borderRadius="0px"
-          border="0px"
-        >
-          <option value="All jams">All Jams</option>
-          <option value="Only bookmarked">Only bookmarked</option>
-          <option value="Not bookmarked">Not Bookmarked</option>
-        </Select>
-      </InputRightAddon> */}
     </InputGroup>
   );
 }
