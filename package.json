@@ -70,7 +70,7 @@
     "multer": "^1.4.2",
     "next": "^10.2.1",
     "next-auth": "^3.1.0",
-    "next-mdx-remote": "^3.0.4",
+    "next-mdx-remote": "^3.0.2",
     "next-sanity": "^0.1.8",
     "next-seo": "^4.26.0",
     "path-browserify": "^1.0.1",
