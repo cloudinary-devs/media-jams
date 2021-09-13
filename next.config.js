@@ -24,9 +24,7 @@ const basePath = '';
 
 const defaultConfig = {
   productionBrowserSourceMaps: true,
-  future: {
-    webpack5: true,
-  },
+  webpack5: true,
   env: {
     NEXT_PUBLIC_COMMIT_SHA: COMMIT_SHA,
     SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,

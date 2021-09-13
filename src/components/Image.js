@@ -39,8 +39,6 @@ function CloudinaryNextImage({
       transformation: [...transforms],
     });
 
-  console.log(cloudinaryUrl);
-
   const {
     blurredPlaceholderUrl,
     supportsLazyLoading,
