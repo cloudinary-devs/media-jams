@@ -35,10 +35,10 @@ export default function Post({ post, preview, error, og }) {
   });
 
   const baseUrl = () => {
-    if (process.env.VERCEL_ENV === 'production') {
+    if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
       return `https://mediajams.dev`;
-    } else if (process.env.VERCEL_ENV === 'preview') {
-      return process.env.VERCEL_URL;
+    } else if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview') {
+      return process.env.NEXT_PUBLIC_VERCEL_URL;
     } else {
       return `http://localhost:3000`;
     }
@@ -203,6 +203,11 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
   try {
     // Then serialize to mdx formated string for hydration in components.
     const mdx = await serialize(jam.body);
+    console.log({
+      og: url,
+      error: null,
+      preview,
+    });
     return {
       props: {
         og: url,
