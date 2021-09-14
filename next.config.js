@@ -80,6 +80,9 @@ const defaultConfig = {
     ];
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    if (!isServer) {
+      config.resolve.fallback.fs = false;
+    }
     // SVG LOADER
     config.module.rules.push({
       test: /\.svg$/,
