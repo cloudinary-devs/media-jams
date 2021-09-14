@@ -15,7 +15,9 @@ import {
 } from '@chakra-ui/react';
 import imageFetch from '@utils/image-fetch';
 import NextLink from 'next/link';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
+import { useJamsQuery } from '@hooks/useJams';
+import { useAuthorsQuery } from '@hooks/useAuthors';
 import { authors } from '@lib/queries/authors';
 
 import { SocialHandlesCollection } from '@components/AuthorBanner';
@@ -83,9 +85,11 @@ export const AuthorCard = ({ author, ...props }) => {
 };
 
 const AuthorsPanel = () => {
+  const queryClient = useQueryClient();
   const [searchValue, setSearchValue] = React.useState('');
   const [filteredAuthors, setFilteredAuthors] = React.useState([]);
-  const { data, isLoading } = useQuery(`authors`, () => authors.get());
+  const { data, isLoading } = useAuthorsQuery();
+  const allJams = queryClient.getQueryData('allJams');
 
   React.useEffect(() => {
     if (!data?.authors) return;
@@ -101,10 +105,10 @@ const AuthorsPanel = () => {
         ],
       };
       const results = fuse.search(queries).map((result) => result.item);
+
       handleFilter(results);
     }
   }, [searchValue, data]);
-
   const fuse = new Fuse(data?.authors, fuseOptions);
 
   const onChange = (e) => {
@@ -112,8 +116,13 @@ const AuthorsPanel = () => {
     setSearchValue(value);
   };
 
-  const handleFilter = (data) => setFilteredAuthors(data);
-
+  const handleFilter = (data) => {
+    setFilteredAuthors(
+      data.filter((author) => {
+        return allJams?.jams.some((jam) => jam.author._id === author._id);
+      }),
+    );
+  };
   return (
     <Flex
       width={{ base: 'full' }}
