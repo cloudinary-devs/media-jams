@@ -203,11 +203,6 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
   try {
     // Then serialize to mdx formated string for hydration in components.
     const mdx = await serialize(jam.body);
-    console.log({
-      og: url,
-      error: null,
-      preview,
-    });
     return {
       props: {
         og: url,
