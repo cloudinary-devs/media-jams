@@ -1,7 +1,5 @@
 import auth0 from '@lib/auth0';
-import { initSentry, sentryHandler } from '@lib/sentry';
-//initialize Sentry
-initSentry();
+import { withSentry } from '@sentry/nextjs';
 
 function getUrls(req) {
   const host = req.headers['host'];
@@ -30,4 +28,4 @@ const handler = async (req, res) => {
   }
 };
 
-export default sentryHandler(handler);
+export default withSentry(handler);

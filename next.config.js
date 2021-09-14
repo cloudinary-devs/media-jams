@@ -1,5 +1,6 @@
 // Use the SentryWebpack plugin to upload the source maps during build step
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
+const { withSentryConfig } = require('@sentry/nextjs');
 const withPlugins = require('next-compose-plugins');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
@@ -24,7 +25,7 @@ const basePath = '';
 
 const defaultConfig = {
   productionBrowserSourceMaps: true,
-  webpack5: true,
+  // webpack5: true,
   env: {
     NEXT_PUBLIC_COMMIT_SHA: COMMIT_SHA,
     SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -79,42 +80,6 @@ const defaultConfig = {
     ];
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // So ask Webpack to replace @sentry/node imports with @sentry/browser when
-    // building the browser's bundle
-    if (!isServer) {
-      config.resolve.alias['@sentry/node'] = '@sentry/browser';
-      config.resolve.fallback.fs = false;
-    }
-
-    // Define an environment variable so source code can check whether or not
-    // it's running on the server so we can correctly initialize Sentry
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        'process.env.NEXT_IS_SERVER': JSON.stringify(isServer.toString()),
-      }),
-    );
-    // The Sentry webpack plugin gets pushed to the webpack plugins to build
-    // and upload the source maps to sentry.
-    // This is an alternative to manually uploading the source maps
-    // Note: This is disabled in development mode.
-    if (
-      SENTRY_DSN &&
-      SENTRY_ORG &&
-      SENTRY_PROJECT &&
-      SENTRY_AUTH_TOKEN &&
-      COMMIT_SHA &&
-      NODE_ENV === 'production'
-    ) {
-      config.plugins.push(
-        new SentryWebpackPlugin({
-          include: '.next',
-          ignore: ['node_modules'],
-          stripPrefix: ['webpack://_N_E/'],
-          urlPrefix: `~${basePath}/_next`,
-          release: COMMIT_SHA,
-        }),
-      );
-    }
     // SVG LOADER
     config.module.rules.push({
       test: /\.svg$/,
@@ -125,13 +90,21 @@ const defaultConfig = {
   basePath,
 };
 
+const SentryWebpackPluginOptions = {
+  // Additional config options for the Sentry Webpack plugin. Keep in mind that
+  // the following options are set automatically, and overriding them is not
+  // recommended:
+  //   release, url, org, project, authToken, configFile, stripPrefix,
+  //   urlPrefix, include, ignore
+
+  silent: true, // Suppresses all logs
+  // For all available options, see:
+  // https://github.com/getsentry/sentry-webpack-plugin#options.
+};
+
 /**
  * Export w/ defaultConfig
  */
-module.exports = withPlugins(
-  [
-    [withBundleAnalyzer],
-    // your other plugins here
-  ],
-  defaultConfig,
-);
+// Make sure adding Sentry options is the last code to run before exporting, to
+// ensure that your source maps include changes from all other Webpack plugins
+module.exports = withSentryConfig(defaultConfig, SentryWebpackPluginOptions);

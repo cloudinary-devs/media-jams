@@ -1,8 +1,6 @@
 import { profileHandler } from '@auth0/nextjs-auth0/dist/handlers';
 import auth0 from '@lib/auth0';
-import { initSentry, sentryHandler } from '@lib/sentry';
-//initialize Sentry
-initSentry();
+import { withSentry } from '@sentry/nextjs';
 
 const audience = process.env.AUTH0_AUDIENCE;
 const scope = 'openid profile email';
