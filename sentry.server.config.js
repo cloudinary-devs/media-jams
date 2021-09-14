@@ -5,8 +5,9 @@
 import * as Sentry from '@sentry/nextjs';
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
-
+const VERCEL_ENV = process.env.VERCEL_ENV || 'development';
 Sentry.init({
+  environment: VERCEL_ENV,
   dsn:
     SENTRY_DSN ||
     'https://97717a3cbeb2457284d50c82edd8c777@o1000093.ingest.sentry.io/5959356',
