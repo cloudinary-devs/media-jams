@@ -4,8 +4,6 @@ import { jams as queryJams } from '@lib/queries/jams';
 export function useJamsQuery(select, options) {
   return useQuery('allJams', queryJams.get, {
     staleTime: Infinity,
-    enabled: false,
-    refetchOnWindowFocus: false,
     select,
     ...options,
   });
