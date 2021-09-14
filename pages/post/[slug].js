@@ -30,8 +30,13 @@ export default function Post({ post, preview, error, og }) {
 
   useOnRead({
     parentElRef: mainContentRef,
-    onRead: () =>
-      mixpanel.interaction('Read Jam', mainContentRef, { post, author }),
+    onRead: (time) =>
+      mixpanel.interaction('Read Jam', {
+        title: post.title,
+        tags: post.tags,
+        author: author.name,
+        ...time,
+      }),
   });
 
   const baseUrl = () => {
