@@ -35,10 +35,10 @@ export default function Post({ post, preview, error, og }) {
   });
 
   const baseUrl = () => {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.VERCEL_ENV === 'production') {
       return `https://mediajams.dev`;
-    } else if (process.env.VERCEL_ENV === 'production') {
-      return `https://v2.mediajams.dev`;
+    } else if (process.env.VERCEL_ENV === 'preview') {
+      return process.env.VERCEL_URL;
     } else {
       return `http://localhost:3000`;
     }

@@ -154,8 +154,6 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
     lg: () => setShowMore(true),
   });
   const data = queryClient.getQueryData('jamTags');
-  console.log(data);
-  // const { data } = useQuery('jamTags', queryTags.get);
 
   let collectedFeaturedTags = [];
   React.useEffect(() => {
