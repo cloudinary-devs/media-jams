@@ -1,7 +1,6 @@
-import { initSentry, sentryHandler } from '@lib/sentry';
-initSentry();
+import { withSentry } from '@sentry/nextjs';
 
-export default sentryHandler(async function exit(_, res) {
+export default withSentry(async function exit(_, res) {
   // Exit the current user from "Preview Mode". This function accepts no args.
   res.clearPreviewData();
 

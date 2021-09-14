@@ -35,6 +35,7 @@ export function useOnRead({ parentElRef, onRead, enabled = true }) {
     let timeoutTime = readStats.time * 0.6;
     let timerId;
     let timerFinished = false;
+
     function startTimer() {
       timerId = setTimeout(() => {
         timerFinished = true;
@@ -58,9 +59,14 @@ export function useOnRead({ parentElRef, onRead, enabled = true }) {
     }
 
     function maybeMarkAsRead() {
-      if (timerFinished && scrolledTheMain) {
+      const timeElapsedSoFar = new Date().getTime() - startTime;
+      if (scrolledTheMain) {
         cleanup();
-        onRead();
+        onRead({
+          totalReadTime: timeoutTime / 1000,
+          timeRead: timeElapsedSoFar / 1000,
+          readFullJam: timerFinished,
+        });
       }
     }
 

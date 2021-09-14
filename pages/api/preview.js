@@ -1,9 +1,7 @@
 import { postBySlug } from '../../lib/api';
-import { initSentry, sentryHandler } from '@lib/sentry';
-//initialize Sentry
-initSentry();
+import { withSentry } from '@sentry/nextjs';
 
-export default sentryHandler(async (req, res) => {
+export default withSentry(async (req, res) => {
   // Check the secret and next parameters
   // This secret should only be known to this API route and the CMS
   if (
