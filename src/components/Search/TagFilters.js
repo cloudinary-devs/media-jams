@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { tags as queryTags } from '@lib/queries/tags';
 
 import {
@@ -153,7 +153,7 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
     base: onOpen,
     lg: () => setShowMore(true),
   });
-  const data = queryClient.getQueryData('jamTags');
+  const { data } = useQuery('jamTags', queryTags.get);
 
   let collectedFeaturedTags = [];
   React.useEffect(() => {
