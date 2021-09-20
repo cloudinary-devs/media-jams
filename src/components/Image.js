@@ -63,7 +63,7 @@ export default function Image({
   React.useEffect(() => {
     if (cloudName && publicId) {
       // This is checking for a local fallback in the publicId
-      if (publicId.indexOf('/') > -1) {
+      if (publicId.indexOf('/') === 0) {
         setImageSrc(publicId);
       } else {
         setImageSrc(
@@ -72,8 +72,6 @@ export default function Image({
               publicId,
               storageType: storageType ? storageType : 'upload',
             },
-
-            // Auto apply crop to size provided by width & height props
             transformation: [
               // Auto apply best format and quality transformations -- tweak where needed
               {
@@ -87,13 +85,11 @@ export default function Image({
       }
     } else if (src) {
       setImageSrc(src);
-    } else if (!src && !publicId) {
-      setImageSrc(fallback);
     }
   }, []);
 
   return imageSrc ? (
-    <Box pos="relative" cursor="pointer">
+    <Box pos="relative">
       <ChakraNextImage
         src={imageSrc}
         w="auto"
@@ -103,7 +99,6 @@ export default function Image({
         // placeholder="blur"
         // blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(60, 60))}`}
         alt={alt}
-        onError={() => setImageSrc(fallback)}
         {...rest}
       />
     </Box>
