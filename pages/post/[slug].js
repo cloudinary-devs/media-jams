@@ -28,6 +28,12 @@ export default function Post({ post, preview, error, og }) {
   }
   const { author } = post;
 
+  /**
+   * Analytics Per Jam
+   */
+  React.useEffect(() => {
+    mixpanel.jamView(post);
+  }, []);
   useOnRead({
     parentElRef: mainContentRef,
     onRead: (time) =>
