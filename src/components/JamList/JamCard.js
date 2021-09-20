@@ -67,30 +67,31 @@ export default function JamCard({ jam }) {
         m="24px 0px 24px 24px"
       >
         <Flex align="center" justify="space-between" w="100%">
-          <Flex
-            align="center"
-            justify="space-evenly"
-            sx={{ gap: '8px' }}
-            mb="12px"
-          >
-            <Avatar
-              size="sm"
-              name={author.name}
-              src={imageFetch(author.image?.asset.url)}
-            />
-            <NextLink href={`/author/${author.slug?.current}`} passHref>
-              <Link>
+          <NextLink href={`/author/${author.slug?.current}`} passHref>
+            <Link>
+              <Flex
+                align="center"
+                justify="space-evenly"
+                sx={{ gap: '8px' }}
+                mb="12px"
+              >
+                <Avatar
+                  size="sm"
+                  name={author.name}
+                  src={imageFetch(author.image?.asset.url)}
+                />
                 <Text variant="B100" color="grey.800" fontWeight="500">
                   {author.name}
                 </Text>
-              </Link>
-            </NextLink>
-            <Text variant="B100" color="grey.600">
-              <time dateTime={jam.publishedAt}>
-                {format(new Date(jam.publishedAt), 'dd MMMM')}
-              </time>
-            </Text>
-          </Flex>
+
+                <Text variant="B100" color="grey.600">
+                  <time dateTime={jam.publishedAt}>
+                    {format(new Date(jam.publishedAt), 'dd MMMM')}
+                  </time>
+                </Text>
+              </Flex>
+            </Link>
+          </NextLink>
           <IconButton
             size="md"
             outline="none"
@@ -131,12 +132,15 @@ export default function JamCard({ jam }) {
           ))}
         </Flex>
       </Flex>
-      <Flex m="24px 24px 24px 68px" flex="1">
+
+      <Flex flex="1">
         <Image
-          src={jam.cover?.asset.url || '/placeholder.png'}
-          width={240}
-          height={148}
-          borderRadius="4px!important"
+          cloudName="mediadevs"
+          publicId={jam.cover?.asset.url || '/placeholder.png'}
+          width={322}
+          height={198}
+          borderTopRightRadius="8px"
+          borderBottomRightRadius="8px"
           alt="feature banner of jam"
         />
       </Flex>

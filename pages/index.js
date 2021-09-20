@@ -113,7 +113,7 @@ export default function Dashboard() {
           h="100%"
           direction="column"
           justify="space-around"
-          sx={{ gap: '16px' }}
+          sx={{ gap: '24px' }}
         >
           {searchValue.length < 1 && featuredJams.length > 0 && (
             <ResonsiveFeaturedCard jam={featuredJams[0]} />

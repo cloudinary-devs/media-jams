@@ -136,13 +136,14 @@ export default function FeaturedJamCard({ jam }) {
           ))}
         </Flex>
       </Flex>
-      <Flex m="24px 24px 24px 24px" flex="1">
+      <Flex flex="1">
         <Image
-          src={jam.cover?.asset.url || '/placeholder.png'}
-          width={452}
-          height={352}
-          borderRadius="8px!important"
-          objectFit="cover"
+          cloudName="mediadevs"
+          publicId={jam.cover?.asset.url || '/placeholder.png'}
+          width={457}
+          height={322}
+          borderTopRightRadius="8px"
+          borderBottomRightRadius="8px"
           alt="feature banner of jam"
         />
       </Flex>
