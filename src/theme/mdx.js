@@ -89,7 +89,7 @@ const mdx = {
     px: '1',
     fontSize: '0.875em',
     py: '2px',
-    whiteSpace: 'nowrap',
+    whiteSpace: 'pre-line',
     lineHeight: 'normal',
   },
 };

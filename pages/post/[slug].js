@@ -30,15 +30,20 @@ export default function Post({ post, preview, error, og }) {
 
   useOnRead({
     parentElRef: mainContentRef,
-    onRead: () =>
-      mixpanel.interaction('Read Jam', mainContentRef, { post, author }),
+    onRead: (time) =>
+      mixpanel.interaction('Read Jam', {
+        title: post.title,
+        tags: post.tags,
+        author: author.name,
+        ...time,
+      }),
   });
 
   const baseUrl = () => {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
       return `https://mediajams.dev`;
-    } else if (process.env.VERCEL_ENV === 'production') {
-      return `https://v2.mediajams.dev`;
+    } else if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview') {
+      return process.env.NEXT_PUBLIC_VERCEL_URL;
     } else {
       return `http://localhost:3000`;
     }

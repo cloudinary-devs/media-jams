@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { tags as queryTags } from '@lib/queries/tags';
 
 import {
@@ -145,6 +145,7 @@ function TagModal({ isOpen, onClose, tags, clearAllTags }) {
 }
 
 function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
+  const queryClient = useQueryClient();
   const [showMore, setShowMore] = React.useState(false);
   const [featuredTags, setFeaturedTags] = React.useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();

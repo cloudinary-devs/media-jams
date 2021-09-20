@@ -41,7 +41,6 @@ const SideNavButtonIcon = ({
   return (
     <Tooltip
       hasArrow
-      isDisabled={true}
       label={displayName}
       placement="right"
       openDelay={800}

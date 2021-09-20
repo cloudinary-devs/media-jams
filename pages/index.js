@@ -10,6 +10,7 @@ import Search from '@components/Search';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
+import { useJamsQuery } from '@hooks/useJams';
 import Fuse from 'fuse.js';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
@@ -34,7 +35,7 @@ export default function Dashboard() {
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [filteredPosts, setFilteredPosts] = React.useState([]);
   const [featuredJams, setFeaturedJams] = React.useState([]);
-  const { data, isLoading } = useQuery('allJams', queryJams.get);
+  const { data, isLoading } = useJamsQuery();
 
   const fuse = new Fuse(data?.jams, fuseOptions);
 

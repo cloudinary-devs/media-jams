@@ -62,12 +62,10 @@ export default function Image({
 
   React.useEffect(() => {
     if (cloudName && publicId) {
+      // This is checking for a local fallback in the publicId
       if (publicId.indexOf('/') > -1) {
-        console.log('local src');
-        // This is checking for a local fallback in the publicId
         setImageSrc(publicId);
       } else {
-        console.log('Cloudinary URL');
         setImageSrc(
           generateImageUrl({
             delivery: {
@@ -88,10 +86,8 @@ export default function Image({
         );
       }
     } else if (src) {
-      console.log('Use a base image src');
       setImageSrc(src);
     } else if (!src && !publicId) {
-      console.log('Initiate use of the fallback');
       setImageSrc(fallback);
     }
   }, []);
