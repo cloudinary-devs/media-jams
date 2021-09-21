@@ -88,21 +88,21 @@ export default function Image({
     }
   }, []);
 
-  return imageSrc ? (
-    <Box pos="relative">
-      <ChakraNextImage
-        src={imageSrc}
-        w="auto"
-        h="auto"
-        width={width}
-        height={height}
-        placeholder="blur"
-        blurDataURL={imageSrc}
-        alt={alt}
-        {...rest}
-      />
-    </Box>
-  ) : (
-    ''
+  return (
+    imageSrc && (
+      <Box pos="relative">
+        <ChakraNextImage
+          src={imageSrc}
+          w="auto"
+          h="auto"
+          width={width}
+          height={height}
+          placeholder="blur"
+          blurDataURL={imageSrc}
+          alt={alt}
+          {...rest}
+        />
+      </Box>
+    )
   );
 }
