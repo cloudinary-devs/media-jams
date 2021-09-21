@@ -96,8 +96,8 @@ export default function Image({
         h="auto"
         width={width}
         height={height}
-        // placeholder="blur"
-        // blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(60, 60))}`}
+        placeholder="blur"
+        blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(60, 60))}`}
         alt={alt}
         {...rest}
       />
