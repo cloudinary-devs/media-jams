@@ -1,121 +1,108 @@
+import React from 'react';
 import NextImage from 'next/image';
-import { chakra } from '@chakra-ui/react';
-import { Box } from '@chakra-ui/react';
 import { useImage } from 'use-cloudinary';
+import { Box, chakra } from '@chakra-ui/react';
 
-import useBlurredPlaceholder from '@hooks/useBlurredPlaceholder';
+const shimmer = (w, h) => {
+  const svg = `
+    <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs>
+        <linearGradient id="g">
+          <stop stop-color="#E883ED" offset="20%" />
+          <stop stop-color="#FCA685" offset="50%" />
+          <stop stop-color="#E883ED" offset="70%" />
+        </linearGradient>
+      </defs>
+      <rect width="${w}" height="${h}" fill="#333" />
+      <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+      <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+    </svg>`;
+  return svg;
+};
 
-function CloudinaryNextImage({
-  // Cloudinary props
+const toBase64 = (str) =>
+  typeof window === 'undefined'
+    ? Buffer.from(str).toString('base64')
+    : window.btoa(str);
+
+const ChakraNextImage = chakra(NextImage, {
+  shouldForwardProp: (prop) =>
+    [
+      'width',
+      'height',
+      'src',
+      'alt',
+      'quality',
+      'placeholder',
+      'blurDataURL',
+      'unoptimized',
+      'onError',
+    ].includes(prop),
+});
+
+export default function Image({
+  // Cloudinary Props
   publicId,
-  transforms,
+  transformations = [],
   cloudName,
   storageType,
-  blurPlaceholder,
+
   // Next Image props
   src,
   width,
   height,
   alt,
-  loading,
-  objectFit,
-  objectPosition,
-  priority,
-  quality,
-  unoptimized,
-  // Chakra -- the rest are fed from the factory function
-  container,
+
+  // Everything else
+  fallback,
   ...rest
 }) {
+  const [imageSrc, setImageSrc] = React.useState('');
   const { generateImageUrl } = useImage(cloudName);
 
-  const cloudinaryUrl =
-    cloudName &&
-    generateImageUrl({
-      delivery: {
-        publicId,
-        storageType: storageType ? storageType : 'upload',
-      },
-      transformation: [...transforms],
-    });
+  React.useEffect(() => {
+    if (cloudName && publicId) {
+      // This is checking for a local fallback in the publicId
+      if (publicId.indexOf('/') === 0) {
+        setImageSrc(publicId);
+      } else {
+        setImageSrc(
+          generateImageUrl({
+            delivery: {
+              publicId,
+              storageType: storageType ? storageType : 'upload',
+            },
+            transformation: [
+              // Auto apply best format and quality transformations -- tweak where needed
+              {
+                format: 'auto',
+                quality: 'auto',
+              },
+              ...transformations,
+            ],
+          }),
+        );
+      }
+    } else if (src) {
+      setImageSrc(src);
+    }
+  }, []);
 
-  const {
-    blurredPlaceholderUrl,
-    supportsLazyLoading,
-    ref,
-    inView,
-  } = useBlurredPlaceholder(cloudName ? cloudName : '');
-
-  if (blurPlaceholder) {
-    return (
-      <Box
-        ref={!supportsLazyLoading ? ref : undefined}
-        sx={{
-          width: 'auto',
-          background: `no-repeat url(${blurredPlaceholderUrl({
-            publicId,
-            width,
-            height,
-          })})`,
-          ...container,
-        }}
-      >
-        {inView ||
-          (supportsLazyLoading && (
-            <NextImage
-              src={cloudName ? cloudinaryUrl : src}
-              width={width}
-              height={height}
-              alt={alt}
-              loading={loading}
-              objectFit={objectFit}
-              objectPosition={objectPosition}
-              priority={priority}
-              quality={quality}
-              unoptimized={unoptimized}
-            />
-          ))}
+  return (
+    imageSrc && (
+      <Box pos="relative">
+        <ChakraNextImage
+          src={imageSrc}
+          w="auto"
+          h="auto"
+          width={width}
+          height={height}
+          placeholder="blur"
+          blurDataURL={imageSrc}
+          alt={alt}
+          {...rest}
+        />
       </Box>
-    );
-  } else {
-    return (
-      <NextImage
-        src={cloudName ? cloudinaryUrl : src}
-        width={width}
-        height={height}
-        alt={alt}
-        loading={loading}
-        objectFit={objectFit}
-        objectPosition={objectPosition}
-        priority={priority}
-        quality={quality}
-        {...rest}
-      />
-    );
-  }
+    )
+  );
 }
-
-const Image = chakra(CloudinaryNextImage, {
-  shouldForwardProp: (prop) => {
-    return [
-      'src',
-      'cloudName',
-      'publicId',
-      'transforms',
-      'loading',
-      'objectFit',
-      'objectPosition',
-      'priority',
-      'quality',
-      'unoptimized',
-      'width',
-      'height',
-      'storageType',
-      'alt',
-      'blurPlaceholder',
-      'container',
-    ].includes(prop);
-  },
-});
-
-export default Image;

@@ -128,10 +128,11 @@ export default function MobileFeaturedJamCard({ jam }) {
             </Heading>
           </LinkOverlay>
           <Image
-            src={jam.cover?.asset.url || '/placeholder.png'}
+            cloudName="mediadevs"
+            publicId={jam.cover?.asset.url || '/placeholder.png'}
             width={80}
             height={80}
-            borderRadius="4px!important"
+            borderRadius="4px"
             objectFit="cover"
             alt="Banner Image for Jam"
           />

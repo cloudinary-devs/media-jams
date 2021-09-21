@@ -3,7 +3,6 @@ import {
   Box,
   Flex,
   Heading,
-  Img,
   Stack,
   Spacer,
   HStack,
@@ -15,22 +14,11 @@ import {
 import format from 'date-fns/format';
 import Image from '@components/Image';
 
-import { buildImageUrl } from 'cloudinary-build-url';
-const placeholderUrl = buildImageUrl('mediajams/placeholder', {
-  cloud: { cloudName: 'mediadevs' },
-  layout: 'fill',
-  transformations: {
-    resize: {
-      height: 0.6,
-    },
-  },
-});
-
 export default function JamContentHero({
   description,
   title,
   author,
-  imageUrl = placeholderUrl,
+  imageUrl,
   date,
   children,
 }) {
@@ -72,14 +60,13 @@ export default function JamContentHero({
               </HStack>
             </Box>
           </VStack>
-          <Stack flex="1">
+          <Stack flex="1" marginBottom="-8px">
             <Image
-              pos="relative"
-              width={552}
-              height={400}
-              src={imageUrl}
+              cloudName="mediadevs"
+              publicId={imageUrl || '/placeholder.png'}
+              width={800}
+              height={500}
               alt="Banner Image for Jam"
-              objectFit="cover"
               borderEndRadius={{ base: '0', lg: '8px' }}
               borderTopStartRadius={{ base: '8px', lg: 0 }}
               borderTopRadius={{ base: '8px', lg: null }}
