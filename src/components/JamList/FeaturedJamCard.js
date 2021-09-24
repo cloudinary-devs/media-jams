@@ -142,6 +142,7 @@ export default function FeaturedJamCard({ jam }) {
           publicId={jam.cover?.asset.url || '/placeholder.png'}
           width={457}
           height={322}
+          transformations={[{ width: 457, height: 322, crop: 'mpad' }]}
           borderTopRightRadius="4px"
           borderBottomRightRadius="4px"
           alt="feature banner of jam"

@@ -16,6 +16,8 @@ import JamContent from '@components/JamContent';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
 import MDXComponents from '@components/MDXComponents';
+
+import format from 'date-fns/format';
 export default function Post({ post, preview, error, og }) {
   const mixpanel = useMixPanel();
   const mainContentRef = React.useRef(null);
@@ -70,6 +72,9 @@ export default function Post({ post, preview, error, og }) {
               alt: post.description,
             },
           ],
+        }}
+        twitter={{
+          cardType: 'summary_large_image',
         }}
       />
       <Flex
@@ -141,9 +146,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
 
   const jam = await postBySlug(slug, preview);
 
-  const placeholder = cloudinary.url('mediajams/placeholder');
-
-  const url = cloudinary.url('mediajams/og-image-blog', {
+  const url = cloudinary.url('mediajams/MediaJams-og-blog-2', {
     transformation: [
       {
         // Author image overlay
@@ -158,53 +161,30 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
         x: 57,
         radius: 90,
       },
-      // Jam header image overlay
-      {
-        overlay: {
-          url: jam?.coverImage || placeholder,
-        },
-        height: 490,
-        width: 490,
-        crop: 'scale',
-        gravity: 'east',
-        y: -7,
-        x: 101,
-        radius: 8,
-      },
       {
         // Author name overlay
         overlay: {
-          text: jam.author.name,
-          font_family: 'Arial',
+          text: `${jam.author.name} - ${format(
+            new Date(jam.publishedAt),
+            'dd MMMM',
+          )}`,
+          font_family: 'DMSans.ttf',
           font_size: 28,
         },
         gravity: 'south_west',
-        y: 130,
+        y: 105,
         x: 160,
-      },
-      // Author job title
-      {
-        overlay: {
-          text: jam.author.jobTitle,
-          font_family: 'Arial',
-          font_size: 24,
-        },
-        gravity: 'south_west',
-        y: 80,
-        x: 160,
-        width: 376,
-        crop: 'fit',
       },
       // Jam Title
       {
         overlay: {
           text: jam.title,
-          font_family: 'Arial',
-          font_size: 52,
+          font_family: 'DMSans.ttf',
+          font_size: 60,
         },
         gravity: 'west',
         x: 50,
-        y: -30,
+        y: -70,
         width: 488,
         crop: 'fit',
       },
