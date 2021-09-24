@@ -23,6 +23,7 @@ import Plus from './Plus';
 import Trashcan from './Trashcan';
 import Star from './Star';
 import SwiggleArrow from './SwiggleArrow';
+import Jar from './Jar';
 
 export {
   Authors,
@@ -50,4 +51,5 @@ export {
   Trashcan,
   Star,
   SwiggleArrow,
+  Jar,
 };
