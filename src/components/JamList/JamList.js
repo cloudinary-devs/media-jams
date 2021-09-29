@@ -12,9 +12,9 @@ export default function JamList({ jams, featuredJams }) {
 
   return jams.map((jam, index) => (
     <Box key={jam._id}>
-      {index > 0 && index === 4 && featuredJams && (
+      {/* {index > 0 && index === 4 && featuredJams && (
         <FeaturedJamList jams={featuredJams} />
-      )}
+      )} */}
       {ResponsiveJamCardComponent !== undefined ? (
         <ResponsiveJamCardComponent jam={jam} />
       ) : (

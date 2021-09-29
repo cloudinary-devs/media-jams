@@ -136,15 +136,23 @@ export default function FeaturedJamCard({ jam }) {
           ))}
         </Flex>
       </Flex>
-      <Flex flex="1">
+      <Flex flex="1" align="center" justify="center" mt={2}>
         <Image
           cloudName="mediadevs"
           publicId={jam.cover?.asset.url || '/placeholder.png'}
-          width={457}
-          height={322}
-          transformations={[{ width: 457, height: 322, crop: 'mpad' }]}
-          borderTopRightRadius="4px"
-          borderBottomRightRadius="4px"
+          width={400}
+          height={300}
+          transformations={[
+            {
+              width: 400,
+              height: 300,
+              crop: 'pad',
+              dpr: '2.0',
+              flags: 'lossy',
+              radius: 8,
+            },
+          ]}
+          borderRadius="8px!important"
           alt="feature banner of jam"
         />
       </Flex>
