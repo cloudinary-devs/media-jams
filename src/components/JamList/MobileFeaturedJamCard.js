@@ -29,7 +29,7 @@ export default function MobileFeaturedJamCard({ jam }) {
   const { author } = jam;
   const { user } = useUser();
   const [isBookmarked, setBookmark] = React.useState(false);
-  const gapVariant = useBreakpointValue({ base: '4px', lg: '12px' });
+  const gapVariant = useBreakpointValue({ base: '0px 8px', lg: '12px' });
 
   const { data: dataBookmarks, isLoading } = useBookmarksQuery();
 
@@ -66,8 +66,20 @@ export default function MobileFeaturedJamCard({ jam }) {
         w="100%"
         direction="column"
         align="flex-start"
-        m="16px 16px 14px 16px"
+        m="10px 16px 14px 16px"
       >
+        <Flex
+          align="center"
+          justify="center"
+          w="100px"
+          h="18px"
+          bg="#FFFBEA"
+          mb={2}
+        >
+          <Text color="#B9850D" variant="B200" fontWeight="500">
+            Featured Jam
+          </Text>
+        </Flex>
         <Flex align="center" justify="space-between" w="100%">
           <Flex
             align="center"
@@ -100,6 +112,7 @@ export default function MobileFeaturedJamCard({ jam }) {
             bg="none"
             h="0"
             w="0"
+            mr={8}
             paddingLeft="0"
             paddingRight="0"
             paddingTop="0"
@@ -115,11 +128,10 @@ export default function MobileFeaturedJamCard({ jam }) {
             onClick={handleBookmarkOnClick}
           />
         </Flex>
-        <Flex justify="space-between" w="100%">
+        <Flex mt={1} w="100%">
           <LinkOverlay href={`/post/${jam.slug.current}`}>
             <Heading
               size="H200"
-              w="215px"
               textOverflow="ellipsis"
               h="85px"
               overflow="hidden"
@@ -127,23 +139,12 @@ export default function MobileFeaturedJamCard({ jam }) {
               {jam.title}
             </Heading>
           </LinkOverlay>
-          <Image
-            cloudName="mediadevs"
-            publicId={jam.cover?.asset.url || '/placeholder.png'}
-            width={80}
-            height={80}
-            borderRadius="4px"
-            objectFit="cover"
-            alt="Banner Image for Jam"
-          />
         </Flex>
         <Flex
-          w="85%"
-          mt="16px"
+          w="100%"
           justify="flex-start"
           sx={{ gap: gapVariant }}
-          wrap="nowrap"
-          textOverflow="ellipsis"
+          wrap="wrap"
         >
           {jam.tags.slice(0, 4).map((tag) => (
             <Text variant="B100" color="primary.400">
