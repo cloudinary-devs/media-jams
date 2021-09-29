@@ -32,7 +32,6 @@ export default function Image({
   alt,
 
   // Everything else
-  fallback,
   ...rest
 }) {
   const [imageSrc, setImageSrc] = React.useState('');
@@ -70,6 +69,7 @@ export default function Image({
     imageSrc && (
       <Box pos="relative">
         <ChakraNextImage
+          quality={rest.quality ? rest.quality : 100}
           src={imageSrc}
           w="auto"
           h="auto"

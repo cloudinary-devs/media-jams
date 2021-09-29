@@ -119,7 +119,7 @@ export default function Dashboard() {
           {searchValue.length < 1 && featuredJams.length > 0 && (
             <ResonsiveFeaturedCard jam={featuredJams[0]} />
           )}
-          <JamList jams={filteredPosts} featuredJams={featuredJams} />
+          <JamList jams={filteredPosts} featuredJam={featuredJams[0]} />
         </Flex>
       </Flex>
     </Flex>

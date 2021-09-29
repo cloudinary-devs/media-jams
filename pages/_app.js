@@ -9,9 +9,7 @@ import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
 import SEO from '@utils/next-seo.config';
 import { UserProvider } from '@auth0/nextjs-auth0';
-import { buildImageUrl } from 'cloudinary-build-url';
 import { SidePanelProvider } from '@components/SidePanelProvider';
-import Layout from '@components/Layout';
 
 // Fonts Import
 import '@fontsource/dm-sans/700.css';
@@ -42,10 +40,6 @@ const App = ({ Component, pageProps, err }) => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
-
-  const ogImage = buildImageUrl('mediajams/og-image', {
-    cloud: { cloudName: 'mediadevs' },
-  });
 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout || ((page) => page);

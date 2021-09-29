@@ -1,48 +1,23 @@
 import React from 'react';
 import {
-  Button,
   useBreakpointValue,
   Heading,
   Text,
   Flex,
   Box,
   HStack,
-  Img,
-  Image,
   ButtonGroup,
-  IconButton,
   Avatar,
-  Spacer,
   VStack,
 } from '@chakra-ui/react';
-import {
-  FaFacebook,
-  FaGithub,
-  FaLinkedin,
-  FaGlobe,
-  FaTwitter,
-} from 'react-icons/fa';
 import BlockContent from '@sanity/block-content-to-react';
-import { buildImageUrl } from 'cloudinary-build-url';
 import imageFetch from '@utils/image-fetch';
-
 import SocialGroup from '@components/SocialGroup';
 
 export default function JamAuthorBanner({ author }) {
   const isMobile = useBreakpointValue({
     base: true,
     md: false,
-  });
-
-  const placeholder = buildImageUrl('mediajams/placeholder', {
-    cloud: {
-      cloudName: 'mediadevs',
-    },
-    transformations: {
-      resize: {
-        height: 0.8,
-      },
-    },
   });
 
   return (
