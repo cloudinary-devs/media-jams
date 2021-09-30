@@ -10,7 +10,6 @@ import {
   useToken,
   Link,
   HStack,
-  useBreakpointValue,
 } from '@chakra-ui/react';
 import format from 'date-fns/format';
 import NextLink from 'next/link';
@@ -28,7 +27,6 @@ import { useUser } from '@auth0/nextjs-auth0';
 
 function JamListCard({ jam }) {
   const { user } = useUser();
-  const gapVariant = useBreakpointValue({ base: '4px', lg: '8px' });
   const [isBookmarked, setBookmark] = React.useState(false);
 
   const { data: dataBookmarks, isLoading } = useBookmarksQuery();
