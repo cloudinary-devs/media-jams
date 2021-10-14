@@ -41,7 +41,7 @@ export default () =>
       const deskItems = [];
       if (groupNames.includes('moderator')) {
         // Add the items that administrators should see
-        deskItems.push(...workflowListItems, ...docTypeListItems);
+        deskItems.push(...workflowListItems, S.divider(), ...docTypeListItems);
       }
       if (groupNames.includes('creator')) {
         // Add the doctypes that a creators should see to
