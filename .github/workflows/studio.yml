@@ -1,10 +1,9 @@
 name: Deploy Studio
 # Deployment is handled on Vercel. Studio is treated as a separate project.
-# This is only to deploy the Graphql Endpoint to staging. Production (currently)
-# to be done manually.
+# This is only to deploy the Graphql Endpoint to staging and Production
 on:
   push:
-    branches: [development, master]
+    branches: [dev, main]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -32,7 +31,7 @@ jobs:
         run: |
           yarn install
       - name: Deploy Sanity Stage
-        if: github.ref == 'refs/heads/development'
+        if: github.ref == 'refs/heads/dev'
         env:
           AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
           PREVIEW_SECRET: ${{ secrets.SANITY_STUDIO_PREVIEW_SECRET }}
@@ -45,7 +44,7 @@ jobs:
           SANITY_AUTH_TOKEN="$AUTH_TOKEN" yarn deploy:gql --playground --dataset stage
 
       - name: Deploy Sanity Production
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         env:
           AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
           PREVIEW_SECRET: ${{ secrets.SANITY_STUDIO_PREVIEW_SECRET }}
