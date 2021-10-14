@@ -1,6 +1,6 @@
 import { useDocumentOperation, useEditState } from '@sanity/react-hooks';
 
-export function useWorkflowMetadata(id, defaultState) {
+export function useWorkflowMetadata(id, { state, init }) {
   const editState = useEditState(
     `workflow-metadata.${id}`,
     'workflow.metadata',
@@ -16,7 +16,8 @@ export function useWorkflowMetadata(id, defaultState) {
       : {
           _id: `workflow-metadata.${id}`,
           _type: 'workflow.metadata',
-          state: defaultState,
+          state: state,
+          initial: init,
         };
 
   return {
@@ -61,6 +62,7 @@ export function useWorkflowMetadata(id, defaultState) {
     ops.patch.execute([
       { setIfMissing: { documentId: id } },
       { set: { state } },
+      { set: { inital: state === 'inReview' } },
     ]);
   }
 }

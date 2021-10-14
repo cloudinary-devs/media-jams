@@ -4,6 +4,9 @@ export default {
   type: 'document',
   name: 'workflow.metadata',
   title: 'Workflow metadata',
+  initialValue: () => ({
+    initialReview: true,
+  }),
   fields: [
     { type: 'string', name: 'state', title: 'State' },
     { type: 'string', name: 'documentId', title: 'Document ID' },
@@ -16,6 +19,7 @@ export default {
       of: [{ type: 'string' }],
       inputComponent: UserIdArrayField,
     },
+    { type: 'boolean', name: 'initialReview', title: 'Initial Review' },
   ],
   liveEdit: true,
 };
