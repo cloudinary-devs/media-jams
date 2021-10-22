@@ -9880,10 +9880,10 @@ sanity-plugin-dashboard-widget-document-list@^0.0.11:
   dependencies:
     lodash "^4.17.15"
 
-sanity-plugin-markdown-full@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/sanity-plugin-markdown-full/-/sanity-plugin-markdown-full-2.1.0.tgz#2ef3d517f920914a5561594e0775a0689a5b154e"
-  integrity sha512-6spwa7Y8egZGR4e3cSYP1Z+sDv8BnQqLDRpFSEnI3pTd8r1VLHsd2yGHvXdxqOr+8rYnqTeCWlXQpcVseL/bxg==
+sanity-plugin-markdown-full@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.npmjs.org/sanity-plugin-markdown-full/-/sanity-plugin-markdown-full-2.1.3.tgz#9a790b02a3526653d848d99390d68a9da8d605bb"
+  integrity sha512-SWI/ZWU5rO/eZEKBXIlBkPYuD4OjylYHI5Oc1oBFf8pbkPiorwJzGl/kZnYYgOhUZ+h3I5Ut7zFcbAg7yZopaw==
   dependencies:
     "@sanity/ui" "^0.36.11"
     classnames "^2.3.1"
