@@ -34,10 +34,7 @@ export const creatorListItems = [
             .schemaType('post')
             .views([
               S.view.form().icon(GoTextSize).title('Editor'),
-              S.view
-                .component(LiveEditPreview)
-                .icon(GoEye)
-                .title('Live Preview'),
+              S.view.component(LiveEditPreview).icon(GoEye).title('Live Edit'),
             ]),
         );
     },

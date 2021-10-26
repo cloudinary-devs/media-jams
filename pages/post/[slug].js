@@ -145,7 +145,6 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
   });
 
   const jam = await postBySlug(slug, preview);
-
   const url = cloudinary.url('mediajams/MediaJams-og-blog-2', {
     transformation: [
       {
@@ -165,7 +164,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
         // Author name overlay
         overlay: {
           text: `${jam.author.name} - ${format(
-            new Date(jam.publishedAt),
+            new Date(jam.updatedAt),
             'dd MMMM',
           )}`,
           font_family: 'DMSans.ttf',

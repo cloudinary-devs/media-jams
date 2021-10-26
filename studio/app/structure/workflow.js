@@ -97,7 +97,7 @@ export const workflowListItems = [
                             S.view
                               .component(LiveEditPreview)
                               .icon(GoEye)
-                              .title('Live Preview'),
+                              .title('Live Edit'),
                           ]),
                       );
                   }),

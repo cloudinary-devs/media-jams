@@ -72,4 +72,3 @@ export const getServerSideProps = async ({
 };
 
 export default LiveEdit;
-LiveEdit.getLayout = (page) => <Layout>{page}</Layout>;
