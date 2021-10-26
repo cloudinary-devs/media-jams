@@ -12,13 +12,12 @@ const previewSecret = process.env.SANITY_STUDIO_PREVIEW_SECRET;
  */
 const projectUrl =
   process.env.NODE_ENV === 'production' // Prod Build or Dev
-    ? process.env.VERCEL_ENV === 'production' // Production or Preview
+    ? process.env.SANITY_STUDIO_ENV === 'production' // Production or Preview
       ? `https://mediajams.dev`
       : `https://stage.mediajams.dev`
     : `http://localhost:3000`;
 
 export function resolveProductionUrl(document) {
-  console.log(process.env);
   return `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document?.slug.current}`;
 }
 
