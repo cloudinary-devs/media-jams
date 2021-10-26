@@ -65,7 +65,6 @@ export default {
       title: 'title',
     },
     prepare(tag, quantity, other) {
-      console.log(tag, quantity, other);
       const { title } = tag;
       return {
         title: title,
