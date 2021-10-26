@@ -18,7 +18,7 @@ const projectUrl =
     : `http://localhost:3000`;
 
 export function resolveProductionUrl(document) {
-  console.log(projectUrl);
+  console.log(process.env);
   return `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document?.slug.current}`;
 }
 
