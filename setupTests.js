@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import 'isomorphic-unfetch';
-import { server } from './__mocks__/server';
+import { server } from '@utils/__mocks__/server';
 
 // Establish API mocking before all tests.
 beforeAll(() => server.listen());
