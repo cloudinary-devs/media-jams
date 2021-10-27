@@ -81,7 +81,7 @@ function ToggleTagListButton({ children, onClick, ...rest }) {
   );
 }
 
-function TagModal({ isOpen, onClose, tags, clearAllTags }) {
+function TagModal({ isOpen, onClose, tags = { tags: [] }, clearAllTags }) {
   const primary500 = useToken('colors', 'primary.500');
   return (
     <Modal onClose={onClose} isOpen={isOpen} isCentered>
@@ -154,7 +154,7 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
     lg: () => setShowMore(true),
   });
   const { data } = useQuery('jamTags', queryTags.get);
-
+  console.log(data);
   let collectedFeaturedTags = [];
   React.useEffect(() => {
     if (data.tags) {

@@ -1,4 +1,6 @@
 import { graphql } from 'msw';
+import fakeGen from './fakeGen';
+import { tagsSchema } from './mockSchema';
 import allPosts from './allPostsMock';
 
 export const handlers = [
@@ -17,7 +19,8 @@ export const handlers = [
     );
   }),
   graphql.query('AllTags', (req, res, ctx) => {
-    return res(ctx.data({ tags: {} }));
+    console.log(req);
+    return res(ctx.data({ tags: [] }));
   }),
   graphql.query('AllCategories', (req, res, ctx) => {
     return res(ctx.data({ categories: {} }));
