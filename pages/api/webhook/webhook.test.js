@@ -3,7 +3,11 @@ import fetch from 'isomorphic-unfetch';
 import listen from '@utils/test-listen';
 import { apiResolver } from 'next/dist/server/api-utils';
 import handler from './index';
+<<<<<<< HEAD:pages/api/webhook/webhook.test.js
 import sanityMockPayload from '../../../mocks/sanityWebhookMock';
+=======
+import sanityMockPayload from '@utils/__mocks__/sanityWebhookMock';
+>>>>>>> 2ff163a (shuffle testing files to source):__tests__/api/webhook.test.js
 import * as mockAuth0Management from '@lib/auth0Management';
 import * as mockSendGrid from '@lib/sendGrid';
 
