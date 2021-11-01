@@ -14,7 +14,7 @@ import BlockContent from '@sanity/block-content-to-react';
 import imageFetch from '@utils/image-fetch';
 import SocialGroup from '@components/SocialGroup';
 
-export default function JamAuthorBanner({ author }) {
+function JamAuthorBanner({ author }) {
   const isMobile = useBreakpointValue({
     base: true,
     md: false,
@@ -83,3 +83,5 @@ export default function JamAuthorBanner({ author }) {
     </Flex>
   );
 }
+
+export default JamAuthorBanner;

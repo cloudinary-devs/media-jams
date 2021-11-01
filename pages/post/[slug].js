@@ -60,6 +60,9 @@ export default function Post({ post, preview, error, og }) {
   return (
     <>
       <NextSeo
+        title={post.title}
+        description={post.description}
+        canonical={`${baseUrl()}/post/${post.slug}`}
         openGraph={{
           url: `${baseUrl()}/post/${post.slug}`,
           title: post.title,
