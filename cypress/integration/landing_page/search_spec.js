@@ -20,6 +20,6 @@ describe('Searching for Jams', () => {
 
   it('Searches for Author', () => {
     cy.findByPlaceholderText(PLACEHOLDER).type('Jason');
-    cy.findAllByTestId(/jam-card/i).should('to.be.greaterThan', 1);
+    cy.findAllByTestId(/jam-card/i).should('have.length.gt', 1);
   });
 });
