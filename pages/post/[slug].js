@@ -62,7 +62,12 @@ export default function Post({ post, preview, error, og }) {
       <NextSeo
         title={post.title}
         description={post.description}
-        canonical={`${baseUrl()}/post/${post.slug}`}
+        additionalMetaTags={[
+          {
+            property: 'author',
+            content: post.author.name,
+          },
+        ]}
         openGraph={{
           url: `${baseUrl()}/post/${post.slug}`,
           title: post.title,
