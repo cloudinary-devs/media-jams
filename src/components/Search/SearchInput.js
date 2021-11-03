@@ -12,7 +12,7 @@ import { useMixPanel } from '@lib/mixpanel';
 
 export default function SearchInput({ searchValue, setSearchValue }) {
   const mixpanel = useMixPanel();
-  const debounceSearchValue = useDebounce(searchValue, 500);
+  const debounceSearchValue = useDebounce(searchValue, 200);
   const placeHolderVariant = useBreakpointValue({
     base: 'Search',
     lg: 'Search by tag, title, keyword, author, etc...',

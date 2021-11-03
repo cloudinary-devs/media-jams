@@ -33,6 +33,7 @@ window.matchMedia = jest.fn().mockImplementation((query) => ({
 // https://github.com/vercel/next.js/discussions/18373
 process.env = {
   ...process.env,
+  NEXT_PUBLIC_API_MOCKING: 'enabled',
   __NEXT_IMAGE_OPTS: {
     deviceSizes: [320, 420, 768, 1024, 1200],
     imageSizes: [],

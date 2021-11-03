@@ -19,11 +19,11 @@ const fuseOptions = {
   threshold: 0.35,
   location: 0,
   distance: 100,
-  minMatchCharLength: 1,
+  minMatchCharLength: 3,
   shouldSort: true,
   includeScore: true,
   useExtendedSearch: true,
-  keys: ['title', 'tags.title', 'author.name'],
+  keys: ['title', 'tags.title', ['author', 'name']],
 };
 
 export default function Dashboard() {
@@ -62,7 +62,10 @@ export default function Dashboard() {
       const queries = {
         $or: [
           { title: searchValue },
-          { author: searchValue },
+          {
+            $path: ['author.name'],
+            $val: searchValue,
+          },
           {
             $and:
               formattedTags.length > 0

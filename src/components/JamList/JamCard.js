@@ -59,6 +59,7 @@ export default function JamCard({ jam }) {
       borderRadius="8px"
       h="200px"
       bg="white"
+      data-testid="jam-card"
     >
       <Flex
         w={{ lg: '536px' }}

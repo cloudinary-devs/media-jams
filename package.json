@@ -14,6 +14,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint . --ext js,mdx",
+    "cy:open": "cypress open",
     "analyze": "cross-env ANALYZE=true next build",
     "format": "yarn format:index && yarn format:pages && yarn format:src",
     "format:index": "prettier --write \"*.{js,json,md}\"",
@@ -99,6 +100,7 @@
     "@babel/helper-validator-option": "^7.12.1",
     "@next/bundle-analyzer": "^10.0.8",
     "@svgr/webpack": "^5.5.0",
+    "@testing-library/cypress": "^8.0.1",
     "@testing-library/dom": "^7.26.3",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.4",
@@ -106,6 +108,7 @@
     "babel-jest": "^26.5.2",
     "babel-plugin-inline-react-svg": "^1.1.2",
     "cross-env": "^7.0.3",
+    "cypress": "^8.7.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "^6.15.0",
@@ -116,12 +119,13 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "faker": "^5.5.3",
     "husky": "^4.2.5",
     "jest": "^26.5.3",
     "jest-dom": "^4.0.0",
     "jest-svg-transformer": "^1.0.0",
     "lint-staged": "^10.2.11",
-    "msw": "^0.26.2",
+    "msw": "^0.35.0",
     "next-compose-plugins": "^2.2.1",
     "prettier": "^2.2.1",
     "rewire": "^5.0.0"
@@ -159,5 +163,8 @@
   "license": "ISC",
   "resolutions": {
     "webpack": "^5.0.0-beta.30"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
