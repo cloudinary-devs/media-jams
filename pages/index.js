@@ -107,6 +107,7 @@ export default function Dashboard() {
         <Flex
           w={{ base: '90%', lg: '884px' }}
           mt="26px"
+          mb="50px"
           alignSelf="center"
           h="100%"
           direction="column"

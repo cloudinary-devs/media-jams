@@ -141,11 +141,11 @@ export default function FeaturedJamCard({ jam }) {
           cloudName="mediadevs"
           publicId={jam.cover?.asset.url || '/placeholder.png'}
           width={400}
-          height={300}
+          height={294}
           transformations={[
             {
               width: 400,
-              height: 300,
+              height: 294,
               crop: 'pad',
               dpr: '2.0',
               flags: 'lossy',
