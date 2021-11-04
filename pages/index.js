@@ -1,6 +1,6 @@
 import 'tippy.js/dist/tippy.css';
 import React from 'react';
-import { Flex, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, Box, useBreakpointValue } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
 import MobileFeaturedJamCard from '@components/JamList/MobileFeaturedJamCard';
@@ -10,7 +10,7 @@ import Search from '@components/Search';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { useJamsQuery } from '@hooks/useJams';
+import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
 import Fuse from 'fuse.js';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
@@ -34,51 +34,45 @@ export default function Dashboard() {
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [filteredPosts, setFilteredPosts] = React.useState([]);
-  const [featuredJams, setFeaturedJams] = React.useState([]);
-  const { data, isLoading } = useJamsQuery();
+  const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
 
-  const fuse = new Fuse(data?.jams, fuseOptions);
+  const fuse = new Fuse(featuredJams?.jams, fuseOptions);
 
   React.useEffect(() => {
     // do some checking here to ensure data exist
-    if (isLoading === false && data?.jams) {
-      const featured = data.jams?.filter(
-        (jam) => jam.postMetadata.featured === true,
-      );
-
-      setFeaturedJams(featured);
-      setFilteredPosts(data.jams);
+    if (isLoading === false && featuredJams?.jams) {
+      // setFilteredPosts(data.jams);
     }
-  }, [isLoading, data?.jams]);
+  }, [isLoading, featuredJams]);
 
   // handle updating the filteredPosts with different search criteria
-  React.useEffect(() => {
-    if (searchValue === '' && selectedFilters.length === 0) {
-      handleFilter(data?.jams);
-    } else {
-      // Allow for a search for tag
-      const formattedTags = selectedFilters.map((item) => item.title);
+  // React.useEffect(() => {
+  //   if (searchValue === '' && selectedFilters.length === 0) {
+  //     handleFilter(data?.jams);
+  //   } else {
+  //     // Allow for a search for tag
+  //     const formattedTags = selectedFilters.map((item) => item.title);
 
-      const queries = {
-        $or: [
-          { title: searchValue },
-          {
-            $path: ['author.name'],
-            $val: searchValue,
-          },
-          {
-            $and:
-              formattedTags.length > 0
-                ? [{ $path: 'tags.title', $val: formattedTags[0] }]
-                : [],
-          },
-        ],
-      };
-      const results = fuse.search(queries).map((result) => result.item);
-      handleFilter(results);
-      // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
-    }
-  }, [searchValue, selectedFilters, isLoading]);
+  //     const queries = {
+  //       $or: [
+  //         { title: searchValue },
+  //         {
+  //           $path: ['author.name'],
+  //           $val: searchValue,
+  //         },
+  //         {
+  //           $and:
+  //             formattedTags.length > 0
+  //               ? [{ $path: 'tags.title', $val: formattedTags[0] }]
+  //               : [],
+  //         },
+  //       ],
+  //     };
+  //     const results = fuse.search(queries).map((result) => result.item);
+  //     handleFilter(results);
+  //     // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
+  //   }
+  // }, [searchValue, selectedFilters, isLoading]);
 
   function addTag(tag) {
     return setSelectedFilters((prev) => [...prev, tag]);
@@ -119,9 +113,15 @@ export default function Dashboard() {
           justify="space-around"
           sx={{ gap: '24px' }}
         >
-          {searchValue.length < 1 && featuredJams.length > 0 && (
-            <ResonsiveFeaturedCard jam={featuredJams[0]} />
-          )}
+          {featuredJams?.jams.map((jam) => (
+            <Box key={jam.id}>
+              {ResonsiveFeaturedCard !== undefined ? (
+                <ResonsiveFeaturedCard jam={jam} />
+              ) : (
+                ''
+              )}
+            </Box>
+          ))}
           <JamList jams={filteredPosts} featuredJam={featuredJams[0]} />
         </Flex>
       </Flex>
@@ -135,8 +135,10 @@ export const getStaticProps = async () => {
   const queryClient = new QueryClient();
   await queryClient.fetchQuery('jamTags', queryTags.getStatic);
   await queryClient.setQueryData('jamTags', (old) => ({ tags: old.tags }));
-  await queryClient.fetchQuery('allJams', queryJams.getStatic);
-  await queryClient.setQueryData('allJams', (old) => ({ jams: old.data.jams }));
+  await queryClient.fetchQuery('featuredJams', queryJams.getStaticFeaturedJams);
+  await queryClient.setQueryData('featuredJams', (old) => ({
+    jams: old.data.jams,
+  }));
 
   return {
     props: {
