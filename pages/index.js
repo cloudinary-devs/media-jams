@@ -11,6 +11,7 @@ import Search from '@components/Search';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
+import { useLazyQuery } from '@hooks/useLazyQuery';
 import Fuse from 'fuse.js';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
@@ -34,45 +35,46 @@ export default function Dashboard() {
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedFilters, setSelectedFilters] = React.useState([]);
   const [filteredPosts, setFilteredPosts] = React.useState([]);
+  const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
 
-  const fuse = new Fuse(featuredJams?.jams, fuseOptions);
+  const fuse = new Fuse(allJams?.jams, fuseOptions);
 
   React.useEffect(() => {
     // do some checking here to ensure data exist
-    if (isLoading === false && featuredJams?.jams) {
-      // setFilteredPosts(data.jams);
+    if (isLoadingJams === false && allJams?.jams) {
+      setFilteredPosts(allJams.jams);
     }
-  }, [isLoading, featuredJams]);
+  }, [isLoadingJams, allJams]);
 
   // handle updating the filteredPosts with different search criteria
-  // React.useEffect(() => {
-  //   if (searchValue === '' && selectedFilters.length === 0) {
-  //     handleFilter(data?.jams);
-  //   } else {
-  //     // Allow for a search for tag
-  //     const formattedTags = selectedFilters.map((item) => item.title);
+  React.useEffect(() => {
+    if (searchValue === '' && selectedFilters.length === 0) {
+      handleFilter(allJams?.jams);
+    } else {
+      // Allow for a search for tag
+      const formattedTags = selectedFilters.map((item) => item.title);
 
-  //     const queries = {
-  //       $or: [
-  //         { title: searchValue },
-  //         {
-  //           $path: ['author.name'],
-  //           $val: searchValue,
-  //         },
-  //         {
-  //           $and:
-  //             formattedTags.length > 0
-  //               ? [{ $path: 'tags.title', $val: formattedTags[0] }]
-  //               : [],
-  //         },
-  //       ],
-  //     };
-  //     const results = fuse.search(queries).map((result) => result.item);
-  //     handleFilter(results);
-  //     // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
-  //   }
-  // }, [searchValue, selectedFilters, isLoading]);
+      const queries = {
+        $or: [
+          { title: searchValue },
+          {
+            $path: ['author.name'],
+            $val: searchValue,
+          },
+          {
+            $and:
+              formattedTags.length > 0
+                ? [{ $path: 'tags.title', $val: formattedTags[0] }]
+                : [],
+          },
+        ],
+      };
+      const results = fuse.search(queries).map((result) => result.item);
+      handleFilter(results);
+      // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
+    }
+  }, [searchValue, selectedFilters, isLoadingJams]);
 
   function addTag(tag) {
     return setSelectedFilters((prev) => [...prev, tag]);
@@ -114,16 +116,19 @@ export default function Dashboard() {
           justify="space-around"
           sx={{ gap: '24px' }}
         >
-          {featuredJams?.jams.map((jam) => (
-            <Box key={jam.id}>
-              {ResonsiveFeaturedCard !== undefined ? (
-                <ResonsiveFeaturedCard jam={jam} />
-              ) : (
-                ''
-              )}
-            </Box>
-          ))}
-          <JamList jams={filteredPosts} featuredJam={featuredJams[0]} />
+          {searchValue === '' && selectedFilters.length === 0 ? (
+            featuredJams?.jams.map((jam) => (
+              <Box key={jam.id}>
+                {ResonsiveFeaturedCard !== undefined ? (
+                  <ResonsiveFeaturedCard jam={jam} />
+                ) : (
+                  ''
+                )}
+              </Box>
+            ))
+          ) : (
+            <JamList jams={filteredPosts} />
+          )}
         </Flex>
       </Flex>
     </Flex>
