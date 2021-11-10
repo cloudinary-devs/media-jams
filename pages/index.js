@@ -11,7 +11,7 @@ import Search from '@components/Search';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
-import { useLazyQuery } from '@hooks/useLazyQuery';
+import { useSearch } from '@components/SearchProvider';
 import Fuse from 'fuse.js';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
@@ -32,9 +32,15 @@ export default function Dashboard() {
     base: MobileFeaturedJamCard,
     lg: FeaturedJamCard,
   });
-  const [searchValue, setSearchValue] = React.useState('');
-  const [selectedFilters, setSelectedFilters] = React.useState([]);
-  const [filteredPosts, setFilteredPosts] = React.useState([]);
+
+  const {
+    state: { searchValue, selectedTagFilters, filteredJams },
+    addTag,
+    removeTag,
+    handleFilter,
+    clearAllTags,
+    updateSearchValue,
+  } = useSearch();
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
 
@@ -43,17 +49,17 @@ export default function Dashboard() {
   React.useEffect(() => {
     // do some checking here to ensure data exist
     if (isLoadingJams === false && allJams?.jams) {
-      setFilteredPosts(allJams.jams);
+      handleFilter(allJams?.jams);
     }
   }, [isLoadingJams, allJams]);
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
-    if (searchValue === '' && selectedFilters.length === 0) {
+    if (searchValue === '' && selectedTagFilters.length === 0) {
       handleFilter(allJams?.jams);
     } else {
       // Allow for a search for tag
-      const formattedTags = selectedFilters.map((item) => item.title);
+      const formattedTags = selectedTagFilters.map((item) => item.title);
 
       const queries = {
         $or: [
@@ -74,23 +80,7 @@ export default function Dashboard() {
       handleFilter(results);
       // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
     }
-  }, [searchValue, selectedFilters, isLoadingJams]);
-
-  function addTag(tag) {
-    return setSelectedFilters((prev) => [...prev, tag]);
-  }
-
-  function removeTag(tag) {
-    return setSelectedFilters((prev) => prev.filter((pt) => pt !== tag));
-  }
-
-  const handleFilter = (data) => {
-    setFilteredPosts(data);
-  };
-
-  const clearAllTags = () => {
-    setSelectedFilters([]);
-  };
+  }, [searchValue, selectedTagFilters, isLoadingJams]);
 
   return (
     <Flex w="100%" height="100%" direction="column" overflowY="auto">
@@ -98,9 +88,8 @@ export default function Dashboard() {
       <Flex direction="column" w="100%">
         <Search
           searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          selectedFilters={selectedFilters}
-          setSelectedFilters={setSelectedFilters}
+          setSearchValue={updateSearchValue}
+          selectedFilters={selectedTagFilters}
           addTag={addTag}
           removeTag={removeTag}
           clearAllTags={clearAllTags}
@@ -116,7 +105,7 @@ export default function Dashboard() {
           justify="space-around"
           sx={{ gap: '24px' }}
         >
-          {searchValue === '' && selectedFilters.length === 0 ? (
+          {searchValue === '' && selectedTagFilters.length === 0 ? (
             featuredJams?.jams.map((jam) => (
               <Box key={jam.id}>
                 {ResonsiveFeaturedCard !== undefined ? (
@@ -127,7 +116,7 @@ export default function Dashboard() {
               </Box>
             ))
           ) : (
-            <JamList jams={filteredPosts} />
+            <JamList jams={filteredJams} />
           )}
         </Flex>
       </Flex>

@@ -20,16 +20,15 @@ import {
   useDisclosure,
   useBreakpointValue,
 } from '@chakra-ui/react';
+import { useSearch } from '@components/SearchProvider';
 
-function TagButton({
-  tag,
-  addTag,
-  removeTag,
-  selectedFilters,
-  children,
-  ...rest
-}) {
-  const isTagSelected = selectedFilters.some(
+function TagButton({ tag, children, ...rest }) {
+  const {
+    state: { selectedTagFilters },
+    addTag,
+    removeTag,
+  } = useSearch();
+  const isTagSelected = selectedTagFilters.some(
     (selected) => selected.title === tag.title,
   );
   return (
@@ -144,8 +143,8 @@ function TagModal({ isOpen, onClose, tags = { tags: [] }, clearAllTags }) {
   );
 }
 
-function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
-  const queryClient = useQueryClient();
+function Tags() {
+  const { clearAllTags } = useSearch();
   const [showMore, setShowMore] = React.useState(false);
   const [featuredTags, setFeaturedTags] = React.useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -189,13 +188,7 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
               Topics:
             </Text>
             {data.tags.map((tag) => (
-              <TagButton
-                key={tag._id}
-                tag={tag}
-                addTag={addTag}
-                removeTag={removeTag}
-                selectedFilters={selectedFilters}
-              >
+              <TagButton key={tag._id} tag={tag}>
                 {tag.title}
               </TagButton>
             ))}
@@ -237,13 +230,7 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
               Topics:
             </Text>
             {featuredTags.map((tag) => (
-              <TagButton
-                key={tag._id}
-                tag={tag}
-                addTag={addTag}
-                removeTag={removeTag}
-                selectedFilters={selectedFilters}
-              >
+              <TagButton key={tag._id} tag={tag}>
                 {tag.title}
               </TagButton>
             ))}
@@ -274,13 +261,7 @@ function Tags({ selectedFilters, addTag, removeTag, clearAllTags }) {
   );
 }
 
-export default function TagFilters({
-  selectedFilters,
-  setSelectedFilters,
-  addTag,
-  removeTag,
-  clearAllTags,
-}) {
+export default function TagFilters() {
   return (
     <Flex
       w="100%"
@@ -290,13 +271,7 @@ export default function TagFilters({
       direction={{ base: 'column', lg: 'row' }}
     >
       <Flex w={{ base: '100%', lg: '100%' }}>
-        <Tags
-          addTag={addTag}
-          removeTag={removeTag}
-          selectedFilters={selectedFilters}
-          setSelectedFilters={setSelectedFilters}
-          clearAllTags={clearAllTags}
-        />
+        <Tags />
       </Flex>
     </Flex>
   );

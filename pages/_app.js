@@ -10,6 +10,7 @@ import { DefaultSeo } from 'next-seo';
 import SEO from '@utils/next-seo.config';
 import { UserProvider } from '@auth0/nextjs-auth0';
 import { SidePanelProvider } from '@components/SidePanelProvider';
+import { SearchProvider } from '@components/SearchProvider';
 
 // Fonts Import
 import '@fontsource/dm-sans/700.css';
@@ -60,8 +61,10 @@ const App = ({ Component, pageProps, err }) => {
             <Hydrate state={pageProps.dehydratedState}>
               <UserProvider user={user}>
                 <SidePanelProvider nav={nav}>
-                  {getLayout(<Component {...pageProps} err={err} />)}
-                  <ReactQueryDevtools initialIsOpen={false} />
+                  <SearchProvider>
+                    {getLayout(<Component {...pageProps} err={err} />)}
+                    <ReactQueryDevtools initialIsOpen={false} />
+                  </SearchProvider>
                 </SidePanelProvider>
               </UserProvider>
             </Hydrate>
