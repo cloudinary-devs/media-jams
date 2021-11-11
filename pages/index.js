@@ -91,6 +91,7 @@ export default function Dashboard() {
       return {
         inc,
         jams: allJams?.jams.slice(0, inc),
+        totalJams: allJams?.jams.length,
       };
     });
   };
@@ -133,7 +134,7 @@ export default function Dashboard() {
             <>
               <FeaturedJams />
               <JamList jams={showJams?.jams} />
-              <LoadMoreButton />
+              <LoadMoreButton onClick={loadMoreJams} />
             </>
           ) : (
             <JamList jams={filteredJams} />
