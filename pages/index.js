@@ -36,13 +36,14 @@ export default function Dashboard() {
 
   const {
     state: { searchValue, selectedTagFilters, filteredJams },
-    addTag,
-    removeTag,
     handleFilter,
-    clearAllTags,
     updateSearchValue,
   } = useSearch();
-  const [showJams, setShowJams] = React.useState({ inc: 0, jams: [] });
+  const [showJams, setShowJams] = React.useState({
+    inc: 0,
+    jams: [],
+    disabled: false,
+  });
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
 
@@ -87,11 +88,18 @@ export default function Dashboard() {
 
   const loadMoreJams = () => {
     setShowJams((prevState) => {
-      const inc = prevState.inc + 5;
+      // Removed featured jams for duplication
+      const jams = allJams?.jams.filter((j) => !j.postMetadata.featured);
+      const updatedInc = prevState.inc + 10;
+
+      // increment by n w/o going over the total num of jams available
+      const inc = updatedInc < jams.length ? updatedInc : jams.length;
+
       return {
         inc,
-        jams: allJams?.jams.slice(0, inc),
-        totalJams: allJams?.jams.length,
+        // load slice of n jams into show list
+        jams: jams.slice(0, inc),
+        disabled: inc == jams.length,
       };
     });
   };
@@ -111,14 +119,7 @@ export default function Dashboard() {
     <Flex w="100%" height="100%" direction="column" overflowY="auto">
       <Banner />
       <Flex direction="column" w="100%">
-        <Search
-          searchValue={searchValue}
-          setSearchValue={updateSearchValue}
-          selectedFilters={selectedTagFilters}
-          addTag={addTag}
-          removeTag={removeTag}
-          clearAllTags={clearAllTags}
-        />
+        <Search searchValue={searchValue} setSearchValue={updateSearchValue} />
 
         <Flex
           w={{ base: '90%', lg: '884px' }}
@@ -134,7 +135,10 @@ export default function Dashboard() {
             <>
               <FeaturedJams />
               <JamList jams={showJams?.jams} />
-              <LoadMoreButton onClick={loadMoreJams} />
+              <LoadMoreButton
+                onClick={loadMoreJams}
+                disabled={showJams.disabled}
+              />
             </>
           ) : (
             <JamList jams={filteredJams} />
