@@ -4,6 +4,7 @@ import { Flex, Box, useBreakpointValue } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
 import MobileFeaturedJamCard from '@components/JamList/MobileFeaturedJamCard';
+import LoadMoreButton from '@components/JamList/LoadMoreButton';
 import JamList from '@components/JamList';
 import Banner from '@components/Banner';
 import Search from '@components/Search';
@@ -41,6 +42,7 @@ export default function Dashboard() {
     clearAllTags,
     updateSearchValue,
   } = useSearch();
+  const [showJams, setShowJams] = React.useState({ inc: 0, jams: [] });
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
 
@@ -50,6 +52,7 @@ export default function Dashboard() {
     // do some checking here to ensure data exist
     if (isLoadingJams === false && allJams?.jams) {
       handleFilter(allJams?.jams);
+      loadMoreJams();
     }
   }, [isLoadingJams, allJams]);
 
@@ -82,6 +85,27 @@ export default function Dashboard() {
     }
   }, [searchValue, selectedTagFilters, isLoadingJams]);
 
+  const loadMoreJams = () => {
+    setShowJams((prevState) => {
+      const inc = prevState.inc + 5;
+      return {
+        inc,
+        jams: allJams?.jams.slice(0, inc),
+      };
+    });
+  };
+
+  const FeaturedJams = () =>
+    featuredJams?.jams.map((jam) => (
+      <Box key={jam.id}>
+        {ResonsiveFeaturedCard !== undefined ? (
+          <ResonsiveFeaturedCard jam={jam} />
+        ) : (
+          ''
+        )}
+      </Box>
+    ));
+
   return (
     <Flex w="100%" height="100%" direction="column" overflowY="auto">
       <Banner />
@@ -106,15 +130,11 @@ export default function Dashboard() {
           sx={{ gap: '24px' }}
         >
           {searchValue === '' && selectedTagFilters.length === 0 ? (
-            featuredJams?.jams.map((jam) => (
-              <Box key={jam.id}>
-                {ResonsiveFeaturedCard !== undefined ? (
-                  <ResonsiveFeaturedCard jam={jam} />
-                ) : (
-                  ''
-                )}
-              </Box>
-            ))
+            <>
+              <FeaturedJams />
+              <JamList jams={showJams?.jams} />
+              <LoadMoreButton />
+            </>
           ) : (
             <JamList jams={filteredJams} />
           )}
