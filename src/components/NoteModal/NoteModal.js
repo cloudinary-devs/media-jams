@@ -10,7 +10,8 @@ import {
   ModalBody,
   createStandaloneToast,
 } from '@chakra-ui/react';
-import NoteEditor from '@components/NoteEditor';
+import dynamic from 'next/dynamic';
+const NoteEditor = dynamic(() => import('@components/NoteEditor'));
 
 import { useMutation, useQueryClient } from 'react-query';
 import { notes } from '@lib/queries/notes';

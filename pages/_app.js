@@ -17,12 +17,6 @@ import '@fontsource/dm-sans/700.css';
 import '@fontsource/dm-sans/400.css';
 import '@fontsource/montserrat/400.css';
 
-// Start Up MSW for Testing
-if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
-  const mockInit = require('../mocks');
-  mockInit();
-}
-
 // Create a new query client
 const App = ({ Component, pageProps, err }) => {
   const queryClientRef = React.useRef();
