@@ -1,16 +1,18 @@
 import 'tippy.js/dist/tippy.css';
 import React from 'react';
-import { Flex, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, Box, useBreakpointValue } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
 import MobileFeaturedJamCard from '@components/JamList/MobileFeaturedJamCard';
+import LoadMoreButton from '@components/JamList/LoadMoreButton';
 import JamList from '@components/JamList';
 import Banner from '@components/Banner';
 import Search from '@components/Search';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { useJamsQuery } from '@hooks/useJams';
+import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
+import { useSearch } from '@components/SearchProvider';
 import Fuse from 'fuse.js';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
@@ -31,33 +33,37 @@ export default function Dashboard() {
     base: MobileFeaturedJamCard,
     lg: FeaturedJamCard,
   });
-  const [searchValue, setSearchValue] = React.useState('');
-  const [selectedFilters, setSelectedFilters] = React.useState([]);
-  const [filteredPosts, setFilteredPosts] = React.useState([]);
-  const [featuredJams, setFeaturedJams] = React.useState([]);
-  const { data, isLoading } = useJamsQuery();
 
-  const fuse = new Fuse(data?.jams, fuseOptions);
+  const {
+    state: { searchValue, selectedTagFilters, filteredJams },
+    handleFilter,
+    updateSearchValue,
+  } = useSearch();
+  const [showJams, setShowJams] = React.useState({
+    inc: 0,
+    jams: [],
+    disabled: false,
+  });
+  const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
+  const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
+
+  const fuse = new Fuse(allJams?.jams, fuseOptions);
 
   React.useEffect(() => {
     // do some checking here to ensure data exist
-    if (isLoading === false && data?.jams) {
-      const featured = data.jams?.filter(
-        (jam) => jam.postMetadata.featured === true,
-      );
-
-      setFeaturedJams(featured);
-      setFilteredPosts(data.jams);
+    if (isLoadingJams === false && allJams?.jams) {
+      handleFilter(allJams?.jams);
+      loadMoreJams();
     }
-  }, [isLoading, data?.jams]);
+  }, [isLoadingJams, allJams]);
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
-    if (searchValue === '' && selectedFilters.length === 0) {
-      handleFilter(data?.jams);
+    if (searchValue === '' && selectedTagFilters.length === 0) {
+      handleFilter(allJams?.jams);
     } else {
       // Allow for a search for tag
-      const formattedTags = selectedFilters.map((item) => item.title);
+      const formattedTags = selectedTagFilters.map((item) => item.title);
 
       const queries = {
         $or: [
@@ -78,51 +84,65 @@ export default function Dashboard() {
       handleFilter(results);
       // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
     }
-  }, [searchValue, selectedFilters, isLoading]);
+  }, [searchValue, selectedTagFilters, isLoadingJams]);
 
-  function addTag(tag) {
-    return setSelectedFilters((prev) => [...prev, tag]);
-  }
+  const loadMoreJams = () => {
+    setShowJams((prevState) => {
+      // Removed featured jams for duplication
+      const jams = allJams?.jams.filter((j) => !j.postMetadata.featured);
+      const updatedInc = prevState.inc + 10;
 
-  function removeTag(tag) {
-    return setSelectedFilters((prev) => prev.filter((pt) => pt !== tag));
-  }
+      // increment by n w/o going over the total num of jams available
+      const inc = updatedInc < jams.length ? updatedInc : jams.length;
 
-  const handleFilter = (data) => {
-    setFilteredPosts(data);
+      return {
+        inc,
+        // load slice of n jams into show list
+        jams: jams.slice(0, inc),
+        disabled: inc == jams.length,
+      };
+    });
   };
 
-  const clearAllTags = () => {
-    setSelectedFilters([]);
-  };
+  const FeaturedJams = () =>
+    featuredJams?.jams.map((jam) => (
+      <Box key={jam.id}>
+        {ResonsiveFeaturedCard !== undefined ? (
+          <ResonsiveFeaturedCard jam={jam} />
+        ) : (
+          ''
+        )}
+      </Box>
+    ));
 
   return (
     <Flex w="100%" height="100%" direction="column" overflowY="auto">
       <Banner />
       <Flex direction="column" w="100%">
-        <Search
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          selectedFilters={selectedFilters}
-          setSelectedFilters={setSelectedFilters}
-          addTag={addTag}
-          removeTag={removeTag}
-          clearAllTags={clearAllTags}
-        />
+        <Search searchValue={searchValue} setSearchValue={updateSearchValue} />
 
         <Flex
           w={{ base: '90%', lg: '884px' }}
           mt="26px"
+          mb="50px"
           alignSelf="center"
           h="100%"
           direction="column"
           justify="space-around"
           sx={{ gap: '24px' }}
         >
-          {searchValue.length < 1 && featuredJams.length > 0 && (
-            <ResonsiveFeaturedCard jam={featuredJams[0]} />
+          {searchValue === '' && selectedTagFilters.length === 0 ? (
+            <>
+              <FeaturedJams />
+              <JamList jams={showJams?.jams} />
+              <LoadMoreButton
+                onClick={loadMoreJams}
+                disabled={showJams.disabled}
+              />
+            </>
+          ) : (
+            <JamList jams={filteredJams} />
           )}
-          <JamList jams={filteredPosts} featuredJam={featuredJams[0]} />
         </Flex>
       </Flex>
     </Flex>
@@ -135,6 +155,10 @@ export const getStaticProps = async () => {
   const queryClient = new QueryClient();
   await queryClient.fetchQuery('jamTags', queryTags.getStatic);
   await queryClient.setQueryData('jamTags', (old) => ({ tags: old.tags }));
+  await queryClient.fetchQuery('featuredJams', queryJams.getStaticFeaturedJams);
+  await queryClient.setQueryData('featuredJams', (old) => ({
+    jams: old.data.jams,
+  }));
   await queryClient.fetchQuery('allJams', queryJams.getStatic);
   await queryClient.setQueryData('allJams', (old) => ({ jams: old.data.jams }));
 

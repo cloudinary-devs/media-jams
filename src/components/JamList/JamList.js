@@ -14,17 +14,13 @@ For inserting sections at specific sections inbetween list items
 } 
 */
 
-export default function JamList({ jams, featuredJam }) {
+export default function JamList({ jams = [] }) {
   const ResponsiveJamCardComponent = useBreakpointValue({
     base: MobileJamCard,
     lg: JamCard,
   });
 
-  const jamsWithoutFeatured = featuredJam
-    ? jams.filter((jam) => jam._id !== featuredJam._id)
-    : jams;
-
-  return jamsWithoutFeatured.map((jam, index) => (
+  return jams.map((jam, index) => (
     <Box key={jam._id}>
       {ResponsiveJamCardComponent !== undefined ? (
         <ResponsiveJamCardComponent jam={jam} />

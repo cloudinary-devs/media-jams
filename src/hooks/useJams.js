@@ -10,9 +10,9 @@ export function useJamsQuery(select, options) {
 }
 
 export function useFeaturedJamsQuery() {
-  const queryClient = useQueryClient();
-  const featuredJams = queryClient.getQueryData('featuredJams');
-  return { data: featuredJams || [] };
+  return useQuery('featuredJams', queryJams.getStaticFeaturedJams, {
+    staleTime: Infinity,
+  });
 }
 
 export const useJamQueryBy = (ids) => {
