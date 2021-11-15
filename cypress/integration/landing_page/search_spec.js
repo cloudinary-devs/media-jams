@@ -17,4 +17,9 @@ describe('Searching for Jams', () => {
     cy.findByPlaceholderText(PLACEHOLDER).type('Jason');
     cy.findAllByTestId(/jam-card/i).should('have.length.gt', 1);
   });
+
+  it('Searches for Author', () => {
+    cy.findByPlaceholderText(PLACEHOLDER).type('Jason');
+    cy.findAllByTestId(/jam-card/i).should('have.length.gt', 1);
+  });
 });
