@@ -135,10 +135,12 @@ export default function Dashboard() {
             <>
               <FeaturedJams />
               <JamList jams={showJams?.jams} />
-              <LoadMoreButton
-                onClick={loadMoreJams}
-                disabled={showJams.disabled}
-              />
+              {!isLoadingJams && (
+                <LoadMoreButton
+                  onClick={loadMoreJams}
+                  disabled={showJams.disabled}
+                />
+              )}
             </>
           ) : (
             <JamList jams={filteredJams} />
