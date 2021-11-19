@@ -16,8 +16,8 @@ import { Heading, Text, Drawer } from './components';
 const overrides = {
   styles,
   fonts: {
-    heading: 'DM Sans',
-    body: 'DM Sans',
+    heading: 'DM Sans, sans-serif',
+    body: 'DM Sans, sans-serif',
   },
   colors,
   textStyles,
