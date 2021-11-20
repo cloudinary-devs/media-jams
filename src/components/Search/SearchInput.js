@@ -10,6 +10,8 @@ import { Search } from '@components/Icons';
 import useDebounce from '@hooks/useDebounce';
 import { useMixPanel } from '@lib/mixpanel';
 
+import { fontFamilyDefault } from '@utils/styles';
+
 export default function SearchInput({ searchValue, setSearchValue }) {
   const mixpanel = useMixPanel();
   const debounceSearchValue = useDebounce(searchValue, 200);
@@ -42,7 +44,7 @@ export default function SearchInput({ searchValue, setSearchValue }) {
         h="56px"
         placeholder={placeHolderVariant}
         _placeholder={{
-          fontFamily: 'DM Sans, sans-serif',
+          fontFamily: fontFamilyDefault,
           fontSize: '16px',
           lineHeight: '152%',
           color: useToken('colors', 'grey.700'),

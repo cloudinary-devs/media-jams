@@ -17,6 +17,8 @@ import {
 } from '@chakra-ui/react';
 import { Search as SearchIcon } from '@components/Icons';
 
+import { fontFamilyDefault } from '@utils/styles';
+
 export const SearchFieldInput = ({ searchValue, onChange, ...props }) => {
   return (
     <InputGroup
@@ -37,7 +39,7 @@ export const SearchFieldInput = ({ searchValue, onChange, ...props }) => {
         border={0}
         focusBorderColor="whiteAlpha.800"
         _placeholder={{
-          fontFamily: 'DM Sans, sans-serif',
+          fontFamily: fontFamilyDefault,
           fontSize: '16px',
           color: useToken('colors', 'grey.700'),
         }}

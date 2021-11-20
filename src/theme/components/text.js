@@ -1,5 +1,7 @@
+import { fontFamilyDefault } from '@utils/styles';
+
 const baseStyle = {
-  fontFamily: 'DM Sans, sans-serif',
+  fontFamily: fontFamilyDefault,
   fontWeight: 'normal',
 };
 
