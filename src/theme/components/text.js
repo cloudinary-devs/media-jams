@@ -1,5 +1,5 @@
 const baseStyle = {
-  fontFamily: 'DM Sans',
+  fontFamily: 'DM Sans, sans-serif',
   fontWeight: 'normal',
 };
 

@@ -42,7 +42,7 @@ export default function SearchInput({ searchValue, setSearchValue }) {
         h="56px"
         placeholder={placeHolderVariant}
         _placeholder={{
-          fontFamily: 'DM Sans',
+          fontFamily: 'DM Sans, sans-serif',
           fontSize: '16px',
           lineHeight: '152%',
           color: useToken('colors', 'grey.700'),
