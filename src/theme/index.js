@@ -13,11 +13,13 @@ import textStyles from './foundations/textStyles';
 // Component style overrides
 import { Heading, Text, Drawer } from './components';
 
+import { fontFamilyDefault } from '@utils/styles';
+
 const overrides = {
   styles,
   fonts: {
-    heading: 'DM Sans, sans-serif',
-    body: 'DM Sans, sans-serif',
+    heading: fontFamilyDefault,
+    body: fontFamilyDefault,
   },
   colors,
   textStyles,
