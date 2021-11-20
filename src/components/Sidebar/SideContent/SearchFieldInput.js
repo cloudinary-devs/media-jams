@@ -37,7 +37,7 @@ export const SearchFieldInput = ({ searchValue, onChange, ...props }) => {
         border={0}
         focusBorderColor="whiteAlpha.800"
         _placeholder={{
-          fontFamily: 'DM Sans',
+          fontFamily: 'DM Sans, sans-serif',
           fontSize: '16px',
           color: useToken('colors', 'grey.700'),
         }}
