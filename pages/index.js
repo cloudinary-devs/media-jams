@@ -67,20 +67,34 @@ export default function Dashboard() {
 
       const queries = {
         $or: [
-          { title: searchValue },
+          {
+            title: searchValue,
+          },
           {
             $path: ['author.name'],
             $val: searchValue,
           },
           {
-            $and:
-              formattedTags.length > 0
-                ? [{ $path: 'tags.title', $val: formattedTags[0] }]
-                : [],
+            $path: ['tags.title'],
+            $val: searchValue,
           },
         ],
+        $and: [],
       };
+
+      // Add an $and with the tag title if we have an active topic
+
+      if (formattedTags.length > 0) {
+        formattedTags.forEach((tag) => {
+          queries.$and.push({
+            $path: 'tags.title',
+            $val: `'${tag}`, // the ' in front adds exact match
+          });
+        });
+      }
+
       const results = fuse.search(queries).map((result) => result.item);
+
       handleFilter(results);
       // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
     }
