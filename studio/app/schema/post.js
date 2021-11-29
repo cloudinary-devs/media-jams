@@ -30,9 +30,8 @@ export default {
       }
       return true;
     }),
-  initialValue: async ({ currentUser }) => {
-    console.log('CURRENT USER', currentUser);
-    const { name, id } = await userStore.getUser('me');
+  initialValue: async () => {
+    const { id } = await userStore.getUser('me');
     const self = `${id}-self`;
     return {
       author: {

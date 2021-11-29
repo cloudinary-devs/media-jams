@@ -6,7 +6,6 @@ import { inferMetadataState, useWorkflowMetadata } from '../../lib/workflow';
 export function requestReviewAction(props) {
   const { markers } = useValidationStatus(props.id, props.type);
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
-  console.log('METADATA', metadata);
   const { state } = metadata.data;
   if (
     !props.draft ||

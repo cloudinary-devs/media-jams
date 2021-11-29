@@ -55,6 +55,7 @@ function DisablePublishDialogAction({ onComplete }) {
 export function publishAction(props) {
   const ops = useDocumentOperation(props.id, props.type);
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const buttonDisabled = !userModerator();
 
   if (props.liveEdit || metadata.data.state !== 'approved') {
@@ -74,5 +75,23 @@ export function publishAction(props) {
     props.onComplete();
   };
 
-  return ConfirmDialogAction({ onComplete: onHandle });
+  return {
+    icon: PublishIcon,
+    shortcut: 'mod+shift+p',
+    label: 'Publish',
+    disabled: buttonDisabled,
+    onHandle: () => {
+      setDialogOpen(true);
+    },
+    dialog: dialogOpen && {
+      type: 'confirm',
+      onCancel: () => {
+        setDialogOpen(false);
+      },
+      onConfirm: () => {
+        onHandle();
+      },
+      message: 'Ready to Publish?',
+    },
+  };
 }

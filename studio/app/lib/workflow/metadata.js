@@ -59,7 +59,6 @@ export function useWorkflowMetadata(id, { state, init }) {
   }
 
   async function setState(state) {
-    console.log('setState', state);
     ops.patch.execute([
       { setIfMissing: { documentId: id } },
       { setIfMissing: { inital: state === 'inReview' } },
