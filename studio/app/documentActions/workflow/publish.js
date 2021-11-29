@@ -57,22 +57,20 @@ export function publishAction(props) {
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
   const buttonDisabled = !userModerator();
 
-  if (
-    props.liveEdit ||
-    metadata.data.state === 'published' ||
-    metadata.data.state === 'inReview'
-  ) {
+  if (props.liveEdit || metadata.data.state !== 'approved') {
     return null;
   }
 
-  const onHandle = () => {
+  const onHandle = async () => {
     if (ops.publish.disabled) {
       props.onComplete();
       return;
     }
-    ops.patch.execute([{ set: { publishedAt: new Date().toISOString() } }]);
-    metadata.setState('published');
-    ops.publish.execute();
+    await ops.patch.execute([
+      { set: { publishedAt: new Date().toISOString() } },
+    ]);
+    await metadata.setState('published');
+    await ops.publish.execute();
     props.onComplete();
   };
 

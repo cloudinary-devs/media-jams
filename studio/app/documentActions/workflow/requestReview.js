@@ -6,6 +6,7 @@ import { inferMetadataState, useWorkflowMetadata } from '../../lib/workflow';
 export function requestReviewAction(props) {
   const { markers } = useValidationStatus(props.id, props.type);
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
+  console.log('METADATA', metadata);
   const { state } = metadata.data;
   if (
     !props.draft ||
@@ -16,12 +17,12 @@ export function requestReviewAction(props) {
     return null;
   }
 
-  const onHandle = () => {
+  const onHandle = async () => {
     // initial defaults to true on new documents,
     // once the state is anything but 'inReview' initial is set to false and it be comes updatedReview.
     // Regaurdless of the draft/publish status
-    const status = metadata.data.initial ? 'inReview' : 'updatedReview';
-    metadata.setState(status);
+    const status = metadata.data?.initial ? 'inReview' : 'updatedReview';
+    await metadata.setState(status);
     props.onComplete();
   };
 

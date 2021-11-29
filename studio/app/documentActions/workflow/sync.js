@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { inferMetadataState, useWorkflowMetadata } from '../../lib/workflow';
 
 export function syncAction(props) {
+  console.log('SYNC PROPS', props);
   const metadata = useWorkflowMetadata(props.id, inferMetadataState(props));
   const ops = useDocumentOperation(props.id, props.type);
   const { state } = metadata.data;

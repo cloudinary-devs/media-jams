@@ -10,8 +10,8 @@ export function approveAction(props) {
     return null;
   }
 
-  const onHandle = () => {
-    metadata.setState('approved');
+  const onHandle = async () => {
+    await metadata.setState('approved');
     props.onComplete();
   };
 
