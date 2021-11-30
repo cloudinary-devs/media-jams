@@ -29,7 +29,7 @@ const workFlowDirectories = [
   {
     title: 'Updated Review',
     id: 'updated-review',
-    subTitle: 'Published Jam, updates to be reviewed',
+    subTitle: 'Updates to an existing Jam',
     icon: MdUpdate,
     state: 'updatedReview',
   },
