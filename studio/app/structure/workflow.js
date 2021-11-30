@@ -1,9 +1,9 @@
 import S from '@sanity/desk-tool/structure-builder';
 import { getPublishedId } from 'part:@sanity/base/util/draft-utils';
+import userDatastore from 'part:@sanity/base/user';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { getDocumentMutations$ } from '../lib/document';
 import { getDocumentQuery$ } from '../lib/document';
-import { getCurrentUser$ } from '../lib/user';
 import { MdThumbUp, MdSync, MdRateReview, MdUpdate } from 'react-icons/md';
 import { GoPencil, GoPerson, GoEye, GoTextSize } from 'react-icons/go';
 import LiveEditPreview from '../components/liveEditPreview';
@@ -56,7 +56,7 @@ export const workflowListItems = [
       .id(id)
       .icon(icon)
       .child(() => {
-        return getCurrentUser$().pipe(
+        return userDatastore.me.pipe(
           filter(Boolean),
           switchMap((user) => {
             return getDocumentMutations$(WORKFLOW_DOCUMENTS_FILTER, {
