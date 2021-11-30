@@ -20,7 +20,7 @@ export function requestReviewAction(props) {
     // initial defaults to true on new documents,
     // once the state is anything but 'inReview' initial is set to false and it be comes updatedReview.
     // Regaurdless of the draft/publish status
-    const status = metadata.data.initial ? 'inReview' : 'updatedReview';
+    const status = metadata.data?.initial ? 'inReview' : 'updatedReview';
     metadata.setState(status);
     props.onComplete();
   };

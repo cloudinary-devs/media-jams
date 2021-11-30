@@ -18,9 +18,13 @@ const projectUrl =
     : `http://localhost:3000`;
 
 export function resolveProductionUrl(document) {
-  return `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document?.slug.current}`;
+  return document?.slug
+    ? `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document?.slug.current}`
+    : null;
 }
 
 export function resolveLiveEditUrl(document) {
-  return `${projectUrl}/api/live-edit?secret=${previewSecret}&slug=${document?.slug.current}`;
+  return document?.slug
+    ? `${projectUrl}/api/live-edit?secret=${previewSecret}&slug=${document?.slug.current}`
+    : null;
 }

@@ -31,7 +31,7 @@ export default {
       return true;
     }),
   initialValue: async () => {
-    const { name, id } = await userStore.getUser('me');
+    const { id } = await userStore.getUser('me');
     const self = `${id}-self`;
     return {
       author: {
