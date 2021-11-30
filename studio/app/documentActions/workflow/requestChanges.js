@@ -9,8 +9,8 @@ export function requestChangesAction(props) {
   if (!['inReview', 'updatedReview'].includes(metadata.data.state)) {
     return null;
   }
-  const onHandle = async () => {
-    await metadata.setState('changesRequested');
+  const onHandle = () => {
+    metadata.setState('changesRequested');
     props.onComplete();
   };
 
