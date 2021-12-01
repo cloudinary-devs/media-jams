@@ -100,7 +100,7 @@ function JamListCard({ jam }) {
           </NextLink>
           <Text variant="B100" color="grey.600">
             <time dateTime={jam.publishedAt}>
-              {format(new Date(jam.publishedAt), 'dd MMMM')}
+              {format(new Date(jam.publishedAt), 'dd MMMM yyy')}
             </time>
           </Text>
         </Flex>
