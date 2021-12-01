@@ -145,7 +145,7 @@ export const BookmarkJamCard = ({ jam, ...props }) => {
           </NextLink>
           <Text fontSize="md" color="gray.600">
             <time dateTime={publishedAt}>
-              &middot; {format(new Date(publishedAt), 'dd MMMM')}
+              &middot; {format(new Date(publishedAt), 'dd MMMM yyy')}
             </time>
           </Text>
         </Flex>

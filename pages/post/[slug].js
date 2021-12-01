@@ -173,7 +173,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
         overlay: {
           text: `${jam.author.name} - ${format(
             new Date(jam.updatedAt),
-            'dd MMMM',
+            'dd MMMM yyy',
           )}`,
           font_family: 'DMSans.ttf',
           font_size: 28,

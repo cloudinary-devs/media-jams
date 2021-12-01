@@ -87,7 +87,7 @@ export default function JamCard({ jam }) {
 
                 <Text variant="B100" color="grey.600">
                   <time dateTime={jam.publishedAt}>
-                    {format(new Date(jam.publishedAt), 'dd MMMM')}
+                    {format(new Date(jam.publishedAt), 'dd MMMM yyyy')}
                   </time>
                 </Text>
               </Flex>

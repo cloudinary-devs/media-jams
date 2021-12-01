@@ -66,7 +66,7 @@ export default function JamContentHero({
           <Text fontSize="md">{author.name}</Text>
           <Text fontSize="md">
             <time dateTime={date}>
-              &middot; {format(new Date(date), 'dd MMMM')}
+              &middot; {format(new Date(date), 'dd MMMM yyy')}
             </time>
           </Text>
         </HStack>
