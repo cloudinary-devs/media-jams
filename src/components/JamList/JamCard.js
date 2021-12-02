@@ -94,6 +94,8 @@ export default function JamCard({ jam }) {
             </Link>
           </NextLink>
           <IconButton
+            position="relative"
+            zIndex="1"
             size="md"
             outline="none"
             aria-label="bookmark jam"
