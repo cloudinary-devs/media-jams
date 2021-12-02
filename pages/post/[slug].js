@@ -8,6 +8,7 @@ import { NextSeo } from 'next-seo';
 import { postBySlug, postsWithSlug } from '@lib/api';
 import { useMixPanel } from '@lib/mixpanel';
 import { useOnRead } from '@hooks/useOnRead';
+import { useRelatedJams } from '@hooks/useJams';
 
 import { Flex } from '@chakra-ui/react';
 import Layout from '@components/Layout';
@@ -22,6 +23,7 @@ export default function Post({ post, preview, error, og }) {
   const mixpanel = useMixPanel();
   const mainContentRef = React.useRef(null);
   const router = useRouter();
+  const { data, isLoading } = useRelatedJams(post?.tags);
   if (error || (!router.isFallback && !post?.slug)) {
     return <ErrorPage statusCode={404} />;
   }
@@ -105,6 +107,7 @@ export default function Post({ post, preview, error, og }) {
           </JamContent>
         </main>
         <JamAuthorBanner author={author}></JamAuthorBanner>
+
         <EmailSubscription />
       </Flex>
     </>
