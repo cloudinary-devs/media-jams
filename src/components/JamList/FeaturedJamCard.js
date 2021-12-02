@@ -103,6 +103,8 @@ export default function FeaturedJamCard({ jam }) {
             </Text>
           </Flex>
           <IconButton
+            position="relative"
+            zIndex="1"
             size="md"
             outline="none"
             bg="none"

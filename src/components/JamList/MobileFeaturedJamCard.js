@@ -107,6 +107,8 @@ export default function MobileFeaturedJamCard({ jam }) {
             </Text>
           </Flex>
           <IconButton
+            position="relative"
+            zIndex="1"
             size="md"
             outline="none"
             bg="none"

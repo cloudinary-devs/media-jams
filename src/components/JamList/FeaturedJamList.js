@@ -118,6 +118,8 @@ function JamListCard({ jam }) {
           </Heading>
         </LinkOverlay>
         <IconButton
+          position="relative"
+          zIndex="1"
           as="a"
           mt={4}
           size="md"
