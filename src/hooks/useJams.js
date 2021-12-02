@@ -1,4 +1,5 @@
 import { useQueryClient, useQuery, useMutation } from 'react-query';
+import { postsByTag } from '@lib/api';
 import { jams as queryJams } from '@lib/queries/jams';
 
 export function useJamsQuery(select, options) {
@@ -22,5 +23,26 @@ export const useJamQueryBy = (ids) => {
     }),
   );
 };
+
+/**
+ *
+ * @param {Array<string>} tags
+ * @param {*} options
+ * @returns query object data of related jams by tag title
+ */
+export async function useRelatedJams(tags, options) {
+  return useQuery(
+    ['jamTag', tags[0]],
+    async () => {
+      const jamIds = await postsByTag(tags[0]);
+      const data = queryJams.getByIds(jamIds);
+      return data;
+    },
+    {
+      staleTime: Infinity,
+      ...options,
+    },
+  );
+}
 
 export function useJamsMutation() {}
