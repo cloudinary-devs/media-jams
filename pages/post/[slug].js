@@ -23,7 +23,7 @@ export default function Post({ post, preview, error, og }) {
   const mixpanel = useMixPanel();
   const mainContentRef = React.useRef(null);
   const router = useRouter();
-  const { data, isLoading } = useRelatedJams(post.tags);
+  const { data, isLoading } = useRelatedJams(post?.tags);
   if (error || (!router.isFallback && !post?.slug)) {
     return <ErrorPage statusCode={404} />;
   }
