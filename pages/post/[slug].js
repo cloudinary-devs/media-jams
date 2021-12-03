@@ -25,7 +25,7 @@ export default function Post({ post, preview, error, og }) {
   const mainContentRef = React.useRef(null);
   const router = useRouter();
   const { data } = useRelatedJams(post?.tags);
-  const { jams = {}, tag } = data || {};
+  const { jams = {}, tag = {} } = data || {};
   const { allPost: relatedJams } = jams;
 
   if (error || (!router.isFallback && !post?.slug)) {
