@@ -30,14 +30,20 @@ export const useJamQueryBy = (ids) => {
  * @param {*} options
  * @returns query object data of related jams by tag title
  */
-export async function useRelatedJams(tags, options) {
+export function useRelatedJams(tags, options) {
   if (tags === undefined) return { data: null };
   return useQuery(
     ['jamTag', tags[0]],
     async () => {
-      const jamIds = await postsByTag(tags[0]);
-      const data = queryJams.getByIds(jamIds);
-      return data;
+      const tag = tags[0];
+      const jamIds = await postsByTag(tag);
+      const data = await queryJams.getByIds(jamIds);
+      return {
+        tag: {
+          title: tag,
+        },
+        jams: data,
+      };
     },
     {
       staleTime: Infinity,

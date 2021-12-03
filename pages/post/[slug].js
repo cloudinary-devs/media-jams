@@ -10,20 +10,24 @@ import { useMixPanel } from '@lib/mixpanel';
 import { useOnRead } from '@hooks/useOnRead';
 import { useRelatedJams } from '@hooks/useJams';
 
-import { Flex } from '@chakra-ui/react';
+import { Flex, List, ListItem } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import JamContentHero from '@components/JamContentHero';
 import JamContent from '@components/JamContent';
 import JamAuthorBanner from '@components/JamAuthorBanner';
 import EmailSubscription from '@components/EmailSubscription';
 import MDXComponents from '@components/MDXComponents';
+import RelatedJams from '@components/RelatedJams';
 
 import format from 'date-fns/format';
 export default function Post({ post, preview, error, og }) {
   const mixpanel = useMixPanel();
   const mainContentRef = React.useRef(null);
   const router = useRouter();
-  const { data, isLoading } = useRelatedJams(post?.tags);
+  const { data = {} } = useRelatedJams(post?.tags);
+  const { jams = {}, tag } = data;
+  const { allPost: relatedJams } = jams;
+
   if (error || (!router.isFallback && !post?.slug)) {
     return <ErrorPage statusCode={404} />;
   }
@@ -93,6 +97,7 @@ export default function Post({ post, preview, error, og }) {
         width="100%"
         height="100%"
         overflow="auto"
+        pb="8"
       >
         <JamContentHero
           author={author}
@@ -109,6 +114,8 @@ export default function Post({ post, preview, error, og }) {
         <JamAuthorBanner author={author}></JamAuthorBanner>
 
         <EmailSubscription />
+
+        <RelatedJams jams={relatedJams} title={tag.title} />
       </Flex>
     </>
   );
