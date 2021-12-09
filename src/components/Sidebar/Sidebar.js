@@ -148,9 +148,11 @@ const SideStrip = () => {
   );
 };
 
-const SideTopBar = ({ onClose, onToggle }) => {
+const SideTopBar = ({ activeTab, onClose, onToggle }) => {
   const { user, isLoading: loadingUser } = useUser();
   const { isOpen, onOpen, onClose: onCloseModal } = useDisclosure();
+
+  const isNotesTab = activeTab === TABS.NOTES.value;
 
   return (
     <Flex w="100%" h="64px">
@@ -167,7 +169,7 @@ const SideTopBar = ({ onClose, onToggle }) => {
       <Spacer />
       {!loadingUser && (
         <HStack spacing={3} px={4} minH="64px">
-          {user ? (
+          {user && isNotesTab && (
             <Button
               onClick={onOpen}
               leftIcon={<Plus />}
@@ -176,7 +178,8 @@ const SideTopBar = ({ onClose, onToggle }) => {
             >
               New Note
             </Button>
-          ) : (
+          )}
+          {!user && (
             <>
               <NextLink href="/api/auth/login">
                 <Button size="md" variant="ghost" color="primary.500">
@@ -202,7 +205,7 @@ const SidebarContent = () => {
   const { Content } = TABS[activeTab];
   return (
     <Flex direction="column" h="100vh" w={{ base: '430px' }}>
-      <SideTopBar onClose={onClose} />
+      <SideTopBar activeTab={activeTab} onClose={onClose} />
       <Content user={user} />
     </Flex>
   );

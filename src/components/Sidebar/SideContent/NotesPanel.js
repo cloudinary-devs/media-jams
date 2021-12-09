@@ -55,7 +55,7 @@ const EmptyNotes = ({ user }) => {
       {user ? (
         <>
           <Box size="xs">
-            <Image src="/emptyBookmarks.svg" alt="bookmarks empty" />
+            <Image src="/emptyNotes.svg" alt="notes empty" />
           </Box>
           <Heading size="H200" color="primary.900">
             You don't have any notes
