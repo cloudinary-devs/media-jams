@@ -12,7 +12,16 @@ const RelatedJams = ({ jams = [], title }) => {
       py="6"
     >
       <Text fontSize="2xl" fontWeight="bold" px="4" mb="6">
-        More from {title}
+        Discover More{' '}
+        <Text
+          fontSize="inherit"
+          fontWeight="black"
+          as="span"
+          color="secondary.600"
+        >
+          {title}
+        </Text>{' '}
+        Jams!
       </Text>
       <List
         as="ul"
@@ -23,8 +32,8 @@ const RelatedJams = ({ jams = [], title }) => {
         list-style="none"
       >
         {jams.map((jam) => {
-          const { _id, title, cover, author } = jam;
-          const { asset } = cover;
+          const { _id, title, cover = {}, author } = jam;
+          const { asset } = cover || {};
           return (
             <ListItem
               key={_id}
