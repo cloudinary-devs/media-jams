@@ -46,7 +46,7 @@ const RelatedJams = ({ jams = [], title }) => {
                 <a>
                   <Image
                     cloudName="mediadevs"
-                    publicId={asset.url || '/placeholder.png'}
+                    publicId={asset?.url || '/placeholder.png'}
                     width={400}
                     height={200}
                     transformations={[
