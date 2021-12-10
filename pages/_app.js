@@ -1,6 +1,7 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { MixPanelProvider, pageView } from '@lib/mixpanel';
+// import { MixPanelProvider, pageView } from '@lib/mixpanel';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -11,6 +12,14 @@ import SEO from '@utils/next-seo.config';
 import { UserProvider } from '@auth0/nextjs-auth0';
 import { SidePanelProvider } from '@components/SidePanelProvider';
 import { SearchProvider } from '@components/SearchProvider';
+
+const DynamicMixPanelProvider = dynamic(
+  () => import('../lib/mixpanel').then((mod) => mod.MixPanelProvider),
+  { ssr: false },
+);
+// const DynamicPageView = dynamic(() =>
+//   import('../lib/mixpanel').then((mod) => mod.pageView),
+// );
 
 // Fonts Import
 import '@fontsource/dm-sans/700.css';
@@ -29,7 +38,7 @@ const App = ({ Component, pageProps, err }) => {
   React.useEffect(() => {
     const handleRouteChange = (err, url) => {
       if (err.cancelled) return null;
-      pageView(router.pathname, router.query);
+      // DynamicPageView(router.pathname, router.query);
     };
     //When the component is mounted, subscribe to router changes
     //and log those page views
@@ -49,7 +58,7 @@ const App = ({ Component, pageProps, err }) => {
   return (
     <>
       <DefaultSeo {...SEO} />
-      <MixPanelProvider>
+      <DynamicMixPanelProvider>
         <ChakraProvider resetCSS theme={theme}>
           <QueryClientProvider client={queryClientRef.current}>
             <Hydrate state={pageProps.dehydratedState}>
@@ -64,7 +73,7 @@ const App = ({ Component, pageProps, err }) => {
             </Hydrate>
           </QueryClientProvider>
         </ChakraProvider>
-      </MixPanelProvider>
+      </DynamicMixPanelProvider>
     </>
   );
 };
