@@ -123,7 +123,7 @@ const SideStrip = () => {
               name={user?.name}
               src={user?.picture}
             />
-            <NextLink href="/api/auth/logout">
+            <a href="/api/auth/logout">
               <IconButton
                 size="lg"
                 color="grey.700"
@@ -131,7 +131,7 @@ const SideStrip = () => {
                 aria-label="Logout"
                 icon={<FiLogOut />}
               />
-            </NextLink>
+            </a>
           </>
         )}
         <IconButton
@@ -181,16 +181,23 @@ const SideTopBar = ({ activeTab, onClose, onToggle }) => {
           )}
           {!user && (
             <>
-              <NextLink href="/api/auth/login">
-                <Button size="md" variant="ghost" color="primary.500">
-                  Login
-                </Button>
-              </NextLink>
-              <NextLink href="/api/auth/signup">
-                <Button size="md" colorScheme="primary">
-                  Sign Up
-                </Button>
-              </NextLink>
+              <Button
+                as="a"
+                href="/api/auth/login"
+                size="md"
+                variant="ghost"
+                color="primary.500"
+              >
+                Login
+              </Button>
+              <Button
+                as="a"
+                href="/api/auth/signup"
+                size="md"
+                colorScheme="primary"
+              >
+                Sign Up
+              </Button>
             </>
           )}
         </HStack>
