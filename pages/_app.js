@@ -17,9 +17,6 @@ const DynamicMixPanelProvider = dynamic(
   () => import('../lib/mixpanel').then((mod) => mod.MixPanelProvider),
   { ssr: false },
 );
-// const DynamicPageView = dynamic(() =>
-//   import('../lib/mixpanel').then((mod) => mod.pageView),
-// );
 
 // Fonts Import
 import '@fontsource/dm-sans/700.css';
@@ -36,9 +33,12 @@ const App = ({ Component, pageProps, err }) => {
   const router = useRouter();
   // trigger pageView analytics on router events
   React.useEffect(() => {
-    const handleRouteChange = (err, url) => {
+    const handleRouteChange = async (err, url) => {
       if (err.cancelled) return null;
-      // DynamicPageView(router.pathname, router.query);
+      const pageView = await import('../lib/mixpanel').then(
+        (mod) => mod.pageView,
+      );
+      pageView(router.pathname, router.query);
     };
     //When the component is mounted, subscribe to router changes
     //and log those page views
