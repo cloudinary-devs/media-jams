@@ -7,10 +7,7 @@ export default function Feedback() {
   return (
     <>
       <Iframe
-        class="airtable-embed"
-        src="https://airtable.com/embed/shrT2aebulK2xeUJ2?backgroundColor=orange"
-        frameborder="0"
-        onmousewheel=""
+        src="https://forms.monday.com/forms/embed/aa087253cb65151f5febaf2ccada2e4f?r=use1"
         style={{
           width: '100%',
           height: '100%',
