@@ -13,7 +13,6 @@ import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
 import { useSearch } from '@components/SearchProvider';
-import Fuse from 'fuse.js';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
 
