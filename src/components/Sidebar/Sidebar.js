@@ -23,6 +23,7 @@ const { CREATE_NOTE } = NOTE_ACTIONS;
 import { SideToggle, JoinDiscord, Plus, BWLogo } from '@components/Icons';
 
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
+import { useSearch } from '@components/SearchProvider';
 import { useUser } from '@auth0/nextjs-auth0';
 
 import { FiLogOut } from 'react-icons/fi';
@@ -72,27 +73,32 @@ const SideStrip = () => {
   const displaySideStripLogo = useBreakpointValue({ base: false, md: true });
   const { user, isLoading: loadingUser } = useUser();
   const { onToggle, setActiveTab, activeTab } = useSidePanel();
+  const { clearSearch } = useSearch();
   // onClick set nav.ActiveTab to name
   const handleOnClick = (e) => {
     setActiveTab(e.target.value);
+  };
+  const handleOnLogoClick = (e) => {
+    clearSearch();
   };
   const { AUTHORS, MORE, BOOKMARKS, NOTES } = TABS;
   const sideNavTabs = [AUTHORS, BOOKMARKS, NOTES, MORE];
   return (
     <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE">
-      <Link
-        as={NextLink}
-        href="/"
-        display={displaySideStripLogo ? 'auto' : 'none'}
-      >
-        <IconButton
-          size="lg"
-          variant="unstyled"
-          aria-label="Logo"
-          icon={<BWLogo />}
-          display={{ base: 'none', md: 'inline-flex' }}
-        />
-      </Link>
+      <NextLink href="/" passHref>
+        <Link
+          display={displaySideStripLogo ? 'auto' : 'none'}
+          onClick={handleOnLogoClick}
+        >
+          <IconButton
+            size="lg"
+            variant="unstyled"
+            aria-label="Logo"
+            icon={<BWLogo />}
+            display={{ base: 'none', md: 'inline-flex' }}
+          />
+        </Link>
+      </NextLink>
       <VStack spacing={{ base: '48px', md: 6 }}>
         {sideNavTabs.map(({ value, displayName, Icon }) => (
           <SideNavButtonIcon
