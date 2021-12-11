@@ -6,6 +6,7 @@ export const SSACTIONS = {
   REMOVE_TAG_FILTERS: 'removeTagFilters',
   CLEAR_TAG_FILTERS: 'clearTagFilters',
   SET_JAMS: 'setJams',
+  CLEAR_SEARCH: 'clearSearch',
 };
 
 const initState = {
@@ -39,6 +40,8 @@ function reducer(state, action) {
         ...state,
         selectedTagFilters: [],
       };
+    case SSACTIONS.CLEAR_SEARCH:
+      return initState;
 
     default:
       throw new Error();
@@ -67,6 +70,9 @@ export function SearchProvider({ children }) {
 
     clearAllTags: () => {
       dispatch({ type: SSACTIONS.CLEAR_TAG_FILTERS });
+    },
+    clearSearch: () => {
+      dispatch({ type: SSACTIONS.CLEAR_SEARCH });
     },
   };
   return (
