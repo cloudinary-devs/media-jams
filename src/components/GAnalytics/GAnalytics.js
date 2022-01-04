@@ -1,7 +1,7 @@
 import React from 'react';
 import Script from 'next/script';
 
-const GAnalytics = ({ children }) => {
+const GAnalytics = () => {
   return (
     <>
       <Script
@@ -18,8 +18,6 @@ const GAnalytics = ({ children }) => {
           gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');
         `}
       </Script>
-
-      {children}
     </>
   );
 };

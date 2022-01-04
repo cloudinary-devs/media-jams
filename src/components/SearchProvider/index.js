@@ -1,4 +1,5 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
+import GA from '@lib/googleAnalytics';
 
 export const SSACTIONS = {
   SET_SEARCH: 'setSearch',
@@ -50,6 +51,17 @@ function reducer(state, action) {
 
 export function SearchProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initState);
+
+  // Capture search state with GA
+  // debounce to reduce api calls
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      GA.searchBy(state);
+    }, 500);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [state]);
 
   const value = {
     state,

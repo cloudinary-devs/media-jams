@@ -58,24 +58,23 @@ const App = ({ Component, pageProps, err }) => {
   return (
     <>
       <DefaultSeo {...SEO} />
-      <GAnalytics>
-        <DynamicMixPanelProvider>
-          <ChakraProvider resetCSS theme={theme}>
-            <QueryClientProvider client={queryClientRef.current}>
-              <Hydrate state={pageProps.dehydratedState}>
-                <UserProvider user={user}>
-                  <SidePanelProvider nav={nav}>
-                    <SearchProvider>
-                      {getLayout(<Component {...pageProps} err={err} />)}
-                      <ReactQueryDevtools initialIsOpen={false} />
-                    </SearchProvider>
-                  </SidePanelProvider>
-                </UserProvider>
-              </Hydrate>
-            </QueryClientProvider>
-          </ChakraProvider>
-        </DynamicMixPanelProvider>
-      </GAnalytics>
+      <GAnalytics />
+      <DynamicMixPanelProvider>
+        <ChakraProvider resetCSS theme={theme}>
+          <QueryClientProvider client={queryClientRef.current}>
+            <Hydrate state={pageProps.dehydratedState}>
+              <UserProvider user={user}>
+                <SidePanelProvider nav={nav}>
+                  <SearchProvider>
+                    {getLayout(<Component {...pageProps} err={err} />)}
+                    <ReactQueryDevtools initialIsOpen={false} />
+                  </SearchProvider>
+                </SidePanelProvider>
+              </UserProvider>
+            </Hydrate>
+          </QueryClientProvider>
+        </ChakraProvider>
+      </DynamicMixPanelProvider>
     </>
   );
 };
