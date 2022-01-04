@@ -1,7 +1,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-// import { MixPanelProvider, pageView } from '@lib/mixpanel';
+import GAnalytics from '@components/GAnalytics';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -58,22 +58,24 @@ const App = ({ Component, pageProps, err }) => {
   return (
     <>
       <DefaultSeo {...SEO} />
-      <DynamicMixPanelProvider>
-        <ChakraProvider resetCSS theme={theme}>
-          <QueryClientProvider client={queryClientRef.current}>
-            <Hydrate state={pageProps.dehydratedState}>
-              <UserProvider user={user}>
-                <SidePanelProvider nav={nav}>
-                  <SearchProvider>
-                    {getLayout(<Component {...pageProps} err={err} />)}
-                    <ReactQueryDevtools initialIsOpen={false} />
-                  </SearchProvider>
-                </SidePanelProvider>
-              </UserProvider>
-            </Hydrate>
-          </QueryClientProvider>
-        </ChakraProvider>
-      </DynamicMixPanelProvider>
+      <GAnalytics>
+        <DynamicMixPanelProvider>
+          <ChakraProvider resetCSS theme={theme}>
+            <QueryClientProvider client={queryClientRef.current}>
+              <Hydrate state={pageProps.dehydratedState}>
+                <UserProvider user={user}>
+                  <SidePanelProvider nav={nav}>
+                    <SearchProvider>
+                      {getLayout(<Component {...pageProps} err={err} />)}
+                      <ReactQueryDevtools initialIsOpen={false} />
+                    </SearchProvider>
+                  </SidePanelProvider>
+                </UserProvider>
+              </Hydrate>
+            </QueryClientProvider>
+          </ChakraProvider>
+        </DynamicMixPanelProvider>
+      </GAnalytics>
     </>
   );
 };
