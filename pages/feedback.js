@@ -1,6 +1,5 @@
 import React from 'react';
 import Layout from '@components/Layout';
-import { useMixPanel } from '@lib/mixpanel';
 import Iframe from '@components/Iframe';
 
 export default function Feedback() {
@@ -12,7 +11,6 @@ export default function Feedback() {
           width: '100%',
           height: '100%',
           background: 'transparent',
-          border: '1px solid #ccc',
         }}
       ></Iframe>
     </>
