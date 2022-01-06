@@ -1,7 +1,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-// import { MixPanelProvider, pageView } from '@lib/mixpanel';
+import GAnalytics from '@components/GAnalytics';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -58,6 +58,7 @@ const App = ({ Component, pageProps, err }) => {
   return (
     <>
       <DefaultSeo {...SEO} />
+      <GAnalytics />
       <DynamicMixPanelProvider>
         <ChakraProvider resetCSS theme={theme}>
           <QueryClientProvider client={queryClientRef.current}>
