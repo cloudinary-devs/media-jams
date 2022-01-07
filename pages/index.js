@@ -6,6 +6,7 @@ import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
 import MobileFeaturedJamCard from '@components/JamList/MobileFeaturedJamCard';
 import LoadMoreButton from '@components/JamList/LoadMoreButton';
 import JamList from '@components/JamList';
+import JamCardList from '@components/JamCardList';
 import Banner from '@components/Banner';
 import Search from '@components/Search';
 
@@ -149,6 +150,15 @@ export default function Dashboard() {
           {searchValue === '' && selectedTagFilters.length === 0 ? (
             <>
               <FeaturedJams />
+
+              <JamCardList
+                jams={featuredJams?.jams.slice(0, 1)}
+                columns="1"
+                cardSize="full"
+              />
+              <JamCardList jams={featuredJams?.jams.slice(1, 3)} columns="2" />
+              <JamCardList jams={showJams?.jams} columns="2" />
+
               <JamList jams={showJams?.jams} />
               <LoadMoreButton
                 onClick={loadMoreJams}
