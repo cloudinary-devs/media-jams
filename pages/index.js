@@ -1,11 +1,7 @@
 import 'tippy.js/dist/tippy.css';
 import React from 'react';
-import { Flex, Box, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, Box, Heading } from '@chakra-ui/react';
 import Layout from '@components/Layout';
-import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
-import MobileFeaturedJamCard from '@components/JamList/MobileFeaturedJamCard';
-import LoadMoreButton from '@components/JamList/LoadMoreButton';
-import JamList from '@components/JamList';
 import JamCardList from '@components/JamCardList';
 import Banner from '@components/Banner';
 import Search from '@components/Search';
@@ -28,115 +24,80 @@ const fuseOptions = {
   keys: ['title', 'tags.title', ['author', 'name']],
 };
 
-export default function Dashboard() {
-  const ResonsiveFeaturedCard = useBreakpointValue({
-    base: MobileFeaturedJamCard,
-    lg: FeaturedJamCard,
-  });
+const JAMS_TO_SHOW = 10;
 
+export default function Dashboard() {
   const {
     state: { searchValue, selectedTagFilters, filteredJams },
     handleFilter,
     updateSearchValue,
   } = useSearch();
-  const [showJams, setShowJams] = React.useState({
-    inc: 0,
-    jams: [],
-    disabled: false,
-  });
+
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
 
-  React.useEffect(() => {
-    // do some checking here to ensure data exist
-    if (isLoadingJams === false && allJams?.jams) {
-      handleFilter(allJams?.jams);
-      loadMoreJams();
-    }
-  }, [isLoadingJams, allJams]);
+  const standardJams = allJams?.jams
+    .filter((j) => !j.postMetadata.featured)
+    .slice(0, JAMS_TO_SHOW);
+
+  // React.useEffect(() => {
+  //   // do some checking here to ensure data exist
+  //   if (isLoadingJams === false && allJams?.jams) {
+  //     handleFilter(allJams?.jams);
+  //     loadMoreJams();
+  //   }
+  // }, [isLoadingJams, allJams]);
 
   // handle updating the filteredPosts with different search criteria
-  React.useEffect(() => {
-    if (searchValue === '' && selectedTagFilters.length === 0) {
-      handleFilter(allJams?.jams);
-    } else {
-      // Allow for a search for tag
-      const formattedTags = selectedTagFilters.map((item) => item.title);
+  // React.useEffect(() => {
+  //   if (searchValue === '' && selectedTagFilters.length === 0) {
+  //     handleFilter(allJams?.jams);
+  //   } else {
+  //     // Allow for a search for tag
+  //     const formattedTags = selectedTagFilters.map((item) => item.title);
 
-      const queries = {
-        $or: [
-          {
-            title: searchValue,
-          },
-          {
-            $path: ['author.name'],
-            $val: searchValue,
-          },
-          {
-            $path: ['tags.title'],
-            $val: searchValue,
-          },
-        ],
-        $and: [],
-      };
+  //     const queries = {
+  //       $or: [
+  //         {
+  //           title: searchValue,
+  //         },
+  //         {
+  //           $path: ['author.name'],
+  //           $val: searchValue,
+  //         },
+  //         {
+  //           $path: ['tags.title'],
+  //           $val: searchValue,
+  //         },
+  //       ],
+  //       $and: [],
+  //     };
 
-      // Add an $and with the tag title if we have an active topic
+  //     // Add an $and with the tag title if we have an active topic
 
-      if (formattedTags.length > 0) {
-        formattedTags.forEach((tag) => {
-          queries.$and.push({
-            $path: 'tags.title',
-            $val: `'${tag}`, // the ' in front adds exact match
-          });
-        });
-      }
-      async function initFuse() {
-        const Fuse = (await import('fuse.js')).default;
-        const fuse = new Fuse(allJams?.jams, fuseOptions);
-        const results = fuse.search(queries).map((result) => result.item);
+  //     if (formattedTags.length > 0) {
+  //       formattedTags.forEach((tag) => {
+  //         queries.$and.push({
+  //           $path: 'tags.title',
+  //           $val: `'${tag}`, // the ' in front adds exact match
+  //         });
+  //       });
+  //     }
+  //     async function initFuse() {
+  //       const Fuse = (await import('fuse.js')).default;
+  //       const fuse = new Fuse(allJams?.jams, fuseOptions);
+  //       const results = fuse.search(queries).map((result) => result.item);
 
-        handleFilter(results);
-      }
-      initFuse();
-      // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
-    }
-  }, [searchValue, selectedTagFilters, isLoadingJams]);
-
-  const loadMoreJams = () => {
-    setShowJams((prevState) => {
-      // Removed featured jams for duplication
-      const jams = allJams?.jams.filter((j) => !j.postMetadata.featured);
-      const updatedInc = prevState.inc + 10;
-
-      // increment by n w/o going over the total num of jams available
-      const inc = updatedInc < jams.length ? updatedInc : jams.length;
-
-      return {
-        inc,
-        // load slice of n jams into show list
-        jams: jams.slice(0, inc),
-        disabled: inc == jams.length,
-      };
-    });
-  };
-
-  const FeaturedJams = () =>
-    featuredJams?.jams.map((jam) => (
-      <Box key={jam.id}>
-        {ResonsiveFeaturedCard !== undefined ? (
-          <ResonsiveFeaturedCard jam={jam} />
-        ) : (
-          ''
-        )}
-      </Box>
-    ));
+  //       handleFilter(results);
+  //     }
+  //     initFuse();
+  //     // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
+  //   }
+  // }, [searchValue, selectedTagFilters, isLoadingJams]);
 
   return (
-    <Flex w="100%" height="100%" direction="column" overflowY="auto">
-      <Banner />
+    <Box w="100%" height="100%" overflowY="auto">
       <Flex direction="column" w="100%">
-        <Search searchValue={searchValue} setSearchValue={updateSearchValue} />
-
         <Flex
           w={{ base: '90%', lg: '884px' }}
           mt="26px"
@@ -147,30 +108,33 @@ export default function Dashboard() {
           justify="space-around"
           sx={{ gap: '24px' }}
         >
-          {searchValue === '' && selectedTagFilters.length === 0 ? (
-            <>
-              <FeaturedJams />
+          <JamCardList
+            jams={featuredJams?.jams.slice(0, 1)}
+            columns="1"
+            cardSize="full"
+          />
 
-              <JamCardList
-                jams={featuredJams?.jams.slice(0, 1)}
-                columns="1"
-                cardSize="full"
-              />
-              <JamCardList jams={featuredJams?.jams.slice(1, 3)} columns="2" />
-              <JamCardList jams={showJams?.jams} columns="2" />
+          <Banner />
 
-              <JamList jams={showJams?.jams} />
-              <LoadMoreButton
-                onClick={loadMoreJams}
-                disabled={showJams.disabled}
-              />
-            </>
-          ) : (
-            <JamList jams={filteredJams} />
-          )}
+          <JamCardList jams={featuredJams?.jams.slice(1, 3)} columns="2" />
+
+          <Heading as="h2" fontSize="36">
+            Discover Jams
+          </Heading>
+
+          <Search
+            searchValue={searchValue}
+            setSearchValue={updateSearchValue}
+          />
+
+          <Heading as="h2" fontSize="36">
+            Latest Jams
+          </Heading>
+
+          <JamCardList jams={standardJams} columns="2" />
         </Flex>
       </Flex>
-    </Flex>
+    </Box>
   );
 }
 
