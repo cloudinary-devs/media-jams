@@ -32,11 +32,6 @@ export default {
       },
     },
     {
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-    },
-    {
       name: 'rank',
       title: 'Ranking',
       description:
@@ -48,6 +43,16 @@ export default {
       name: 'featured',
       title: 'Featured',
       type: 'boolean',
+    },
+    {
+      title: 'Background Image',
+      name: 'image',
+      type: 'image',
+    },
+    {
+      name: 'description',
+      title: 'Description',
+      type: 'text',
     },
     {
       title: 'Category',
