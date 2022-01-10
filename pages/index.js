@@ -1,6 +1,6 @@
 import 'tippy.js/dist/tippy.css';
 import React from 'react';
-import { Flex, Box, Heading } from '@chakra-ui/react';
+import { Flex, Box, Heading, useBreakpointValue } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
 import Banner from '@components/Banner';
@@ -27,6 +27,11 @@ const fuseOptions = {
 const JAMS_TO_SHOW = 10;
 
 export default function Dashboard() {
+  const jamListColumns = useBreakpointValue({
+    base: 1,
+    lg: 2,
+  });
+
   const {
     state: { searchValue, selectedTagFilters, filteredJams },
     handleFilter,
@@ -111,12 +116,15 @@ export default function Dashboard() {
           <JamCardList
             jams={featuredJams?.jams.slice(0, 1)}
             columns="1"
-            cardSize="full"
+            cardSize={jamListColumns !== 1 ? 'large' : 'small'}
           />
 
           <Banner />
 
-          <JamCardList jams={featuredJams?.jams.slice(1, 3)} columns="2" />
+          <JamCardList
+            jams={featuredJams?.jams.slice(1, 3)}
+            columns={jamListColumns}
+          />
 
           <Heading as="h2" fontSize="36">
             Discover Jams
@@ -131,7 +139,7 @@ export default function Dashboard() {
             Latest Jams
           </Heading>
 
-          <JamCardList jams={standardJams} columns="2" />
+          <JamCardList jams={standardJams} columns={jamListColumns} />
         </Flex>
       </Flex>
     </Box>

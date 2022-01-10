@@ -17,7 +17,7 @@ import JamCard from '@components/JamCard';
 const JamCardList = ({
   jams,
   columns = 1,
-  cardSize = 'half',
+  cardSize = 'small',
   onBookmarkAdd,
   onBookmarkRemove,
 }) => {

@@ -24,17 +24,17 @@ import {
 const DEFAULT_TAGS_TO_SHOW = 3;
 
 const sizes = {
-  full: {
+  large: {
     width: 1130,
     height: 330,
   },
-  half: {
+  small: {
     width: 540,
     height: 330,
   },
 };
 
-const JamCard = ({ jam, size: sizeKey = 'half' }) => {
+const JamCard = ({ jam, size: sizeKey = 'small' }) => {
   const { author, cover } = jam;
   const isFeatured = jam.postMetadata.featured;
 
@@ -107,8 +107,14 @@ const JamCard = ({ jam, size: sizeKey = 'half' }) => {
           p="0"
           aria-label="bookmark jam"
           borderRadius="100%"
-          mr="-2"
-          mt="-2"
+          mr={{
+            base: -3,
+            md: -2,
+          }}
+          mt={{
+            base: -3,
+            md: -2,
+          }}
           bg="grey.900"
           _hover={{
             bg: 'primary.500',
@@ -135,7 +141,10 @@ const JamCard = ({ jam, size: sizeKey = 'half' }) => {
             width="100%"
             height="100%"
             bgGradient="linear(to-tr, rgba(27, 20, 100, 0.8) 25%, rgba(27, 20, 100, 0))"
-            p="6"
+            p={{
+              base: 4,
+              md: 6,
+            }}
           >
             <List>
               {isFeatured && (
@@ -147,10 +156,21 @@ const JamCard = ({ jam, size: sizeKey = 'half' }) => {
                 >
                   <Badge
                     color="#4E380B"
+                    fontSize={{
+                      base: 10,
+                      md: 12,
+                    }}
                     fontWeight="bold"
+                    lineHeight={{
+                      base: 5,
+                      md: 8,
+                    }}
                     textTransform="none"
                     backgroundColor="#ECC503"
-                    px="3"
+                    px={{
+                      base: 2,
+                      md: 3,
+                    }}
                   >
                     Featured Jam
                   </Badge>
@@ -158,34 +178,72 @@ const JamCard = ({ jam, size: sizeKey = 'half' }) => {
               )}
               <ListItem
                 display="inline-block"
-                mx="2"
+                mx={{
+                  sm: 1,
+                  md: 2,
+                }}
                 _first={{ marginLeft: 0 }}
                 _last={{ marginRight: 0 }}
               >
                 <Badge
                   color="white"
+                  fontSize={{
+                    base: 10,
+                    md: 12,
+                  }}
                   fontWeight="bold"
+                  lineHeight={{
+                    base: 5,
+                    md: 8,
+                  }}
                   textTransform="none"
                   backgroundColor="#3169E1"
-                  px="3"
+                  px={{
+                    base: 2,
+                    md: 3,
+                  }}
                 >
                   {jam.tags[0].title}
                 </Badge>
               </ListItem>
             </List>
             <Box>
-              <Text color="white" fontSize="24" fontWeight="bold" mb="1">
-                Automatically Generate Social Sharing Images
+              <Text
+                color="white"
+                fontSize={{
+                  base: 20,
+                  md: 24,
+                }}
+                fontWeight="bold"
+                mb={{
+                  base: 0.5,
+                  md: 1,
+                }}
+              >
+                {jam.title}
               </Text>
-              <List mb="2">
+              <List
+                lineHeight={{
+                  base: 4,
+                  md: 8,
+                }}
+                mb={{
+                  base: 2,
+                  md: 4,
+                }}
+              >
                 {firstTags.map((tag) => {
                   return (
                     <ListItem
                       key={tag._id}
                       display="inline-block"
                       color="#D2CEFF"
-                      fontSize="14"
+                      fontSize={{
+                        base: 10,
+                        md: 14,
+                      }}
                       fontWeight="semibold"
+                      lineHeight="inherit"
                       mx="2"
                       _first={{ marginLeft: 0 }}
                       _last={{ marginRight: 0 }}
@@ -198,8 +256,12 @@ const JamCard = ({ jam, size: sizeKey = 'half' }) => {
                   <ListItem
                     display="inline-block"
                     color="#D2CEFF"
-                    fontSize="14"
+                    fontSize={{
+                      base: 10,
+                      md: 14,
+                    }}
                     fontWeight="semibold"
+                    lineHeight="inherit"
                     ml="2"
                   >
                     + {remainingTags.length} more
