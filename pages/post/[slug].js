@@ -130,18 +130,15 @@ Post.getLayout = (page) => <Layout>{page}</Layout>;
 export const getStaticPaths = async () => {
   // Get the paths we want to pre-render based on posts
   const jams = await postsWithSlug();
-  return {
-    paths:
-      jams
-        ?.filter((post) => post?.slug)
-        .map(({ slug }) => ({
-          params: {
-            slug,
-          },
-        })) || [],
-    fallback: 'blocking',
-    revalidate: 1200,
-  };
+  const paths =
+    jams
+      ?.filter((post) => post?.slug)
+      .map(({ slug }) => ({
+        params: {
+          slug,
+        },
+      })) || [];
+  return { paths, fallback: 'blocking' };
 };
 
 // This function gets called at build time on server-side.
@@ -215,6 +212,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
           ...jam,
         },
       },
+      revalidate: 1200,
     };
   } catch (error) {
     console.error(error);
