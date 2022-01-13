@@ -140,7 +140,7 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
             zIndex="1"
             width="100%"
             height="100%"
-            bgGradient="linear(to-tr, rgba(27, 20, 100, 0.8) 25%, rgba(27, 20, 100, 0))"
+            bgGradient="linear(to-tr, rgba(27, 20, 100, .9) 25%, rgba(27, 20, 100, 0))"
             p={{
               base: 4,
               md: 6,

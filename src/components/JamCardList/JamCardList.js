@@ -14,13 +14,7 @@ import JamCard from '@components/JamCard';
 
 // cardSize: Sizes found in components/JamCard under sizes
 
-const JamCardList = ({
-  jams,
-  columns = 1,
-  cardSize = 'small',
-  onBookmarkAdd,
-  onBookmarkRemove,
-}) => {
+const JamCardList = ({ jams, columns = 1, cardSize = 'small' }) => {
   return (
     <Grid
       as={List}
@@ -31,12 +25,7 @@ const JamCardList = ({
       {jams.map((jam) => {
         return (
           <ListItem key={jam._id}>
-            <JamCard
-              jam={jam}
-              size={cardSize}
-              onBookmarkAdd={onBookmarkAdd}
-              onBookmarkRemove={onBookmarkRemove}
-            />
+            <JamCard jam={jam} size={cardSize} />
           </ListItem>
         );
       })}

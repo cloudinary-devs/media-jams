@@ -15,6 +15,7 @@ import {
 
 import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
+import JamCardCollage from '@components/JamCardCollage';
 import Banner from '@components/Banner';
 import Search from '@components/Search';
 import {
@@ -137,106 +138,83 @@ export default function Dashboard() {
           justify="space-around"
           sx={{ gap: '24px' }}
         >
-          <JamCardList
-            jams={featuredJams?.jams.slice(0, 1)}
-            columns="1"
-            cardSize={jamListColumns !== 1 ? 'large' : 'small'}
-          />
-
-          <Flex alignItems="center" mt="6" mb="6">
-            <Box pr="8">
-              <MediaJams width="44" mb="2" />
-              <Text fontSize="20" fontWeight="bold" whiteSpace="nowrap">
-                Learn Media for Apps
-              </Text>
-            </Box>
-            <Box>
-              <SimpleGrid
-                as={List}
-                templateColumns={{
-                  base: 'repeat(6, 310px)',
-                  lg: 'repeat(3, minmax(0, 310px))',
+          <Box
+            py={{
+              base: 12,
+              xl: 32,
+            }}
+          >
+            <Flex
+              alignItems="center"
+              flexDirection={{
+                base: 'column',
+                xl: 'row',
+              }}
+              mx={{
+                base: 0,
+                md: 0,
+                lg: 0,
+                xl: -10,
+                '2xl': -20,
+              }}
+            >
+              <Flex
+                width={{
+                  base: '100%',
+                  xl: '50%',
                 }}
-                spacing="4"
+                alignItems={{
+                  base: 'center',
+                  xl: 'flex-start',
+                }}
+                flexDirection="column"
+                flexGrow="0"
+                flexShrink="0"
+                pr="2"
               >
-                <ListItem display="flex">
-                  <ListIcon as={Stack} />
-                  <Box>
-                    <Text fontSize="14" fontWeight="bold" mb="2">
-                      Bite-size Tutorials
-                    </Text>
-                    <Text fontSize="12">
-                      How-to learning guides, limited in scope and easy to
-                      follow
-                    </Text>
-                  </Box>
-                </ListItem>
-                <ListItem display="flex">
-                  <ListIcon as={Code} />
-                  <Box>
-                    <Text fontSize="14" fontWeight="bold" mb="2">
-                      Run & Play Sandboxes
-                    </Text>
-                    <Text fontSize="12">
-                      Learn-by-example demos, open code ready to run & modify
-                    </Text>
-                  </Box>
-                </ListItem>
-                <ListItem display="flex">
-                  <ListIcon as={Author} />
-                  <Box>
-                    <Text fontSize="14" fontWeight="bold" mb="2">
-                      Authored by Experts
-                    </Text>
-                    <Text fontSize="12">
-                      Content represents the most advanced dev best practices
-                    </Text>
-                  </Box>
-                </ListItem>
-                <ListItem display="flex">
-                  <ListIcon as={Mashups} />
-                  <Box>
-                    <Text fontSize="14" fontWeight="bold" mb="2">
-                      Tech Stack Mashups
-                    </Text>
-                    <Text fontSize="12">
-                      Shows media design patterns for most popular tech stacks
-                    </Text>
-                  </Box>
-                </ListItem>
-                <ListItem display="flex">
-                  <ListIcon as={Video} />
-                  <Box>
-                    <Text fontSize="14" fontWeight="bold" mb="2">
-                      Program with Media
-                    </Text>
-                    <Text fontSize="12">
-                      Create, manage, transform, optimize & deliver
-                      images/videos
-                    </Text>
-                  </Box>
-                </ListItem>
-                <ListItem display="flex">
-                  <ListIcon as={Pencil} />
-                  <Box>
-                    <Text fontSize="14" fontWeight="bold" mb="2">
-                      Practical Use-Cases
-                    </Text>
-                    <Text fontSize="12">
-                      Solutions to media challenges encountered in building apps
-                    </Text>
-                  </Box>
-                </ListItem>
-              </SimpleGrid>
-            </Box>
-          </Flex>
+                <MediaJams width="24em" mb="4" />
+                <Text fontSize="34" fontWeight="bold">
+                  Learn media with easy to follow guides and examples
+                </Text>
+              </Flex>
+              <Box
+                width="50%"
+                width={{
+                  base: '80%',
+                  md: '70%',
+                  lg: '60%',
+                  xl: '50%',
+                }}
+                flexGrow="0"
+                flexShrink="0"
+                transform={{
+                  base: 'scale(1.5)',
+                  xl: 'scale(1.5) translate3d(12%, 0, 0)',
+                }}
+                pt={{
+                  base: 32,
+                  xl: 0,
+                }}
+                pb={{
+                  base: 24,
+                  xl: 0,
+                }}
+              >
+                <JamCardCollage jams={featuredJams?.jams.slice(0, 3)} />
+              </Box>
+            </Flex>
+          </Box>
+
+          <Heading as="h2" fontSize="42" color="blue.800" mt="4">
+            Discover Jams
+          </Heading>
+
+          <Search
+            searchValue={searchValue}
+            setSearchValue={updateSearchValue}
+          />
 
           <Banner />
-
-          <JamCardList
-            jams={featuredJams?.jams.slice(1, 3)}
-            columns={jamListColumns}
-          />
 
           <Flex alignItems="center" mt="8">
             <Box
@@ -279,16 +257,7 @@ export default function Dashboard() {
             </Box>
           </Flex>
 
-          <Heading as="h2" fontSize="36" color="blue.800" mt="8">
-            Discover Jams
-          </Heading>
-
-          <Search
-            searchValue={searchValue}
-            setSearchValue={updateSearchValue}
-          />
-
-          <Heading as="h2" fontSize="36" color="blue.800" mt="8">
+          <Heading as="h2" fontSize="42" color="blue.800" mt="8">
             Latest Jams
           </Heading>
 
