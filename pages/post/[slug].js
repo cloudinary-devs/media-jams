@@ -212,7 +212,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
           ...jam,
         },
       },
-      revalidate: 1200,
+      revalidate: 60, // 60 second revalidation
     };
   } catch (error) {
     console.error(error);
