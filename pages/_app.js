@@ -25,6 +25,7 @@ import '@fontsource/montserrat/400.css';
 
 // Create a new query client
 const App = ({ Component, pageProps, err }) => {
+  console.log('App');
   const queryClientRef = React.useRef();
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient();
@@ -57,6 +58,7 @@ const App = ({ Component, pageProps, err }) => {
 
   return (
     <>
+      <div>Test</div>
       <DefaultSeo {...SEO} />
       <GAnalytics />
       <DynamicMixPanelProvider>

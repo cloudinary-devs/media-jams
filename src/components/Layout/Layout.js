@@ -5,6 +5,7 @@ import { MobileTopBar } from '@components/Sidebar/MobileTopBar';
 import { useSidePanel } from '@components/SidePanelProvider';
 
 export default function Layout({ children }) {
+  console.log('Layout');
   const { user } = useUser();
   const { variants } = useSidePanel();
   return (

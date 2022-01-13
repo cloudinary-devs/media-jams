@@ -8,6 +8,7 @@ class Document extends NextDocument {
     return { ...initialProps };
   }
   render() {
+    console.log('Document');
     return (
       <Html lang="en">
         <Head>

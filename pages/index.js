@@ -28,6 +28,8 @@ const fuseOptions = {
 };
 
 export default function Dashboard() {
+  console.log('Dashboard');
+
   const ResonsiveFeaturedCard = useBreakpointValue({
     base: MobileFeaturedJamCard,
     lg: FeaturedJamCard,
