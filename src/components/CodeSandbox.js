@@ -6,7 +6,7 @@ import {
   Flex,
   Box,
 } from '@chakra-ui/react';
-import { useMixPanel } from '@lib/mixpanel';
+import GA from '@lib/googleAnalytics';
 import { useElementInteration } from '@hooks/useElementInteraction';
 
 /**
@@ -42,14 +42,12 @@ export default function CodeSandbox({
 }) {
   const { colorMode = 'dark' } = useColorMode();
   const iframeRef = React.useRef(null);
-  const mixpanel = useMixPanel();
   const urlEncodedFilePath = encodeURIComponent(showFile);
   const repoSlug = (str) => str.substring(str.lastIndexOf('/') + 1);
 
   useElementInteration({
     elementRef: iframeRef,
-    onInteraction: () =>
-      mixpanel.interaction('CodeSandbox', null, { title, id, src }),
+    onInteraction: () => GA.event('codesandbox', 'interaction', 'id', id),
   });
 
   const baseUrl = src
