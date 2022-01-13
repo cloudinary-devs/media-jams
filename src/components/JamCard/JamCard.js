@@ -163,7 +163,7 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
                     fontWeight="bold"
                     lineHeight={{
                       base: 5,
-                      md: 8,
+                      md: 7,
                     }}
                     textTransform="none"
                     backgroundColor="#ECC503"
@@ -194,7 +194,7 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
                   fontWeight="bold"
                   lineHeight={{
                     base: 5,
-                    md: 8,
+                    md: 7,
                   }}
                   textTransform="none"
                   backgroundColor="#3169E1"

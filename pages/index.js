@@ -1,10 +1,34 @@
 import 'tippy.js/dist/tippy.css';
 import React from 'react';
-import { Flex, Box, Heading, useBreakpointValue } from '@chakra-ui/react';
+import {
+  Flex,
+  Box,
+  Heading,
+  Text,
+  Button,
+  List,
+  ListItem,
+  ListIcon,
+  SimpleGrid,
+  useBreakpointValue,
+} from '@chakra-ui/react';
+
 import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
 import Banner from '@components/Banner';
 import Search from '@components/Search';
+import {
+  GreenCheck,
+  Author,
+  Close,
+  Stack,
+  Code,
+  Mashups,
+  Video,
+  Pencil,
+} from '@components/Icons';
+import MediaJams from '@components/MediaJams';
+import MediaJar from '@components/MediaJar';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -119,6 +143,94 @@ export default function Dashboard() {
             cardSize={jamListColumns !== 1 ? 'large' : 'small'}
           />
 
+          <Flex alignItems="center" mt="6" mb="6">
+            <Box pr="8">
+              <MediaJams width="44" mb="2" />
+              <Text fontSize="20" fontWeight="bold" whiteSpace="nowrap">
+                Learn Media for Apps
+              </Text>
+            </Box>
+            <Box>
+              <SimpleGrid
+                as={List}
+                templateColumns={{
+                  base: 'repeat(6, 310px)',
+                  lg: 'repeat(3, minmax(0, 310px))',
+                }}
+                spacing="4"
+              >
+                <ListItem display="flex">
+                  <ListIcon as={Stack} />
+                  <Box>
+                    <Text fontSize="14" fontWeight="bold" mb="2">
+                      Bite-size Tutorials
+                    </Text>
+                    <Text fontSize="12">
+                      How-to learning guides, limited in scope and easy to
+                      follow
+                    </Text>
+                  </Box>
+                </ListItem>
+                <ListItem display="flex">
+                  <ListIcon as={Code} />
+                  <Box>
+                    <Text fontSize="14" fontWeight="bold" mb="2">
+                      Run & Play Sandboxes
+                    </Text>
+                    <Text fontSize="12">
+                      Learn-by-example demos, open code ready to run & modify
+                    </Text>
+                  </Box>
+                </ListItem>
+                <ListItem display="flex">
+                  <ListIcon as={Author} />
+                  <Box>
+                    <Text fontSize="14" fontWeight="bold" mb="2">
+                      Authored by Experts
+                    </Text>
+                    <Text fontSize="12">
+                      Content represents the most advanced dev best practices
+                    </Text>
+                  </Box>
+                </ListItem>
+                <ListItem display="flex">
+                  <ListIcon as={Mashups} />
+                  <Box>
+                    <Text fontSize="14" fontWeight="bold" mb="2">
+                      Tech Stack Mashups
+                    </Text>
+                    <Text fontSize="12">
+                      Shows media design patterns for most popular tech stacks
+                    </Text>
+                  </Box>
+                </ListItem>
+                <ListItem display="flex">
+                  <ListIcon as={Video} />
+                  <Box>
+                    <Text fontSize="14" fontWeight="bold" mb="2">
+                      Program with Media
+                    </Text>
+                    <Text fontSize="12">
+                      Create, manage, transform, optimize & deliver
+                      images/videos
+                    </Text>
+                  </Box>
+                </ListItem>
+                <ListItem display="flex">
+                  <ListIcon as={Pencil} />
+                  <Box>
+                    <Text fontSize="14" fontWeight="bold" mb="2">
+                      Practical Use-Cases
+                    </Text>
+                    <Text fontSize="12">
+                      Solutions to media challenges encountered in building apps
+                    </Text>
+                  </Box>
+                </ListItem>
+              </SimpleGrid>
+            </Box>
+          </Flex>
+
           <Banner />
 
           <JamCardList
@@ -126,7 +238,48 @@ export default function Dashboard() {
             columns={jamListColumns}
           />
 
-          <Heading as="h2" fontSize="36">
+          <Flex alignItems="center" mt="8">
+            <Box
+              flexGrow="1"
+              pr={{
+                md: '2em',
+              }}
+            >
+              <Heading as="h2" fontSize="24" mb="4" color="blue.800">
+                Set up an account to unlock more learning resources!
+              </Heading>
+              <Text>
+                <Button colorScheme="blue" px="6">
+                  Sign Up
+                </Button>
+              </Text>
+            </Box>
+            <Box>
+              <List spacing="4">
+                <ListItem fontSize="20" whiteSpace="nowrap">
+                  <ListIcon as={GreenCheck} color="green.500" />
+                  Create notes right in the app
+                </ListItem>
+                <ListItem fontSize="20" whiteSpace="nowrap">
+                  <ListIcon as={GreenCheck} color="green.500" />
+                  Bookmark your favorite jams
+                </ListItem>
+                <ListItem fontSize="20" whiteSpace="nowrap">
+                  <ListIcon as={GreenCheck} color="green.500" />
+                  Return to your recent jams
+                </ListItem>
+              </List>
+            </Box>
+            <Box
+              pl={{
+                md: '3em',
+              }}
+            >
+              <MediaJar width="32" height="auto" />
+            </Box>
+          </Flex>
+
+          <Heading as="h2" fontSize="36" color="blue.800" mt="8">
             Discover Jams
           </Heading>
 
@@ -135,7 +288,7 @@ export default function Dashboard() {
             setSearchValue={updateSearchValue}
           />
 
-          <Heading as="h2" fontSize="36">
+          <Heading as="h2" fontSize="36" color="blue.800" mt="8">
             Latest Jams
           </Heading>
 
