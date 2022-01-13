@@ -170,6 +170,6 @@
     "workerDirectory": "public"
   },
   "engines": {
-    "node": "14.x"
+    "node": "14.x||16.x"
   }
 }
