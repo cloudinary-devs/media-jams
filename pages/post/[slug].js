@@ -7,6 +7,7 @@ import { NextSeo } from 'next-seo';
 
 import { postBySlug, postsWithSlug } from '@lib/api';
 import { useMixPanel } from '@lib/mixpanel';
+import GA from '@lib/googleAnalytics';
 import { useOnRead } from '@hooks/useOnRead';
 import { useRelatedJams } from '@hooks/useJams';
 
@@ -44,13 +45,15 @@ export default function Post({ post, preview, error, og }) {
   }, []);
   useOnRead({
     parentElRef: mainContentRef,
-    onRead: (time) =>
+    onRead: (time) => {
+      GA.readJam(post, time);
       mixpanel.interaction('Read Jam', {
         title: post.title,
         tags: post.tags,
         author: author.name,
         ...time,
-      }),
+      });
+    },
   });
 
   const baseUrl = () => {

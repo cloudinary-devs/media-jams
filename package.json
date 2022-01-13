@@ -7,6 +7,7 @@
   "main": "next.config.js",
   "scripts": {
     "build": "next build",
+    "postbuild": "next-sitemap",
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "start": "next start",
     "studio": "cd studio && npm start",
@@ -127,6 +128,7 @@
     "lint-staged": "^10.2.11",
     "msw": "^0.35.0",
     "next-compose-plugins": "^2.2.1",
+    "next-sitemap": "^1.9.9",
     "prettier": "^2.2.1",
     "rewire": "^5.0.0"
   },

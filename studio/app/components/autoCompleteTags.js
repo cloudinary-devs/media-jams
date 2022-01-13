@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import Select from 'react-select';
 import PatchEvent, { set, unset } from 'part:@sanity/form-builder/patch-event';
+import { Text, Grid, Card, Label } from '@sanity/ui';
 import { withDocument } from 'part:@sanity/form-builder';
 import sanityClient from 'part:@sanity/base/client';
 
@@ -107,7 +108,16 @@ const autoCompleteTags = forwardRef((props, ref) => {
 
   return (
     <>
-      <label>{props.type.title}</label>
+      <Grid gap={[1, 1, 2, 4]} paddingY={3}>
+        <Card>
+          <Label size={1}>{props.type.title}</Label>
+        </Card>
+        <Card>
+          <Text size={0} muted={true}>
+            {props.type.description}
+          </Text>
+        </Card>
+      </Grid>
       <Select
         disabled={isLoading}
         isLoading={isLoading}
