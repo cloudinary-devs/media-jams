@@ -58,16 +58,23 @@ const App = ({ Component, pageProps, err }) => {
 
   return (
     <>
-      <div>Test</div>
+      <div>Test1</div>
       <DefaultSeo {...SEO} />
       <GAnalytics />
       <DynamicMixPanelProvider>
+        <div>Test2</div>
         <ChakraProvider resetCSS theme={theme}>
+          <div>Test3</div>
           <QueryClientProvider client={queryClientRef.current}>
+            <div>Test4</div>
             <Hydrate state={pageProps.dehydratedState}>
+              <div>Test5</div>
               <UserProvider user={user}>
+                <div>Test6</div>
                 <SidePanelProvider nav={nav}>
+                  <div>Test7</div>
                   <SearchProvider>
+                    <div>Test8</div>
                     {getLayout(<Component {...pageProps} err={err} />)}
                     <ReactQueryDevtools initialIsOpen={false} />
                   </SearchProvider>
