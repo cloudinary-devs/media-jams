@@ -94,6 +94,8 @@ export default {
     {
       name: 'tags',
       title: 'Tags',
+      description:
+        'First tag in the group is used as the Primary tag when ordering or displaying Jam',
       type: 'array',
       inputComponent: autoCompleteTags,
       validation: (Rule) => Rule.required().min(1),

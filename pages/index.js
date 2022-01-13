@@ -1,13 +1,35 @@
 import 'tippy.js/dist/tippy.css';
 import React from 'react';
-import { Flex, Box, useBreakpointValue } from '@chakra-ui/react';
+import {
+  Flex,
+  Box,
+  Heading,
+  Text,
+  Button,
+  List,
+  ListItem,
+  ListIcon,
+  SimpleGrid,
+  useBreakpointValue,
+} from '@chakra-ui/react';
+
 import Layout from '@components/Layout';
-import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
-import MobileFeaturedJamCard from '@components/JamList/MobileFeaturedJamCard';
-import LoadMoreButton from '@components/JamList/LoadMoreButton';
-import JamList from '@components/JamList';
+import JamCardList from '@components/JamCardList';
+import JamCardCollage from '@components/JamCardCollage';
 import Banner from '@components/Banner';
 import Search from '@components/Search';
+import {
+  GreenCheck,
+  Author,
+  Close,
+  Stack,
+  Code,
+  Mashups,
+  Video,
+  Pencil,
+} from '@components/Icons';
+import MediaJams from '@components/MediaJams';
+import MediaJar from '@components/MediaJar';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -27,10 +49,12 @@ const fuseOptions = {
   keys: ['title', 'tags.title', ['author', 'name']],
 };
 
+const JAMS_TO_SHOW = 10;
+
 export default function Dashboard() {
-  const ResonsiveFeaturedCard = useBreakpointValue({
-    base: MobileFeaturedJamCard,
-    lg: FeaturedJamCard,
+  const jamListColumns = useBreakpointValue({
+    base: 1,
+    lg: 2,
   });
 
   const {
@@ -38,104 +62,72 @@ export default function Dashboard() {
     handleFilter,
     updateSearchValue,
   } = useSearch();
-  const [showJams, setShowJams] = React.useState({
-    inc: 0,
-    jams: [],
-    disabled: false,
-  });
+
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
 
-  React.useEffect(() => {
-    // do some checking here to ensure data exist
-    if (isLoadingJams === false && allJams?.jams) {
-      handleFilter(allJams?.jams);
-      loadMoreJams();
-    }
-  }, [isLoadingJams, allJams]);
+  const standardJams = allJams?.jams
+    .filter((j) => !j.postMetadata.featured)
+    .slice(0, JAMS_TO_SHOW);
+
+  // React.useEffect(() => {
+  //   // do some checking here to ensure data exist
+  //   if (isLoadingJams === false && allJams?.jams) {
+  //     handleFilter(allJams?.jams);
+  //     loadMoreJams();
+  //   }
+  // }, [isLoadingJams, allJams]);
 
   // handle updating the filteredPosts with different search criteria
-  React.useEffect(() => {
-    if (searchValue === '' && selectedTagFilters.length === 0) {
-      handleFilter(allJams?.jams);
-    } else {
-      // Allow for a search for tag
-      const formattedTags = selectedTagFilters.map((item) => item.title);
+  // React.useEffect(() => {
+  //   if (searchValue === '' && selectedTagFilters.length === 0) {
+  //     handleFilter(allJams?.jams);
+  //   } else {
+  //     // Allow for a search for tag
+  //     const formattedTags = selectedTagFilters.map((item) => item.title);
 
-      const queries = {
-        $or: [
-          {
-            title: searchValue,
-          },
-          {
-            $path: ['author.name'],
-            $val: searchValue,
-          },
-          {
-            $path: ['tags.title'],
-            $val: searchValue,
-          },
-        ],
-        $and: [],
-      };
+  //     const queries = {
+  //       $or: [
+  //         {
+  //           title: searchValue,
+  //         },
+  //         {
+  //           $path: ['author.name'],
+  //           $val: searchValue,
+  //         },
+  //         {
+  //           $path: ['tags.title'],
+  //           $val: searchValue,
+  //         },
+  //       ],
+  //       $and: [],
+  //     };
 
-      // Add an $and with the tag title if we have an active topic
+  //     // Add an $and with the tag title if we have an active topic
 
-      if (formattedTags.length > 0) {
-        formattedTags.forEach((tag) => {
-          queries.$and.push({
-            $path: 'tags.title',
-            $val: `'${tag}`, // the ' in front adds exact match
-          });
-        });
-      }
-      async function initFuse() {
-        const Fuse = (await import('fuse.js')).default;
-        const fuse = new Fuse(allJams?.jams, fuseOptions);
-        const results = fuse.search(queries).map((result) => result.item);
+  //     if (formattedTags.length > 0) {
+  //       formattedTags.forEach((tag) => {
+  //         queries.$and.push({
+  //           $path: 'tags.title',
+  //           $val: `'${tag}`, // the ' in front adds exact match
+  //         });
+  //       });
+  //     }
+  //     async function initFuse() {
+  //       const Fuse = (await import('fuse.js')).default;
+  //       const fuse = new Fuse(allJams?.jams, fuseOptions);
+  //       const results = fuse.search(queries).map((result) => result.item);
 
-        handleFilter(results);
-      }
-      initFuse();
-      // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
-    }
-  }, [searchValue, selectedTagFilters, isLoadingJams]);
-
-  const loadMoreJams = () => {
-    setShowJams((prevState) => {
-      // Removed featured jams for duplication
-      const jams = allJams?.jams.filter((j) => !j.postMetadata.featured);
-      const updatedInc = prevState.inc + 10;
-
-      // increment by n w/o going over the total num of jams available
-      const inc = updatedInc < jams.length ? updatedInc : jams.length;
-
-      return {
-        inc,
-        // load slice of n jams into show list
-        jams: jams.slice(0, inc),
-        disabled: inc == jams.length,
-      };
-    });
-  };
-
-  const FeaturedJams = () =>
-    featuredJams?.jams.map((jam) => (
-      <Box key={jam.id}>
-        {ResonsiveFeaturedCard !== undefined ? (
-          <ResonsiveFeaturedCard jam={jam} />
-        ) : (
-          ''
-        )}
-      </Box>
-    ));
+  //       handleFilter(results);
+  //     }
+  //     initFuse();
+  //     // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
+  //   }
+  // }, [searchValue, selectedTagFilters, isLoadingJams]);
 
   return (
-    <Flex w="100%" height="100%" direction="column" overflowY="auto">
-      <Banner />
+    <Box w="100%" height="100%" overflowY="auto">
       <Flex direction="column" w="100%">
-        <Search searchValue={searchValue} setSearchValue={updateSearchValue} />
-
         <Flex
           w={{ base: '90%', lg: '884px' }}
           mt="26px"
@@ -146,21 +138,133 @@ export default function Dashboard() {
           justify="space-around"
           sx={{ gap: '24px' }}
         >
-          {searchValue === '' && selectedTagFilters.length === 0 ? (
-            <>
-              <FeaturedJams />
-              <JamList jams={showJams?.jams} />
-              <LoadMoreButton
-                onClick={loadMoreJams}
-                disabled={showJams.disabled}
-              />
-            </>
-          ) : (
-            <JamList jams={filteredJams} />
-          )}
+          <Box
+            py={{
+              base: 12,
+              xl: 32,
+            }}
+          >
+            <Flex
+              alignItems="center"
+              flexDirection={{
+                base: 'column',
+                xl: 'row',
+              }}
+              mx={{
+                base: 0,
+                md: 0,
+                lg: 0,
+                xl: -10,
+                '2xl': -20,
+              }}
+            >
+              <Flex
+                width={{
+                  base: '100%',
+                  xl: '50%',
+                }}
+                alignItems={{
+                  base: 'center',
+                  xl: 'flex-start',
+                }}
+                flexDirection="column"
+                flexGrow="0"
+                flexShrink="0"
+                pr="2"
+              >
+                <MediaJams width="24em" mb="4" />
+                <Text fontSize="34" fontWeight="bold">
+                  Learn media with easy to follow guides and examples
+                </Text>
+              </Flex>
+              <Box
+                width="50%"
+                width={{
+                  base: '80%',
+                  md: '70%',
+                  lg: '60%',
+                  xl: '50%',
+                }}
+                flexGrow="0"
+                flexShrink="0"
+                transform={{
+                  base: 'scale(1.5)',
+                  xl: 'scale(1.5) translate3d(12%, 0, 0)',
+                }}
+                pt={{
+                  base: 32,
+                  xl: 0,
+                }}
+                pb={{
+                  base: 24,
+                  xl: 0,
+                }}
+              >
+                <JamCardCollage jams={featuredJams?.jams.slice(0, 3)} />
+              </Box>
+            </Flex>
+          </Box>
+
+          <Heading as="h2" fontSize="42" color="blue.800" mt="4">
+            Discover Jams
+          </Heading>
+
+          <Search
+            searchValue={searchValue}
+            setSearchValue={updateSearchValue}
+          />
+
+          <Banner />
+
+          <Flex alignItems="center" mt="8">
+            <Box
+              flexGrow="1"
+              pr={{
+                md: '2em',
+              }}
+            >
+              <Heading as="h2" fontSize="24" mb="4" color="blue.800">
+                Set up an account to unlock more learning resources!
+              </Heading>
+              <Text>
+                <Button colorScheme="blue" px="6">
+                  Sign Up
+                </Button>
+              </Text>
+            </Box>
+            <Box>
+              <List spacing="4">
+                <ListItem fontSize="20" whiteSpace="nowrap">
+                  <ListIcon as={GreenCheck} color="green.500" />
+                  Create notes right in the app
+                </ListItem>
+                <ListItem fontSize="20" whiteSpace="nowrap">
+                  <ListIcon as={GreenCheck} color="green.500" />
+                  Bookmark your favorite jams
+                </ListItem>
+                <ListItem fontSize="20" whiteSpace="nowrap">
+                  <ListIcon as={GreenCheck} color="green.500" />
+                  Return to your recent jams
+                </ListItem>
+              </List>
+            </Box>
+            <Box
+              pl={{
+                md: '3em',
+              }}
+            >
+              <MediaJar width="32" height="auto" />
+            </Box>
+          </Flex>
+
+          <Heading as="h2" fontSize="42" color="blue.800" mt="8">
+            Latest Jams
+          </Heading>
+
+          <JamCardList jams={standardJams} columns={jamListColumns} />
         </Flex>
       </Flex>
-    </Flex>
+    </Box>
   );
 }
 

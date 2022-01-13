@@ -1,4 +1,4 @@
-import { getDocumentQuery$ } from '../lib/document';
+import preview from 'part:sanity-plugin-icon-picker/preview';
 
 const WORKFLOW_DOCUMENTS_QUERY = `
 *[_type == $type ].title 
@@ -7,6 +7,7 @@ const WORKFLOW_DOCUMENTS_QUERY = `
  * Defines a Tag, belongs to  specific  categories
  * @typedef {Object} Tag
  * @property {Object} tag
+ * @property {Obect} tag.icon - associated icon for frontend display
  * @property {string} tag.title - tag name
  * @property {string} tag.description - details of what the tag is for
  * @property {Category[]} tag.category - reference to child tags
@@ -22,9 +23,13 @@ export default {
       type: 'string',
     },
     {
-      name: 'description',
-      title: 'Description',
-      type: 'text',
+      title: 'Icon',
+      name: 'icon',
+      type: 'iconPicker',
+      options: {
+        providers: ['fa', 'hi'],
+        outputFormat: 'react',
+      },
     },
     {
       name: 'rank',
@@ -38,6 +43,16 @@ export default {
       name: 'featured',
       title: 'Featured',
       type: 'boolean',
+    },
+    {
+      title: 'Background Image',
+      name: 'image',
+      type: 'image',
+    },
+    {
+      name: 'description',
+      title: 'Description',
+      type: 'text',
     },
     {
       title: 'Category',
@@ -64,10 +79,11 @@ export default {
     select: {
       title: 'title',
     },
-    prepare(tag, quantity, other) {
+    prepare(tag, icon, quantity, other) {
       const { title } = tag;
       return {
         title: title,
+        media: preview(icon),
       };
     },
   },
