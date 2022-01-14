@@ -31,6 +31,8 @@ export default function Tag({ tag }) {
 
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
 
+  console.log('allJams', allJams);
+
   return (
     <Layout>
       <Box w="100%" height="100%" overflowY="auto">
@@ -45,7 +47,7 @@ export default function Tag({ tag }) {
             justify="space-around"
             sx={{ gap: '24px' }}
           >
-            <Heading as="h2" fontSize="42" color="blue.800" mt="8">
+            <Heading as="h2" fontSize="42" color="blue.800" my="8">
               <Text
                 fontSize="inherit"
                 fontWeight="black"
@@ -58,7 +60,7 @@ export default function Tag({ tag }) {
               Jams
             </Heading>
 
-            <JamCardList jams={allJams || []} columns={jamListColumns} />
+            <JamCardList jams={allJams?.jams || []} columns={jamListColumns} />
           </Flex>
         </Flex>
       </Box>
@@ -68,8 +70,12 @@ export default function Tag({ tag }) {
 
 export async function getStaticProps({ params }) {
   const queryClient = new QueryClient();
+
   await queryClient.fetchQuery('jamTags', queryTags.getStatic);
   const { data: { tags } = {} } = queryClient.getQueryData('jamTags');
+
+  await queryClient.fetchQuery('allJams', queryJams.getStatic);
+  await queryClient.setQueryData('allJams', (old) => ({ jams: old.data.jams }));
 
   const tag = tags.find(
     ({ title }) => encodeURIComponent(title) === params.tagSlug,
@@ -78,6 +84,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       tag,
+      dehydratedState: dehydrate(queryClient),
     },
   };
 }

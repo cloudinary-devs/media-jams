@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import {
   Box,
   Flex,
@@ -7,12 +7,14 @@ import {
   Text,
   Avatar,
   Image,
+  Icon,
+  Link,
   List,
   ListItem,
   Badge,
   IconButton,
 } from '@chakra-ui/react';
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { FaStar, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import format from 'date-fns/format';
 
 import {
@@ -20,6 +22,8 @@ import {
   useAddBookmarkMutation,
   useRemoveBookmarkMutation,
 } from '@hooks/useBookmarks';
+
+import ReactIcon from '@components/ReactIcon';
 
 const DEFAULT_TAGS_TO_SHOW = 3;
 
@@ -90,15 +94,18 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
       height="0"
       pt={`${(size.height / size.width) * 100}%`}
       borderRadius="4"
+      backgroundColor="#6347e2"
     >
-      <Image
-        position="absolute"
-        top="0"
-        left="0"
-        zIndex="0"
-        width="100%"
-        src={cover.asset.url}
-      />
+      {/* {cover && (
+        <Image
+          position="absolute"
+          top="0"
+          left="0"
+          zIndex="0"
+          width="100%"
+          src={cover.asset.url}
+        />
+      )} */}
       <Box position="absolute" top="6" right="6" zIndex="2">
         <IconButton
           color="white"
@@ -129,8 +136,18 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
           disabled={bookmarksIsLoading}
         />
       </Box>
-      <Link href={`/post/${jam.slug.current}`}>
-        <a>
+      <NextLink href={`/post/${jam.slug.current}`} passHref>
+        <Link
+          display="block"
+          position="absolute"
+          top="0"
+          left="0"
+          width="100%"
+          height="100%"
+          backgroundImage={cover && cover.asset.url}
+          backgroundSize="cover"
+          backgroundPosition="center center"
+        >
           <Flex
             direction="column"
             justifyContent="space-between"
@@ -155,6 +172,8 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
                   _last={{ marginRight: 0 }}
                 >
                   <Badge
+                    display="flex"
+                    alignItems="center"
                     color="#4E380B"
                     fontSize={{
                       base: 10,
@@ -172,6 +191,7 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
                       md: 3,
                     }}
                   >
+                    <Icon as={FaStar} mr="1" />
                     Featured Jam
                   </Badge>
                 </ListItem>
@@ -186,6 +206,8 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
                 _last={{ marginRight: 0 }}
               >
                 <Badge
+                  display="flex"
+                  alignItems="center"
                   color="white"
                   fontSize={{
                     base: 10,
@@ -203,6 +225,10 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
                     md: 3,
                   }}
                 >
+                  <ReactIcon
+                    {...(jam.tags[0].icon || { name: 'FaTag', provider: 'fa' })}
+                    mr="1"
+                  />
                   {jam.tags[0].title}
                 </Badge>
               </ListItem>
@@ -288,8 +314,8 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
               </Flex>
             </Box>
           </Flex>
-        </a>
-      </Link>
+        </Link>
+      </NextLink>
     </Box>
   );
 };

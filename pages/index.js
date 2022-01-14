@@ -34,6 +34,7 @@ import {
 } from '@components/Icons';
 import MediaJams from '@components/MediaJams';
 import MediaJar from '@components/MediaJar';
+import ReactIcon from '@components/ReactIcon';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -240,6 +241,7 @@ export default function Dashboard() {
             >
               {featuredTags.slice(0, 3).map((tag) => {
                 const image = tag?.image?.asset || {};
+                const icon = tag.icon || { name: 'FaTag', provider: 'fa' };
                 return (
                   <ListItem key={tag._id}>
                     <NextLink
@@ -272,6 +274,7 @@ export default function Dashboard() {
                           backgroundColor: '#1B1464',
                         }}
                         overflow="hidden"
+                        boxShadow="0 2px 8px rgba(37, 41, 46, .4)"
                       >
                         <Box
                           display="flex"
@@ -280,7 +283,7 @@ export default function Dashboard() {
                           position="relative"
                           zIndex="1"
                         >
-                          <ListIcon as={Stack} fontSize="28" margin="0" />
+                          <ReactIcon {...icon} fontSize="36" margin="0" />
                           <Text fontSize="18" fontWeight="bold" mt="3">
                             {tag.title}
                           </Text>
@@ -313,8 +316,9 @@ export default function Dashboard() {
                   mt="5"
                 >
                   {tagsByPopularity.map((tag) => {
+                    const icon = tag.icon || { name: 'FaTag', provider: 'fa' };
                     return (
-                      <ListItem key={tag._id} m="1">
+                      <ListItem key={tag._id} m="2">
                         <NextLink
                           href={`/tags/${encodeURIComponent(tag.title)}`}
                           passHref
@@ -323,17 +327,18 @@ export default function Dashboard() {
                             display="flex"
                             alignItems="center"
                             color="white"
-                            fontSize="16"
+                            fontSize="15"
                             fontWeight="bold"
                             borderRadius="md"
                             _hover={{
                               textDecoration: 'none',
                             }}
                             backgroundColor="#1B1464"
-                            px="3"
-                            py="1"
+                            px="5"
+                            py="2"
+                            boxShadow="0 2px 4px rgba(37, 41, 46, .4)"
                           >
-                            <ListIcon as={Stack} fontSize="14" mr="2" />
+                            <ReactIcon {...icon} fontSize="14" mr="3" />
                             {tag.title}
                           </Link>
                         </NextLink>
