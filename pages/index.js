@@ -1,5 +1,5 @@
 import 'tippy.js/dist/tippy.css';
-import React from 'react';
+import { useState } from 'react';
 import {
   Flex,
   Box,
@@ -13,6 +13,7 @@ import {
   SimpleGrid,
   useBreakpointValue,
   Image,
+  VisuallyHidden,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 
@@ -56,6 +57,9 @@ const fuseOptions = {
 const JAMS_TO_SHOW = 10;
 
 export default function Dashboard() {
+  const [displayMoreTags, setDisplayMoreTags] = useState(false);
+  const handleShowMoreTags = () => setDisplayMoreTags(!displayMoreTags);
+
   const jamListColumns = useBreakpointValue({
     base: 1,
     lg: 2,
@@ -72,12 +76,13 @@ export default function Dashboard() {
   const tags = useTags();
 
   const featuredTags = tags.filter(({ featured }) => featured);
+  const tagsByPopularity = tags; // TODO figure out how to sort
 
   const standardJams = allJams?.jams
     .filter((j) => !j.postMetadata.featured)
     .slice(0, JAMS_TO_SHOW);
 
-  // React.useEffect(() => {
+  // useEffect(() => {
   //   // do some checking here to ensure data exist
   //   if (isLoadingJams === false && allJams?.jams) {
   //     handleFilter(allJams?.jams);
@@ -86,7 +91,7 @@ export default function Dashboard() {
   // }, [isLoadingJams, allJams]);
 
   // handle updating the filteredPosts with different search criteria
-  // React.useEffect(() => {
+  // useEffect(() => {
   //   if (searchValue === '' && selectedTagFilters.length === 0) {
   //     handleFilter(allJams?.jams);
   //   } else {
@@ -222,6 +227,9 @@ export default function Dashboard() {
           />
 
           <Box>
+            <VisuallyHidden>
+              <Heading as="h3">Featured Tags</Heading>
+            </VisuallyHidden>
             <SimpleGrid
               as={List}
               templateColumns={{
@@ -232,7 +240,6 @@ export default function Dashboard() {
             >
               {featuredTags.slice(0, 3).map((tag) => {
                 const image = tag?.image?.asset || {};
-                console.log(tag);
                 return (
                   <ListItem key={tag._id}>
                     <NextLink
@@ -284,6 +291,58 @@ export default function Dashboard() {
                 );
               })}
             </SimpleGrid>
+
+            {!displayMoreTags && (
+              <Text textAlign="center">
+                <Button variant="link" onClick={handleShowMoreTags}>
+                  Show More Tags
+                </Button>
+              </Text>
+            )}
+
+            {displayMoreTags && (
+              <>
+                <VisuallyHidden>
+                  <Heading as="h3">All Tags</Heading>
+                </VisuallyHidden>
+                <Flex
+                  as={List}
+                  flexWrap="wrap"
+                  justifyContent="center"
+                  mx="-1"
+                  mt="5"
+                >
+                  {tagsByPopularity.map((tag) => {
+                    return (
+                      <ListItem key={tag._id} m="1">
+                        <NextLink
+                          href={`/tags/${encodeURIComponent(tag.title)}`}
+                          passHref
+                        >
+                          <Link
+                            display="flex"
+                            alignItems="center"
+                            color="white"
+                            fontSize="16"
+                            fontWeight="bold"
+                            borderRadius="md"
+                            _hover={{
+                              textDecoration: 'none',
+                            }}
+                            backgroundColor="#1B1464"
+                            px="3"
+                            py="1"
+                          >
+                            <ListIcon as={Stack} fontSize="14" mr="2" />
+                            {tag.title}
+                          </Link>
+                        </NextLink>
+                      </ListItem>
+                    );
+                  })}
+                </Flex>
+              </>
+            )}
           </Box>
 
           <Banner />
