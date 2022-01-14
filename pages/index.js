@@ -66,14 +66,9 @@ export default function Dashboard() {
 
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
-  const {
-    data: { tags },
-  } = useTags();
+  const tags = useTags();
 
   const featuredTags = tags.filter(({ featured }) => featured);
-
-  console.log('tags', tags);
-  console.log('featuredTags', featuredTags);
 
   const standardJams = allJams?.jams
     .filter((j) => !j.postMetadata.featured)
@@ -235,6 +230,7 @@ export default function Dashboard() {
               {featuredTags.slice(0, 3).map((tag) => {
                 return (
                   <ListItem
+                    key={tag._id}
                     display="flex"
                     flexDirection="column"
                     alignItems="center"
