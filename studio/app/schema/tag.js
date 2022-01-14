@@ -1,7 +1,7 @@
 import preview from 'part:sanity-plugin-icon-picker/preview';
 
 const WORKFLOW_DOCUMENTS_QUERY = `
-*[_type == $type ].title 
+*[_type == $type ].title
 `;
 /**
  * Defines a Tag, belongs to  specific  categories
@@ -21,6 +21,15 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
+    },
+    {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
     },
     {
       title: 'Icon',
