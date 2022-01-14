@@ -6,12 +6,15 @@ import {
   Heading,
   Text,
   Button,
+  Link,
   List,
   ListItem,
   ListIcon,
   SimpleGrid,
   useBreakpointValue,
+  Image,
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
 
 import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
@@ -228,21 +231,55 @@ export default function Dashboard() {
               spacing="4"
             >
               {featuredTags.slice(0, 3).map((tag) => {
+                const image = tag?.image?.asset || {};
+                console.log(tag);
                 return (
-                  <ListItem
-                    key={tag._id}
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="center"
-                    color="white"
-                    backgroundColor="blue.800"
-                    borderRadius="md"
-                    py="6"
-                  >
-                    <ListIcon as={Stack} fontSize="28" />
-                    <Text fontSize="18" fontWeight="bold" mt="3">
-                      {tag.title}
-                    </Text>
+                  <ListItem key={tag._id}>
+                    <NextLink
+                      href={`/tags/${encodeURIComponent(tag.title)}`}
+                      passHref
+                    >
+                      <Link
+                        display="block"
+                        position="relative"
+                        color="white"
+                        borderRadius="md"
+                        py="6"
+                        _hover={{
+                          textDecoration: 'none',
+                        }}
+                        backgroundImage={image.url}
+                        backgroundSize="cover"
+                        backgroundPosition="center center"
+                        backgroundColor="#1B1464"
+                        _after={{
+                          display: 'block',
+                          opacity: 0.8,
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          zIndex: 0,
+                          width: '100%',
+                          height: '100%',
+                          content: '""',
+                          backgroundColor: '#1B1464',
+                        }}
+                        overflow="hidden"
+                      >
+                        <Box
+                          display="flex"
+                          flexDirection="column"
+                          alignItems="center"
+                          position="relative"
+                          zIndex="1"
+                        >
+                          <ListIcon as={Stack} fontSize="28" margin="0" />
+                          <Text fontSize="18" fontWeight="bold" mt="3">
+                            {tag.title}
+                          </Text>
+                        </Box>
+                      </Link>
+                    </NextLink>
                   </ListItem>
                 );
               })}
