@@ -34,6 +34,7 @@ import MediaJar from '@components/MediaJar';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
+import { useTags } from '@hooks/useTags';
 import { useSearch } from '@components/SearchProvider';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
@@ -65,6 +66,14 @@ export default function Dashboard() {
 
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
+  const {
+    data: { tags },
+  } = useTags();
+
+  const featuredTags = tags.filter(({ featured }) => featured);
+
+  console.log('tags', tags);
+  console.log('featuredTags', featuredTags);
 
   const standardJams = allJams?.jams
     .filter((j) => !j.postMetadata.featured)
@@ -213,6 +222,36 @@ export default function Dashboard() {
             searchValue={searchValue}
             setSearchValue={updateSearchValue}
           />
+
+          <Box>
+            <SimpleGrid
+              as={List}
+              templateColumns={{
+                base: 'repeat(6, 310px)',
+                lg: 'repeat(3, minmax(0, 310px))',
+              }}
+              spacing="4"
+            >
+              {featuredTags.slice(0, 3).map((tag) => {
+                return (
+                  <ListItem
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    color="white"
+                    backgroundColor="blue.800"
+                    borderRadius="md"
+                    py="6"
+                  >
+                    <ListIcon as={Stack} fontSize="28" />
+                    <Text fontSize="18" fontWeight="bold" mt="3">
+                      {tag.title}
+                    </Text>
+                  </ListItem>
+                );
+              })}
+            </SimpleGrid>
+          </Box>
 
           <Banner />
 
