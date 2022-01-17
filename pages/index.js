@@ -234,7 +234,7 @@ export default function Dashboard() {
             <SimpleGrid
               as={List}
               templateColumns={{
-                base: 'repeat(6, 310px)',
+                base: 'auto',
                 lg: 'repeat(3, minmax(0, 310px))',
               }}
               spacing="4"
@@ -350,13 +350,26 @@ export default function Dashboard() {
             )}
           </Box>
 
-          <Banner />
-
-          <Flex alignItems="center" mt="8">
+          <Flex
+            flexDirection={{
+              base: 'column',
+              lg: 'row',
+            }}
+            alignItems="center"
+            mt="8"
+          >
             <Box
               flexGrow="1"
+              textAlign={{
+                base: 'center',
+                lg: 'left',
+              }}
               pr={{
                 md: '2em',
+              }}
+              mb={{
+                base: 10,
+                lg: 0,
               }}
             >
               <Heading as="h2" fontSize="24" mb="4" color="blue.800">
@@ -387,6 +400,10 @@ export default function Dashboard() {
             <Box
               pl={{
                 md: '3em',
+              }}
+              mt={{
+                base: 10,
+                lg: 0,
               }}
             >
               <MediaJar width="32" height="auto" />
