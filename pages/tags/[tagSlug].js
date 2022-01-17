@@ -23,7 +23,7 @@ import { useTags } from '@hooks/useTags';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
 
-export default function Tag({ tag = {} }) {
+export default function Tag({ tag }) {
   const jamListColumns = useBreakpointValue({
     base: 1,
     lg: 2,
@@ -85,7 +85,7 @@ export async function getStaticProps({ params }) {
 
   return {
     props: {
-      tag,
+      tag: tag || {},
       dehydratedState: dehydrate(queryClient),
     },
   };
