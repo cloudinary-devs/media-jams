@@ -31,9 +31,12 @@ export default {
         width: 'auto',
         height: 'medium',
       },
-      options: {
-        title: 'My Jams',
-        createButtonText: 'Create new Jam',
+    },
+    {
+      name: 'jams-count',
+      layout: {
+        width: 'auto',
+        height: 'small',
       },
     },
   ],

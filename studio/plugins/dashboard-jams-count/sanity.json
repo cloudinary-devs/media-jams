@@ -1,0 +1,9 @@
+{
+  "parts": [
+    {
+      "name": "part:@sanity/dashboard/widget/jams-count",
+      "implements": "part:@sanity/dashboard/widget",
+      "path": "index.js"
+    }
+  ]
+}

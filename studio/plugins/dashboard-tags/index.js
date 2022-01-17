@@ -44,7 +44,6 @@ function Tags() {
       <ul className={styles.content}>
         {tags.map((tag) => {
           const type = schema.get(tag._type);
-          console.log(type);
           return (
             <IntentLink
               className={styles.link}
