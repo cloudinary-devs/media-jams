@@ -75,7 +75,9 @@ export async function getStaticProps({ params }) {
   const { data: { tags } = {} } = queryClient.getQueryData('jamTags');
 
   await queryClient.fetchQuery('allJams', queryJams.getStatic);
-  await queryClient.setQueryData('allJams', (old) => ({ jams: old.data.jams }));
+  await queryClient.setQueryData('allJams', (old) => ({
+    jams: old.data?.jams,
+  }));
 
   const tag = tags.find(
     ({ title }) => encodeURIComponent(title) === params.tagSlug,
