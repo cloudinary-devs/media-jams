@@ -8,7 +8,7 @@ import { NextSeo } from 'next-seo';
 import { postBySlug, postsWithSlug } from '@lib/api';
 import GA from '@lib/googleAnalytics';
 import { useOnRead } from '@hooks/useOnRead';
-import { useRelatedJams } from '@hooks/useJams';
+import { useRelatedJams, useJamTag } from '@hooks/useJams';
 
 import { Flex, List, ListItem } from '@chakra-ui/react';
 import Layout from '@components/Layout';
@@ -26,6 +26,9 @@ export default function Post({ post, preview, error, og }) {
   const { data } = useRelatedJams(post?.tags);
   const { jams = {}, tag = {} } = data || {};
   const { allPost: relatedJams } = jams;
+
+  const { data: tagData } = useJamTag('react');
+  console.log(tagData);
 
   if (error || (!router.isFallback && !post?.slug)) {
     return <ErrorPage statusCode={404} />;
