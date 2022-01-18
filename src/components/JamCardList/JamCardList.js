@@ -24,7 +24,7 @@ const JamCardList = ({ jams, columns = 1, cardSize = 'small' }) => {
     >
       {jams.map((jam) => {
         return (
-          <ListItem key={jam._id}>
+          <ListItem key={jam._id} boxShadow="0 2px 8px rgba(37, 41, 46, .4)">
             <JamCard jam={jam} size={cardSize} />
           </ListItem>
         );

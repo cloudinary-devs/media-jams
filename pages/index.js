@@ -1,17 +1,21 @@
 import 'tippy.js/dist/tippy.css';
-import React from 'react';
+import { useState } from 'react';
 import {
   Flex,
   Box,
   Heading,
   Text,
   Button,
+  Link,
   List,
   ListItem,
   ListIcon,
   SimpleGrid,
   useBreakpointValue,
+  Image,
+  VisuallyHidden,
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
 
 import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
@@ -30,10 +34,12 @@ import {
 } from '@components/Icons';
 import MediaJams from '@components/MediaJams';
 import MediaJar from '@components/MediaJar';
+import ReactIcon from '@components/ReactIcon';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
+import { useTags } from '@hooks/useTags';
 import { useSearch } from '@components/SearchProvider';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
@@ -52,6 +58,9 @@ const fuseOptions = {
 const JAMS_TO_SHOW = 10;
 
 export default function Dashboard() {
+  const [displayMoreTags, setDisplayMoreTags] = useState(false);
+  const handleShowMoreTags = () => setDisplayMoreTags(!displayMoreTags);
+
   const jamListColumns = useBreakpointValue({
     base: 1,
     lg: 2,
@@ -65,12 +74,16 @@ export default function Dashboard() {
 
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
+  const tags = useTags();
+
+  const featuredTags = tags.filter(({ featured }) => featured);
+  const tagsByPopularity = tags; // TODO figure out how to sort
 
   const standardJams = allJams?.jams
     .filter((j) => !j.postMetadata.featured)
     .slice(0, JAMS_TO_SHOW);
 
-  // React.useEffect(() => {
+  // useEffect(() => {
   //   // do some checking here to ensure data exist
   //   if (isLoadingJams === false && allJams?.jams) {
   //     handleFilter(allJams?.jams);
@@ -79,7 +92,7 @@ export default function Dashboard() {
   // }, [isLoadingJams, allJams]);
 
   // handle updating the filteredPosts with different search criteria
-  // React.useEffect(() => {
+  // useEffect(() => {
   //   if (searchValue === '' && selectedTagFilters.length === 0) {
   //     handleFilter(allJams?.jams);
   //   } else {
@@ -214,13 +227,149 @@ export default function Dashboard() {
             setSearchValue={updateSearchValue}
           />
 
-          <Banner />
+          <Box>
+            <VisuallyHidden>
+              <Heading as="h3">Featured Tags</Heading>
+            </VisuallyHidden>
+            <SimpleGrid
+              as={List}
+              templateColumns={{
+                base: 'auto',
+                lg: 'repeat(3, minmax(0, 310px))',
+              }}
+              spacing="4"
+            >
+              {featuredTags.slice(0, 3).map((tag) => {
+                const image = tag?.image?.asset || {};
+                const icon = tag.icon || { name: 'FaTag', provider: 'fa' };
+                return (
+                  <ListItem key={tag._id}>
+                    <NextLink
+                      href={`/tags/${encodeURIComponent(tag.title)}`}
+                      passHref
+                    >
+                      <Link
+                        display="block"
+                        position="relative"
+                        color="white"
+                        borderRadius="md"
+                        py="6"
+                        _hover={{
+                          textDecoration: 'none',
+                        }}
+                        backgroundImage={image.url}
+                        backgroundSize="cover"
+                        backgroundPosition="center center"
+                        backgroundColor="#1B1464"
+                        _after={{
+                          display: 'block',
+                          opacity: 0.8,
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          zIndex: 0,
+                          width: '100%',
+                          height: '100%',
+                          content: '""',
+                          backgroundColor: '#1B1464',
+                        }}
+                        overflow="hidden"
+                        boxShadow="0 2px 8px rgba(37, 41, 46, .4)"
+                      >
+                        <Box
+                          display="flex"
+                          flexDirection="column"
+                          alignItems="center"
+                          position="relative"
+                          zIndex="1"
+                        >
+                          <ReactIcon {...icon} fontSize="36" margin="0" />
+                          <Text fontSize="18" fontWeight="bold" mt="3">
+                            {tag.title}
+                          </Text>
+                        </Box>
+                      </Link>
+                    </NextLink>
+                  </ListItem>
+                );
+              })}
+            </SimpleGrid>
 
-          <Flex alignItems="center" mt="8">
+            {!displayMoreTags && (
+              <Text textAlign="center">
+                <Button variant="link" onClick={handleShowMoreTags}>
+                  Show More Tags
+                </Button>
+              </Text>
+            )}
+
+            {displayMoreTags && (
+              <>
+                <VisuallyHidden>
+                  <Heading as="h3">All Tags</Heading>
+                </VisuallyHidden>
+                <Flex
+                  as={List}
+                  flexWrap="wrap"
+                  justifyContent="center"
+                  mx="-1"
+                  mt="5"
+                >
+                  {tagsByPopularity.map((tag) => {
+                    const icon = tag.icon || { name: 'FaTag', provider: 'fa' };
+                    return (
+                      <ListItem key={tag._id} m="2">
+                        <NextLink
+                          href={`/tags/${encodeURIComponent(tag.title)}`}
+                          passHref
+                        >
+                          <Link
+                            display="flex"
+                            alignItems="center"
+                            color="white"
+                            fontSize="15"
+                            fontWeight="bold"
+                            borderRadius="md"
+                            _hover={{
+                              textDecoration: 'none',
+                            }}
+                            backgroundColor="#1B1464"
+                            px="5"
+                            py="2"
+                            boxShadow="0 2px 4px rgba(37, 41, 46, .4)"
+                          >
+                            <ReactIcon {...icon} fontSize="14" mr="3" />
+                            {tag.title}
+                          </Link>
+                        </NextLink>
+                      </ListItem>
+                    );
+                  })}
+                </Flex>
+              </>
+            )}
+          </Box>
+
+          <Flex
+            flexDirection={{
+              base: 'column',
+              lg: 'row',
+            }}
+            alignItems="center"
+            mt="8"
+          >
             <Box
               flexGrow="1"
+              textAlign={{
+                base: 'center',
+                lg: 'left',
+              }}
               pr={{
                 md: '2em',
+              }}
+              mb={{
+                base: 10,
+                lg: 0,
               }}
             >
               <Heading as="h2" fontSize="24" mb="4" color="blue.800">
@@ -251,6 +400,10 @@ export default function Dashboard() {
             <Box
               pl={{
                 md: '3em',
+              }}
+              mt={{
+                base: 10,
+                lg: 0,
               }}
             >
               <MediaJar width="32" height="auto" />
