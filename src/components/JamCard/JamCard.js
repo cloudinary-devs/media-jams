@@ -295,14 +295,12 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
                 )}
               </List>
               <Flex>
-                <Link href={`/author/${author.slug?.current}`}>
-                  <Avatar
-                    size="md"
-                    name={author.name}
-                    src={author.image.asset.url}
-                    mr="4"
-                  />
-                </Link>
+                <Avatar
+                  size="md"
+                  name={author.name}
+                  src={author.image.asset.url}
+                  mr="4"
+                />
                 <Flex direction="column" justifyContent="center">
                   <Text color="white" fontSize="16" fontWeight="bold" mb="1">
                     {author.name}

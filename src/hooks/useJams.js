@@ -55,14 +55,7 @@ export function useRelatedJams(tags, options) {
 export function useJamTag(tagSlug, options = {}) {
   return useQuery(
     ['jamTag-slug', tagSlug],
-    async () => {
-      const { jamIds, tag } = await postsByTagSlug(tagSlug);
-      const data = await queryJams.getByIds(jamIds);
-      return {
-        tag: tag,
-        jams: data,
-      };
-    },
+    () => queryJams.getJamsByTagSlug(tagSlug),
     {
       staleTime: Infinity,
       ...options,
