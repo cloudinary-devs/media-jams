@@ -3,7 +3,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ChakraProvider } from '@chakra-ui/react';
-import { MixPanelProvider } from '@lib/mixpanel';
 import { UserProvider, useUser } from '@auth0/nextjs-auth0';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import theme from '../theme';
@@ -20,15 +19,13 @@ const user = {
 const queryClient = new QueryClient();
 const AllTheProviders = ({ children }) => {
   return (
-    <MixPanelProvider>
-      <ChakraProvider resetCSS theme={theme}>
-        <RouterContext.Provider value={{ ...mockRouter }}>
-          <QueryClientProvider client={queryClient}>
-            <UserProvider user={user}>{children}</UserProvider>
-          </QueryClientProvider>
-        </RouterContext.Provider>
-      </ChakraProvider>
-    </MixPanelProvider>
+    <ChakraProvider resetCSS theme={theme}>
+      <RouterContext.Provider value={{ ...mockRouter }}>
+        <QueryClientProvider client={queryClient}>
+          <UserProvider user={user}>{children}</UserProvider>
+        </QueryClientProvider>
+      </RouterContext.Provider>
+    </ChakraProvider>
   );
 };
 

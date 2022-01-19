@@ -6,7 +6,6 @@ import { serialize } from 'next-mdx-remote/serialize';
 import { NextSeo } from 'next-seo';
 
 import { postBySlug, postsWithSlug } from '@lib/api';
-import { useMixPanel } from '@lib/mixpanel';
 import GA from '@lib/googleAnalytics';
 import { useOnRead } from '@hooks/useOnRead';
 import { useRelatedJams } from '@hooks/useJams';
@@ -22,7 +21,6 @@ import RelatedJams from '@components/RelatedJams';
 
 import format from 'date-fns/format';
 export default function Post({ post, preview, error, og }) {
-  const mixpanel = useMixPanel();
   const mainContentRef = React.useRef(null);
   const router = useRouter();
   const { data } = useRelatedJams(post?.tags);
@@ -40,19 +38,10 @@ export default function Post({ post, preview, error, og }) {
   /**
    * Analytics Per Jam
    */
-  React.useEffect(() => {
-    mixpanel.jamView(post);
-  }, []);
   useOnRead({
     parentElRef: mainContentRef,
     onRead: (time) => {
       GA.readJam(post, time);
-      mixpanel.interaction('Read Jam', {
-        title: post.title,
-        tags: post.tags,
-        author: author.name,
-        ...time,
-      });
     },
   });
 
@@ -141,17 +130,15 @@ Post.getLayout = (page) => <Layout>{page}</Layout>;
 export const getStaticPaths = async () => {
   // Get the paths we want to pre-render based on posts
   const jams = await postsWithSlug();
-  return {
-    paths:
-      jams
-        ?.filter((post) => post?.slug)
-        .map(({ slug }) => ({
-          params: {
-            slug,
-          },
-        })) || [],
-    fallback: true,
-  };
+  const paths =
+    jams
+      ?.filter((post) => post?.slug)
+      .map(({ slug }) => ({
+        params: {
+          slug,
+        },
+      })) || [];
+  return { paths, fallback: 'blocking' };
 };
 
 // This function gets called at build time on server-side.
@@ -225,6 +212,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
           ...jam,
         },
       },
+      revalidate: 60, // 60 second revalidation
     };
   } catch (error) {
     console.error(error);

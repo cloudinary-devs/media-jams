@@ -1,5 +1,4 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import GAnalytics from '@components/GAnalytics';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -12,11 +11,6 @@ import SEO from '@utils/next-seo.config';
 import { UserProvider } from '@auth0/nextjs-auth0';
 import { SidePanelProvider } from '@components/SidePanelProvider';
 import { SearchProvider } from '@components/SearchProvider';
-
-const DynamicMixPanelProvider = dynamic(
-  () => import('../lib/mixpanel').then((mod) => mod.MixPanelProvider),
-  { ssr: false },
-);
 
 // Fonts Import
 import '@fontsource/dm-sans/700.css';
@@ -35,10 +29,6 @@ const App = ({ Component, pageProps, err }) => {
   React.useEffect(() => {
     const handleRouteChange = async (err, url) => {
       if (err.cancelled) return null;
-      const pageView = await import('../lib/mixpanel').then(
-        (mod) => mod.pageView,
-      );
-      pageView(router.pathname, router.query);
     };
     //When the component is mounted, subscribe to router changes
     //and log those page views
@@ -59,22 +49,20 @@ const App = ({ Component, pageProps, err }) => {
     <>
       <DefaultSeo {...SEO} />
       <GAnalytics />
-      <DynamicMixPanelProvider>
-        <ChakraProvider resetCSS theme={theme}>
-          <QueryClientProvider client={queryClientRef.current}>
-            <Hydrate state={pageProps.dehydratedState}>
-              <UserProvider user={user}>
-                <SidePanelProvider nav={nav}>
-                  <SearchProvider>
-                    {getLayout(<Component {...pageProps} err={err} />)}
-                    <ReactQueryDevtools initialIsOpen={false} />
-                  </SearchProvider>
-                </SidePanelProvider>
-              </UserProvider>
-            </Hydrate>
-          </QueryClientProvider>
-        </ChakraProvider>
-      </DynamicMixPanelProvider>
+      <ChakraProvider resetCSS theme={theme}>
+        <QueryClientProvider client={queryClientRef.current}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <UserProvider user={user}>
+              <SidePanelProvider nav={nav}>
+                <SearchProvider>
+                  {getLayout(<Component {...pageProps} err={err} />)}
+                  <ReactQueryDevtools initialIsOpen={false} />
+                </SearchProvider>
+              </SidePanelProvider>
+            </UserProvider>
+          </Hydrate>
+        </QueryClientProvider>
+      </ChakraProvider>
     </>
   );
 };
