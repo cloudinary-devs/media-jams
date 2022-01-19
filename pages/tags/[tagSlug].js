@@ -15,6 +15,7 @@ import {
 
 import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
+import ReactIcon from '@components/ReactIcon';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -31,6 +32,7 @@ export default function Tag({ tagSlug }) {
 
   const { data } = useJamTag(tagSlug);
   const { jams, tag } = data || {};
+  const icon = tag.icon;
 
   return (
     <Layout>
@@ -46,16 +48,28 @@ export default function Tag({ tagSlug }) {
             justify="space-around"
             sx={{ gap: '24px' }}
           >
-            <Heading as="h2" fontSize="42" color="blue.800" my="8">
+            <Heading
+              display="flex"
+              alignItems="center"
+              as="h2"
+              fontSize="42"
+              color="blue.800"
+              my="8"
+            >
               <Text
+                display="inline-flex"
+                alignItems="center"
                 fontSize="inherit"
                 fontWeight="black"
                 as="span"
                 color="secondary.600"
+                mr="3"
               >
+                {icon && (
+                  <ReactIcon {...icon} fontSize="36" margin="0" mr="3" />
+                )}
                 {tag.title}
               </Text>
-              {` `}
               Jams
             </Heading>
 
@@ -93,7 +107,7 @@ export async function getStaticPaths() {
   const paths = tags.map(({ title, slug }) => {
     return {
       params: {
-        tagSlug: slug?.current || encodeURIComponent(title), // hack to get all paths to compile for now
+        tagSlug: slug?.current,
       },
     };
   });

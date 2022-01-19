@@ -244,10 +244,7 @@ export default function Dashboard() {
                 const icon = tag.icon || { name: 'FaTag', provider: 'fa' };
                 return (
                   <ListItem key={tag._id}>
-                    <NextLink
-                      href={`/tags/${encodeURIComponent(tag.title)}`}
-                      passHref
-                    >
+                    <NextLink href={`/tags/${tag.slug?.current}`} passHref>
                       <Link
                         display="block"
                         position="relative"
@@ -319,10 +316,7 @@ export default function Dashboard() {
                     const icon = tag.icon || { name: 'FaTag', provider: 'fa' };
                     return (
                       <ListItem key={tag._id} m="2">
-                        <NextLink
-                          href={`/tags/${encodeURIComponent(tag.title)}`}
-                          passHref
-                        >
+                        <NextLink href={`/tags/${tag.slug?.current}`} passHref>
                           <Link
                             display="flex"
                             alignItems="center"
