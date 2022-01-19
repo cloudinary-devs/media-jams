@@ -15,23 +15,24 @@ import {
 
 import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
+import ReactIcon from '@components/ReactIcon';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
+import { useJamsQuery, useFeaturedJamsQuery, useJamTag } from '@hooks/useJams';
 import { useTags } from '@hooks/useTags';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
 
-export default function Tag({ tag }) {
+export default function Tag({ tagSlug }) {
   const jamListColumns = useBreakpointValue({
     base: 1,
     lg: 2,
   });
 
-  const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
-
-  console.log('allJams', allJams);
+  const { data } = useJamTag(tagSlug);
+  const { jams, tag } = data || {};
+  const icon = tag.icon;
 
   return (
     <Layout>
@@ -47,20 +48,32 @@ export default function Tag({ tag }) {
             justify="space-around"
             sx={{ gap: '24px' }}
           >
-            <Heading as="h2" fontSize="42" color="blue.800" my="8">
+            <Heading
+              display="flex"
+              alignItems="center"
+              as="h2"
+              fontSize="42"
+              color="blue.800"
+              my="8"
+            >
               <Text
+                display="inline-flex"
+                alignItems="center"
                 fontSize="inherit"
                 fontWeight="black"
                 as="span"
                 color="secondary.600"
+                mr="3"
               >
+                {icon && (
+                  <ReactIcon {...icon} fontSize="36" margin="0" mr="3" />
+                )}
                 {tag.title}
               </Text>
-              {` `}
               Jams
             </Heading>
 
-            <JamCardList jams={allJams?.jams || []} columns={jamListColumns} />
+            {jams && <JamCardList jams={jams} columns={jamListColumns} />}
           </Flex>
         </Flex>
       </Box>
@@ -69,23 +82,17 @@ export default function Tag({ tag }) {
 }
 
 export async function getStaticProps({ params }) {
+  const { tagSlug } = params;
   const queryClient = new QueryClient();
 
-  await queryClient.fetchQuery('jamTags', queryTags.getStatic);
-  const { data: { tags } = {} } = queryClient.getQueryData('jamTags');
-
-  await queryClient.fetchQuery('allJams', queryJams.getStatic);
-  await queryClient.setQueryData('allJams', (old) => ({
-    jams: old.data?.jams,
-  }));
-
-  const tag =
-    tags &&
-    tags.find(({ title }) => encodeURIComponent(title) === params.tagSlug);
+  await queryClient.fetchQuery(['jamTag-slug', tagSlug], () =>
+    queryJams.getJamsByTagSlug(params.tagSlug),
+  );
+  await queryClient.setQueryData(['jamTag-slug', tagSlug], (old) => old);
 
   return {
     props: {
-      tag: tag || {},
+      tagSlug,
       dehydratedState: dehydrate(queryClient),
     },
   };
@@ -94,12 +101,13 @@ export async function getStaticProps({ params }) {
 export async function getStaticPaths() {
   const queryClient = new QueryClient();
   await queryClient.fetchQuery('jamTags', queryTags.getStatic);
-  const { data: { tags } = {} } = queryClient.getQueryData('jamTags');
+  const { data = {} } = queryClient.getQueryData('jamTags');
+  const { tags } = data;
 
-  const paths = tags.map(({ title }) => {
+  const paths = tags.map(({ title, slug }) => {
     return {
       params: {
-        tagSlug: encodeURIComponent(title),
+        tagSlug: slug?.current,
       },
     };
   });
