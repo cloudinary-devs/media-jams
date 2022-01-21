@@ -1,5 +1,6 @@
 import 'tippy.js/dist/tippy.css';
 import React from 'react';
+import { useRouter } from 'next/router';
 import { Flex, Box, useBreakpointValue } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
@@ -12,6 +13,7 @@ import Search from '@components/Search';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
+import { useTagsQuery } from '@hooks/useTags';
 import { useSearch } from '@components/SearchProvider';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
@@ -28,6 +30,7 @@ const fuseOptions = {
 };
 
 export default function Dashboard() {
+  const router = useRouter();
   const ResonsiveFeaturedCard = useBreakpointValue({
     base: MobileFeaturedJamCard,
     lg: FeaturedJamCard,
@@ -37,6 +40,7 @@ export default function Dashboard() {
     state: { searchValue, selectedTagFilters, filteredJams },
     handleFilter,
     updateSearchValue,
+    addTagGroup,
   } = useSearch();
   const [showJams, setShowJams] = React.useState({
     inc: 0,
@@ -45,6 +49,14 @@ export default function Dashboard() {
   });
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
+
+  const { data: allTags, isLoading: isLoadingAllTags } = useTagsQuery();
+  // // On Page Load
+  // React.useEffect(() => {
+  //   const { q } = router.query;
+  //   console.log('onload', q);
+  //   addTag('React');
+  // }, [router.query]);
 
   React.useEffect(() => {
     // do some checking here to ensure data exist
@@ -61,7 +73,7 @@ export default function Dashboard() {
     } else {
       // Allow for a search for tag
       const formattedTags = selectedTagFilters.map((item) => item.title);
-
+      console.log(formattedTags.map((t) => encodeURIComponent(t)).join('%2C'));
       const queries = {
         $or: [
           {
@@ -100,6 +112,25 @@ export default function Dashboard() {
       // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
     }
   }, [searchValue, selectedTagFilters, isLoadingJams]);
+
+  // Router Query Effect
+  React.useEffect(() => {
+    console.log('router query', router.query.tagQuery);
+    const { tags } = router.query;
+    console.log(allTags.data);
+    console.log(router.isReady, tags, isLoadingAllTags);
+    if (!router.isReady || !tags || !allTags?.data?.tags) {
+      return null;
+    }
+    const tagGroup = tags
+      .split(',')
+      .map((t) => allTags.data.tags.find((at) => at.title === t));
+    console.log('qtags', tagGroup);
+    addTagGroup(tagGroup);
+
+    // Update Router with selected tags w/o reloading fetch events
+    // router.push(path, undefined, { shallow: true });
+  }, [router.isReady, allTags, isLoadingAllTags]);
 
   const loadMoreJams = () => {
     setShowJams((prevState) => {

@@ -4,6 +4,7 @@ import GA from '@lib/googleAnalytics';
 export const SSACTIONS = {
   SET_SEARCH: 'setSearch',
   ADD_TAG_FILTERS: 'addTagFilters',
+  ADD_TAG_FILTER_GROUP: 'addTagFilterGroup',
   REMOVE_TAG_FILTERS: 'removeTagFilters',
   CLEAR_TAG_FILTERS: 'clearTagFilters',
   SET_JAMS: 'setJams',
@@ -28,6 +29,11 @@ function reducer(state, action) {
       return {
         ...state,
         selectedTagFilters: [...state.selectedTagFilters, action.tag],
+      };
+    case SSACTIONS.ADD_TAG_FILTER_GROUP:
+      return {
+        ...state,
+        selectedTagFilters: [...state.selectedTagFilters, ...action.tags],
       };
     case SSACTIONS.REMOVE_TAG_FILTERS:
       return {
@@ -68,8 +74,13 @@ export function SearchProvider({ children }) {
     updateSearchValue: (value) => {
       dispatch({ type: SSACTIONS.SET_SEARCH, value });
     },
+
     addTag: (tag) => {
       return dispatch({ type: SSACTIONS.ADD_TAG_FILTERS, tag });
+    },
+
+    addTagGroup: (tags) => {
+      return dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags });
     },
 
     removeTag: (tag) => {
