@@ -69,3 +69,15 @@
    - Using a Custom MDX component in the Jam Content it's rendered as an iFrame with specific attributes.
      - Including using MirrorCode and 'click to load' to help reduce the time to interact
      - Options include having a specific file and | or preview panel open.
+
+### Inviting Authors
+
+1. As an admin log into auth0.com
+2. Add User.
+   - name, email, and set password to a default (we'll have them reset this shortly)
+3. Once Added, open their user profile in auth0 and add 'creator' role.
+4. Finally. Go to [Media Jams Login](https://mediajams.dev/api/auth/login)
+   - Click 'forget' password
+   - Use email previous registred in previous step.
+   - This will send them a 'welcome' email asking them to pick a new password for their Media Jams account.
+5. Once done. They can login [Media Jams Login](https://mediajams.dev/api/auth/login) and will see a 'MDE Studio' link under the 'More' tab on the sidebar. 👍
