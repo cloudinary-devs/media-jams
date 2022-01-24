@@ -50,6 +50,8 @@ export default function Dashboard() {
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
 
+  // Update router params to reflect tag state
+  // Return null until isReady is true
   const routerPushTags = (tags = null) => {
     if (!router.isReady) return null;
     const routerPath = tags

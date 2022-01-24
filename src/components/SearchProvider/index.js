@@ -62,7 +62,6 @@ export function SearchProvider({ children }) {
   const router = useRouter();
   const { data: allTags } = useTagsQuery();
   const [state, dispatch] = useReducer(reducer, initState);
-  const [loadFromRouter, setFromRouter] = React.useState(true);
   const { tags } = router.query;
 
   // Capture search state with GA
@@ -76,15 +75,11 @@ export function SearchProvider({ children }) {
     };
   }, [state]);
 
+  // Router Query for selected tags
+  // Given query params from the router & react-query tags loaded
+  // then update the state to reflect those chosen tags
   React.useEffect(() => {
-    if (router.isReady) {
-      setFromRouter(false);
-    }
-  }, [router.isReady]);
-
-  // Router Query Effect for selected tags
-  React.useEffect(() => {
-    if (!setFromRouter || !tags || !allTags?.data) {
+    if (!tags || !allTags?.data) {
       return null;
     }
     const tagGroup = tags
