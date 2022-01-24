@@ -1,4 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
+import { useRouter } from 'next/router';
+
+import { useTagsQuery } from '@hooks/useTags';
 import GA from '@lib/googleAnalytics';
 
 export const SSACTIONS = {
@@ -56,7 +59,11 @@ function reducer(state, action) {
 }
 
 export function SearchProvider({ children }) {
+  const router = useRouter();
+  const { data: allTags } = useTagsQuery();
   const [state, dispatch] = useReducer(reducer, initState);
+  const [loadFromRouter, setFromRouter] = React.useState(true);
+  const { tags } = router.query;
 
   // Capture search state with GA
   // debounce to reduce api calls
@@ -68,6 +75,27 @@ export function SearchProvider({ children }) {
       clearTimeout(handler);
     };
   }, [state]);
+
+  React.useEffect(() => {
+    console.log(router.isReady);
+    console.log('Initial Tags', router.query.tags);
+    if (router.isReady) {
+      setFromRouter(false);
+    }
+  }, [router.isReady]);
+
+  // Router Query Effect for selected tags
+  React.useEffect(() => {
+    console.log(tags, allTags);
+    if (!setFromRouter || !tags || !allTags?.data) {
+      return null;
+    }
+    const tagGroup = tags
+      .split(',')
+      .map((t) => allTags.data.tags.find((at) => at.title === t));
+    console.log('qtags', tagGroup);
+    dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags: tagGroup });
+  }, [allTags, tags]);
 
   const value = {
     state,

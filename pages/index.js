@@ -50,13 +50,13 @@ export default function Dashboard() {
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
 
-  const { data: allTags, isLoading: isLoadingAllTags } = useTagsQuery();
-  // // On Page Load
-  // React.useEffect(() => {
-  //   const { q } = router.query;
-  //   console.log('onload', q);
-  //   addTag('React');
-  // }, [router.query]);
+  const routerPushTags = (tags = null) => {
+    if (!router.isReady) return null;
+    const routerPath = tags
+      ? `/?tags=${tags.map((t) => encodeURIComponent(t)).join('%2C')}`
+      : `/`;
+    router.push(routerPath, undefined, { shallow: true });
+  };
 
   React.useEffect(() => {
     // do some checking here to ensure data exist
@@ -70,10 +70,16 @@ export default function Dashboard() {
   React.useEffect(() => {
     if (searchValue === '' && selectedTagFilters.length === 0) {
       handleFilter(allJams?.jams);
+      routerPushTags();
+      console.log('clear tags>>>>>>>>');
     } else {
       // Allow for a search for tag
       const formattedTags = selectedTagFilters.map((item) => item.title);
-      console.log(formattedTags.map((t) => encodeURIComponent(t)).join('%2C'));
+      console.log(
+        'formatted tags',
+        formattedTags.map((t) => encodeURIComponent(t)).join('%2C'),
+      );
+      routerPushTags(formattedTags);
       const queries = {
         $or: [
           {
@@ -92,7 +98,6 @@ export default function Dashboard() {
       };
 
       // Add an $and with the tag title if we have an active topic
-
       if (formattedTags.length > 0) {
         formattedTags.forEach((tag) => {
           queries.$and.push({
@@ -109,28 +114,8 @@ export default function Dashboard() {
         handleFilter(results);
       }
       initFuse();
-      // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
     }
   }, [searchValue, selectedTagFilters, isLoadingJams]);
-
-  // Router Query Effect
-  React.useEffect(() => {
-    console.log('router query', router.query.tagQuery);
-    const { tags } = router.query;
-    console.log(allTags.data);
-    console.log(router.isReady, tags, isLoadingAllTags);
-    if (!router.isReady || !tags || !allTags?.data?.tags) {
-      return null;
-    }
-    const tagGroup = tags
-      .split(',')
-      .map((t) => allTags.data.tags.find((at) => at.title === t));
-    console.log('qtags', tagGroup);
-    addTagGroup(tagGroup);
-
-    // Update Router with selected tags w/o reloading fetch events
-    // router.push(path, undefined, { shallow: true });
-  }, [router.isReady, allTags, isLoadingAllTags]);
 
   const loadMoreJams = () => {
     setShowJams((prevState) => {
