@@ -42,7 +42,7 @@ function reducer(state, action) {
       return {
         ...state,
         selectedTagFilters: state.selectedTagFilters.filter(
-          (t) => t !== action.tag,
+          (t) => t._id !== action.tag._id,
         ),
       };
     case SSACTIONS.CLEAR_TAG_FILTERS:
@@ -77,8 +77,6 @@ export function SearchProvider({ children }) {
   }, [state]);
 
   React.useEffect(() => {
-    console.log(router.isReady);
-    console.log('Initial Tags', router.query.tags);
     if (router.isReady) {
       setFromRouter(false);
     }
@@ -86,14 +84,12 @@ export function SearchProvider({ children }) {
 
   // Router Query Effect for selected tags
   React.useEffect(() => {
-    console.log(tags, allTags);
     if (!setFromRouter || !tags || !allTags?.data) {
       return null;
     }
     const tagGroup = tags
       .split(',')
       .map((t) => allTags.data.tags.find((at) => at.title === t));
-    console.log('qtags', tagGroup);
     dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags: tagGroup });
   }, [allTags, tags]);
 

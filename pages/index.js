@@ -71,14 +71,9 @@ export default function Dashboard() {
     if (searchValue === '' && selectedTagFilters.length === 0) {
       handleFilter(allJams?.jams);
       routerPushTags();
-      console.log('clear tags>>>>>>>>');
     } else {
       // Allow for a search for tag
       const formattedTags = selectedTagFilters.map((item) => item.title);
-      console.log(
-        'formatted tags',
-        formattedTags.map((t) => encodeURIComponent(t)).join('%2C'),
-      );
       routerPushTags(formattedTags);
       const queries = {
         $or: [
