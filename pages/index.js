@@ -73,6 +73,7 @@ export default function Dashboard() {
   }, []);
 
   function handleOnSearchFocus() {
+    console.log('focus');
     router.push('/search');
   }
 

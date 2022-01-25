@@ -75,8 +75,9 @@ export default function Dashboard() {
 
   // console.log('searchValue', searchValue)
 
-  const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
-  console.log('allJams', allJams);
+  // const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
+  // console.log('allJams', allJams);
+  const allJams = { jams: [] };
   // const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
   // const tags = useTags();
 
