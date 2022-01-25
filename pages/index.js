@@ -1,5 +1,6 @@
 import 'tippy.js/dist/tippy.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import {
   Flex,
   Box,
@@ -21,7 +22,7 @@ import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
 import JamCardCollage from '@components/JamCardCollage';
 import Banner from '@components/Banner';
-import Search from '@components/Search';
+import SearchInput from '@components/SearchInput';
 import {
   GreenCheck,
   Author,
@@ -40,24 +41,14 @@ import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
 import { useTags } from '@hooks/useTags';
-import { useSearch } from '@components/SearchProvider';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
-
-const fuseOptions = {
-  threshold: 0.35,
-  location: 0,
-  distance: 100,
-  minMatchCharLength: 3,
-  shouldSort: true,
-  includeScore: true,
-  useExtendedSearch: true,
-  keys: ['title', 'tags.title', ['author', 'name']],
-};
 
 const JAMS_TO_SHOW = 10;
 
 export default function Dashboard() {
+  const router = useRouter();
+
   const [displayMoreTags, setDisplayMoreTags] = useState(false);
   const handleShowMoreTags = () => setDisplayMoreTags(!displayMoreTags);
 
@@ -65,12 +56,6 @@ export default function Dashboard() {
     base: 1,
     lg: 2,
   });
-
-  const {
-    state: { searchValue, selectedTagFilters, filteredJams },
-    handleFilter,
-    updateSearchValue,
-  } = useSearch();
 
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
@@ -83,60 +68,9 @@ export default function Dashboard() {
     .filter((j) => !j.postMetadata.featured)
     .slice(0, JAMS_TO_SHOW);
 
-  // useEffect(() => {
-  //   // do some checking here to ensure data exist
-  //   if (isLoadingJams === false && allJams?.jams) {
-  //     handleFilter(allJams?.jams);
-  //     loadMoreJams();
-  //   }
-  // }, [isLoadingJams, allJams]);
-
-  // handle updating the filteredPosts with different search criteria
-  // useEffect(() => {
-  //   if (searchValue === '' && selectedTagFilters.length === 0) {
-  //     handleFilter(allJams?.jams);
-  //   } else {
-  //     // Allow for a search for tag
-  //     const formattedTags = selectedTagFilters.map((item) => item.title);
-
-  //     const queries = {
-  //       $or: [
-  //         {
-  //           title: searchValue,
-  //         },
-  //         {
-  //           $path: ['author.name'],
-  //           $val: searchValue,
-  //         },
-  //         {
-  //           $path: ['tags.title'],
-  //           $val: searchValue,
-  //         },
-  //       ],
-  //       $and: [],
-  //     };
-
-  //     // Add an $and with the tag title if we have an active topic
-
-  //     if (formattedTags.length > 0) {
-  //       formattedTags.forEach((tag) => {
-  //         queries.$and.push({
-  //           $path: 'tags.title',
-  //           $val: `'${tag}`, // the ' in front adds exact match
-  //         });
-  //       });
-  //     }
-  //     async function initFuse() {
-  //       const Fuse = (await import('fuse.js')).default;
-  //       const fuse = new Fuse(allJams?.jams, fuseOptions);
-  //       const results = fuse.search(queries).map((result) => result.item);
-
-  //       handleFilter(results);
-  //     }
-  //     initFuse();
-  //     // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
-  //   }
-  // }, [searchValue, selectedTagFilters, isLoadingJams]);
+  function handleOnSearchFocus() {
+    router.push(`/search`);
+  }
 
   return (
     <Box w="100%" height="100%" overflowY="auto">
@@ -222,10 +156,7 @@ export default function Dashboard() {
             Discover Jams
           </Heading>
 
-          <Search
-            searchValue={searchValue}
-            setSearchValue={updateSearchValue}
-          />
+          <SearchInput onFocus={handleOnSearchFocus} />
 
           <Box>
             <VisuallyHidden>
