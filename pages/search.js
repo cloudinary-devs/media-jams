@@ -1,5 +1,5 @@
 import 'tippy.js/dist/tippy.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Flex,
   Box,
@@ -33,14 +33,14 @@ import {
   Video,
   Pencil,
 } from '@components/Icons';
-import MediaJams from '@components/MediaJams';
-import MediaJar from '@components/MediaJar';
 import ReactIcon from '@components/ReactIcon';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
+import { useJamsLazyQuery, useFeaturedJamsQuery } from '@hooks/useJams';
 import { useTags } from '@hooks/useTags';
+import useLazyQuery from '@hooks/useLazyQuery';
+import useOnLoad from '@hooks/useOnLoad';
 import { useSearch } from '@components/SearchProvider';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
@@ -75,9 +75,14 @@ export default function Dashboard() {
 
   // console.log('searchValue', searchValue)
 
-  // const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
+  const [
+    fetchJams,
+    { data: allJams, isLoading: isLoadingJams },
+  ] = useJamsLazyQuery();
+  useOnLoad(fetchJams);
+
   // console.log('allJams', allJams);
-  const allJams = { jams: [] };
+  // const allJams = { jams: [] };
   // const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
   // const tags = useTags();
 
@@ -168,8 +173,9 @@ export default function Dashboard() {
           /> */}
 
           <Heading as="h2" fontSize="42" color="blue.800" mt="8">
-            Latest Jams
+            Results
           </Heading>
+
           {Array.isArray(allJams?.jams) && (
             <JamCardList jams={allJams.jams} columns={jamListColumns} />
           )}
