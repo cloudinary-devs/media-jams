@@ -70,13 +70,12 @@ export default function Dashboard() {
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
+    const formattedTags = selectedTagFilters.map((item) => item.title);
     if (searchValue === '' && selectedTagFilters.length === 0) {
       handleFilter(allJams?.jams);
       routerPushTags();
     } else {
       // Allow for a search for tag
-      const formattedTags = selectedTagFilters.map((item) => item.title);
-      routerPushTags(formattedTags);
       const queries = {
         $or: [
           {
@@ -96,6 +95,7 @@ export default function Dashboard() {
 
       // Add an $and with the tag title if we have an active topic
       if (formattedTags.length > 0) {
+        routerPushTags(formattedTags);
         formattedTags.forEach((tag) => {
           queries.$and.push({
             $path: 'tags.title',
