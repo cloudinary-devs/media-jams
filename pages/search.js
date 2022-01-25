@@ -42,111 +42,28 @@ import { useTags } from '@hooks/useTags';
 import useLazyQuery from '@hooks/useLazyQuery';
 import useOnLoad from '@hooks/useOnLoad';
 import { useSearch } from '@components/SearchProvider';
-import { tags as queryTags } from '@lib/queries/tags';
-import { jams as queryJams } from '@lib/queries/jams';
-
-const fuseOptions = {
-  threshold: 0.35,
-  location: 0,
-  distance: 100,
-  minMatchCharLength: 3,
-  shouldSort: true,
-  includeScore: true,
-  useExtendedSearch: true,
-  keys: ['title', 'tags.title', ['author', 'name']],
-};
-
-const JAMS_TO_SHOW = 10;
 
 export default function Dashboard() {
-  // const [displayMoreTags, setDisplayMoreTags] = useState(false);
-  // const handleShowMoreTags = () => setDisplayMoreTags(!displayMoreTags);
-
   const jamListColumns = useBreakpointValue({
     base: 1,
     lg: 2,
   });
 
-  // const {
-  //   state: { searchValue, selectedTagFilters, filteredJams },
-  //   handleFilter,
-  //   updateSearchValue,
-  // } = useSearch();
+  const {
+    jams,
+    state: { searchValue, selectedTagFilters, filteredJams },
+    handleFilter,
+    updateSearchValue,
+    isLoading,
+    isActiveSearch,
+  } = useSearch();
 
-  // console.log('searchValue', searchValue)
+  const hasJams = Array.isArray(jams) && jams.length > 0;
 
-  const [
-    fetchJams,
-    { data: allJams, isLoading: isLoadingJams },
-  ] = useJamsLazyQuery();
-  useOnLoad(fetchJams);
-
-  // console.log('allJams', allJams);
-  // const allJams = { jams: [] };
-  // const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
   // const tags = useTags();
 
   // const featuredTags = tags.filter(({ featured }) => featured);
   // const tagsByPopularity = tags; // TODO figure out how to sort
-
-  // const standardJams = allJams?.jams
-  //   .filter((j) => !j.postMetadata.featured)
-  //   .slice(0, JAMS_TO_SHOW);
-
-  // useEffect(() => {
-  //   // do some checking here to ensure data exist
-  //   if (isLoadingJams === false && allJams?.jams) {
-  //     handleFilter(allJams?.jams);
-  //     loadMoreJams();
-  //   }
-  // }, [isLoadingJams, allJams]);
-
-  // handle updating the filteredPosts with different search criteria
-  // useEffect(() => {
-  //   if (searchValue === '' && selectedTagFilters.length === 0) {
-  //     handleFilter(allJams?.jams);
-  //   } else {
-  //     // Allow for a search for tag
-  //     const formattedTags = selectedTagFilters.map((item) => item.title);
-
-  //     const queries = {
-  //       $or: [
-  //         {
-  //           title: searchValue,
-  //         },
-  //         {
-  //           $path: ['author.name'],
-  //           $val: searchValue,
-  //         },
-  //         {
-  //           $path: ['tags.title'],
-  //           $val: searchValue,
-  //         },
-  //       ],
-  //       $and: [],
-  //     };
-
-  //     // Add an $and with the tag title if we have an active topic
-
-  //     if (formattedTags.length > 0) {
-  //       formattedTags.forEach((tag) => {
-  //         queries.$and.push({
-  //           $path: 'tags.title',
-  //           $val: `'${tag}`, // the ' in front adds exact match
-  //         });
-  //       });
-  //     }
-  //     async function initFuse() {
-  //       const Fuse = (await import('fuse.js')).default;
-  //       const fuse = new Fuse(allJams?.jams, fuseOptions);
-  //       const results = fuse.search(queries).map((result) => result.item);
-
-  //       handleFilter(results);
-  //     }
-  //     initFuse();
-  //     // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
-  //   }
-  // }, [searchValue, selectedTagFilters, isLoadingJams]);
 
   return (
     <Box w="100%" height="100%" overflowY="auto">
@@ -161,23 +78,31 @@ export default function Dashboard() {
           justify="space-around"
           sx={{ gap: '24px' }}
         >
-          <Heading as="h2" fontSize="42" color="blue.800" mt="4">
-            Discover Jams
+          <Heading as="h1" fontSize="42" color="blue.800" mt="4">
+            Search Jams
           </Heading>
 
-          <SearchInput focusOnLoad={true} />
+          <SearchInput focusOnLoad={true} setSearchValue={updateSearchValue} />
 
-          {/* <Search
-            searchValue={searchValue}
-            setSearchValue={updateSearchValue}
-          /> */}
+          {isActiveSearch && searchValue.length < 3 && (
+            <Text>Keep typing...</Text>
+          )}
 
-          <Heading as="h2" fontSize="42" color="blue.800" mt="8">
-            Results
-          </Heading>
+          {!isLoading && hasJams && (
+            <>
+              <Heading as="h2" fontSize="42" color="blue.800" mt="8">
+                Results
+              </Heading>
+              <JamCardList jams={jams} columns={jamListColumns} />
+            </>
+          )}
 
-          {Array.isArray(allJams?.jams) && (
-            <JamCardList jams={allJams.jams} columns={jamListColumns} />
+          {(isLoading || !hasJams) && (
+            <Box>
+              <Heading as="h2" fontSize="42" color="blue.800" mt="8">
+                Discover Jams
+              </Heading>
+            </Box>
           )}
         </Flex>
       </Flex>

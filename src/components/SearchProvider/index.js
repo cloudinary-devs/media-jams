@@ -1,5 +1,24 @@
-import React, { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, createContext, useContext } from 'react';
+import { QueryClient, useQuery } from 'react-query';
+
+import { useJamsLazyQuery, useFeaturedJamsQuery } from '@hooks/useJams';
+import useOnLoad from '@hooks/useOnLoad';
+import { initFuse } from '@lib/search';
+
 import GA from '@lib/googleAnalytics';
+
+let Fuse;
+
+const fuseOptions = {
+  threshold: 0.35,
+  location: 0,
+  distance: 100,
+  minMatchCharLength: 3,
+  shouldSort: true,
+  includeScore: true,
+  useExtendedSearch: true,
+  keys: ['title', 'tags.title', ['author', 'name']],
+};
 
 export const SSACTIONS = {
   SET_SEARCH: 'setSearch',
@@ -16,7 +35,7 @@ const initState = {
   filteredJams: [],
 };
 
-const SearchContext = React.createContext();
+const SearchContext = createContext();
 
 function reducer(state, action) {
   switch (action.type) {
@@ -94,5 +113,61 @@ export function SearchProvider({ children }) {
 
 // Export useContext Hook.
 export function useSearch() {
-  return React.useContext(SearchContext);
+  const context = useContext(SearchContext);
+  const { state = {} } = context;
+  const { searchValue, selectedTagFilters } = state;
+
+  const [fetchJams, jamQueryData] = useJamsLazyQuery();
+  const { data: allJams = {}, isLoading: isLoadingJams } = jamQueryData;
+  const { jams = [] } = allJams;
+
+  let activeJams = [];
+
+  useOnLoad(async () => {
+    Fuse = await initFuse();
+    await fetchJams();
+  });
+
+  const formattedTags = selectedTagFilters.map((item) => item.title);
+  const isActiveSearch = searchValue || selectedTagFilters.length > 0;
+
+  if (isActiveSearch && Fuse) {
+    const queries = {
+      $or: [
+        {
+          title: searchValue,
+        },
+        {
+          $path: ['author.name'],
+          $val: searchValue,
+        },
+        {
+          $path: ['tags.title'],
+          $val: searchValue,
+        },
+      ],
+      $and: [],
+    };
+
+    if (formattedTags.length > 0) {
+      formattedTags.forEach((tag) => {
+        queries.$and.push({
+          $path: 'tags.title',
+          $val: `'${tag}`, // the ' in front adds exact match
+        });
+      });
+    }
+
+    const fuse = new Fuse(jams, fuseOptions);
+    const results = fuse.search(queries).map((result) => result.item);
+
+    activeJams = results;
+  }
+
+  return {
+    ...context,
+    jams: activeJams,
+    isLoading: isLoadingJams,
+    isActiveSearch,
+  };
 }
