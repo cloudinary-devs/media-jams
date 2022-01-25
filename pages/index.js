@@ -68,8 +68,12 @@ export default function Dashboard() {
     .filter((j) => !j.postMetadata.featured)
     .slice(0, JAMS_TO_SHOW);
 
+  useEffect(() => {
+    router.prefetch('/search');
+  }, []);
+
   function handleOnSearchFocus() {
-    router.push(`/search`);
+    router.push('/search');
   }
 
   return (
