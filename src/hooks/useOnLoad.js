@@ -6,12 +6,14 @@ export default function useOnLoad(onLoad) {
   const [loaded, setLoaded] = useState(false);
 
   function onReadyStateChange() {
-    if (document.readyState === 'complete') {
+    if (readyStateComplete()) {
       setLoaded(true);
     }
   }
 
   useEffect(() => {
+    if (readyStateComplete()) return;
+
     if (typeof document.onreadystatechange === 'function') {
       const previousFunctions = document.onreadystatechange;
       document.onreadystatechange = function () {
@@ -24,11 +26,16 @@ export default function useOnLoad(onLoad) {
   }, []);
 
   useEffect(() => {
-    if (!loaded || typeof onLoad !== 'function') return;
-    onLoad();
+    if (loaded & (typeof onLoad !== 'function') || readyStateComplete()) {
+      onLoad();
+    }
   }, [loaded]);
 
   return {
     loaded,
   };
+}
+
+function readyStateComplete() {
+  return document.readyState === 'complete';
 }
