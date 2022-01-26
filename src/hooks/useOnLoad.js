@@ -12,7 +12,15 @@ export default function useOnLoad(onLoad) {
   }
 
   useEffect(() => {
-    document.onreadystatechange = onReadyStateChange;
+    if (typeof document.onreadystatechange === 'function') {
+      const previousFunctions = document.onreadystatechange;
+      document.onreadystatechange = function () {
+        onReadyStateChange();
+        previousFunctions();
+      };
+    } else {
+      document.onreadystatechange = onReadyStateChange;
+    }
   }, []);
 
   useEffect(() => {

@@ -36,6 +36,7 @@ import {
 import MediaJams from '@components/MediaJams';
 import MediaJar from '@components/MediaJar';
 import ReactIcon from '@components/ReactIcon';
+import TagCardList from '@components/TagCardList';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -166,66 +167,8 @@ export default function Dashboard() {
             <VisuallyHidden>
               <Heading as="h3">Featured Tags</Heading>
             </VisuallyHidden>
-            <SimpleGrid
-              as={List}
-              templateColumns={{
-                base: 'auto',
-                lg: 'repeat(3, minmax(0, 310px))',
-              }}
-              spacing="4"
-            >
-              {featuredTags.slice(0, 3).map((tag) => {
-                const image = tag?.image?.asset || {};
-                const icon = tag.icon || { name: 'FaTag', provider: 'fa' };
-                return (
-                  <ListItem key={tag._id}>
-                    <NextLink href={`/tags/${tag.slug?.current}`} passHref>
-                      <Link
-                        display="block"
-                        position="relative"
-                        color="white"
-                        borderRadius="md"
-                        py="6"
-                        _hover={{
-                          textDecoration: 'none',
-                        }}
-                        backgroundImage={image.url}
-                        backgroundSize="cover"
-                        backgroundPosition="center center"
-                        backgroundColor="#1B1464"
-                        _after={{
-                          display: 'block',
-                          opacity: 0.8,
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          zIndex: 0,
-                          width: '100%',
-                          height: '100%',
-                          content: '""',
-                          backgroundColor: '#1B1464',
-                        }}
-                        overflow="hidden"
-                        boxShadow="0 2px 8px rgba(37, 41, 46, .4)"
-                      >
-                        <Box
-                          display="flex"
-                          flexDirection="column"
-                          alignItems="center"
-                          position="relative"
-                          zIndex="1"
-                        >
-                          <ReactIcon {...icon} fontSize="36" margin="0" />
-                          <Text fontSize="18" fontWeight="bold" mt="3">
-                            {tag.title}
-                          </Text>
-                        </Box>
-                      </Link>
-                    </NextLink>
-                  </ListItem>
-                );
-              })}
-            </SimpleGrid>
+
+            <TagCardList tags={featuredTags.slice(0, 3)} />
 
             {!displayMoreTags && (
               <Text textAlign="center">

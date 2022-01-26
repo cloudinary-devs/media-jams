@@ -34,11 +34,12 @@ import {
   Pencil,
 } from '@components/Icons';
 import ReactIcon from '@components/ReactIcon';
+import TagCardList from '@components/TagCardList';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
-import { useJamsLazyQuery, useFeaturedJamsQuery } from '@hooks/useJams';
-import { useTags } from '@hooks/useTags';
+import { useFeaturedJamsQuery } from '@hooks/useJams';
+import { useTagsLazy } from '@hooks/useTags';
 import useLazyQuery from '@hooks/useLazyQuery';
 import useOnLoad from '@hooks/useOnLoad';
 import { useSearch } from '@components/SearchProvider';
@@ -60,10 +61,13 @@ export default function Dashboard() {
 
   const hasJams = Array.isArray(jams) && jams.length > 0;
 
-  // const tags = useTags();
+  const [fetchTags, tagQueryData] = useTagsLazy();
+  const { data: allTags = {}, isLoading: isLoadingTags } = tagQueryData;
+  const { tags = [] } = allTags;
 
-  // const featuredTags = tags.filter(({ featured }) => featured);
-  // const tagsByPopularity = tags; // TODO figure out how to sort
+  useOnLoad(fetchTags);
+
+  const featuredTags = tags.filter(({ featured }) => featured).slice(0, 3);
 
   return (
     <Box w="100%" height="100%" overflowY="auto">
@@ -99,9 +103,10 @@ export default function Dashboard() {
 
           {(isLoading || !hasJams) && (
             <Box>
-              <Heading as="h2" fontSize="42" color="blue.800" mt="8">
+              <Heading as="h2" fontSize="42" color="blue.800" mt="8" mb="6">
                 Discover Jams
               </Heading>
+              <TagCardList tags={featuredTags} />
             </Box>
           )}
         </Flex>
