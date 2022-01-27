@@ -1,5 +1,6 @@
 import 'tippy.js/dist/tippy.css';
 import React from 'react';
+import { useRouter } from 'next/router';
 import { Flex, Box, useBreakpointValue } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import FeaturedJamCard from '@components/JamList/FeaturedJamCard';
@@ -12,6 +13,7 @@ import Search from '@components/Search';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
+import { useTagsQuery } from '@hooks/useTags';
 import { useSearch } from '@components/SearchProvider';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
@@ -28,6 +30,7 @@ const fuseOptions = {
 };
 
 export default function Dashboard() {
+  const router = useRouter();
   const ResonsiveFeaturedCard = useBreakpointValue({
     base: MobileFeaturedJamCard,
     lg: FeaturedJamCard,
@@ -37,6 +40,7 @@ export default function Dashboard() {
     state: { searchValue, selectedTagFilters, filteredJams },
     handleFilter,
     updateSearchValue,
+    addTagGroup,
   } = useSearch();
   const [showJams, setShowJams] = React.useState({
     inc: 0,
@@ -45,6 +49,16 @@ export default function Dashboard() {
   });
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
+
+  // Update router params to reflect tag state
+  // Return null until isReady is true
+  const routerPushTags = (tags = null) => {
+    if (!router.isReady) return null;
+    const routerPath = tags
+      ? `/?tags=${tags.map((t) => encodeURIComponent(t)).join('%2C')}`
+      : `/`;
+    router.push(routerPath, undefined, { shallow: true });
+  };
 
   React.useEffect(() => {
     // do some checking here to ensure data exist
@@ -56,12 +70,12 @@ export default function Dashboard() {
 
   // handle updating the filteredPosts with different search criteria
   React.useEffect(() => {
+    const formattedTags = selectedTagFilters.map((item) => item.title);
     if (searchValue === '' && selectedTagFilters.length === 0) {
       handleFilter(allJams?.jams);
+      routerPushTags();
     } else {
       // Allow for a search for tag
-      const formattedTags = selectedTagFilters.map((item) => item.title);
-
       const queries = {
         $or: [
           {
@@ -80,8 +94,8 @@ export default function Dashboard() {
       };
 
       // Add an $and with the tag title if we have an active topic
-
       if (formattedTags.length > 0) {
+        routerPushTags(formattedTags);
         formattedTags.forEach((tag) => {
           queries.$and.push({
             $path: 'tags.title',
@@ -97,7 +111,6 @@ export default function Dashboard() {
         handleFilter(results);
       }
       initFuse();
-      // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
     }
   }, [searchValue, selectedTagFilters, isLoadingJams]);
 
