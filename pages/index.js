@@ -41,7 +41,7 @@ import TagCardList from '@components/TagCardList';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
-import { useTags } from '@hooks/useTags';
+import { useTagsQuery } from '@hooks/useTags';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
 
@@ -60,9 +60,11 @@ export default function Dashboard() {
 
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
-  const tags = useTags();
 
-  const featuredTags = tags.filter(({ featured }) => featured);
+  const { data: allTags = {} } = useTagsQuery();
+  const { tags } = allTags;
+
+  const featuredTags = tags?.filter(({ featured }) => featured) || [];
   const tagsByPopularity = tags; // TODO figure out how to sort
 
   const standardJams = allJams?.jams
@@ -206,6 +208,7 @@ export default function Dashboard() {
                               textDecoration: 'none',
                             }}
                             backgroundColor="#1B1464"
+                            bgGradient="linear(to-tr, rgba(27, 20, 100, 1) 25%, rgba(49, 41, 133, 1))"
                             px="5"
                             py="2"
                             boxShadow="0 2px 4px rgba(37, 41, 46, .4)"
@@ -298,7 +301,7 @@ Dashboard.getLayout = (page) => <Layout>{page}</Layout>;
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
   await queryClient.fetchQuery('jamTags', queryTags.getStatic);
-  await queryClient.setQueryData('jamTags', (old) => ({ tags: old.tags }));
+  await queryClient.setQueryData('jamTags', (old) => ({ tags: old.data.tags }));
   await queryClient.fetchQuery('featuredJams', queryJams.getStaticFeaturedJams);
   await queryClient.setQueryData('featuredJams', (old) => ({
     jams: old.data.jams,

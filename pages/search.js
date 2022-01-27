@@ -39,9 +39,7 @@ import TagCardList from '@components/TagCardList';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useFeaturedJamsQuery } from '@hooks/useJams';
-import { useTagsLazy } from '@hooks/useTags';
-import useLazyQuery from '@hooks/useLazyQuery';
-import useOnLoad from '@hooks/useOnLoad';
+import { useTagsQuery } from '@hooks/useTags';
 import { useSearch } from '@components/SearchProvider';
 
 export default function Dashboard() {
@@ -61,13 +59,11 @@ export default function Dashboard() {
 
   const hasJams = Array.isArray(jams) && jams.length > 0;
 
-  const [fetchTags, tagQueryData] = useTagsLazy();
-  const { data: allTags = {}, isLoading: isLoadingTags } = tagQueryData;
-  const { tags = [] } = allTags;
+  const { data: allTags = {} } = useTagsQuery();
+  const { tags } = allTags;
 
-  useOnLoad(fetchTags);
-
-  const featuredTags = tags.filter(({ featured }) => featured).slice(0, 3);
+  const featuredTags =
+    tags?.filter(({ featured }) => featured).slice(0, 3) || [];
 
   return (
     <Box w="100%" height="100%" overflowY="auto">
