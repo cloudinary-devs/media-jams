@@ -62,9 +62,11 @@ export default function Dashboard() {
     addTag,
     removeTag,
     updateSearchValue,
+    clearSearch,
     isLoading,
     isActiveSearch,
   } = useSearch();
+
   const selectedTagIds = selectedTagFilters.map((tag) => tag._id);
   const selectedTagIdsKey = selectedTagIds.join('-');
 
@@ -115,6 +117,15 @@ export default function Dashboard() {
     } else {
       addTag(tag);
     }
+  }
+
+  /**
+   * handleOnClearSearch
+   */
+
+  function handleOnClearSearch(e) {
+    e.preventDefault();
+    clearSearch();
   }
 
   // Update router params to reflect tag state
@@ -264,12 +275,38 @@ export default function Dashboard() {
                 </>
               )}
 
-              {(isLoading || !hasJams) && (
+              {isActiveSearch && !hasJams && (
+                <>
+                  <Heading as="h2" fontSize="32" color="blue.800" mb="6">
+                    Uh oh, no results found!
+                  </Heading>
+                  <Text fontSize="22">
+                    Try removing some tags or searching for something else.
+                  </Text>
+                  <Text fontSize="22" mt="4">
+                    Or{' '}
+                    <Button
+                      variant="link"
+                      fontSize="inherit"
+                      textDecoration="underline"
+                      onClick={handleOnClearSearch}
+                    >
+                      clear your search
+                    </Button>{' '}
+                    and start from scratch.
+                  </Text>
+                </>
+              )}
+
+              {!isActiveSearch && (
                 <Box>
                   <Heading as="h2" fontSize="32" color="blue.800" mb="6">
                     Discover Jams
                   </Heading>
-                  <TagCardList tags={featuredTags} />
+                  <TagCardList
+                    tags={featuredTags}
+                    onTagClick={handleOnTagClick}
+                  />
                 </Box>
               )}
             </Box>
