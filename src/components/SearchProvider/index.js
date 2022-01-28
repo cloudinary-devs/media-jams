@@ -1,9 +1,13 @@
 import React, { useReducer, useEffect } from 'react';
+import { useRouter } from 'next/router';
+
+import { useTagsQuery } from '@hooks/useTags';
 import GA from '@lib/googleAnalytics';
 
 export const SSACTIONS = {
   SET_SEARCH: 'setSearch',
   ADD_TAG_FILTERS: 'addTagFilters',
+  ADD_TAG_FILTER_GROUP: 'addTagFilterGroup',
   REMOVE_TAG_FILTERS: 'removeTagFilters',
   CLEAR_TAG_FILTERS: 'clearTagFilters',
   SET_JAMS: 'setJams',
@@ -29,11 +33,16 @@ function reducer(state, action) {
         ...state,
         selectedTagFilters: [...state.selectedTagFilters, action.tag],
       };
+    case SSACTIONS.ADD_TAG_FILTER_GROUP:
+      return {
+        ...state,
+        selectedTagFilters: [...state.selectedTagFilters, ...action.tags],
+      };
     case SSACTIONS.REMOVE_TAG_FILTERS:
       return {
         ...state,
         selectedTagFilters: state.selectedTagFilters.filter(
-          (t) => t !== action.tag,
+          (t) => t._id !== action.tag._id,
         ),
       };
     case SSACTIONS.CLEAR_TAG_FILTERS:
@@ -50,7 +59,10 @@ function reducer(state, action) {
 }
 
 export function SearchProvider({ children }) {
+  const router = useRouter();
+  const { data: allTags } = useTagsQuery();
   const [state, dispatch] = useReducer(reducer, initState);
+  const { tags } = router.query;
 
   // Capture search state with GA
   // debounce to reduce api calls
@@ -63,13 +75,31 @@ export function SearchProvider({ children }) {
     };
   }, [state]);
 
+  // Router Query for selected tags
+  // Given query params from the router & react-query tags loaded
+  // then update the state to reflect those chosen tags
+  React.useEffect(() => {
+    if (!tags || !allTags?.data) {
+      return null;
+    }
+    const tagGroup = tags
+      .split(',')
+      .map((t) => allTags.data.tags.find((at) => at.title === t));
+    dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags: tagGroup });
+  }, [allTags, tags]);
+
   const value = {
     state,
     updateSearchValue: (value) => {
       dispatch({ type: SSACTIONS.SET_SEARCH, value });
     },
+
     addTag: (tag) => {
       return dispatch({ type: SSACTIONS.ADD_TAG_FILTERS, tag });
+    },
+
+    addTagGroup: (tags) => {
+      return dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags });
     },
 
     removeTag: (tag) => {

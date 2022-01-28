@@ -1,8 +1,10 @@
-import { useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { tags as queryTags } from '@lib/queries/tags';
 
-export function useTags(select, options) {
-  const queryClient = useQueryClient();
-  const { data } = queryClient.getQueryData('jamTags') || {};
-  return data?.tags || [];
+export function useTagsQuery(select, options) {
+  return useQuery('jamTags', queryTags.get, {
+    staleTime: Infinity,
+    select,
+    ...options,
+  });
 }

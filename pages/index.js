@@ -1,5 +1,5 @@
 import 'tippy.js/dist/tippy.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Flex,
   Box,
@@ -16,6 +16,7 @@ import {
   VisuallyHidden,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 
 import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
@@ -39,7 +40,7 @@ import ReactIcon from '@components/ReactIcon';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
-import { useTags } from '@hooks/useTags';
+import { useTagsQuery } from '@hooks/useTags';
 import { useSearch } from '@components/SearchProvider';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
@@ -58,6 +59,8 @@ const fuseOptions = {
 const JAMS_TO_SHOW = 10;
 
 export default function Dashboard() {
+  const router = useRouter();
+
   const [displayMoreTags, setDisplayMoreTags] = useState(false);
   const handleShowMoreTags = () => setDisplayMoreTags(!displayMoreTags);
 
@@ -70,35 +73,39 @@ export default function Dashboard() {
     state: { searchValue, selectedTagFilters, filteredJams },
     handleFilter,
     updateSearchValue,
+    addTagGroup,
   } = useSearch();
 
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
-  const tags = useTags();
+  const { data: allTags = {} } = useTagsQuery();
+  const { tags } = allTags;
 
-  const featuredTags = tags.filter(({ featured }) => featured);
+  const featuredTags = tags?.filter(({ featured }) => featured);
   const tagsByPopularity = tags; // TODO figure out how to sort
 
   const standardJams = allJams?.jams
     .filter((j) => !j.postMetadata.featured)
     .slice(0, JAMS_TO_SHOW);
 
-  // useEffect(() => {
-  //   // do some checking here to ensure data exist
-  //   if (isLoadingJams === false && allJams?.jams) {
-  //     handleFilter(allJams?.jams);
-  //     loadMoreJams();
-  //   }
-  // }, [isLoadingJams, allJams]);
+  // Update router params to reflect tag state
+  // Return null until isReady is true
+  // const routerPushTags = (tags = null) => {
+  //   if (!router.isReady) return null;
+  //   const routerPath = tags
+  //     ? `/?tags=${tags.map((t) => encodeURIComponent(t)).join('%2C')}`
+  //     : `/`;
+  //   router.push(routerPath, undefined, { shallow: true });
+  // };
 
-  // handle updating the filteredPosts with different search criteria
+  // // handle updating the filteredPosts with different search criteria
   // useEffect(() => {
+  //   const formattedTags = selectedTagFilters.map((item) => item.title);
   //   if (searchValue === '' && selectedTagFilters.length === 0) {
   //     handleFilter(allJams?.jams);
+  //     routerPushTags();
   //   } else {
   //     // Allow for a search for tag
-  //     const formattedTags = selectedTagFilters.map((item) => item.title);
-
   //     const queries = {
   //       $or: [
   //         {
@@ -117,8 +124,8 @@ export default function Dashboard() {
   //     };
 
   //     // Add an $and with the tag title if we have an active topic
-
   //     if (formattedTags.length > 0) {
+  //       routerPushTags(formattedTags);
   //       formattedTags.forEach((tag) => {
   //         queries.$and.push({
   //           $path: 'tags.title',
@@ -134,7 +141,6 @@ export default function Dashboard() {
   //       handleFilter(results);
   //     }
   //     initFuse();
-  //     // routerPushTags({ tags: selectedFilters.map((f) => f.title).join(',') });
   //   }
   // }, [searchValue, selectedTagFilters, isLoadingJams]);
 
@@ -239,7 +245,7 @@ export default function Dashboard() {
               }}
               spacing="4"
             >
-              {featuredTags.slice(0, 3).map((tag) => {
+              {featuredTags?.slice(0, 3).map((tag) => {
                 const image = tag?.image?.asset || {};
                 const icon = tag.icon || { name: 'FaTag', provider: 'fa' };
                 return (
@@ -420,7 +426,7 @@ Dashboard.getLayout = (page) => <Layout>{page}</Layout>;
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
   await queryClient.fetchQuery('jamTags', queryTags.getStatic);
-  await queryClient.setQueryData('jamTags', (old) => ({ tags: old.tags }));
+  await queryClient.setQueryData('jamTags', (old) => ({ tags: old.data.tags }));
   await queryClient.fetchQuery('featuredJams', queryJams.getStaticFeaturedJams);
   await queryClient.setQueryData('featuredJams', (old) => ({
     jams: old.data.jams,
