@@ -60,6 +60,7 @@ export default function Dashboard() {
     tags: tagResults,
     state: { searchValue, selectedTagFilters, filteredJams },
     addTag,
+    removeTag,
     updateSearchValue,
     isLoading,
     isActiveSearch,
@@ -93,7 +94,12 @@ export default function Dashboard() {
    */
 
   function handleOnTagClick(e, { tag }) {
-    addTag(tag);
+    const isActive = selectedTagFilters.find(({ _id }) => _id === tag._id);
+    if (isActive) {
+      removeTag(tag);
+    } else {
+      addTag(tag);
+    }
   }
 
   /**
@@ -103,7 +109,10 @@ export default function Dashboard() {
   function handleOnTagSelect(e) {
     const { value } = e.target;
     const tag = tags.find((tag) => tag._id === value);
-    if (tag) {
+    const isActive = selectedTagFilters.find(({ _id }) => _id === tag._id);
+    if (isActive) {
+      removeTag(tag);
+    } else {
       addTag(tag);
     }
   }

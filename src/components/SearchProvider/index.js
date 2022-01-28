@@ -12,14 +12,14 @@ import GA from '@lib/googleAnalytics';
 let Fuse;
 
 const fuseSearchOptions = {
-  threshold: 0.35,
+  // threshold: 0.35,
   location: 0,
   distance: 100,
   minMatchCharLength: 3,
   shouldSort: true,
   includeScore: true,
   useExtendedSearch: true,
-  keys: ['title', 'tags.title', ['author', 'name']],
+  keys: ['title', 'tags.title', 'tags._id', ['author', 'name']],
 };
 
 export const SSACTIONS = {
@@ -203,31 +203,46 @@ export function useSearch() {
  */
 
 function searchJams({ Fuse, query, jams, filters = {} } = {}) {
-  const queries = {
-    $or: [
-      {
-        title: query,
-      },
-      {
-        $path: ['author.name'],
-        $val: query,
-      },
-      {
-        $path: ['tags.title'],
-        $val: query,
-      },
-    ],
-    $and: [],
-  };
+  const $or = [];
+  const $and = [];
 
-  if (Array.isArray(filters.tags) && filters.tags.length > 0) {
-    filters.tags.forEach(({ title }) => {
-      queries.$and.push({
-        $path: 'tags.title',
-        $val: `'${title}`, // the ' in front adds exact match
-      });
+  if (query) {
+    $or.push({
+      $or: [
+        {
+          title: query,
+        },
+        {
+          $path: ['author.name'],
+          $val: query,
+        },
+        {
+          $path: ['tag.title'],
+          $val: query,
+        },
+      ],
     });
   }
+
+  if (Array.isArray(filters.tags) && filters.tags.length > 0) {
+    $and.concat(
+      filters.tags.forEach(({ _id }) => {
+        $and.push({
+          $path: 'tags._id',
+          $val: `'${_id}`, // the ' in front adds exact match
+        });
+      }),
+    );
+  }
+
+  const queries = {
+    $and: [
+      {
+        $and,
+        $or,
+      },
+    ],
+  };
 
   const fuse = new Fuse(jams, fuseSearchOptions);
 
