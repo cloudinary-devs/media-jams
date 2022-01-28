@@ -6,6 +6,7 @@ import { useJamsLazyQuery } from '@hooks/useJams';
 import { useTagsQueryLazy, useTagsQuery } from '@hooks/useTags';
 import useOnLoad from '@hooks/useOnLoad';
 import { initFuse } from '@lib/search';
+import { dedupeArrayByKey } from '@lib/util';
 import GA from '@lib/googleAnalytics';
 
 let Fuse;
@@ -80,6 +81,7 @@ export function SearchProvider({ children }) {
   const { data: allTags } = useTagsQuery();
   const [state, dispatch] = useReducer(reducer, initState);
   const { tags } = router.query;
+  const { selectedTagFilters } = state;
 
   // Capture search state with GA
   // debounce to reduce api calls
@@ -96,13 +98,17 @@ export function SearchProvider({ children }) {
   // Given query params from the router & react-query tags loaded
   // then update the state to reflect those chosen tags
   useEffect(() => {
-    if (!tags || !allTags?.data) {
+    if (!tags || !allTags?.tags) {
       return null;
     }
     const tagGroup = tags
       .split(',')
-      .map((t) => allTags.data.tags.find((at) => at.title === t));
-    dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags: tagGroup });
+      .map((t) => allTags.tags.find((at) => at.title === t))
+      .filter((t) => !selectedTagFilters.find((stf) => stf._id === t._id));
+
+    const deduped = dedupeArrayByKey(tagGroup, '_id');
+
+    dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags: deduped });
   }, [allTags, tags]);
 
   const value = {

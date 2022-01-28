@@ -79,62 +79,6 @@ export default function Dashboard() {
     router.push('/search');
   }
 
-  // Update router params to reflect tag state
-  // Return null until isReady is true
-  // const routerPushTags = (tags = null) => {
-  //   if (!router.isReady) return null;
-  //   const routerPath = tags
-  //     ? `/?tags=${tags.map((t) => encodeURIComponent(t)).join('%2C')}`
-  //     : `/`;
-  //   router.push(routerPath, undefined, { shallow: true });
-  // };
-
-  // // handle updating the filteredPosts with different search criteria
-  // useEffect(() => {
-  //   const formattedTags = selectedTagFilters.map((item) => item.title);
-  //   if (searchValue === '' && selectedTagFilters.length === 0) {
-  //     handleFilter(allJams?.jams);
-  //     routerPushTags();
-  //   } else {
-  //     // Allow for a search for tag
-  //     const queries = {
-  //       $or: [
-  //         {
-  //           title: searchValue,
-  //         },
-  //         {
-  //           $path: ['author.name'],
-  //           $val: searchValue,
-  //         },
-  //         {
-  //           $path: ['tags.title'],
-  //           $val: searchValue,
-  //         },
-  //       ],
-  //       $and: [],
-  //     };
-
-  //     // Add an $and with the tag title if we have an active topic
-  //     if (formattedTags.length > 0) {
-  //       routerPushTags(formattedTags);
-  //       formattedTags.forEach((tag) => {
-  //         queries.$and.push({
-  //           $path: 'tags.title',
-  //           $val: `'${tag}`, // the ' in front adds exact match
-  //         });
-  //       });
-  //     }
-  //     async function initFuse() {
-  //       const Fuse = (await import('fuse.js')).default;
-  //       const fuse = new Fuse(allJams?.jams, fuseOptions);
-  //       const results = fuse.search(queries).map((result) => result.item);
-
-  //       handleFilter(results);
-  //     }
-  //     initFuse();
-  //   }
-  // }, [searchValue, selectedTagFilters, isLoadingJams]);
-
   return (
     <Box w="100%" height="100%" overflowY="auto">
       <Flex direction="column" w="100%">

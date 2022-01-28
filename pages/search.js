@@ -1,5 +1,8 @@
 import 'tippy.js/dist/tippy.css';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import NextLink from 'next/link';
+import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 import {
   Flex,
   Box,
@@ -17,8 +20,6 @@ import {
   CheckboxGroup,
   Checkbox,
 } from '@chakra-ui/react';
-import NextLink from 'next/link';
-import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 
 import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
@@ -44,6 +45,8 @@ import { useSearch } from '@components/SearchProvider';
 import { sortArrayByKey, dedupeArrayByKey } from '@lib/util';
 
 export default function Dashboard() {
+  const router = useRouter();
+
   const [displayMoreTags, setDisplayMoreTags] = useState(false);
   const handleShowTags = () => setDisplayMoreTags(!displayMoreTags);
 
@@ -62,6 +65,7 @@ export default function Dashboard() {
     isActiveSearch,
   } = useSearch();
   const selectedTagIds = selectedTagFilters.map((tag) => tag._id);
+  const selectedTagIdsKey = selectedTagIds.join('-');
 
   const hasJams = Array.isArray(jamResults) && jamResults.length > 0;
 
@@ -103,6 +107,31 @@ export default function Dashboard() {
       addTag(tag);
     }
   }
+
+  // Update router params to reflect tag state
+  // Return null until isReady is true
+
+  const routerPushTags = (tags = null) => {
+    if (!router.isReady) return null;
+    const routerPath = tags
+      ? `${router.pathname}?tags=${tags
+          .map((t) => encodeURIComponent(t))
+          .join('%2C')}`
+      : router.pathname;
+    router.push(routerPath, undefined, { shallow: true });
+  };
+
+  // handle updating the filteredPosts with different search criteria
+
+  useEffect(() => {
+    const formattedTags = selectedTagFilters.map((item) => item.title);
+
+    if (formattedTags.length === 0) {
+      routerPushTags();
+    } else if (formattedTags.length > 0) {
+      routerPushTags(formattedTags);
+    }
+  }, [selectedTagIdsKey]);
 
   return (
     <Box w="100%" height="100%" overflowY="auto">
@@ -172,35 +201,51 @@ export default function Dashboard() {
               </Box>
             </Box>
             <Box flexGrow="1">
-              {isActiveSearch && searchValue.length < 3 && (
+              {isActiveSearch && searchValue && searchValue.length < 3 && (
                 <Text>Keep typing...</Text>
               )}
 
               {!isLoading && hasJams && (
                 <>
                   <Heading as="h3" fontSize="32" color="blue.800" mb="6">
-                    Results matching "
-                    <Text
-                      as="span"
-                      fontSize="inherit"
-                      fontWeight="inherit"
-                      color="secondary.600"
-                    >
-                      {searchValue}
-                    </Text>
-                    "...
+                    Results
+                    {searchValue && (
+                      <Text
+                        as="span"
+                        fontSize="inherit"
+                        fontWeight="inherit"
+                        _before={{
+                          content: '" "',
+                        }}
+                      >
+                        matching "
+                        <Text
+                          as="span"
+                          fontSize="inherit"
+                          fontWeight="inherit"
+                          color="secondary.600"
+                        >
+                          {searchValue}
+                        </Text>
+                        "...
+                      </Text>
+                    )}
                   </Heading>
 
-                  <Heading as="h3" fontSize="24" color="blue.800" mb="6">
-                    Tags
-                  </Heading>
+                  {tagResults.length > 0 && (
+                    <>
+                      <Heading as="h3" fontSize="24" color="blue.800" mb="6">
+                        Tags
+                      </Heading>
 
-                  <TagButtonList
-                    tags={tagResults}
-                    activeTags={selectedTagFilters}
-                    align="left"
-                    onTagClick={handleOnTagClick}
-                  />
+                      <TagButtonList
+                        tags={tagResults}
+                        activeTags={selectedTagFilters}
+                        align="left"
+                        onTagClick={handleOnTagClick}
+                      />
+                    </>
+                  )}
 
                   <Heading as="h3" fontSize="24" color="blue.800" mt="8" mb="6">
                     Jams

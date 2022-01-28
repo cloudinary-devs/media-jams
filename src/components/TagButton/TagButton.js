@@ -20,8 +20,6 @@ const TagButtonContent = ({ tag, isLink, isActive, onClick, ...rest }) => {
     boxShadow: '0 2px 4px rgba(37, 41, 46, .4)',
   };
 
-  console.log('isActive', isActive);
-
   if (isActive) {
     ButtonProps.backgroundColor = '#3169E1';
     ButtonProps.bgGradient =
