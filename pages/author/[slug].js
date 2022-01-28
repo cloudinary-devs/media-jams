@@ -102,21 +102,30 @@ AuthorPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export async function getStaticPaths() {
   const { authors } = require('../../lib/queries/authors');
-  const { data } = await authors.getSlugs();
-  return {
-    paths:
-      data.allAuthor
-        ?.filter((author) => author.slug)
-        .map(({ slug }) => ({ params: { slug: slug.current } })) || [],
-    fallback: false,
-  };
+  try {
+    const { data } = await authors.getSlugs();
+    return {
+      paths:
+        data.allAuthor
+          ?.filter((author) => author.slug)
+          .map(({ slug }) => ({ params: { slug: slug.current } })) || [],
+      fallback: false,
+    };
+  } catch (error) {
+    console.log('Author::getStaticPaths', error);
+    throw error;
+  }
 }
 
 export async function getStaticProps({ params: { slug } }) {
   const { authors } = require('../../lib/queries/authors');
-  const { data } = await authors.getStaticAuthorBy(slug);
-
-  return {
-    props: { author: data.author[0] },
-  };
+  try {
+    const { data } = await authors.getStaticAuthorBy(slug);
+    return {
+      props: { author: data.author[0] },
+    };
+  } catch (error) {
+    console.log('Author::getStaticProps', error);
+    throw error;
+  }
 }
