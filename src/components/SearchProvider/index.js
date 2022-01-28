@@ -1,7 +1,8 @@
 import { useReducer, useEffect, createContext, useContext } from 'react';
 import { QueryClient, useQuery } from 'react-query';
 
-import { useJamsLazyQuery, useFeaturedJamsQuery } from '@hooks/useJams';
+import { useJamsLazyQuery } from '@hooks/useJams';
+import { useTagsQueryLazy } from '@hooks/useTags';
 import useOnLoad from '@hooks/useOnLoad';
 import { initFuse } from '@lib/search';
 
@@ -9,7 +10,7 @@ import GA from '@lib/googleAnalytics';
 
 let Fuse;
 
-const fuseOptions = {
+const fuseSearchOptions = {
   threshold: 0.35,
   location: 0,
   distance: 100,
@@ -121,53 +122,113 @@ export function useSearch() {
   const { data: allJams = {}, isLoading: isLoadingJams } = jamQueryData;
   const { jams = [] } = allJams;
 
+  const [fetchTags, tagQueryData] = useTagsQueryLazy();
+  const { data: allTags = {}, isLoading: isLoadingTags } = tagQueryData;
+  const { tags = [] } = allTags;
+
   let activeJams = [];
+  let activeTags = [];
 
   useOnLoad(async () => {
     Fuse = await initFuse();
-    await fetchJams();
+    await Promise.all([fetchJams(), fetchTags()]);
   });
 
-  const formattedTags = selectedTagFilters.map((item) => item.title);
   const isActiveSearch = searchValue || selectedTagFilters.length > 0;
 
   if (isActiveSearch && Fuse) {
-    const queries = {
-      $or: [
-        {
-          title: searchValue,
-        },
-        {
-          $path: ['author.name'],
-          $val: searchValue,
-        },
-        {
-          $path: ['tags.title'],
-          $val: searchValue,
-        },
-      ],
-      $and: [],
-    };
+    activeJams = searchJams({
+      Fuse,
+      query: searchValue,
+      jams,
+      filters: {
+        tags: selectedTagFilters,
+      },
+    });
 
-    if (formattedTags.length > 0) {
-      formattedTags.forEach((tag) => {
-        queries.$and.push({
-          $path: 'tags.title',
-          $val: `'${tag}`, // the ' in front adds exact match
-        });
-      });
-    }
-
-    const fuse = new Fuse(jams, fuseOptions);
-    const results = fuse.search(queries).map((result) => result.item);
-
-    activeJams = results;
+    activeTags = searchTags({
+      Fuse,
+      query: searchValue,
+      tags,
+      filters: {
+        tags: selectedTagFilters,
+      },
+    });
   }
 
   return {
     ...context,
     jams: activeJams,
-    isLoading: isLoadingJams,
+    tags: activeTags,
+    isLoading: isLoadingJams || isLoadingTags,
     isActiveSearch,
   };
+}
+
+/**
+ * searchJams
+ */
+
+function searchJams({ Fuse, query, jams, filters = {} } = {}) {
+  const queries = {
+    $or: [
+      {
+        title: query,
+      },
+      {
+        $path: ['author.name'],
+        $val: query,
+      },
+      {
+        $path: ['tags.title'],
+        $val: query,
+      },
+    ],
+    $and: [],
+  };
+
+  if (Array.isArray(filters.tags) && filters.tags.length > 0) {
+    filters.tags.forEach(({ title }) => {
+      queries.$and.push({
+        $path: 'tags.title',
+        $val: `'${title}`, // the ' in front adds exact match
+      });
+    });
+  }
+
+  const fuse = new Fuse(jams, fuseSearchOptions);
+
+  return fuse.search(queries).map((result) => result.item);
+}
+
+/**
+ * searchTags
+ */
+
+function searchTags({ Fuse, query, tags, filters = {} } = {}) {
+  const queries = {
+    $or: [
+      {
+        title: query,
+      },
+      {
+        $path: ['tags.title'],
+        $val: query,
+      },
+    ],
+    $and: [],
+  };
+
+  if (Array.isArray(filters.tags) && filters.tags.length > 0) {
+    filters.tags.forEach(({ title }) => {
+      queries.$and.push({
+        $path: 'tags.title',
+        $val: `'${title}`, // the ' in front adds exact match
+      });
+    });
+  }
+
+  const fuse = new Fuse(tags, fuseSearchOptions);
+
+  return fuse.search(queries).map((result) => result.item);
 }

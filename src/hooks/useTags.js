@@ -11,7 +11,7 @@ export function useTagsQuery(select, options) {
   });
 }
 
-export function useTagsLazy(select, options) {
+export function useTagsQueryLazy(select, options) {
   return useLazyQuery('jamTags', queryTags.get, {
     staleTime: Infinity,
     select,

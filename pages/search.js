@@ -14,14 +14,14 @@ import {
   useBreakpointValue,
   Image,
   VisuallyHidden,
+  CheckboxGroup,
+  Checkbox,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 
 import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
-import JamCardCollage from '@components/JamCardCollage';
-import Banner from '@components/Banner';
-import Search from '@components/Search';
 import SearchInput from '@components/SearchInput';
 import {
   GreenCheck,
@@ -35,41 +35,80 @@ import {
 } from '@components/Icons';
 import ReactIcon from '@components/ReactIcon';
 import TagCardList from '@components/TagCardList';
+import TagButtonList from '@components/TagButtonList';
 
 import { QueryClient, useQuery } from 'react-query';
-import { dehydrate } from 'react-query/hydration';
 import { useFeaturedJamsQuery } from '@hooks/useJams';
 import { useTagsQuery } from '@hooks/useTags';
 import { useSearch } from '@components/SearchProvider';
+import { sortArrayByKey, dedupeArrayByKey } from '@lib/util';
 
 export default function Dashboard() {
+  const [displayMoreTags, setDisplayMoreTags] = useState(false);
+  const handleShowTags = () => setDisplayMoreTags(!displayMoreTags);
+
   const jamListColumns = useBreakpointValue({
     base: 1,
     lg: 2,
   });
 
   const {
-    jams,
+    jams: jamResults,
+    tags: tagResults,
     state: { searchValue, selectedTagFilters, filteredJams },
-    handleFilter,
+    addTag,
     updateSearchValue,
     isLoading,
     isActiveSearch,
   } = useSearch();
+  const selectedTagIds = selectedTagFilters.map((tag) => tag._id);
 
-  const hasJams = Array.isArray(jams) && jams.length > 0;
+  const hasJams = Array.isArray(jamResults) && jamResults.length > 0;
 
   const { data: allTags = {} } = useTagsQuery();
   const { tags } = allTags;
 
   const featuredTags =
     tags?.filter(({ featured }) => featured).slice(0, 3) || [];
+  const sortedTags = tags && sortArrayByKey(tags, 'title');
+
+  // Determine what tags to show in the filter list
+
+  let filterTagsToShow;
+
+  if (displayMoreTags) {
+    filterTagsToShow = sortedTags;
+  } else {
+    filterTagsToShow = tags?.slice(0, 10).concat(selectedTagFilters);
+    filterTagsToShow =
+      filterTagsToShow && dedupeArrayByKey(filterTagsToShow, '_id');
+  }
+
+  /**
+   * handleOnTagClick
+   */
+
+  function handleOnTagClick(e, { tag }) {
+    addTag(tag);
+  }
+
+  /**
+   * handleOnTagSelect
+   */
+
+  function handleOnTagSelect(e) {
+    const { value } = e.target;
+    const tag = tags.find((tag) => tag._id === value);
+    if (tag) {
+      addTag(tag);
+    }
+  }
 
   return (
     <Box w="100%" height="100%" overflowY="auto">
       <Flex direction="column" w="100%">
         <Flex
-          w={{ base: '90%', lg: '884px' }}
+          w={{ base: '90%', lg: '1280px' }}
           mt="26px"
           mb="50px"
           alignSelf="center"
@@ -84,27 +123,103 @@ export default function Dashboard() {
 
           <SearchInput focusOnLoad={true} setSearchValue={updateSearchValue} />
 
-          {isActiveSearch && searchValue.length < 3 && (
-            <Text>Keep typing...</Text>
-          )}
-
-          {!isLoading && hasJams && (
-            <>
-              <Heading as="h2" fontSize="42" color="blue.800" mt="8">
-                Results
+          <Flex direction="row" mt="6">
+            <Box width="220px" flexShrink="0" mr="5">
+              <Heading fontSize="24" mb="4">
+                Tags
               </Heading>
-              <JamCardList jams={jams} columns={jamListColumns} />
-            </>
-          )}
 
-          {(isLoading || !hasJams) && (
-            <Box>
-              <Heading as="h2" fontSize="42" color="blue.800" mt="8" mb="6">
-                Discover Jams
-              </Heading>
-              <TagCardList tags={featuredTags} />
+              <Box>
+                <CheckboxGroup value={selectedTagIds}>
+                  {filterTagsToShow?.map((tag) => {
+                    return (
+                      <Checkbox
+                        display="flex"
+                        key={tag._id}
+                        value={tag._id}
+                        onChange={handleOnTagSelect}
+                        my="1"
+                      >
+                        {tag.title}
+                      </Checkbox>
+                    );
+                  })}
+                </CheckboxGroup>
+
+                {!displayMoreTags && (
+                  <Text>
+                    <Button
+                      rightIcon={<FaCaretDown />}
+                      variant="link"
+                      onClick={handleShowTags}
+                    >
+                      Show More Tags
+                    </Button>
+                  </Text>
+                )}
+
+                {displayMoreTags && (
+                  <Text textAlign="center">
+                    <Button
+                      rightIcon={<FaCaretUp />}
+                      variant="link"
+                      onClick={handleShowTags}
+                    >
+                      Show Less Tags
+                    </Button>
+                  </Text>
+                )}
+              </Box>
             </Box>
-          )}
+            <Box flexGrow="1">
+              {isActiveSearch && searchValue.length < 3 && (
+                <Text>Keep typing...</Text>
+              )}
+
+              {!isLoading && hasJams && (
+                <>
+                  <Heading as="h3" fontSize="32" color="blue.800" mb="6">
+                    Results matching "
+                    <Text
+                      as="span"
+                      fontSize="inherit"
+                      fontWeight="inherit"
+                      color="secondary.600"
+                    >
+                      {searchValue}
+                    </Text>
+                    "...
+                  </Heading>
+
+                  <Heading as="h3" fontSize="24" color="blue.800" mb="6">
+                    Tags
+                  </Heading>
+
+                  <TagButtonList
+                    tags={tagResults}
+                    activeTags={selectedTagFilters}
+                    align="left"
+                    onTagClick={handleOnTagClick}
+                  />
+
+                  <Heading as="h3" fontSize="24" color="blue.800" mt="8" mb="6">
+                    Jams
+                  </Heading>
+
+                  <JamCardList jams={jamResults} columns={jamListColumns} />
+                </>
+              )}
+
+              {(isLoading || !hasJams) && (
+                <Box>
+                  <Heading as="h2" fontSize="32" color="blue.800" mb="6">
+                    Discover Jams
+                  </Heading>
+                  <TagCardList tags={featuredTags} />
+                </Box>
+              )}
+            </Box>
+          </Flex>
         </Flex>
       </Flex>
     </Box>

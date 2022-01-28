@@ -37,6 +37,7 @@ import MediaJams from '@components/MediaJams';
 import MediaJar from '@components/MediaJar';
 import ReactIcon from '@components/ReactIcon';
 import TagCardList from '@components/TagCardList';
+import TagButtonList from '@components/TagButtonList';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -185,42 +186,9 @@ export default function Dashboard() {
                 <VisuallyHidden>
                   <Heading as="h3">All Tags</Heading>
                 </VisuallyHidden>
-                <Flex
-                  as={List}
-                  flexWrap="wrap"
-                  justifyContent="center"
-                  mx="-1"
-                  mt="5"
-                >
-                  {tagsByPopularity.map((tag) => {
-                    const icon = tag.icon || { name: 'FaTag', provider: 'fa' };
-                    return (
-                      <ListItem key={tag._id} m="2">
-                        <NextLink href={`/tags/${tag.slug?.current}`} passHref>
-                          <Link
-                            display="flex"
-                            alignItems="center"
-                            color="white"
-                            fontSize="15"
-                            fontWeight="bold"
-                            borderRadius="md"
-                            _hover={{
-                              textDecoration: 'none',
-                            }}
-                            backgroundColor="#1B1464"
-                            bgGradient="linear(to-tr, rgba(27, 20, 100, 1) 25%, rgba(49, 41, 133, 1))"
-                            px="5"
-                            py="2"
-                            boxShadow="0 2px 4px rgba(37, 41, 46, .4)"
-                          >
-                            <ReactIcon {...icon} fontSize="14" mr="3" />
-                            {tag.title}
-                          </Link>
-                        </NextLink>
-                      </ListItem>
-                    );
-                  })}
-                </Flex>
+                <Box mx="-1" mt="5">
+                  <TagButtonList tags={tagsByPopularity} />
+                </Box>
               </>
             )}
           </Box>
