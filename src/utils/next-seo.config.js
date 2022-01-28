@@ -39,6 +39,7 @@ export default {
   description:
     'Media Jams offer numerous useful examples through which developers can sharpen their expertise in leveraging media for apps and tech stacks',
   url: baseUrl(),
+  canonical: baseUrl(),
   openGraph: {
     url: baseUrl(),
     title: 'Putting Media to work is hard',

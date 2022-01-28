@@ -1,5 +1,4 @@
-import { useQueryClient, useQuery } from 'react-query';
-
+import { useQuery } from 'react-query';
 import { tags as queryTags } from '@lib/queries/tags';
 import useLazyQuery from '@hooks/useLazyQuery';
 
