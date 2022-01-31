@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 
 import { useJamsLazyQuery } from '@hooks/useJams';
 import { useTagsQueryLazy, useTagsQuery } from '@hooks/useTags';
+import { useAuthorsQueryLazy } from '@hooks/useAuthors';
 import useOnLoad from '@hooks/useOnLoad';
 import { initFuse } from '@lib/search';
 import { dedupeArrayByKey } from '@lib/util';
@@ -19,7 +20,15 @@ const fuseSearchOptions = {
   shouldSort: true,
   includeScore: true,
   useExtendedSearch: true,
-  keys: ['title', 'tags.title', 'tags._id', ['author', 'name']],
+  keys: [
+    'title',
+    'name',
+    'tags.title',
+    'tags._id',
+    'author._id',
+    'author.name',
+    ['author', 'name'],
+  ],
 };
 
 export const SSACTIONS = {
@@ -28,6 +37,9 @@ export const SSACTIONS = {
   ADD_TAG_FILTER_GROUP: 'addTagFilterGroup',
   REMOVE_TAG_FILTERS: 'removeTagFilters',
   CLEAR_TAG_FILTERS: 'clearTagFilters',
+  ADD_AUTHOR_FILTERS: 'addAuthorFilters',
+  REMOVE_AUTHOR_FILTERS: 'removeAuthorFilters',
+  CLEAR_AUTHOR_FILTERS: 'clearAuthorFilters',
   SET_JAMS: 'setJams',
   CLEAR_SEARCH: 'clearSearch',
 };
@@ -35,6 +47,7 @@ export const SSACTIONS = {
 const initState = {
   searchValue: '',
   selectedTagFilters: [],
+  selectedAuthorFilters: [],
   filteredJams: [],
 };
 
@@ -68,6 +81,24 @@ function reducer(state, action) {
         ...state,
         selectedTagFilters: [],
       };
+
+    case SSACTIONS.ADD_AUTHOR_FILTERS:
+      return {
+        ...state,
+        selectedAuthorFilters: [...state.selectedAuthorFilters, action.author],
+      };
+    case SSACTIONS.REMOVE_AUTHOR_FILTERS:
+      return {
+        ...state,
+        selectedAuthorFilters: state.selectedAuthorFilters.filter(
+          (a) => a._id !== action.author._id,
+        ),
+      };
+    case SSACTIONS.CLEAR_AUTHOR_FILTERS:
+      return {
+        ...state,
+        selectedAuthorFilters: [],
+      };
     case SSACTIONS.CLEAR_SEARCH:
       return initState;
 
@@ -81,7 +112,7 @@ export function SearchProvider({ children }) {
   const { data: allTags } = useTagsQuery();
   const [state, dispatch] = useReducer(reducer, initState);
   const { tags } = router.query;
-  const { selectedTagFilters } = state;
+  const { selectedTagFilters, selectedAuthorFilters } = state;
 
   // Capture search state with GA
   // debounce to reduce api calls
@@ -129,12 +160,24 @@ export function SearchProvider({ children }) {
       dispatch({ type: SSACTIONS.REMOVE_TAG_FILTERS, tag });
     },
 
-    handleFilter: (data) => {
-      dispatch({ type: SSACTIONS.SET_JAMS, jams: data });
-    },
-
     clearAllTags: () => {
       dispatch({ type: SSACTIONS.CLEAR_TAG_FILTERS });
+    },
+
+    addAuthor: (author) => {
+      return dispatch({ type: SSACTIONS.ADD_AUTHOR_FILTERS, author });
+    },
+
+    removeAuthor: (author) => {
+      dispatch({ type: SSACTIONS.REMOVE_AUTHOR_FILTERS, author });
+    },
+
+    clearAllAuthors: () => {
+      dispatch({ type: SSACTIONS.CLEAR_AUTHOR_FILTERS });
+    },
+
+    handleFilter: (data) => {
+      dispatch({ type: SSACTIONS.SET_JAMS, jams: data });
     },
     clearSearch: () => {
       dispatch({ type: SSACTIONS.CLEAR_SEARCH });
@@ -149,7 +192,7 @@ export function SearchProvider({ children }) {
 export function useSearch() {
   const context = useContext(SearchContext);
   const { state = {} } = context;
-  const { searchValue, selectedTagFilters } = state;
+  const { searchValue, selectedTagFilters, selectedAuthorFilters } = state;
 
   const [fetchJams, jamQueryData] = useJamsLazyQuery();
   const { data: allJams = {}, isLoading: isLoadingJams } = jamQueryData;
@@ -159,15 +202,26 @@ export function useSearch() {
   const { data: allTags = {}, isLoading: isLoadingTags } = tagQueryData;
   const { tags = [] } = allTags;
 
+  const [fetchAuthors, authorQueryData] = useAuthorsQueryLazy();
+  const {
+    data: allAuthors = {},
+    isLoading: isLoadingAuthors,
+  } = authorQueryData;
+  const { authors = [] } = allAuthors;
+
   let activeJams = [];
   let activeTags = [];
+  let activeAuthors = [];
 
   useOnLoad(async () => {
     Fuse = await initFuse();
-    await Promise.all([fetchJams(), fetchTags()]);
+    await Promise.all([fetchJams(), fetchTags(), fetchAuthors()]);
   });
 
-  const isActiveSearch = searchValue || selectedTagFilters.length > 0;
+  const isActiveSearch =
+    searchValue ||
+    selectedTagFilters.length > 0 ||
+    selectedAuthorFilters.length > 0;
 
   if (isActiveSearch && Fuse) {
     activeJams = searchJams({
@@ -176,6 +230,7 @@ export function useSearch() {
       jams,
       filters: {
         tags: selectedTagFilters,
+        authors: selectedAuthorFilters,
       },
     });
 
@@ -187,13 +242,23 @@ export function useSearch() {
         tags: selectedTagFilters,
       },
     });
+
+    activeAuthors = searchAuthors({
+      Fuse,
+      query: searchValue,
+      authors,
+      filters: {
+        tags: selectedAuthorFilters,
+      },
+    });
   }
 
   return {
     ...context,
     jams: activeJams,
     tags: activeTags,
-    isLoading: isLoadingJams || isLoadingTags,
+    authors: activeAuthors,
+    isLoading: isLoadingJams || isLoadingTags || isLoadingAuthors,
     isActiveSearch,
   };
 }
@@ -235,6 +300,17 @@ function searchJams({ Fuse, query, jams, filters = {} } = {}) {
     );
   }
 
+  if (Array.isArray(filters.authors) && filters.authors.length > 0) {
+    $and.concat(
+      filters.authors.forEach(({ _id }) => {
+        $and.push({
+          $path: 'author._id',
+          $val: `'${_id}`, // the ' in front adds exact match
+        });
+      }),
+    );
+  }
+
   const queries = {
     $and: [
       {
@@ -259,10 +335,6 @@ function searchTags({ Fuse, query, tags, filters = {} } = {}) {
       {
         title: query,
       },
-      {
-        $path: ['tags.title'],
-        $val: query,
-      },
     ],
     $and: [],
   };
@@ -277,6 +349,34 @@ function searchTags({ Fuse, query, tags, filters = {} } = {}) {
   }
 
   const fuse = new Fuse(tags, fuseSearchOptions);
+
+  return fuse.search(queries).map((result) => result.item);
+}
+
+/**
+ * searchAuthors
+ */
+
+function searchAuthors({ Fuse, query, authors, filters = {} } = {}) {
+  const queries = {
+    $or: [
+      {
+        name: query,
+      },
+    ],
+    $and: [],
+  };
+
+  if (Array.isArray(filters.authors) && filters.authors.length > 0) {
+    filters.authors.forEach(({ name }) => {
+      queries.$and.push({
+        $path: 'author.name',
+        $val: `'${name}`, // the ' in front adds exact match
+      });
+    });
+  }
+
+  const fuse = new Fuse(authors, fuseSearchOptions);
 
   return fuse.search(queries).map((result) => result.item);
 }
