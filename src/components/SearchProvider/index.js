@@ -13,12 +13,9 @@ import GA from '@lib/googleAnalytics';
 let Fuse;
 
 const fuseSearchOptions = {
-  // threshold: 0.35,
-  location: 0,
-  distance: 100,
-  minMatchCharLength: 3,
-  shouldSort: true,
+  threshold: 0.35,
   includeScore: true,
+  useExtendedSearch: true,
   keys: [
     'title',
     'name',
@@ -292,7 +289,7 @@ function searchJams({ Fuse, query, jams, filters = {} } = {}) {
     filters.tags.forEach(({ _id }) => {
       $and.push({
         $path: 'tags._id',
-        $val: _id,
+        $val: `'${_id}`,
       });
     });
   }
@@ -301,7 +298,7 @@ function searchJams({ Fuse, query, jams, filters = {} } = {}) {
     filters.authors.forEach(({ _id }) => {
       $and.push({
         $path: 'author._id',
-        $val: _id,
+        $val: `'${_id}`,
       });
     });
   }
