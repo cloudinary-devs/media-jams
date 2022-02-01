@@ -5,12 +5,12 @@ import {
   HStack,
   Flex,
   Link,
-  Spacer,
   IconButton,
   useDisclosure,
   Tooltip,
   Avatar,
   Stack,
+  Spacer,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
@@ -20,7 +20,8 @@ import NoteModal from '@components/NoteModal';
 import { NOTE_ACTIONS } from '@utils/constants';
 const { CREATE_NOTE } = NOTE_ACTIONS;
 
-import { SideToggle, JoinDiscord, Plus, BWLogo } from '@components/Icons';
+import { SideToggle, JoinDiscord, Plus } from '@components/Icons';
+import MJ from '@components/MJ';
 
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
 import { useSearch } from '@components/SearchProvider';
@@ -84,7 +85,7 @@ const SideStrip = () => {
   const { AUTHORS, MORE, BOOKMARKS, NOTES } = TABS;
   const sideNavTabs = [AUTHORS, BOOKMARKS, NOTES, MORE];
   return (
-    <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE">
+    <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE" pt="2">
       <NextLink href="/" passHref>
         <Link
           display={displaySideStripLogo ? 'auto' : 'none'}
@@ -93,13 +94,17 @@ const SideStrip = () => {
           <IconButton
             size="lg"
             variant="unstyled"
-            aria-label="Logo"
-            icon={<BWLogo />}
+            aria-label="Media Jams Logo"
+            icon={<MJ />}
             display={{ base: 'none', md: 'inline-flex' }}
           />
         </Link>
       </NextLink>
-      <VStack spacing={{ base: '48px', md: 6 }}>
+      <VStack
+        justifyContent="flex-start"
+        spacing={{ base: '24px', md: 6 }}
+        pt={{ base: 0, md: 6 }}
+      >
         {sideNavTabs.map(({ value, displayName, Icon }) => (
           <SideNavButtonIcon
             key={value}
@@ -107,9 +112,6 @@ const SideStrip = () => {
             displayName={displayName}
             activeTab={activeTab}
             onClick={handleOnClick}
-            _first={{
-              marginTop: mobileIconMargin,
-            }}
           >
             <Icon
               pointerEvents="none"
@@ -119,8 +121,7 @@ const SideStrip = () => {
           </SideNavButtonIcon>
         ))}
       </VStack>
-      <Spacer />
-      <Stack spacing={8} my={4}>
+      <Stack justifyContent="flex-end" spacing={8} my={4} flexGrow="1">
         {!loadingUser && user && (
           <>
             <Avatar
