@@ -35,7 +35,7 @@ const AuthorButtonContent = ({
 
   return (
     <Text
-      as="span"
+      as="button"
       display="flex"
       alignItems="center"
       color="white"

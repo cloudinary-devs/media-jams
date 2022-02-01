@@ -8,7 +8,7 @@ const TagCardList = ({ tags = [], onClick, onTagClick, ...rest }) => {
       as={List}
       templateColumns={{
         base: 'auto',
-        lg: 'repeat(3, minmax(0, 310px))',
+        lg: 'repeat(3, 1fr)',
       }}
       spacing="4"
       onClick={onClick}

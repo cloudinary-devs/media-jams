@@ -39,6 +39,10 @@ import ReactIcon from '@components/ReactIcon';
 import TagCardList from '@components/TagCardList';
 import TagButtonList from '@components/TagButtonList';
 import AuthorButtonList from '@components/AuthorButtonList';
+import LogoReact from '@components/LogoReact';
+import LogoVue from '@components/LogoVue';
+import LogoSvelte from '@components/LogoSvelte';
+import LogoAngular from '@components/LogoAngular';
 
 import { QueryClient, useQuery } from 'react-query';
 import { useFeaturedJamsQuery } from '@hooks/useJams';
@@ -185,12 +189,23 @@ export default function Dashboard() {
    */
 
   function handleOnTagClick(e, { tag }) {
+    console.log('tag', tag);
     const isActive = selectedTagFilters.find(({ _id }) => _id === tag._id);
+
     if (isActive) {
       removeTag(tag);
     } else {
       addTag(tag);
     }
+  }
+
+  /**
+   * filterTagBySlug
+   */
+
+  function filterTagBySlug(slug) {
+    const tag = tags.find((t) => slug === t.slug?.current);
+    tag && handleOnTagClick(undefined, { tag });
   }
 
   /**
@@ -506,10 +521,95 @@ export default function Dashboard() {
                   <Heading as="h2" fontSize="32" color="blue.800" mb="6">
                     Discover Jams
                   </Heading>
+
                   <TagCardList
                     tags={featuredTags}
                     onTagClick={handleOnTagClick}
                   />
+
+                  <Heading
+                    as="h3"
+                    fontSize="22"
+                    color="blue.800"
+                    mt="12"
+                    mb="6"
+                  >
+                    By Stack
+                  </Heading>
+
+                  <SimpleGrid
+                    as={List}
+                    templateColumns={{
+                      base: 'repeat(2, 1fr)',
+                      lg: 'repeat(4, 1fr)',
+                    }}
+                    spacing="2"
+                  >
+                    <ListItem px="6">
+                      <Box
+                        as="button"
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        height="100%"
+                        onClick={() => filterTagBySlug('react')}
+                      >
+                        <LogoReact width="100%" p="2" flexGrow="1" />
+                        <Text as="span" fontSize="20">
+                          React
+                        </Text>
+                      </Box>
+                    </ListItem>
+                    <ListItem px="6">
+                      <Box
+                        as="button"
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        height="100%"
+                        onClick={() => filterTagBySlug('vue')}
+                      >
+                        <LogoVue width="100%" p="4" flexGrow="1" />
+                        <Text as="span" fontSize="20">
+                          Vue
+                        </Text>
+                      </Box>
+                    </ListItem>
+                    <ListItem px="6">
+                      <Box
+                        as="button"
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        height="100%"
+                        onClick={() => filterTagBySlug('svelte')}
+                      >
+                        <LogoSvelte width="100%" p="5" flexGrow="1" />
+                        <Text as="span" fontSize="20">
+                          Svelte
+                        </Text>
+                      </Box>
+                    </ListItem>
+                    <ListItem px="6">
+                      <Box
+                        as="button"
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        height="100%"
+                        onClick={() => filterTagBySlug('angular')}
+                      >
+                        <LogoAngular width="100%" flexGrow="1" />
+                        <Text as="span" fontSize="20">
+                          Angular
+                        </Text>
+                      </Box>
+                    </ListItem>
+                  </SimpleGrid>
                 </Box>
               )}
             </Box>

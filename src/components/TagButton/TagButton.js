@@ -30,7 +30,7 @@ const TagButtonContent = ({ tag, isLink, isActive, onClick, ...rest }) => {
 
   return (
     <Text
-      as="span"
+      as="button"
       display="flex"
       alignItems="center"
       color="white"
