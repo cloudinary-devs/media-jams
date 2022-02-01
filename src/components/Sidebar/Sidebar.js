@@ -103,7 +103,7 @@ const SideStrip = () => {
       <VStack
         justifyContent="flex-start"
         spacing={{ base: '24px', md: 6 }}
-        mt={{ base: 2, md: 8 }}
+        pt={{ base: 0, md: 6 }}
       >
         {sideNavTabs.map(({ value, displayName, Icon }) => (
           <SideNavButtonIcon
