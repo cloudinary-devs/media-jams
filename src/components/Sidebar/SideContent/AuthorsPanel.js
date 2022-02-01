@@ -56,7 +56,10 @@ export const AuthorCard = ({ author, ...props }) => {
       {...props}
     >
       <Flex direction="row" spacing={{ base: '1', md: '2' }}>
-        <Avatar name={author.name} src={imageFetch(author.image?.asset.url)} />
+        <Avatar
+          name={author.name}
+          src={imageFetch(author.image?.asset.url, { w: 64, h: 64 })}
+        />
         <VStack alignItems="flex-start" ml="2">
           <LinkOverlay href={`/author/${author.slug?.current}`}>
             <Heading as="h5" size="H100">

@@ -1,6 +1,8 @@
 import NextLink from 'next/link';
 import { Flex, Box, Text, Link } from '@chakra-ui/react';
 
+import imageFetch from '@utils/image-fetch';
+
 import ReactIcon from '@components/ReactIcon';
 
 const TagCardContent = ({ tag, onClick, ...rest }) => {
@@ -26,7 +28,7 @@ const TagCardContent = ({ tag, onClick, ...rest }) => {
       _hover={{
         textDecoration: 'none',
       }}
-      backgroundImage={image.url}
+      backgroundImage={image.url && imageFetch(image.url, { w: 1640 })}
       backgroundSize="cover"
       backgroundPosition="center center"
       backgroundColor="#1B1464"

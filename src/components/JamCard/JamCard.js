@@ -23,32 +23,38 @@ import {
   useAddBookmarkMutation,
   useRemoveBookmarkMutation,
 } from '@hooks/useBookmarks';
+import imageFetch from '@utils/image-fetch';
 
 import ReactIcon from '@components/ReactIcon';
 
 const DEFAULT_TAGS_TO_SHOW = 3;
 
-const sizes = {
+const jamCardSizes = {
   large: {
     width: 1130,
     height: 330,
   },
   small: {
-    width: 540,
-    height: 330,
+    width: 1640,
+    height: 1002,
   },
+};
+
+const authorAvatarSize = {
+  width: 500,
+  height: 500,
 };
 
 const JamCard = ({ jam, size: sizeKey = 'small' }) => {
   const { author, cover } = jam;
   const isFeatured = jam.postMetadata.featured;
 
-  const [background, setBackground] = useState('');
+  const [images, setImages] = useState();
 
   const firstTags = jam.tags.slice(0, DEFAULT_TAGS_TO_SHOW);
   const remainingTags = jam.tags.slice(DEFAULT_TAGS_TO_SHOW);
 
-  const size = sizes[sizeKey];
+  const size = jamCardSizes[sizeKey];
 
   const {
     data: bookmarksData = {},
@@ -78,7 +84,10 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
 
   useEffect(() => {
     if (!inView) return;
-    setBackground(cover?.asset?.url);
+    setImages({
+      background: cover?.asset?.url,
+      author: author?.image?.asset?.url,
+    });
   }, [inView]);
 
   /**
@@ -107,16 +116,6 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
       borderRadius="4"
       backgroundColor="#6347e2"
     >
-      {/* {cover && (
-        <Image
-          position="absolute"
-          top="0"
-          left="0"
-          zIndex="0"
-          width="100%"
-          src={cover.asset.url}
-        />
-      )} */}
       <Box position="absolute" top="6" right="6" zIndex="2">
         <IconButton
           color="white"
@@ -155,7 +154,10 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
           left="0"
           width="100%"
           height="100%"
-          backgroundImage={background}
+          backgroundImage={
+            images?.background &&
+            imageFetch(images.background, { w: size.width, h: size.height })
+          }
           backgroundSize="cover"
           backgroundPosition="center center"
         >
@@ -309,7 +311,13 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
                 <Avatar
                   size="md"
                   name={author.name}
-                  src={author.image.asset.url}
+                  src={
+                    images?.author &&
+                    imageFetch(images.author, {
+                      w: authorAvatarSize.width,
+                      h: authorAvatarSize.height,
+                    })
+                  }
                   mr="4"
                 />
                 <Flex direction="column" justifyContent="center">

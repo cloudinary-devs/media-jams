@@ -37,7 +37,7 @@ export default function MobileAuthorBanner({ author }) {
               width="96px"
               height={{ base: '96px', lg: '132px' }}
               name={author.name}
-              src={imageFetch(author.image?.asset.url)}
+              src={imageFetch(author.image?.asset.url, { w: 64, h: 64 })}
               border="1px solid #88B1FC"
               showBorder
               mt={{ base: '8px' }}
