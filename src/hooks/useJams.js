@@ -1,9 +1,18 @@
 import { useQueryClient, useQuery, useMutation } from 'react-query';
 import { postsByTag, postsByTagSlug } from '@lib/api';
 import { jams as queryJams } from '@lib/queries/jams';
+import useLazyQuery from '@hooks/useLazyQuery';
 
 export function useJamsQuery(select, options) {
   return useQuery('allJams', queryJams.get, {
+    staleTime: Infinity,
+    select,
+    ...options,
+  });
+}
+
+export function useJamsLazyQuery(select, options) {
+  return useLazyQuery('allJams', queryJams.get, {
     staleTime: Infinity,
     select,
     ...options,

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import {
   Input,
   InputGroup,
@@ -10,13 +10,27 @@ import { Search } from '@components/Icons';
 
 import { fontFamilyDefault } from '@utils/styles';
 
-export default function SearchInput({ searchValue, setSearchValue, onFocus }) {
+export default function SearchInput({
+  searchValue,
+  setSearchValue,
+  focusOnLoad,
+  onFocus,
+}) {
+  const inputRef = useRef();
+
   const placeHolderVariant = useBreakpointValue({
     base: 'Search',
     lg: 'Search by tag, title, keyword, author, etc...',
   });
 
-  const onChange = React.useCallback((e) => setSearchValue(e.target.value));
+  useEffect(() => {
+    if (focusOnLoad) {
+      inputRef.current?.focus();
+    }
+  }, []);
+
+  const onChange = useCallback((e) => setSearchValue(e.target.value));
+
   return (
     <InputGroup
       size="lg"
@@ -29,6 +43,7 @@ export default function SearchInput({ searchValue, setSearchValue, onFocus }) {
         <Search />
       </InputLeftElement>
       <Input
+        ref={inputRef}
         value={searchValue}
         onChange={onChange}
         onFocus={onFocus}

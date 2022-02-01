@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { FaStar, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import format from 'date-fns/format';
+import { useInView } from 'react-intersection-observer';
 
 import {
   useBookmarksQuery,
@@ -41,6 +42,8 @@ const sizes = {
 const JamCard = ({ jam, size: sizeKey = 'small' }) => {
   const { author, cover } = jam;
   const isFeatured = jam.postMetadata.featured;
+
+  const [background, setBackground] = useState('');
 
   const firstTags = jam.tags.slice(0, DEFAULT_TAGS_TO_SHOW);
   const remainingTags = jam.tags.slice(DEFAULT_TAGS_TO_SHOW);
@@ -71,6 +74,13 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
     }
   }, [isBookmarked]);
 
+  const { ref: jamCardRef, inView, entry } = useInView();
+
+  useEffect(() => {
+    if (!inView) return;
+    setBackground(cover?.asset?.url);
+  }, [inView]);
+
   /**
    * onBookmarkClick
    */
@@ -88,6 +98,7 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
 
   return (
     <Box
+      ref={jamCardRef}
       position="relative"
       width="100%"
       overflow="hidden"
@@ -144,7 +155,7 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
           left="0"
           width="100%"
           height="100%"
-          backgroundImage={cover && cover.asset.url}
+          backgroundImage={background}
           backgroundSize="cover"
           backgroundPosition="center center"
         >

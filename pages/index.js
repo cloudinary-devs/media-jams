@@ -1,5 +1,7 @@
 import 'tippy.js/dist/tippy.css';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import NextLink from 'next/link';
 import {
   Flex,
   Box,
@@ -15,14 +17,12 @@ import {
   Image,
   VisuallyHidden,
 } from '@chakra-ui/react';
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 
 import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
 import JamCardCollage from '@components/JamCardCollage';
 import Banner from '@components/Banner';
-import Search from '@components/Search';
+import SearchInput from '@components/SearchInput';
 import {
   GreenCheck,
   Author,
@@ -36,25 +36,15 @@ import {
 import MediaJams from '@components/MediaJams';
 import MediaJar from '@components/MediaJar';
 import ReactIcon from '@components/ReactIcon';
+import TagCardList from '@components/TagCardList';
+import TagButtonList from '@components/TagButtonList';
 
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
 import { useTagsQuery } from '@hooks/useTags';
-import { useSearch } from '@components/SearchProvider';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
-
-const fuseOptions = {
-  threshold: 0.35,
-  location: 0,
-  distance: 100,
-  minMatchCharLength: 3,
-  shouldSort: true,
-  includeScore: true,
-  useExtendedSearch: true,
-  keys: ['title', 'tags.title', ['author', 'name']],
-};
 
 const JAMS_TO_SHOW = 10;
 
@@ -69,80 +59,25 @@ export default function Dashboard() {
     lg: 2,
   });
 
-  const {
-    state: { searchValue, selectedTagFilters, filteredJams },
-    handleFilter,
-    updateSearchValue,
-    addTagGroup,
-  } = useSearch();
-
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
   const { data: allTags = {} } = useTagsQuery();
   const { tags } = allTags;
 
-  const featuredTags = tags?.filter(({ featured }) => featured);
+  const featuredTags = tags?.filter(({ featured }) => featured) || [];
   const tagsByPopularity = tags; // TODO figure out how to sort
 
   const standardJams = allJams?.jams
     .filter((j) => !j.postMetadata.featured)
     .slice(0, JAMS_TO_SHOW);
 
-  // Update router params to reflect tag state
-  // Return null until isReady is true
-  // const routerPushTags = (tags = null) => {
-  //   if (!router.isReady) return null;
-  //   const routerPath = tags
-  //     ? `/?tags=${tags.map((t) => encodeURIComponent(t)).join('%2C')}`
-  //     : `/`;
-  //   router.push(routerPath, undefined, { shallow: true });
-  // };
+  useEffect(() => {
+    router.prefetch('/search');
+  }, []);
 
-  // // handle updating the filteredPosts with different search criteria
-  // useEffect(() => {
-  //   const formattedTags = selectedTagFilters.map((item) => item.title);
-  //   if (searchValue === '' && selectedTagFilters.length === 0) {
-  //     handleFilter(allJams?.jams);
-  //     routerPushTags();
-  //   } else {
-  //     // Allow for a search for tag
-  //     const queries = {
-  //       $or: [
-  //         {
-  //           title: searchValue,
-  //         },
-  //         {
-  //           $path: ['author.name'],
-  //           $val: searchValue,
-  //         },
-  //         {
-  //           $path: ['tags.title'],
-  //           $val: searchValue,
-  //         },
-  //       ],
-  //       $and: [],
-  //     };
-
-  //     // Add an $and with the tag title if we have an active topic
-  //     if (formattedTags.length > 0) {
-  //       routerPushTags(formattedTags);
-  //       formattedTags.forEach((tag) => {
-  //         queries.$and.push({
-  //           $path: 'tags.title',
-  //           $val: `'${tag}`, // the ' in front adds exact match
-  //         });
-  //       });
-  //     }
-  //     async function initFuse() {
-  //       const Fuse = (await import('fuse.js')).default;
-  //       const fuse = new Fuse(allJams?.jams, fuseOptions);
-  //       const results = fuse.search(queries).map((result) => result.item);
-
-  //       handleFilter(results);
-  //     }
-  //     initFuse();
-  //   }
-  // }, [searchValue, selectedTagFilters, isLoadingJams]);
+  function handleOnSearchFocus() {
+    router.push('/search');
+  }
 
   return (
     <Box w="100%" height="100%" overflowY="auto">
@@ -228,75 +163,14 @@ export default function Dashboard() {
             Discover Jams
           </Heading>
 
-          <Search
-            searchValue={searchValue}
-            setSearchValue={updateSearchValue}
-          />
+          <SearchInput onFocus={handleOnSearchFocus} />
 
           <Box>
             <VisuallyHidden>
               <Heading as="h3">Featured Tags</Heading>
             </VisuallyHidden>
-            <SimpleGrid
-              as={List}
-              templateColumns={{
-                base: 'auto',
-                lg: 'repeat(3, minmax(0, 310px))',
-              }}
-              spacing="4"
-            >
-              {featuredTags?.slice(0, 3).map((tag) => {
-                const image = tag?.image?.asset || {};
-                const icon = tag.icon || { name: 'FaTag', provider: 'fa' };
-                return (
-                  <ListItem key={tag._id}>
-                    <NextLink href={`/tags/${tag.slug?.current}`} passHref>
-                      <Link
-                        display="block"
-                        position="relative"
-                        color="white"
-                        borderRadius="md"
-                        py="6"
-                        _hover={{
-                          textDecoration: 'none',
-                        }}
-                        backgroundImage={image.url}
-                        backgroundSize="cover"
-                        backgroundPosition="center center"
-                        backgroundColor="#1B1464"
-                        _after={{
-                          display: 'block',
-                          opacity: 0.8,
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          zIndex: 0,
-                          width: '100%',
-                          height: '100%',
-                          content: '""',
-                          backgroundColor: '#1B1464',
-                        }}
-                        overflow="hidden"
-                        boxShadow="0 2px 8px rgba(37, 41, 46, .4)"
-                      >
-                        <Box
-                          display="flex"
-                          flexDirection="column"
-                          alignItems="center"
-                          position="relative"
-                          zIndex="1"
-                        >
-                          <ReactIcon {...icon} fontSize="36" margin="0" />
-                          <Text fontSize="18" fontWeight="bold" mt="3">
-                            {tag.title}
-                          </Text>
-                        </Box>
-                      </Link>
-                    </NextLink>
-                  </ListItem>
-                );
-              })}
-            </SimpleGrid>
+
+            <TagCardList tags={featuredTags.slice(0, 3)} />
 
             {!displayMoreTags && (
               <Text textAlign="center">
@@ -311,41 +185,9 @@ export default function Dashboard() {
                 <VisuallyHidden>
                   <Heading as="h3">All Tags</Heading>
                 </VisuallyHidden>
-                <Flex
-                  as={List}
-                  flexWrap="wrap"
-                  justifyContent="center"
-                  mx="-1"
-                  mt="5"
-                >
-                  {tagsByPopularity.map((tag) => {
-                    const icon = tag.icon || { name: 'FaTag', provider: 'fa' };
-                    return (
-                      <ListItem key={tag._id} m="2">
-                        <NextLink href={`/tags/${tag.slug?.current}`} passHref>
-                          <Link
-                            display="flex"
-                            alignItems="center"
-                            color="white"
-                            fontSize="15"
-                            fontWeight="bold"
-                            borderRadius="md"
-                            _hover={{
-                              textDecoration: 'none',
-                            }}
-                            backgroundColor="#1B1464"
-                            px="5"
-                            py="2"
-                            boxShadow="0 2px 4px rgba(37, 41, 46, .4)"
-                          >
-                            <ReactIcon {...icon} fontSize="14" mr="3" />
-                            {tag.title}
-                          </Link>
-                        </NextLink>
-                      </ListItem>
-                    );
-                  })}
-                </Flex>
+                <Box mx="-1" mt="5">
+                  <TagButtonList tags={tagsByPopularity} />
+                </Box>
               </>
             )}
           </Box>
