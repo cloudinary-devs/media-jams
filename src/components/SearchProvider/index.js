@@ -19,7 +19,6 @@ const fuseSearchOptions = {
   minMatchCharLength: 3,
   shouldSort: true,
   includeScore: true,
-  useExtendedSearch: true,
   keys: [
     'title',
     'name',
@@ -290,25 +289,21 @@ function searchJams({ Fuse, query, jams, filters = {} } = {}) {
   }
 
   if (Array.isArray(filters.tags) && filters.tags.length > 0) {
-    $and.concat(
-      filters.tags.forEach(({ _id }) => {
-        $and.push({
-          $path: 'tags._id',
-          $val: `'${_id}`, // the ' in front adds exact match
-        });
-      }),
-    );
+    filters.tags.forEach(({ _id }) => {
+      $and.push({
+        $path: 'tags._id',
+        $val: _id,
+      });
+    });
   }
 
   if (Array.isArray(filters.authors) && filters.authors.length > 0) {
-    $and.concat(
-      filters.authors.forEach(({ _id }) => {
-        $and.push({
-          $path: 'author._id',
-          $val: `'${_id}`, // the ' in front adds exact match
-        });
-      }),
-    );
+    filters.authors.forEach(({ _id }) => {
+      $and.push({
+        $path: 'author._id',
+        $val: _id,
+      });
+    });
   }
 
   const queries = {
@@ -343,7 +338,7 @@ function searchTags({ Fuse, query, tags, filters = {} } = {}) {
     filters.tags.forEach(({ title }) => {
       queries.$and.push({
         $path: 'tags.title',
-        $val: `'${title}`, // the ' in front adds exact match
+        $val: title,
       });
     });
   }
@@ -371,7 +366,7 @@ function searchAuthors({ Fuse, query, authors, filters = {} } = {}) {
     filters.authors.forEach(({ name }) => {
       queries.$and.push({
         $path: 'author.name',
-        $val: `'${name}`, // the ' in front adds exact match
+        $val: name,
       });
     });
   }
