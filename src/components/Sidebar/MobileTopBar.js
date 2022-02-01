@@ -5,12 +5,9 @@ import {
   useColorModeValue as mode,
 } from '@chakra-ui/react';
 import * as React from 'react';
-import {
-  MobileMenuClose,
-  MobileMenuOpen,
-  MobileLogo,
-  BWLogo,
-} from '@components/Icons';
+import { MobileMenuClose, MobileMenuOpen, MobileLogo } from '@components/Icons';
+import MJ from '@components/MJ';
+
 import { useSidePanel } from '@components/SidePanelProvider';
 
 const ToggleMenuIcon = (isOpen) => {
@@ -31,7 +28,7 @@ export const MobileTopBar = () => {
       h="54px"
     >
       <Link href="/">
-        <BWLogo />
+        <MJ />
       </Link>
       <IconButton
         onClick={onToggle}
