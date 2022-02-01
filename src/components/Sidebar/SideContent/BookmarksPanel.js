@@ -134,7 +134,7 @@ export const BookmarkJamCard = ({ jam, ...props }) => {
             width="20px"
             height="20px"
             name={author.name}
-            src={imageFetch(author.image?.asset.url)}
+            src={imageFetch(author.image?.asset.url, { w: 64, h: 64 })}
           />
           <NextLink href={`/author/${author.slug?.current}`} passHref>
             <Link>

@@ -1,11 +1,34 @@
 import { useImage } from 'use-cloudinary';
 
-const defaultOptions = { w: 64, h: 64 };
-
-function ImageFetch(src, options = defaultOptions) {
+function ImageFetch(src, options = {}) {
   const { generateImageUrl } = useImage('mediadevs');
 
-  const { w = 64, h = 64 } = options;
+  const { w, h } = options;
+
+  const transformation = [
+    {
+      format: 'auto',
+      quality: 'auto',
+    },
+  ];
+
+  if (w || h) {
+    const size = {};
+
+    if (w) {
+      size.width = w;
+    }
+
+    if (h) {
+      size.height = h;
+    }
+
+    transformation.push({
+      crop: 'fill',
+      ...size,
+    });
+  }
+
   return !src
     ? undefined
     : generateImageUrl({
@@ -13,13 +36,7 @@ function ImageFetch(src, options = defaultOptions) {
           publicId: src,
           storageType: 'fetch',
         },
-        transformation: [
-          {
-            crop: 'fill',
-            width: w,
-            height: h,
-          },
-        ],
+        transformation,
       });
 }
 
