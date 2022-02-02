@@ -80,7 +80,7 @@ function ToggleTagListButton({ children, onClick, ...rest }) {
   );
 }
 
-function TagModal({ isOpen, onClose, tags = { tags: [] }, clearAllTags }) {
+function TagModal({ isOpen, onClose, tags = [], clearAllTags }) {
   const primary500 = useToken('colors', 'primary.500');
   return (
     <Modal onClose={onClose} isOpen={isOpen} isCentered>
@@ -95,7 +95,7 @@ function TagModal({ isOpen, onClose, tags = { tags: [] }, clearAllTags }) {
         <ModalBody>
           <Flex direction="column" justify="space-evenly">
             <CheckboxGroup colorScheme="green">
-              {tags.tags?.map((tag) => (
+              {tags?.map((tag) => (
                 <Flex
                   pt="18px"
                   justify="center"
@@ -144,7 +144,10 @@ function TagModal({ isOpen, onClose, tags = { tags: [] }, clearAllTags }) {
 }
 
 function Tags() {
-  const { clearAllTags } = useSearch();
+  const {
+    clearAllTags,
+    state: { tags },
+  } = useSearch();
   const [showMore, setShowMore] = React.useState(false);
   const [featuredTags, setFeaturedTags] = React.useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -155,11 +158,12 @@ function Tags() {
   const { data } = useQuery('jamTags', queryTags.get);
   let collectedFeaturedTags = [];
   React.useEffect(() => {
-    if (data.tags) {
-      data.tags.map((tag) => tag.featured && collectedFeaturedTags.push(tag));
+    console.log('ALL TAGS', tags);
+    if (tags) {
+      tags.map((tag) => tag.featured && collectedFeaturedTags.push(tag));
       setFeaturedTags(collectedFeaturedTags);
     }
-  }, [data]);
+  }, [data, tags]);
 
   return (
     <Flex
@@ -168,7 +172,7 @@ function Tags() {
       justify={{ lg: 'space-between' }}
     >
       <TagModal
-        tags={data}
+        tags={tags}
         isOpen={isOpen}
         onClose={onClose}
         clearAllTags={clearAllTags}
@@ -187,9 +191,12 @@ function Tags() {
             <Text variant="B300" color={useToken('colors', 'grey.900')}>
               Topics:
             </Text>
-            {data.tags.map((tag) => (
+            {tags.map((tag) => (
               <TagButton key={tag._id} tag={tag}>
-                {tag.title}
+                {tag.title}{' '}
+                <Text size="xs" color="tomato">
+                  {tag.qty}
+                </Text>
               </TagButton>
             ))}
           </Flex>
@@ -231,7 +238,10 @@ function Tags() {
             </Text>
             {featuredTags.map((tag) => (
               <TagButton key={tag._id} tag={tag}>
-                {tag.title}
+                {tag.title}{' '}
+                <Text size="xs" color="tomato">
+                  {tag.qty}
+                </Text>
               </TagButton>
             ))}
           </Flex>

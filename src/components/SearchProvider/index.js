@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import { useTagsQuery } from '@hooks/useTags';
+import { useTagsQuery, useTags } from '@hooks/useTags';
 import GA from '@lib/googleAnalytics';
 
 export const SSACTIONS = {
@@ -11,10 +11,12 @@ export const SSACTIONS = {
   REMOVE_TAG_FILTERS: 'removeTagFilters',
   CLEAR_TAG_FILTERS: 'clearTagFilters',
   SET_JAMS: 'setJams',
+  SET_TAGS: 'setTags',
   CLEAR_SEARCH: 'clearSearch',
 };
 
 const initState = {
+  tags: [],
   searchValue: '',
   selectedTagFilters: [],
   filteredJams: [],
@@ -28,6 +30,9 @@ function reducer(state, action) {
       return { ...state, filteredJams: action.jams };
     case SSACTIONS.SET_SEARCH:
       return { ...state, searchValue: action.value };
+    case SSACTIONS.SET_TAGS:
+      return { ...state, tags: action.tags };
+
     case SSACTIONS.ADD_TAG_FILTERS:
       return {
         ...state,
@@ -60,9 +65,10 @@ function reducer(state, action) {
 
 export function SearchProvider({ children }) {
   const router = useRouter();
-  const { data: allTags } = useTagsQuery();
+  // const { data: allTags } = useTagsQuery();
+  const [allTags] = useTags();
   const [state, dispatch] = useReducer(reducer, initState);
-  const { tags } = router.query;
+  const { tags: routerTags } = router.query;
 
   // Capture search state with GA
   // debounce to reduce api calls
@@ -75,18 +81,23 @@ export function SearchProvider({ children }) {
     };
   }, [state]);
 
-  // Router Query for selected tags
+  React.useEffect(() => {
+    //Set allTags
+    dispatch({ type: SSACTIONS.SET_TAGS, tags: allTags });
+  }, [allTags]);
+
+  // Router Query for selected routerTags
   // Given query params from the router & react-query tags loaded
   // then update the state to reflect those chosen tags
   React.useEffect(() => {
-    if (!tags || !allTags?.data) {
+    if (!routerTags || !allTags) {
       return null;
     }
-    const tagGroup = tags
+    const tagGroup = routerTags
       .split(',')
-      .map((t) => allTags.data.tags.find((at) => at.title === t));
+      .map((t) => allTags.find((at) => at.title === t));
     dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags: tagGroup });
-  }, [allTags, tags]);
+  }, [routerTags]);
 
   const value = {
     state,
