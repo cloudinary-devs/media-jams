@@ -158,7 +158,6 @@ function Tags() {
   const { data } = useQuery('jamTags', queryTags.get);
   let collectedFeaturedTags = [];
   React.useEffect(() => {
-    console.log('ALL TAGS', tags);
     if (tags) {
       tags.map((tag) => tag.featured && collectedFeaturedTags.push(tag));
       setFeaturedTags(collectedFeaturedTags);

@@ -19,28 +19,23 @@ const tagCount = (allJams, allTags) =>
     .values()
     .map((group) => ({ ...group[0], qty: group.length }))
     .filter((t) => t.qty > 1)
-    .concat(allTags)
-    .groupBy('_id')
-    .map(_.spread(_.merge))
+    .concat(allTags) // add in all tags
+    .groupBy('_id') // group by unquie tag _id
+    .map(_.spread(_.merge)) // flatten the array's of array's grouped by _id back into a single array
     .orderBy(['qty'], ['desc'])
     .value(); // used to unwrap the lodash chain
 
 export function useTags() {
   const [allTags, setTags] = React.useState(null);
-  const {
-    data: { tags },
-  } = useTagsQuery();
-  const {
-    data: { jams },
-  } = useJamsQuery();
+  const { data: dataTags } = useTagsQuery();
+  const { data: dataJams } = useJamsQuery();
 
   React.useEffect(() => {
-    if (!tags) return null;
-    console.log('Tags', tags);
-    console.log('Jams', jams);
-    console.log(tagCount(jams, tags));
+    if (!dataTags || !dataJams) return null;
+    const { tags } = dataTags;
+    const { jams } = dataJams;
     setTags(tagCount(jams, tags));
-  }, [tags, jams]);
+  }, [dataTags, dataJams]);
 
   return [allTags];
 }

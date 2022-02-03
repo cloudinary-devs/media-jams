@@ -99,9 +99,8 @@ export function SearchProvider({ children }) {
     dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags: tagGroup });
   }, [router.isReady]);
 
-  // Update router params to reflect tag state
+  // Update router params to reflect selected tag state
   React.useEffect(() => {
-    console.log('>>>>>>>>>ROUTER UPDATE', router);
     if (!router.isReady) return null;
     const formattedTags = state.selectedTagFilters.map((item) => item.title);
     const routerPath =
