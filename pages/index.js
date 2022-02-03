@@ -91,6 +91,7 @@ export default function Dashboard() {
           direction="column"
           justify="space-around"
           sx={{ gap: '24px' }}
+          pb="20"
         >
           <Box
             py={{
@@ -257,6 +258,14 @@ export default function Dashboard() {
           </Heading>
 
           <JamCardList jams={standardJams} columns={jamListColumns} />
+
+          <Text>
+            <NextLink href="/posts">
+              <Button as={Link} variant="link" fontSize="18">
+                View All Jams
+              </Button>
+            </NextLink>
+          </Text>
         </Flex>
       </Flex>
     </Box>
