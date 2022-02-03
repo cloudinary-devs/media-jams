@@ -86,9 +86,9 @@ export function SearchProvider({ children }) {
     dispatch({ type: SSACTIONS.SET_TAGS, tags: allTags });
   }, [allTags]);
 
-  // Router Query for selected routerTags
+  // Happens ONLY ONCE during load that 'isReady' changes from false -> true
+  // routerTags are only populated from undefined to value after 'isReady' is true
   // Given query params from the router & react-query tags loaded
-  // then update the state to reflect those chosen tags
   React.useEffect(() => {
     if (!routerTags || !allTags) {
       return null;
@@ -97,7 +97,21 @@ export function SearchProvider({ children }) {
       .split(',')
       .map((t) => allTags.find((at) => at.title === t));
     dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags: tagGroup });
-  }, [routerTags]);
+  }, [router.isReady]);
+
+  // Update router params to reflect tag state
+  React.useEffect(() => {
+    console.log('>>>>>>>>>ROUTER UPDATE', router);
+    if (!router.isReady) return null;
+    const formattedTags = state.selectedTagFilters.map((item) => item.title);
+    const routerPath =
+      formattedTags.length > 0
+        ? `/?tags=${formattedTags
+            .map((t) => encodeURIComponent(t))
+            .join('%2C')}`
+        : `/`;
+    router.push(routerPath, undefined, { shallow: true });
+  }, [state.selectedTagFilters]);
 
   const value = {
     state,

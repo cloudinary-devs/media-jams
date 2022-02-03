@@ -48,16 +48,6 @@ export default function Dashboard() {
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
 
-  // Update router params to reflect tag state
-  // Return null until isReady is true
-  const routerPushTags = (tags = null) => {
-    if (!router.isReady) return null;
-    const routerPath = tags
-      ? `/?tags=${tags.map((t) => encodeURIComponent(t)).join('%2C')}`
-      : `/`;
-    router.push(routerPath, undefined, { shallow: true });
-  };
-
   React.useEffect(() => {
     // do some checking here to ensure data exist
     if (isLoadingJams === false && allJams?.jams) {
@@ -71,7 +61,6 @@ export default function Dashboard() {
     const formattedTags = selectedTagFilters.map((item) => item.title);
     if (searchValue === '' && selectedTagFilters.length === 0) {
       handleFilter(allJams?.jams);
-      routerPushTags();
     } else {
       // Allow for a search for tag
       const queries = {
@@ -93,7 +82,6 @@ export default function Dashboard() {
 
       // Add an $and with the tag title if we have an active topic
       if (formattedTags.length > 0) {
-        routerPushTags(formattedTags);
         formattedTags.forEach((tag) => {
           queries.$and.push({
             $path: 'tags.title',
