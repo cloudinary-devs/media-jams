@@ -47,7 +47,8 @@ export default function CodeSandbox({
 
   useElementInteration({
     elementRef: iframeRef,
-    onInteraction: () => GA.event('codesandbox', 'interaction', 'id', id),
+    onInteraction: () =>
+      GA.event('event', 'codesandbox_interaction', { id, title }),
   });
 
   const baseUrl = src
