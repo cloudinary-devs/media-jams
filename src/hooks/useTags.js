@@ -26,7 +26,7 @@ const tagCount = (allJams, allTags) =>
     .value(); // used to unwrap the lodash chain
 
 export function useTags() {
-  const [allTags, setTags] = React.useState(null);
+  const [allTags, setTags] = React.useState([]);
   const { data: dataTags } = useTagsQuery();
   const { data: dataJams } = useJamsQuery();
 

@@ -192,10 +192,7 @@ function Tags() {
             </Text>
             {tags.map((tag) => (
               <TagButton key={tag._id} tag={tag}>
-                {tag.title}{' '}
-                <Text size="xs" color="tomato">
-                  {tag.qty}
-                </Text>
+                {tag.title}
               </TagButton>
             ))}
           </Flex>
@@ -237,10 +234,7 @@ function Tags() {
             </Text>
             {featuredTags.map((tag) => (
               <TagButton key={tag._id} tag={tag}>
-                {tag.title}{' '}
-                <Text size="xs" color="tomato">
-                  {tag.qty}
-                </Text>
+                {tag.title}
               </TagButton>
             ))}
           </Flex>

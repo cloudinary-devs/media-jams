@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import { useTagsQuery, useTags } from '@hooks/useTags';
+import { useTags } from '@hooks/useTags';
 import GA from '@lib/googleAnalytics';
 
 export const SSACTIONS = {
@@ -65,7 +65,6 @@ function reducer(state, action) {
 
 export function SearchProvider({ children }) {
   const router = useRouter();
-  // const { data: allTags } = useTagsQuery();
   const [allTags] = useTags();
   const [state, dispatch] = useReducer(reducer, initState);
   const { tags: routerTags } = router.query;
