@@ -13,7 +13,6 @@ import Search from '@components/Search';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
-import { useTagsQuery } from '@hooks/useTags';
 import { useSearch } from '@components/SearchProvider';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
@@ -40,7 +39,6 @@ export default function Dashboard() {
     state: { searchValue, selectedTagFilters, filteredJams },
     handleFilter,
     updateSearchValue,
-    addTagGroup,
   } = useSearch();
   const [showJams, setShowJams] = React.useState({
     inc: 0,
@@ -49,16 +47,6 @@ export default function Dashboard() {
   });
   const { data: allJams, isLoading: isLoadingJams } = useJamsQuery();
   const { data: featuredJams, isLoading } = useFeaturedJamsQuery();
-
-  // Update router params to reflect tag state
-  // Return null until isReady is true
-  const routerPushTags = (tags = null) => {
-    if (!router.isReady) return null;
-    const routerPath = tags
-      ? `/?tags=${tags.map((t) => encodeURIComponent(t)).join('%2C')}`
-      : `/`;
-    router.push(routerPath, undefined, { shallow: true });
-  };
 
   React.useEffect(() => {
     // do some checking here to ensure data exist
@@ -73,7 +61,6 @@ export default function Dashboard() {
     const formattedTags = selectedTagFilters.map((item) => item.title);
     if (searchValue === '' && selectedTagFilters.length === 0) {
       handleFilter(allJams?.jams);
-      routerPushTags();
     } else {
       // Allow for a search for tag
       const queries = {
@@ -95,7 +82,6 @@ export default function Dashboard() {
 
       // Add an $and with the tag title if we have an active topic
       if (formattedTags.length > 0) {
-        routerPushTags(formattedTags);
         formattedTags.forEach((tag) => {
           queries.$and.push({
             $path: 'tags.title',
@@ -181,14 +167,31 @@ Dashboard.getLayout = (page) => <Layout>{page}</Layout>;
 
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
-  await queryClient.fetchQuery('jamTags', queryTags.getStatic);
-  await queryClient.setQueryData('jamTags', (old) => ({ tags: old.tags }));
-  await queryClient.fetchQuery('featuredJams', queryJams.getStaticFeaturedJams);
-  await queryClient.setQueryData('featuredJams', (old) => ({
-    jams: old.data.jams,
-  }));
-  await queryClient.fetchQuery('allJams', queryJams.getStatic);
-  await queryClient.setQueryData('allJams', (old) => ({ jams: old.data.jams }));
+  /**
+   * Fetch ALL Jams w/ metadata, excluding the content body
+   */
+  await queryClient.fetchQuery('allJams', async () => {
+    const { data } = await queryJams.getStatic();
+    return data;
+  });
+
+  /**
+   * All Tags w/ metadata and associated metadata
+   */
+  await queryClient.fetchQuery('jamTags', async () => {
+    const { data } = await queryTags.getStatic();
+    return data;
+  });
+
+  /**
+   * Jams marked as Featured Jams
+   */
+  await queryClient.fetchQuery('featuredJams', async () => {
+    const {
+      data: { jams },
+    } = await queryJams.getStaticFeaturedJams();
+    return { jams };
+  });
 
   return {
     props: {

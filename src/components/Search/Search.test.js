@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, act, waitFor } from '@utils/test-utils';
-import Search from '@components/Search';
+// import Search from '@components/Search';
 
 describe('default test', () => {
   test('saddness', () => {
