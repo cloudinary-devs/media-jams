@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import userStore from 'part:@sanity/base/user';
 import sanityClient from 'part:@sanity/base/client';
 import { useCurrentProject } from '../project';
 import { useObservable } from '../utils/use';
@@ -52,4 +53,18 @@ export function userModerator() {
     return () => {};
   }, []);
   return hasPermission;
+}
+
+export function useCurrentUser() {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    userStore.currentUser.subscribe((e) => setUser(e.user));
+  }, []);
+
+  if (!user) {
+    return {};
+  }
+
+  return user;
 }

@@ -24,8 +24,8 @@
     "asset-source-unsplash",
     "dashboard-tags",
     "dashboard-jams-count",
-    "markdown-full",
-    "icon-picker"
+    "icon-picker",
+    "markdown"
   ],
   "env": {
     "development": {

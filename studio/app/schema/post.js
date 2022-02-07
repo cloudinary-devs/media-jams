@@ -1,5 +1,5 @@
-import userStore from 'part:@sanity/base/user';
 import { GoFile } from 'react-icons/go';
+import userStore from 'part:@sanity/base/user';
 import slugify from 'slugify';
 import { isUniqueSlug } from '../lib/utils/isUniqueSlug';
 import autoCompleteTags from '../components/autoCompleteTags';
@@ -21,7 +21,7 @@ import JamPreviewWorkflow from '../components/jamPreviewWorkflow';
  */
 export default {
   name: 'post',
-  title: 'All Jams',
+  title: 'media jam',
   type: 'document',
   validation: (Rule) =>
     Rule.custom((fields) => {
@@ -30,21 +30,7 @@ export default {
       }
       return true;
     }),
-  initialValue: async () => {
-    const { id } = await userStore.getUser('me');
-    const self = `${id}-self`;
-    return {
-      author: {
-        _ref: self,
-        _type: 'reference',
-      },
-      postMetadata: {
-        _type: 'postMetadata',
-        featured: false,
-        paid_content: false,
-      },
-    };
-  },
+
   fields: [
     {
       name: 'title',
@@ -74,7 +60,7 @@ export default {
       validation: (Rule) => Rule.required(),
       options: {
         source: 'title',
-        slugify: slugify,
+        slugify: (input) => slugify(input, { lower: true }),
         isUnique: isUniqueSlug,
       },
     },
