@@ -56,7 +56,7 @@ function reducer(state, action) {
         selectedTagFilters: [],
       };
     case SSACTIONS.CLEAR_SEARCH:
-      return initState;
+      return { ...initState, tags: state.tags };
 
     default:
       throw new Error();
