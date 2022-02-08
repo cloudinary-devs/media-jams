@@ -98,48 +98,38 @@ export function SearchProvider({ children }) {
     dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags: tagGroup });
   }, [router.isReady]);
 
-  // Update router params to reflect selected tag state
-  React.useEffect(() => {
-    if (!router.isReady) return null;
-    const formattedTags = state.selectedTagFilters.map((item) => item.title);
-    const routerPath =
-      formattedTags.length > 0
-        ? `/?tags=${formattedTags
-            .map((t) => encodeURIComponent(t))
-            .join('%2C')}`
-        : `/`;
-    router.push(routerPath, undefined, { shallow: true });
-  }, [state.selectedTagFilters]);
+  const value = React.useMemo(
+    () => ({
+      state,
+      updateSearchValue: (value) => {
+        dispatch({ type: SSACTIONS.SET_SEARCH, value });
+      },
 
-  const value = {
-    state,
-    updateSearchValue: (value) => {
-      dispatch({ type: SSACTIONS.SET_SEARCH, value });
-    },
+      addTag: (tag) => {
+        return dispatch({ type: SSACTIONS.ADD_TAG_FILTERS, tag });
+      },
 
-    addTag: (tag) => {
-      return dispatch({ type: SSACTIONS.ADD_TAG_FILTERS, tag });
-    },
+      addTagGroup: (tags) => {
+        return dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags });
+      },
 
-    addTagGroup: (tags) => {
-      return dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags });
-    },
+      removeTag: (tag) => {
+        dispatch({ type: SSACTIONS.REMOVE_TAG_FILTERS, tag });
+      },
 
-    removeTag: (tag) => {
-      dispatch({ type: SSACTIONS.REMOVE_TAG_FILTERS, tag });
-    },
+      handleFilter: (data) => {
+        dispatch({ type: SSACTIONS.SET_JAMS, jams: data });
+      },
 
-    handleFilter: (data) => {
-      dispatch({ type: SSACTIONS.SET_JAMS, jams: data });
-    },
-
-    clearAllTags: () => {
-      dispatch({ type: SSACTIONS.CLEAR_TAG_FILTERS });
-    },
-    clearSearch: () => {
-      dispatch({ type: SSACTIONS.CLEAR_SEARCH });
-    },
-  };
+      clearAllTags: () => {
+        dispatch({ type: SSACTIONS.CLEAR_TAG_FILTERS });
+      },
+      clearSearch: () => {
+        dispatch({ type: SSACTIONS.CLEAR_SEARCH });
+      },
+    }),
+    [state],
+  );
   return (
     <SearchContext.Provider value={value}>{children}</SearchContext.Provider>
   );
