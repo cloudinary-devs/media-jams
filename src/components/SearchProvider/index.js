@@ -120,7 +120,6 @@ export function SearchProvider({ children }) {
   const [allTags] = useTags();
   const [state, dispatch] = useReducer(reducer, initState);
 
-  const { tags } = router.query;
   const { selectedTagFilters, selectedAuthorFilters } = state;
   const { tags: routerTags } = router.query;
 
@@ -144,19 +143,20 @@ export function SearchProvider({ children }) {
   // routerTags are only populated from undefined to value after 'isReady' is true
   // Given query params from the router & react-query tags loaded
   // then update the state to reflect those chosen tags
+
   useEffect(() => {
-    if (!tags || !allTags?.tags) {
+    if (!routerTags || !Array.isArray(allTags) || allTags.length === 0) {
       return null;
     }
     const tagGroup = routerTags
       .split(',')
-      .map((t) => allTags.tags.find((at) => at.title === t))
+      .map((t) => allTags.find((at) => at.title === t))
       .filter((t) => !selectedTagFilters.find((stf) => stf._id === t._id));
 
     const deduped = dedupeArrayByKey(tagGroup, '_id');
 
     dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags: deduped });
-  }, [allTags, tags]);
+  }, [allTags, routerTags]);
 
   const value = useMemo(
     () => ({
