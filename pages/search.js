@@ -46,7 +46,7 @@ import LogoAngular from '@components/LogoAngular';
 
 import { QueryClient, useQuery } from 'react-query';
 import { useFeaturedJamsQuery } from '@hooks/useJams';
-import { useTagsQuery } from '@hooks/useTags';
+import { useTagsLazy } from '@hooks/useTags';
 import { useAuthorsQuery } from '@hooks/useAuthors';
 import { useSearch } from '@components/SearchProvider';
 import { sortArrayByKey, dedupeArrayByKey } from '@lib/util';
@@ -78,12 +78,7 @@ export default function Dashboard() {
     jams: jamResults,
     tags: tagResults,
     authors: authorResults,
-    state: {
-      searchValue,
-      selectedTagFilters,
-      selectedAuthorFilters,
-      filteredJams,
-    },
+    state: { searchValue, selectedTagFilters, selectedAuthorFilters },
     addTag,
     removeTag,
     addAuthor,
@@ -101,12 +96,13 @@ export default function Dashboard() {
 
   const hasJams = Array.isArray(jamResults) && jamResults.length > 0;
 
-  const { data: allTags = {} } = useTagsQuery();
-  const { tags } = allTags;
+  const [fetchTags, tagData] = useTagsLazy();
+  const { data: allTags = {}, isLoading: isLoadingTags } = tagData;
+  const { tags = [] } = allTags;
 
   const featuredTags =
     tags?.filter(({ featured }) => featured).slice(0, 3) || [];
-  const sortedTags = tags && sortArrayByKey(tags, 'title');
+  const tagsWithJams = tags?.filter(({ qty }) => qty && qty > 0);
 
   const { data: allAuthors = {} } = useAuthorsQuery();
   let { authors } = allAuthors;
@@ -127,9 +123,12 @@ export default function Dashboard() {
   let filterTagsToShow;
 
   if (displayMoreTags) {
-    filterTagsToShow = sortedTags;
+    filterTagsToShow = tagsWithJams && sortArrayByKey(tagsWithJams, 'title');
   } else {
-    filterTagsToShow = tags
+    const sortedTags =
+      tagsWithJams &&
+      sortArrayByKey(tagsWithJams, 'qty', { sortOrder: 'desc' });
+    filterTagsToShow = sortedTags
       ?.slice(0, DEFAULT_FILTERS_COUNT)
       .concat(selectedTagFilters);
     filterTagsToShow =

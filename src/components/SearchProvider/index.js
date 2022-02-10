@@ -14,7 +14,7 @@ import { useAuthorsQueryLazy } from '@hooks/useAuthors';
 import useOnLoad from '@hooks/useOnLoad';
 import { initFuse } from '@lib/search';
 import { dedupeArrayByKey } from '@lib/util';
-import { useTags } from '@hooks/useTags';
+import { useTags, useTagsLazy } from '@hooks/useTags';
 import GA from '@lib/googleAnalytics';
 
 let Fuse;
@@ -43,7 +43,6 @@ export const SSACTIONS = {
   ADD_AUTHOR_FILTERS: 'addAuthorFilters',
   REMOVE_AUTHOR_FILTERS: 'removeAuthorFilters',
   CLEAR_AUTHOR_FILTERS: 'clearAuthorFilters',
-  SET_JAMS: 'setJams',
   SET_TAGS: 'setTags',
   CLEAR_SEARCH: 'clearSearch',
 };
@@ -53,15 +52,12 @@ const initState = {
   searchValue: '',
   selectedTagFilters: [],
   selectedAuthorFilters: [],
-  filteredJams: [],
 };
 
 const SearchContext = createContext();
 
 function reducer(state, action) {
   switch (action.type) {
-    case SSACTIONS.SET_JAMS:
-      return { ...state, filteredJams: action.jams };
     case SSACTIONS.SET_SEARCH:
       return { ...state, searchValue: action.value };
     case SSACTIONS.SET_TAGS:
@@ -193,9 +189,6 @@ export function SearchProvider({ children }) {
         dispatch({ type: SSACTIONS.CLEAR_AUTHOR_FILTERS });
       },
 
-      handleFilter: (data) => {
-        dispatch({ type: SSACTIONS.SET_JAMS, jams: data });
-      },
       clearSearch: () => {
         dispatch({ type: SSACTIONS.CLEAR_SEARCH });
       },
@@ -218,9 +211,11 @@ export function useSearch() {
   const { data: allJams = {}, isLoading: isLoadingJams } = jamQueryData;
   const { jams = [] } = allJams;
 
-  const [fetchTags, tagQueryData] = useTagsQueryLazy();
-  const { data: allTags = {}, isLoading: isLoadingTags } = tagQueryData;
+  const [fetchTags, tagData] = useTagsLazy();
+  const { data: allTags = {}, isLoading: isLoadingTags } = tagData;
   const { tags = [] } = allTags;
+
+  // const [allTagsTags] = useTags();
 
   const [fetchAuthors, authorQueryData] = useAuthorsQueryLazy();
   const {
