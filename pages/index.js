@@ -276,14 +276,32 @@ Dashboard.getLayout = (page) => <Layout>{page}</Layout>;
 
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
-  await queryClient.fetchQuery('jamTags', queryTags.getStatic);
-  await queryClient.setQueryData('jamTags', (old) => ({ tags: old.data.tags }));
-  await queryClient.fetchQuery('featuredJams', queryJams.getStaticFeaturedJams);
-  await queryClient.setQueryData('featuredJams', (old) => ({
-    jams: old.data.jams,
-  }));
-  await queryClient.fetchQuery('allJams', queryJams.getStatic);
-  await queryClient.setQueryData('allJams', (old) => ({ jams: old.data.jams }));
+
+  /**
+   * Fetch ALL Jams w/ metadata, excluding the content body
+   */
+  await queryClient.fetchQuery('allJams', async () => {
+    const { data } = await queryJams.getStatic();
+    return data;
+  });
+
+  /**
+   * All Tags w/ metadata and associated metadata
+   */
+  await queryClient.fetchQuery('jamTags', async () => {
+    const { data } = await queryTags.getStatic();
+    return data;
+  });
+
+  /**
+   * Jams marked as Featured Jams
+   */
+  await queryClient.fetchQuery('featuredJams', async () => {
+    const {
+      data: { jams },
+    } = await queryJams.getStaticFeaturedJams();
+    return { jams };
+  });
 
   return {
     props: {

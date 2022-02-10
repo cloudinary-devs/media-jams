@@ -189,7 +189,6 @@ export default function Dashboard() {
    */
 
   function handleOnTagClick(e, { tag }) {
-    console.log('tag', tag);
     const isActive = selectedTagFilters.find(({ _id }) => _id === tag._id);
 
     if (isActive) {

@@ -1,4 +1,10 @@
-import { useReducer, useEffect, createContext, useContext } from 'react';
+import {
+  useReducer,
+  useEffect,
+  createContext,
+  useContext,
+  useMemo,
+} from 'react';
 import { QueryClient, useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 
@@ -8,6 +14,7 @@ import { useAuthorsQueryLazy } from '@hooks/useAuthors';
 import useOnLoad from '@hooks/useOnLoad';
 import { initFuse } from '@lib/search';
 import { dedupeArrayByKey } from '@lib/util';
+import { useTags } from '@hooks/useTags';
 import GA from '@lib/googleAnalytics';
 
 let Fuse;
@@ -37,10 +44,12 @@ export const SSACTIONS = {
   REMOVE_AUTHOR_FILTERS: 'removeAuthorFilters',
   CLEAR_AUTHOR_FILTERS: 'clearAuthorFilters',
   SET_JAMS: 'setJams',
+  SET_TAGS: 'setTags',
   CLEAR_SEARCH: 'clearSearch',
 };
 
 const initState = {
+  tags: [],
   searchValue: '',
   selectedTagFilters: [],
   selectedAuthorFilters: [],
@@ -55,6 +64,9 @@ function reducer(state, action) {
       return { ...state, filteredJams: action.jams };
     case SSACTIONS.SET_SEARCH:
       return { ...state, searchValue: action.value };
+    case SSACTIONS.SET_TAGS:
+      return { ...state, tags: action.tags };
+
     case SSACTIONS.ADD_TAG_FILTERS:
       return {
         ...state,
@@ -96,7 +108,7 @@ function reducer(state, action) {
         selectedAuthorFilters: [],
       };
     case SSACTIONS.CLEAR_SEARCH:
-      return initState;
+      return { ...initState, tags: state.tags };
 
     default:
       throw new Error();
@@ -105,10 +117,12 @@ function reducer(state, action) {
 
 export function SearchProvider({ children }) {
   const router = useRouter();
-  const { data: allTags } = useTagsQuery();
+  const [allTags] = useTags();
   const [state, dispatch] = useReducer(reducer, initState);
+
   const { tags } = router.query;
   const { selectedTagFilters, selectedAuthorFilters } = state;
+  const { tags: routerTags } = router.query;
 
   // Capture search state with GA
   // debounce to reduce api calls
@@ -121,14 +135,20 @@ export function SearchProvider({ children }) {
     };
   }, [state]);
 
-  // Router Query for selected tags
+  useEffect(() => {
+    //Set allTags
+    dispatch({ type: SSACTIONS.SET_TAGS, tags: allTags });
+  }, [allTags]);
+
+  // Happens ONLY ONCE during load that 'isReady' changes from false -> true
+  // routerTags are only populated from undefined to value after 'isReady' is true
   // Given query params from the router & react-query tags loaded
   // then update the state to reflect those chosen tags
   useEffect(() => {
     if (!tags || !allTags?.tags) {
       return null;
     }
-    const tagGroup = tags
+    const tagGroup = routerTags
       .split(',')
       .map((t) => allTags.tags.find((at) => at.title === t))
       .filter((t) => !selectedTagFilters.find((stf) => stf._id === t._id));
@@ -138,47 +158,51 @@ export function SearchProvider({ children }) {
     dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags: deduped });
   }, [allTags, tags]);
 
-  const value = {
-    state,
-    updateSearchValue: (value) => {
-      dispatch({ type: SSACTIONS.SET_SEARCH, value });
-    },
+  const value = useMemo(
+    () => ({
+      state,
+      updateSearchValue: (value) => {
+        dispatch({ type: SSACTIONS.SET_SEARCH, value });
+      },
 
-    addTag: (tag) => {
-      return dispatch({ type: SSACTIONS.ADD_TAG_FILTERS, tag });
-    },
+      addTag: (tag) => {
+        return dispatch({ type: SSACTIONS.ADD_TAG_FILTERS, tag });
+      },
 
-    addTagGroup: (tags) => {
-      return dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags });
-    },
+      addTagGroup: (tags) => {
+        return dispatch({ type: SSACTIONS.ADD_TAG_FILTER_GROUP, tags });
+      },
 
-    removeTag: (tag) => {
-      dispatch({ type: SSACTIONS.REMOVE_TAG_FILTERS, tag });
-    },
+      removeTag: (tag) => {
+        dispatch({ type: SSACTIONS.REMOVE_TAG_FILTERS, tag });
+      },
 
-    clearAllTags: () => {
-      dispatch({ type: SSACTIONS.CLEAR_TAG_FILTERS });
-    },
+      clearAllTags: () => {
+        dispatch({ type: SSACTIONS.CLEAR_TAG_FILTERS });
+      },
 
-    addAuthor: (author) => {
-      return dispatch({ type: SSACTIONS.ADD_AUTHOR_FILTERS, author });
-    },
+      addAuthor: (author) => {
+        return dispatch({ type: SSACTIONS.ADD_AUTHOR_FILTERS, author });
+      },
 
-    removeAuthor: (author) => {
-      dispatch({ type: SSACTIONS.REMOVE_AUTHOR_FILTERS, author });
-    },
+      removeAuthor: (author) => {
+        dispatch({ type: SSACTIONS.REMOVE_AUTHOR_FILTERS, author });
+      },
 
-    clearAllAuthors: () => {
-      dispatch({ type: SSACTIONS.CLEAR_AUTHOR_FILTERS });
-    },
+      clearAllAuthors: () => {
+        dispatch({ type: SSACTIONS.CLEAR_AUTHOR_FILTERS });
+      },
 
-    handleFilter: (data) => {
-      dispatch({ type: SSACTIONS.SET_JAMS, jams: data });
-    },
-    clearSearch: () => {
-      dispatch({ type: SSACTIONS.CLEAR_SEARCH });
-    },
-  };
+      handleFilter: (data) => {
+        dispatch({ type: SSACTIONS.SET_JAMS, jams: data });
+      },
+      clearSearch: () => {
+        dispatch({ type: SSACTIONS.CLEAR_SEARCH });
+      },
+    }),
+    [state],
+  );
+
   return (
     <SearchContext.Provider value={value}>{children}</SearchContext.Provider>
   );
