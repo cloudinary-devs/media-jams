@@ -287,7 +287,7 @@ export default function Dashboard() {
                 md: '220px',
               }}
               flexShrink="0"
-              mr="5"
+              mr="8"
               mb={{
                 base: '12',
                 md: '0',
@@ -331,34 +331,48 @@ export default function Dashboard() {
                           key={tag._id}
                           value={tag._id}
                           onChange={handleOnTagFilterSelect}
+                          width="100%"
                           my="1"
+                          sx={{
+                            '.chakra-checkbox__label': {
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              width: '100%',
+                            },
+                          }}
                         >
                           {tag.title}
+                          <Box as="span" fontSize="14" color="grey.700">
+                            {tag.qty}
+                          </Box>
                         </Checkbox>
                       );
                     })}
                   </CheckboxGroup>
 
-                  <Text>
-                    {!displayMoreTags && (
-                      <Button
-                        rightIcon={<FaCaretDown />}
-                        variant="link"
-                        onClick={handleToggleMoreTags}
-                      >
-                        Show More Tags
-                      </Button>
-                    )}
-                    {displayMoreTags && (
-                      <Button
-                        rightIcon={<FaCaretUp />}
-                        variant="link"
-                        onClick={handleToggleMoreTags}
-                      >
-                        Show Less Tags
-                      </Button>
-                    )}
-                  </Text>
+                  {filterTagsToShow && filterTagsToShow.length > 0 && (
+                    <Text>
+                      {!displayMoreTags && (
+                        <Button
+                          rightIcon={<FaCaretDown />}
+                          variant="link"
+                          onClick={handleToggleMoreTags}
+                        >
+                          Show More Tags
+                        </Button>
+                      )}
+                      {displayMoreTags && (
+                        <Button
+                          rightIcon={<FaCaretUp />}
+                          variant="link"
+                          onClick={handleToggleMoreTags}
+                        >
+                          Show Less Tags
+                        </Button>
+                      )}
+                    </Text>
+                  )}
                 </Box>
 
                 <Box mt="8">
