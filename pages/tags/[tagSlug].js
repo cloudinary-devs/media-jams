@@ -104,7 +104,7 @@ export async function getStaticPaths() {
   const { data = {} } = queryClient.getQueryData('jamTags');
   const { tags } = data;
 
-  const paths = tags.map(({ title, slug }) => {
+  const paths = tags?.map(({ title, slug }) => {
     return {
       params: {
         tagSlug: slug?.current,

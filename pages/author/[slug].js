@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import AuthorBanner from '@components/AuthorBanner';
 import MobileAuthorBanner from '@components/AuthorBanner/MobileAuthorBanner';
-import SearchInput from '@components/Search/SearchInput';
+import SearchInput from '@components/SearchInput';
 import JamList from '@components/JamList';
 import Layout from '@components/Layout';
 
@@ -122,7 +122,7 @@ export async function getStaticProps({ params: { slug } }) {
   try {
     const { data } = await authors.getStaticAuthorBy(slug);
     return {
-      props: { author: data.author[0] },
+      props: { author: data?.author[0] },
     };
   } catch (error) {
     console.log('Author::getStaticProps', error);
