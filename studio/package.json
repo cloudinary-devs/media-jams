@@ -49,7 +49,7 @@
     "sanity-plugin-dashboard-widget-document-list": "^0.0.11",
     "sanity-plugin-icon-picker": "^2.0.1",
     "sanity-plugin-markdown": "^2.1.1",
-    "sanity-plugin-markdown-full": "^2.1.3",
+    "sanity-plugin-markdown-full": "^2.2.0",
     "sanity-plugin-mdide": "^1.0.7",
     "sanity-plugin-media": "^1.1.0",
     "slugify": "^1.4.5",

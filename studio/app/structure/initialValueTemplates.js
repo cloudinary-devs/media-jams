@@ -28,7 +28,6 @@ const postByAuthor = {
 };
 
 export default [
-  ...T.defaults(),
   T.template({
     id: 'post-by-author',
     ...postByAuthor,
