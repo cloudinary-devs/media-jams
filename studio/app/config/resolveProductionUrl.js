@@ -14,7 +14,7 @@ const projectUrl =
   process.env.NODE_ENV === 'production' // Prod Build or Dev
     ? process.env.SANITY_STUDIO_ENV === 'production' // Production or Preview
       ? `https://mediajams.dev`
-      : `https://stage.mediajams.dev`
+      : `https://dev.mediajams.dev`
     : `http://localhost:3000`;
 
 export function resolveProductionUrl(document) {

@@ -65,19 +65,6 @@ export default {
       },
     },
     {
-      title: 'Feature Image',
-      name: 'cover',
-      type: 'image',
-      validation: (Rule) => Rule.required(),
-    },
-    {
-      name: 'author',
-      title: 'Author',
-      type: 'reference',
-      to: { type: 'author' },
-      readOnly: true,
-    },
-    {
       name: 'tags',
       title: 'Tags',
       description:
@@ -90,6 +77,19 @@ export default {
         layout: 'tags',
         isHighlighted: true,
       },
+    },
+    {
+      title: 'Feature Image',
+      name: 'cover',
+      type: 'image',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'author',
+      title: 'Author',
+      type: 'reference',
+      to: { type: 'author' },
+      readOnly: true,
     },
     {
       name: 'publishedAt',

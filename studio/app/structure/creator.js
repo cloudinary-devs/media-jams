@@ -3,8 +3,10 @@ import { GoPencil, GoPerson, GoEye, GoTextSize } from 'react-icons/go';
 import userStore from 'part:@sanity/base/user';
 import sanityClient from 'part:@sanity/base/client';
 import { map } from 'rxjs/operators';
-import LiveEditPreview from '../components/liveEditPreview';
+import { resolveProductionUrl } from '../config/resolveProductionUrl';
+import Iframe from '../components/Iframe';
 import { getCurrentUser$ } from '../lib/user';
+import { jamView } from './jamDocTemplate';
 
 const client = sanityClient.withConfig({ apiVersion: '2019-05-28' });
 const AUTHOR_QUERY = '_type == $type && author._ref == $authorId';
@@ -28,15 +30,7 @@ export const creatorListItems = [
         .title('Jams')
         .filter(AUTHOR_QUERY)
         .params({ type: 'post', authorId: self })
-        .child((documentId) =>
-          S.document()
-            .documentId(documentId)
-            .schemaType('post')
-            .views([
-              S.view.form().icon(GoTextSize).title('Editor'),
-              S.view.component(LiveEditPreview).icon(GoEye).title('Live Edit'),
-            ]),
-        );
+        .child((documentId) => jamView(documentId));
     },
   }),
   S.listItem()
