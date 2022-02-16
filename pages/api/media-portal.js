@@ -41,6 +41,8 @@ const handler = async (req, res) => {
       cloudinary.uploader.upload_stream(
         {
           folder: req.body.folder,
+          quality: 'auto',
+          fetch_format: 'auto',
         },
         function (error, result) {
           if (error) res.status(500).send(error);
