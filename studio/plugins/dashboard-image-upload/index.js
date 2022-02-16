@@ -21,16 +21,16 @@ import CopyToClipBoard from './CopyToClipboard';
 import { useCurrentUser } from './hooks/getCurrentUser';
 
 const baseAPIUrl = () => {
-  if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
+  if (process.env.VERCEL_ENV === 'production') {
     return `https://mediajams.dev`;
-  } else if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview') {
-    return process.env.NEXT_PUBLIC_VERCEL_URL;
+  } else if (process.env.VERCEL_ENV === 'preview') {
+    return process.env.VERCEL_URL;
   } else {
     return `http://localhost:3000`;
   }
 };
 
-console.log(NEXT_PUBLIC_VERCEL_ENV, NEXT_PUBLIC_VERCEL_URL);
+console.log(VERCEL_ENV, VERCEL_URL);
 
 // TODO: generate status object with icon, name, message
 const MediaPortal = () => {
