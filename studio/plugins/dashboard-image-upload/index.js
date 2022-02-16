@@ -30,7 +30,7 @@ const baseAPIUrl = () => {
   }
 };
 
-console.log(VERCEL_ENV, VERCEL_URL);
+console.log(process.env.VERCEL_ENV, process.env.SANITY_STUDIO_VERCEL);
 
 // TODO: generate status object with icon, name, message
 const MediaPortal = () => {
