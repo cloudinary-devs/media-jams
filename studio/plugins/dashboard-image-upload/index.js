@@ -20,12 +20,15 @@ import styles from './DashboardImageUpload.css';
 import CopyToClipBoard from './CopyToClipboard';
 import { useCurrentUser } from './hooks/getCurrentUser';
 
-const baseAPIUrl =
-  process.env.NODE_ENV === 'production'
-    ? process.env.VERCEL_ENV === 'production'
-      ? `https://mediajams.dev`
-      : `https://mediajams-git-studio-creator-input-mediajams.vercel.app`
-    : `http://localhost:3000`;
+const baseAPIUrl = () => {
+  if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
+    return `https://mediajams.dev`;
+  } else if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview') {
+    return process.env.NEXT_PUBLIC_VERCEL_URL;
+  } else {
+    return `http://localhost:3000`;
+  }
+};
 
 // TODO: generate status object with icon, name, message
 const MediaPortal = () => {
@@ -49,7 +52,7 @@ const MediaPortal = () => {
     formdata.append('image', fileToUpload.file);
     formdata.append('folder', id);
 
-    fetch(`${baseAPIUrl}/api/media-portal`, {
+    fetch(`${baseAPIUrl()}/api/media-portal`, {
       method: 'POST',
       body: formdata,
       headers: { 'Content-Key': 'application/json' },
