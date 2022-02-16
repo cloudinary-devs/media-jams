@@ -30,6 +30,8 @@ const baseAPIUrl = () => {
   }
 };
 
+console.log(NEXT_PUBLIC_VERCEL_ENV, NEXT_PUBLIC_VERCEL_URL);
+
 // TODO: generate status object with icon, name, message
 const MediaPortal = () => {
   const [fileToUpload, setFileToUpload] = React.useState(null);
