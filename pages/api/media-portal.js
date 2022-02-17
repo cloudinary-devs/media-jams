@@ -23,11 +23,11 @@ const allowCors = (fn) => async (req, res) => {
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5,Content-Key, Content-Type, Date, X-Api-Version',
   );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+  );
   if (req.method === 'OPTIONS') {
-    res.setHeader(
-      'Access-Control-Allow-Methods',
-      'GET,OPTIONS,PATCH,DELETE,POST,PUT',
-    );
     res.status(200).end();
     return;
   }
