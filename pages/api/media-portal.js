@@ -20,12 +20,12 @@ const allowCors = (fn) => async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET,OPTIONS,PATCH,DELETE,POST,PUT',
-  );
-  res.setHeader(
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5,Content-Key, Content-Type, Date, X-Api-Version',
+  );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET,OPTIONS,PATCH,DELETE,POST,PUT',
   );
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -41,11 +41,14 @@ const handler = async (req, res) => {
       cloudinary.uploader.upload_stream(
         {
           folder: req.body.folder,
+          quality_analysis: true,
+
+          eager: [{ fetch_format: 'auto', quality: 'auto' }],
+          eager_async: true,
         },
         function (error, result) {
           if (error) res.status(500).send(error);
           res.status(200).send(result);
-          res.end();
         },
       ),
     );
