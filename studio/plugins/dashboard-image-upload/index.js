@@ -20,9 +20,7 @@ import styles from './DashboardImageUpload.css';
 import CopyToClipBoard from './CopyToClipboard';
 import { useCurrentUser } from './hooks/getCurrentUser';
 
-// const baseAPIUrl = `https://mediajams.dev`;
-const baseAPIUrl = `https://mediajams-pmcha6v39-mediajams.vercel.app`;
-console.log(process.env.VERCEL_ENV, process.env.SANITY_STUDIO_VERCEL);
+const baseAPIUrl = `https://mediajams.dev`;
 
 // TODO: generate status object with icon, name, message
 const MediaPortal = () => {
