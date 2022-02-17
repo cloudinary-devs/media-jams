@@ -41,11 +41,14 @@ const handler = async (req, res) => {
       cloudinary.uploader.upload_stream(
         {
           folder: req.body.folder,
+          quality_analysis: true,
+
+          eager: [{ fetch_format: 'auto', quality: 'auto' }],
+          eager_async: true,
         },
         function (error, result) {
           if (error) res.status(500).send(error);
           res.status(200).send(result);
-          res.end();
         },
       ),
     );
