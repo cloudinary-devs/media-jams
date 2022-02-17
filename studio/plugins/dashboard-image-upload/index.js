@@ -20,7 +20,8 @@ import styles from './DashboardImageUpload.css';
 import CopyToClipBoard from './CopyToClipboard';
 import { useCurrentUser } from './hooks/getCurrentUser';
 
-const baseAPIUrl = `https://mediajams.dev`;
+const baseAPIUrl = `https://stage.mediajams.dev`;
+// const baseAPIUrl = `http://localhost:3000`;
 
 // TODO: generate status object with icon, name, message
 const MediaPortal = () => {
