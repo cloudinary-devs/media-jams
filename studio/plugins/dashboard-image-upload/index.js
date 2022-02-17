@@ -20,12 +20,8 @@ import styles from './DashboardImageUpload.css';
 import CopyToClipBoard from './CopyToClipboard';
 import { useCurrentUser } from './hooks/getCurrentUser';
 
-const baseAPIUrl =
-  process.env.NODE_ENV === 'production'
-    ? process.env.VERCEL_ENV === 'production'
-      ? `https://mediajams.dev`
-      : `https://mediajams-git-studio-creator-input-mediajams.vercel.app`
-    : `http://localhost:3000`;
+const baseAPIUrl = `https://stage.mediajams.dev`;
+// const baseAPIUrl = `http://localhost:3000`;
 
 // TODO: generate status object with icon, name, message
 const MediaPortal = () => {
