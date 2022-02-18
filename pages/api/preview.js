@@ -21,10 +21,11 @@ export default withSentry(async (req, res) => {
   // Enable Preview Mode by setting the cookies
   res.setPreviewData({});
 
-  const redirectLocation = req.query?.media
-    ? `/post/media/${post.slug}/${post._id}`
-    : `/post/${post.slug}`;
-  console.log('media', req.query?.media, redirectLocation);
+  const redirectLocation =
+    req.query?.media === '1'
+      ? `/post/media/${post.slug}/${post._id}`
+      : `/post/${post.slug}`;
+
   // Redirect to the path from the fetched post
   res.writeHead(307, { Location: redirectLocation });
   res.end();

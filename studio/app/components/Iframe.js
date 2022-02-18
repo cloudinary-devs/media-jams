@@ -67,7 +67,7 @@ function Iframe({ document: sanityDocument, options }) {
     if (typeof url !== 'string') {
       getUrl();
     }
-  }, [displayed._rev]);
+  }, [displayed._rev, url]);
 
   if (!displayUrl || typeof displayUrl !== 'string') {
     return (
@@ -115,7 +115,11 @@ function Iframe({ document: sanityDocument, options }) {
                 }
               />
             </Flex>
-            <Box flex={1}></Box>
+            <Box flex={1}>
+              <Text size={0} textOverflow="ellipsis">
+                {displayUrl}
+              </Text>
+            </Box>
             <Flex align="center" gap={1}>
               {reload?.button ? (
                 <Button
