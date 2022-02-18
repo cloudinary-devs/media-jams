@@ -115,11 +115,7 @@ function Iframe({ document: sanityDocument, options }) {
                 }
               />
             </Flex>
-            <Box flex={1}>
-              <Text size={0} textOverflow="ellipsis">
-                {displayUrl}
-              </Text>
-            </Box>
+            <Box flex={1}></Box>
             <Flex align="center" gap={1}>
               {reload?.button ? (
                 <Button

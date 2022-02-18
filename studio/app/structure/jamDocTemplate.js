@@ -1,8 +1,11 @@
 import S from '@sanity/desk-tool/structure-builder';
 import { getPublishedId } from 'part:@sanity/base/util/draft-utils';
-import { GoEye, GoTextSize } from 'react-icons/go';
+import { GoEye, GoTextSize, GoFileMedia } from 'react-icons/go';
 
-import { resolveProductionUrl } from '../config/resolveProductionUrl';
+import {
+  resolveProductionUrl,
+  resolveMediaPreviewUrl,
+} from '../config/resolveProductionUrl';
 import Iframe from '../components/Iframe';
 
 export function jamView(documentId) {
@@ -23,5 +26,17 @@ export function jamView(documentId) {
           },
         })
         .title('Preview'),
+      S.view
+        .component(Iframe)
+        .icon(GoFileMedia)
+        .options({
+          // Required: Accepts an async function
+          url: (doc) => resolveMediaPreviewUrl(doc),
+          reload: {
+            button: true, // default `undefined`
+            revision: true, // default `undefined`
+          },
+        })
+        .title('Image'),
     ]);
 }

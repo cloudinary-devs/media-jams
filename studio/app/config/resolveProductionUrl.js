@@ -19,7 +19,12 @@ const projectUrl =
 
 export function resolveProductionUrl(document) {
   return document?.slug
-    ? `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document?.slug.current}`
+    ? `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document?.slug.current}&media=false`
+    : null;
+}
+export function resolveMediaPreviewUrl(document) {
+  return document?.slug
+    ? `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document?.slug.current}&media=true`
     : null;
 }
 
