@@ -13,7 +13,6 @@ export default withSentry(async (req, res) => {
 
   // Fetch the headless CMS to check if the provided `slug` exists
   const post = await postBySlug(req.query.slug, true);
-
   // If the slug doesn't exist prevent preview mode from being enabled
   if (!post) {
     return res.status(401).json({ message: 'Invalid slug' });
@@ -23,8 +22,8 @@ export default withSentry(async (req, res) => {
 
   const redirectLocation =
     req.query?.media === '1'
-      ? `/post/media/${post.slug}/${post._id}`
-      : `/post/${post.slug}`;
+      ? `/post/media/${post.slug.current}/${post._id}`
+      : `/post/${post.slug.current}`;
 
   // Redirect to the path from the fetched post
   res.writeHead(307, { Location: redirectLocation });
