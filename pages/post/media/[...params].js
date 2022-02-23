@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Heading, Box } from '@chakra-ui/react';
 import JamList from '@components/JamList';
+import JamContentHero from '@components/JamContentHero';
 import { postBySlug } from '@lib/api';
 
 export default function PostMedia({ jam }) {
@@ -18,7 +19,24 @@ export default function PostMedia({ jam }) {
         justify="space-around"
         sx={{ gap: '24px' }}
       >
-        <JamList jams={[jam]} />
+        <Box>
+          <Heading as="h4" size="md">
+            Jam Card
+          </Heading>
+          <JamList jams={[jam]} />
+        </Box>
+        <Box>
+          <Heading as="h4" size="md">
+            Hero Banner
+          </Heading>
+          <JamContentHero
+            author={jam.author}
+            description={jam.description}
+            title={jam.title}
+            imageUrl={jam.coverImage}
+            date={jam.updatedAt}
+          />
+        </Box>
       </Flex>
     </Flex>
   );
