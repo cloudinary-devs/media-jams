@@ -14,12 +14,17 @@ const projectUrl =
   process.env.NODE_ENV === 'production' // Prod Build or Dev
     ? process.env.SANITY_STUDIO_ENV === 'production' // Production or Preview
       ? `https://mediajams.dev`
-      : `https://stage.mediajams.dev`
+      : process.env.SANITY_STUDIO_MEDIAJAM_URL
     : `http://localhost:3000`;
 
 export function resolveProductionUrl(document) {
   return document?.slug
-    ? `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document?.slug.current}`
+    ? `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document?.slug.current}&media=0`
+    : null;
+}
+export function resolveMediaPreviewUrl(document) {
+  return document?.slug
+    ? `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document?.slug.current}&media=1`
     : null;
 }
 

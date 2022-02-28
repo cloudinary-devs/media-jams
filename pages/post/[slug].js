@@ -85,11 +85,12 @@ export default function Post({ post, preview, error, og }) {
         }}
       />
       <Flex
-        bg="white"
+        bg="grey-200"
         direction="column"
         width="100%"
         height="100%"
         overflow="auto"
+        mt={{ base: '24px', md: '32px' }}
         pb="8"
       >
         <JamContentHero
@@ -198,7 +199,6 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
       },
     ],
   });
-
   try {
     // Then serialize to mdx formated string for hydration in components.
     const mdx = await serialize(jam.body);
