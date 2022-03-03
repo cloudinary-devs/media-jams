@@ -130,7 +130,7 @@ class MyJamList extends React.Component {
               color="primary"
               kind="simple"
               intent="create"
-              params={{ type: types[0] }}
+              params={{ type: types[0], template: 'post-by-author' }}
             >
               {createButtonText || `Create new ${types[0]}`}
             </IntentButton>

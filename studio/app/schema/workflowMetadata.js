@@ -1,5 +1,3 @@
-import { UserIdArrayField } from '../components/userIdArrayField';
-
 export default {
   type: 'document',
   name: 'workflow.metadata',
@@ -7,15 +5,6 @@ export default {
   fields: [
     { type: 'string', name: 'state', title: 'State' },
     { type: 'string', name: 'documentId', title: 'Document ID' },
-    {
-      type: 'array',
-      name: 'assignees',
-      title: 'Assignees',
-      description:
-        'The people who are assigned to move this further in the workflow.',
-      of: [{ type: 'string' }],
-      inputComponent: UserIdArrayField,
-    },
     { type: 'boolean', name: 'initial', title: 'Initial Review' },
   ],
   liveEdit: true,

@@ -31,7 +31,6 @@ export default function JamContentHero({
       textAlign="center"
       sx={{ gap: '24px' }}
       borderRadius={{ base: '0', lg: '8px' }}
-      mt={{ base: '24px', md: '32px' }}
       maxW={{ base: 'xl', md: '4xl' }}
       bg={{ lg: mode('primary.200', 'primary.800') }}
       direction="column"

@@ -1,12 +1,10 @@
 import S from '@sanity/desk-tool/structure-builder';
-import { getPublishedId } from 'part:@sanity/base/util/draft-utils';
 import userDatastore from 'part:@sanity/base/user';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { getDocumentMutations$ } from '../lib/document';
 import { getDocumentQuery$ } from '../lib/document';
 import { MdThumbUp, MdSync, MdRateReview, MdUpdate } from 'react-icons/md';
-import { GoPencil, GoPerson, GoEye, GoTextSize } from 'react-icons/go';
-import LiveEditPreview from '../components/liveEditPreview';
+import { jamView } from './jamDocTemplate';
 
 const WORKFLOW_DOCUMENTS_FILTER = `_type == $type && $state == state`;
 const WORKFLOW_DOCUMENTS_QUERY = `
@@ -88,18 +86,7 @@ export const workflowListItems = [
                     return S.documentListItem()
                       .id(item._id)
                       .schemaType(item._type)
-                      .child((documentId) =>
-                        S.document()
-                          .documentId(getPublishedId(documentId))
-                          .schemaType('post')
-                          .views([
-                            S.view.form().icon(GoTextSize).title('Editor'),
-                            S.view
-                              .component(LiveEditPreview)
-                              .icon(GoEye)
-                              .title('Live Edit'),
-                          ]),
-                      );
+                      .child((documentId) => jamView(documentId));
                   }),
               );
           }),
