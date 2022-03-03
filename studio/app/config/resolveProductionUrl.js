@@ -33,3 +33,9 @@ export function resolveLiveEditUrl(document) {
     ? `${projectUrl}/api/live-edit?secret=${previewSecret}&slug=${document?.slug.current}`
     : null;
 }
+
+export function resolveMediaSneakPeakUrl(document) {
+  return document?.slug
+    ? `https://dev.mediajams.dev/api/preview?secret=${previewSecret}&slug=${document?.slug.current}&media=1`
+    : null;
+}
