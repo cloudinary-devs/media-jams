@@ -47,7 +47,7 @@ const authorAvatarSize = {
 
 const JamCard = ({ jam, size: sizeKey = 'small' }) => {
   const { author, cover } = jam;
-  const isFeatured = jam.postMetadata.featured;
+  const isFeatured = jam.postMetadata?.featured;
 
   const [images, setImages] = useState();
 
