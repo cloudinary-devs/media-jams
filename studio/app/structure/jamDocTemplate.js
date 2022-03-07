@@ -1,10 +1,11 @@
 import S from '@sanity/desk-tool/structure-builder';
 import { getPublishedId } from 'part:@sanity/base/util/draft-utils';
-import { GoEye, GoTextSize, GoFileMedia } from 'react-icons/go';
+import { GoEye, GoTextSize, GoFileMedia, GoMegaphone } from 'react-icons/go';
 
 import {
   resolveProductionUrl,
   resolveMediaPreviewUrl,
+  resolveMediaSneakPeakUrl,
 } from '../config/resolveProductionUrl';
 import Iframe from '../components/Iframe';
 
@@ -38,5 +39,17 @@ export function jamView(documentId) {
           },
         })
         .title('Image'),
+      S.view
+        .component(Iframe)
+        .icon(GoMegaphone)
+        .options({
+          // Required: Accepts an async function
+          url: (doc) => resolveMediaSneakPeakUrl(doc),
+          reload: {
+            button: true, // default `undefined`
+            revision: true, // default `undefined`
+          },
+        })
+        .title('Sneak Peak'),
     ]);
 }
