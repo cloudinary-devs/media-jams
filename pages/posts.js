@@ -21,6 +21,7 @@ import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery } from '@hooks/useJams';
 import { jams as queryJams } from '@lib/queries/jams';
+import { sortArrayByKey } from '@lib/util';
 
 export default function AllPosts() {
   const jamListColumns = useBreakpointValue({
@@ -30,6 +31,9 @@ export default function AllPosts() {
 
   const { data: allJams } = useJamsQuery();
   const { jams } = allJams;
+
+  const sortedJams =
+    jams && sortArrayByKey(jams, 'publishedAt', { sortOrder: 'desc' });
 
   return (
     <Layout>
@@ -49,7 +53,9 @@ export default function AllPosts() {
               All Jams
             </Heading>
 
-            {jams && <JamCardList jams={jams} columns={jamListColumns} />}
+            {sortedJams && (
+              <JamCardList jams={sortedJams} columns={jamListColumns} />
+            )}
           </Flex>
         </Flex>
       </Box>

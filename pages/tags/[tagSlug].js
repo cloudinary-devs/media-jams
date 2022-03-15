@@ -23,6 +23,7 @@ import { useJamsQuery, useFeaturedJamsQuery, useJamTag } from '@hooks/useJams';
 import { useTags } from '@hooks/useTags';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
+import { sortArrayByKey } from '@lib/util';
 
 export default function Tag({ tagSlug }) {
   const jamListColumns = useBreakpointValue({
@@ -33,6 +34,9 @@ export default function Tag({ tagSlug }) {
   const { data } = useJamTag(tagSlug);
   const { jams, tag } = data || {};
   const icon = tag.icon;
+
+  const sortedJams =
+    jams && sortArrayByKey(jams, 'publishedAt', { sortOrder: 'desc' });
 
   return (
     <Layout>
@@ -73,7 +77,9 @@ export default function Tag({ tagSlug }) {
               Jams
             </Heading>
 
-            {jams && <JamCardList jams={jams} columns={jamListColumns} />}
+            {sortedJams && (
+              <JamCardList jams={sortedJams} columns={jamListColumns} />
+            )}
           </Flex>
         </Flex>
       </Box>

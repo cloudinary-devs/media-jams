@@ -45,6 +45,7 @@ import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
 import { useTagsQuery } from '@hooks/useTags';
 import { tags as queryTags } from '@lib/queries/tags';
 import { jams as queryJams } from '@lib/queries/jams';
+import { sortArrayByKey } from '@lib/util';
 
 const JAMS_TO_SHOW = 10;
 
@@ -70,6 +71,10 @@ export default function Dashboard() {
   const standardJams = allJams?.jams
     .filter((j) => !j.postMetadata.featured)
     .slice(0, JAMS_TO_SHOW);
+
+  const sortedJams =
+    standardJams &&
+    sortArrayByKey(standardJams, 'publishedAt', { sortOrder: 'desc' });
 
   useEffect(() => {
     router.prefetch('/search');
@@ -257,7 +262,7 @@ export default function Dashboard() {
             Latest Jams
           </Heading>
 
-          <JamCardList jams={standardJams} columns={jamListColumns} />
+          <JamCardList jams={sortedJams} columns={jamListColumns} />
 
           <Text>
             <NextLink href="/posts">
