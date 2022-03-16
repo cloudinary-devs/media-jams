@@ -175,7 +175,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
       {
         // Author name overlay
         overlay: {
-          text: `${jam.author.name} - ${format(
+          text: `${jam?.author.name || ''} - ${format(
             new Date(jam.updatedAt),
             'dd MMMM yyy',
           )}`,
