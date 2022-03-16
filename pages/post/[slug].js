@@ -109,7 +109,9 @@ export default function Post({ post, preview, error, og }) {
 
         <EmailSubscription />
 
-        <RelatedJams jams={relatedJams} title={tag.title} />
+        {Array.isArray(relatedJams) && relatedJams.length > 0 && (
+          <RelatedJams jams={relatedJams} title={tag.title} />
+        )}
       </Flex>
     </>
   );
