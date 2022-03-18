@@ -132,13 +132,19 @@ export default function Dashboard() {
                 flexShrink="0"
                 pr="2"
               >
-                <MediaJams width="24em" mb="4" />
-                <Text fontSize="34" fontWeight="bold">
+                <MediaJams width="100%" maxWidth="24em" mb="4" />
+                <Text
+                  fontSize="34"
+                  fontWeight="bold"
+                  textAlign={{
+                    base: 'center',
+                    xl: 'left',
+                  }}
+                >
                   Learn media with easy to follow guides and examples
                 </Text>
               </Flex>
               <Box
-                width="50%"
                 width={{
                   base: '80%',
                   md: '70%',
