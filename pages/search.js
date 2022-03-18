@@ -20,6 +20,8 @@ import {
   CheckboxGroup,
   Checkbox,
   Icon,
+  Stack as ChakraStack,
+  Skeleton,
 } from '@chakra-ui/react';
 
 import Layout from '@components/Layout';
@@ -104,7 +106,10 @@ export default function Dashboard() {
     tags?.filter(({ featured }) => featured).slice(0, 3) || [];
   const tagsWithJams = tags?.filter(({ qty }) => qty && qty > 0);
 
-  const { data: allAuthors = {} } = useAuthorsQuery();
+  const {
+    data: allAuthors = {},
+    isLoading: authorsIsLoading,
+  } = useAuthorsQuery();
   let { authors } = allAuthors;
 
   authors = authors && authors.filter(({ name }) => name);
@@ -324,31 +329,41 @@ export default function Dashboard() {
                   </Heading>
 
                   <CheckboxGroup value={selectedTagIds}>
-                    {filterTagsToShow?.map((tag) => {
-                      return (
-                        <Checkbox
-                          display="flex"
-                          key={tag._id}
-                          value={tag._id}
-                          onChange={handleOnTagFilterSelect}
-                          width="100%"
-                          my="1"
-                          sx={{
-                            '.chakra-checkbox__label': {
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                              width: '100%',
-                            },
-                          }}
-                        >
-                          {tag.title}
-                          <Box as="span" fontSize="14" color="grey.700">
-                            {tag.qty}
-                          </Box>
-                        </Checkbox>
-                      );
-                    })}
+                    {isLoadingTags && (
+                      <ChakraStack>
+                        {[...new Array(DEFAULT_FILTERS_COUNT)].map(
+                          (empty, index) => {
+                            return <Skeleton key={index} height={6} />;
+                          },
+                        )}
+                      </ChakraStack>
+                    )}
+                    {!isLoadingTags &&
+                      filterTagsToShow?.map((tag) => {
+                        return (
+                          <Checkbox
+                            display="flex"
+                            key={tag._id}
+                            value={tag._id}
+                            onChange={handleOnTagFilterSelect}
+                            width="100%"
+                            my="1"
+                            sx={{
+                              '.chakra-checkbox__label': {
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                width: '100%',
+                              },
+                            }}
+                          >
+                            {tag.title}
+                            <Box as="span" fontSize="14" color="grey.700">
+                              {tag.qty}
+                            </Box>
+                          </Checkbox>
+                        );
+                      })}
                   </CheckboxGroup>
 
                   {filterTagsToShow && filterTagsToShow.length > 0 && (
@@ -381,19 +396,29 @@ export default function Dashboard() {
                   </Heading>
 
                   <CheckboxGroup value={selectedAuthorIds}>
-                    {filterAuthorsToShow?.map((author) => {
-                      return (
-                        <Checkbox
-                          display="flex"
-                          key={author._id}
-                          value={author._id}
-                          onChange={handleOnAuthorFilterSelect}
-                          my="1"
-                        >
-                          {author.name}
-                        </Checkbox>
-                      );
-                    })}
+                    {authorsIsLoading && (
+                      <ChakraStack>
+                        {[...new Array(DEFAULT_FILTERS_COUNT)].map(
+                          (empty, index) => {
+                            return <Skeleton key={index} height={6} />;
+                          },
+                        )}
+                      </ChakraStack>
+                    )}
+                    {!authorsIsLoading &&
+                      filterAuthorsToShow?.map((author) => {
+                        return (
+                          <Checkbox
+                            display="flex"
+                            key={author._id}
+                            value={author._id}
+                            onChange={handleOnAuthorFilterSelect}
+                            my="1"
+                          >
+                            {author.name}
+                          </Checkbox>
+                        );
+                      })}
                   </CheckboxGroup>
 
                   <Text>
