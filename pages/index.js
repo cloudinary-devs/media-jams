@@ -68,9 +68,7 @@ export default function Dashboard() {
   const featuredTags = tags?.filter(({ featured }) => featured) || [];
   const tagsByPopularity = tags; // TODO figure out how to sort
 
-  const standardJams = allJams?.jams
-    .filter((j) => !j.postMetadata.featured)
-    .slice(0, JAMS_TO_SHOW);
+  const standardJams = allJams?.jams.filter((j) => !j.postMetadata.featured);
 
   const sortedJams =
     standardJams &&
@@ -268,7 +266,10 @@ export default function Dashboard() {
             Latest Jams
           </Heading>
 
-          <JamCardList jams={sortedJams} columns={jamListColumns} />
+          <JamCardList
+            jams={sortedJams.slice(0, JAMS_TO_SHOW)}
+            columns={jamListColumns}
+          />
 
           <Text>
             <NextLink href="/posts">
