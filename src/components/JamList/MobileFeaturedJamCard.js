@@ -91,7 +91,7 @@ export default function MobileFeaturedJamCard({ jam }) {
               width="28px"
               height="28px"
               name={author.name}
-              src={imageFetch(author.image?.asset.url)}
+              src={imageFetch(author.image?.asset.url, { w: 64, h: 64 })}
             />
             <NextLink href={`/author/${jam?.author.slug?.current}`} passHref>
               <Link>

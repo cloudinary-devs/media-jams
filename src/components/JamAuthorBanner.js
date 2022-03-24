@@ -28,7 +28,7 @@ function JamAuthorBanner({ author }) {
             <Avatar
               size="2xl"
               alt={author.name}
-              src={imageFetch(author.image?.asset.url)}
+              src={imageFetch(author.image?.asset.url, { w: 64, h: 64 })}
             />
             <VStack spacing="0" pt={4}>
               <Heading mt={4} fontSize="4xl" textStyle="headline-accent">

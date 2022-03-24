@@ -7,6 +7,5 @@ export default function useLazyQuery(key, fn, options = {}) {
     ...options,
     enabled,
   });
-
   return [useCallback(() => setEnabled(true), []), query];
 }

@@ -1,9 +1,18 @@
 import { useQueryClient, useQuery, useMutation } from 'react-query';
 import { postsByTag, postsByTagSlug } from '@lib/api';
 import { jams as queryJams } from '@lib/queries/jams';
+import useLazyQuery from '@hooks/useLazyQuery';
 
 export function useJamsQuery(select, options) {
   return useQuery('allJams', queryJams.get, {
+    staleTime: Infinity,
+    select,
+    ...options,
+  });
+}
+
+export function useJamsLazyQuery(select, options) {
+  return useLazyQuery('allJams', queryJams.get, {
     staleTime: Infinity,
     select,
     ...options,
@@ -26,16 +35,16 @@ export const useJamQueryBy = (ids) => {
 
 /**
  *
- * @param {Array<string>} tags
+ * @param {Array<Object>} tags
  * @param {*} options
  * @returns query object data of related jams by tag title
  */
 export function useRelatedJams(tags, options) {
   if (tags === undefined) return { data: null };
   return useQuery(
-    ['jamTag', tags[0]],
+    ['jamTag', tags[0].title],
     async () => {
-      const tag = tags[0];
+      const tag = tags[0].title;
       const jamIds = await postsByTag(tag);
       const data = await queryJams.getByIds(jamIds);
       return {
@@ -55,14 +64,7 @@ export function useRelatedJams(tags, options) {
 export function useJamTag(tagSlug, options = {}) {
   return useQuery(
     ['jamTag-slug', tagSlug],
-    async () => {
-      const { jamIds, tag } = await postsByTagSlug(tagSlug);
-      const data = await queryJams.getByIds(jamIds);
-      return {
-        tag: tag,
-        jams: data,
-      };
-    },
+    () => queryJams.getJamsByTagSlug(tagSlug),
     {
       staleTime: Infinity,
       ...options,

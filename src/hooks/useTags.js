@@ -1,8 +1,9 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { useJamsQuery } from './useJams';
+import { useJamsQuery, useJamsLazyQuery } from './useJams';
 const { chain } = require('lodash');
 import { tags as queryTags } from '@lib/queries/tags';
+import useLazyQuery from '@hooks/useLazyQuery';
 
 export function useTagsQuery(select, options) {
   return useQuery('jamTags', queryTags.get, {
@@ -11,6 +12,15 @@ export function useTagsQuery(select, options) {
     ...options,
   });
 }
+
+export function useTagsQueryLazy(select, options) {
+  return useLazyQuery('jamTags', queryTags.get, {
+    staleTime: Infinity,
+    select,
+    ...options,
+  });
+}
+
 const tagCount = (allJams, allTags) =>
   chain(allJams)
     .map((t) => t.tags)
@@ -34,8 +44,33 @@ export function useTags() {
     if (!dataTags || !dataJams) return null;
     const { tags } = dataTags;
     const { jams } = dataJams;
-    setTags(tagCount(jams, tags));
+    setTags();
   }, [dataTags, dataJams]);
 
   return [allTags];
+}
+
+export function useTagsLazy() {
+  const [fetchJams, jamQueryData] = useJamsLazyQuery();
+  const { data: allJams = {}, isLoading: isLoadingJams } = jamQueryData;
+  const { jams = [] } = allJams;
+
+  const [fetchTags, tagQueryData] = useTagsQueryLazy();
+  const { data: allTags = {}, isLoading: isLoadingTags } = tagQueryData;
+  const { tags = [] } = allTags;
+
+  async function fetchTagsLazy() {
+    return await Promise.all([fetchJams(), fetchTags()]);
+  }
+
+  return [
+    fetchTagsLazy,
+    {
+      data: {
+        tags:
+          jams.length > 0 && tags.length > 0 ? tagCount(jams, tags) : undefined,
+      },
+      isLoading: isLoadingJams || isLoadingTags,
+    },
+  ];
 }

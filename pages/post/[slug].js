@@ -109,7 +109,9 @@ export default function Post({ post, preview, error, og }) {
 
         <EmailSubscription />
 
-        <RelatedJams jams={relatedJams} title={tag.title} />
+        {Array.isArray(relatedJams) && relatedJams.length > 0 && (
+          <RelatedJams jams={relatedJams} title={tag.title} />
+        )}
       </Flex>
     </>
   );
@@ -173,7 +175,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
       {
         // Author name overlay
         overlay: {
-          text: `${jam.author.name} - ${format(
+          text: `${jam?.author.name || ''} - ${format(
             new Date(jam.updatedAt),
             'dd MMMM yyy',
           )}`,

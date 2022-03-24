@@ -29,7 +29,7 @@ export function useAddBookmarkMutation({
   onSuccess: _onSuccess = () => {},
   onError: _onError = () => {},
   onMutate: _onMutate = () => {},
-}) {
+} = {}) {
   const queryClient = useQueryClient();
   return useMutation((post) => bookmarksQuery.add(post._id), {
     onMutate: async (post) => {
@@ -73,7 +73,7 @@ export function useRemoveBookmarkMutation({
   onSuccess: _onSuccess = () => {},
   onMutate: _onMutate = () => {},
   onError: _onError = () => {},
-}) {
+} = {}) {
   const queryClient = useQueryClient();
   return useMutation((post) => bookmarksQuery.remove(post._id), {
     onMutate: async (post) => {

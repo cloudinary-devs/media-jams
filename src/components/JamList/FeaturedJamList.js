@@ -89,7 +89,7 @@ function JamListCard({ jam }) {
             width="28px"
             height="28px"
             name={jam?.author.name}
-            src={imageFetch(jam?.author.image?.asset.url)}
+            src={imageFetch(jam?.author.image?.asset.url, { w: 64, h: 64 })}
           />
           <NextLink href={`/author/${jam?.author.slug?.current}`} passHref>
             <Link>

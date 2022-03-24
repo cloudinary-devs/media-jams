@@ -60,7 +60,7 @@ export default function JamContentHero({
         <HStack color="grey.700" ml={{ base: '0', lg: 8 }}>
           <Avatar
             name={author.name}
-            src={imageFetch(author?.image?.asset?.url)}
+            src={imageFetch(author?.image?.asset?.url, { w: 64, h: 64 })}
           />
           <Text fontSize="md">{author.name}</Text>
           <Text fontSize="md">

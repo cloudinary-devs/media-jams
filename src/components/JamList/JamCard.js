@@ -79,7 +79,7 @@ export default function JamCard({ jam }) {
                 <Avatar
                   size="sm"
                   name={author.name}
-                  src={imageFetch(author.image?.asset.url)}
+                  src={imageFetch(author.image?.asset.url, { w: 64, h: 64 })}
                 />
                 <Text variant="B100" color="grey.800" fontWeight="500">
                   {author.name}

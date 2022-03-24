@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://mediajams.dev/
+
+# Sitemaps
+Sitemap: https://mediajams.dev/sitemap.xml

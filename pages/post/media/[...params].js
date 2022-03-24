@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Flex, Heading, Box } from '@chakra-ui/react';
-import JamList from '@components/JamList';
+import { Flex, Heading, Box, useBreakpointValue } from '@chakra-ui/react';
+import JamCardList from '@components/JamCardList';
 import JamContentHero from '@components/JamContentHero';
 import { postBySlug } from '@lib/api';
 
 export default function PostMedia({ jam }) {
+  const jamListColumns = useBreakpointValue({
+    base: 1,
+    lg: 2,
+  });
+
   return (
     <Flex direction="column" w="100%">
       <Flex
@@ -23,7 +28,7 @@ export default function PostMedia({ jam }) {
           <Heading as="h4" size="md">
             Jam Card
           </Heading>
-          <JamList jams={[jam]} />
+          <JamCardList jams={[jam]} columns={jamListColumns} />
         </Box>
         <Box>
           <Heading as="h4" size="md">
