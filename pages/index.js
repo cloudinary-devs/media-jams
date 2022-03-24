@@ -144,7 +144,7 @@ export default function Dashboard() {
               </Flex>
               <Box
                 width={{
-                  base: '80%',
+                  base: '70%',
                   md: '70%',
                   lg: '60%',
                   xl: '50%',
