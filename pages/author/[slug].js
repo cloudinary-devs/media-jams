@@ -122,7 +122,7 @@ export async function getStaticProps({ params: { slug } }) {
   try {
     const { data } = await authors.getStaticAuthorBy(slug);
     return {
-      props: { author: data?.author[0] },
+      props: { author: data?.author[0] || {} },
     };
   } catch (error) {
     console.log('Author::getStaticProps', error);
