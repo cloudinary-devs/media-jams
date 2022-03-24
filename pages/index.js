@@ -142,33 +142,29 @@ export default function Dashboard() {
                   Learn media with easy to follow guides and examples
                 </Text>
               </Flex>
-              <Box width="100vw" overflow="hidden">
-                <Box
-                  width={{
-                    base: '80%',
-                    sm: '70%',
-                    // md: '70%',
-                    lg: '60%',
-                    xl: '50%',
-                  }}
-                  flexGrow="0"
-                  flexShrink="0"
-                  transform={{
-                    base: 'scale(1.5)',
-                    xl: 'scale(1.5) translate3d(12%, 0, 0)',
-                  }}
-                  pt={{
-                    base: 32,
-                    xl: 0,
-                  }}
-                  pb={{
-                    base: 24,
-                    xl: 0,
-                  }}
-                  margin="0 auto"
-                >
-                  <JamCardCollage jams={featuredJams?.jams.slice(0, 3)} />
-                </Box>
+              <Box
+                width={{
+                  base: '80%',
+                  md: '70%',
+                  lg: '60%',
+                  xl: '50%',
+                }}
+                flexGrow="0"
+                flexShrink="0"
+                transform={{
+                  base: 'scale(1.5)',
+                  xl: 'scale(1.5) translate3d(12%, 0, 0)',
+                }}
+                pt={{
+                  base: 32,
+                  xl: 0,
+                }}
+                pb={{
+                  base: 24,
+                  xl: 0,
+                }}
+              >
+                <JamCardCollage jams={featuredJams?.jams.slice(0, 3)} />
               </Box>
             </Flex>
           </Box>
