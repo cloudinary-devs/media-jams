@@ -155,11 +155,6 @@
     "nextjs",
     "mdx"
   ],
-  "babel": {
-    "presets": [
-      "next/babel"
-    ]
-  },
   "license": "ISC",
   "resolutions": {
     "webpack": "^5.0.0-beta.30"
