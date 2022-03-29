@@ -68,7 +68,7 @@ export default function Dashboard() {
   const featuredTags = tags?.filter(({ featured }) => featured) || [];
   const tagsByPopularity = tags; // TODO figure out how to sort
 
-  const standardJams = allJams?.jams.filter((j) => !j.postMetadata?.featured);
+  const standardJams = allJams?.jams.filter((j) => !j.postMetadata || !j.postMetadata.featured);
 
   const sortedJams =
     standardJams &&
@@ -310,7 +310,7 @@ export const getStaticProps = async () => {
    */
   await queryClient.fetchQuery('featuredJams', async () => {
     const {
-      data: { jams },
+      data: { jams = [] } = {},
     } = await queryJams.getStaticFeaturedJams();
     return { jams };
   });
