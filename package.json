@@ -6,6 +6,7 @@
   "author": "MediaDevelopers",
   "main": "next.config.js",
   "scripts": {
+    "prebuild": "node -v",
     "build": "next build",
     "postbuild": "next-sitemap",
     "dev": "NODE_OPTIONS='--inspect' next dev",
