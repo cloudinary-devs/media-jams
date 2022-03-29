@@ -1,7 +1,7 @@
 import http from 'http';
 import fetch from 'isomorphic-unfetch';
 import listen from '@utils/test-listen';
-import { apiResolver } from 'next/dist/server/api-utils';
+import { apiResolver } from 'next/dist/server/api-utils/node';
 import handler from './index';
 import sanityMockPayload from '../../../mocks/sanityWebhookMock';
 import * as mockAuth0Management from '@lib/auth0Management';

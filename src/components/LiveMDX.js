@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { ThemeContext } from '@emotion/react';
 
 import { Box, Image, Heading } from '@chakra-ui/react';
-import mdx from '@mdx-js/mdx';
+import { compileSync } from '@mdx-js/mdx';
 import { MDXProvider, mdx as createElement } from '@mdx-js/react';
 import { LiveProvider, LivePreview, LiveError } from 'react-live';
 import removeImports from 'remark-mdx-remove-imports';
@@ -29,7 +29,7 @@ const transformCode = (src) => {
   let transpiledMDX = '';
 
   try {
-    transpiledMDX = mdx.sync(src, {
+    transpiledMDX = compileSync(src, {
       skipExport: true,
       remarkPlugins: [removeImports, removeExports],
     });
@@ -53,7 +53,7 @@ const generateOutputs = (src) => {
     hast = {};
 
   try {
-    jsx = mdx.sync(src, {
+    jsx = compileSync(src, {
       skipExport: true,
       remarkPlugins: [
         () => (ast) => {
@@ -87,7 +87,7 @@ const LiveMDX = ({ content, scope = {}, ...props }) => {
           components: bundledComponents,
           MDXProvider,
           props: {},
-          mdx: createElement,
+          // mdx: createElement,
         }}
         noInline={true}
         transformCode={(code) => {
