@@ -10,7 +10,7 @@ import GA from '@lib/googleAnalytics';
 import { useOnRead } from '@hooks/useOnRead';
 import { useRelatedJams } from '@hooks/useJams';
 
-import { Flex, List, ListItem } from '@chakra-ui/react';
+import { Flex, Box, ListItem } from '@chakra-ui/react';
 import Layout from '@components/Layout';
 import JamContentHero from '@components/JamContentHero';
 import JamContent from '@components/JamContent';
@@ -22,6 +22,7 @@ import RelatedJams from '@components/RelatedJams';
 import format from 'date-fns/format';
 export default function Post({ post, preview, error, og }) {
   const mainContentRef = React.useRef(null);
+  const heroContentRef = React.useRef(null);
   const router = useRouter();
   const { data } = useRelatedJams(post?.tags);
   const { jams = {}, tag = {} } = data || {};
@@ -44,6 +45,27 @@ export default function Post({ post, preview, error, og }) {
       GA.readJam(post, time);
     },
   });
+
+  /**
+   * We do this to scroll up on jam content when selecting a related jam
+   * Scoll window doesn't work, since we are overflow scrolling the content
+   * to keep the sidbar always visable at 100hv
+   */
+  React.useEffect(() => {
+    const handleRouteChange = async (err, url) => {
+      if (err.cancelled) return null;
+      heroContentRef.current.scrollIntoView({ behavior: 'auto' });
+    };
+    //When the component is mounted, subscribe to router changes
+    //and log those page views
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
 
   const baseUrl = () => {
     if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
@@ -92,6 +114,7 @@ export default function Post({ post, preview, error, og }) {
         overflow="auto"
         mt={{ base: '24px', md: '32px' }}
         pb="8"
+        useRef={heroContentRef}
       >
         <JamContentHero
           author={author}
@@ -99,7 +122,8 @@ export default function Post({ post, preview, error, og }) {
           title={post.title}
           imageUrl={post.coverImage}
           date={post.updatedAt}
-        ></JamContentHero>
+          ref={heroContentRef}
+        />
         <main ref={mainContentRef}>
           <JamContent>
             <MDXRemote {...post.content} components={MDXComponents} />
