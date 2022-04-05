@@ -59,7 +59,7 @@
    - Email Provider
    - Currently tasked with content updates for creators and modorators
    - Notifications are sent out when the workflow state of a Media Jams is changed. Either to the author for changes, or to the moderation group for requests.
-1. MixPanel
+1. Google Analytics
    - Analytics
    - Concentration on traffic and time spend on Jams
    - Search queries are recored and ranked
