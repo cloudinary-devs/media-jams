@@ -8,22 +8,17 @@ import {
   VStack,
   Avatar,
   Text,
+  forwardRef,
   useColorModeValue as mode,
 } from '@chakra-ui/react';
 import format from 'date-fns/format';
 import imageFetch from '@utils/image-fetch';
 import Image from '@components/Image';
 
-export default function JamContentHero({
-  description,
-  title,
-  author,
-  imageUrl,
-  date,
-  children,
-}) {
-  return (
+const JamContentHero = forwardRef(
+  ({ description, title, author, imageUrl, date, children }, ref) => (
     <Flex
+      ref={ref}
       as="section"
       p={6}
       w="full"
@@ -71,5 +66,7 @@ export default function JamContentHero({
         </HStack>
       </Box>
     </Flex>
-  );
-}
+  ),
+);
+
+export default JamContentHero;

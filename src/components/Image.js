@@ -63,7 +63,7 @@ export default function Image({
     } else if (src) {
       setImageSrc(src);
     }
-  }, []);
+  }, [publicId]);
 
   return (
     imageSrc && (
