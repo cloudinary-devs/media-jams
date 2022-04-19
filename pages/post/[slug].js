@@ -181,6 +181,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
   });
 
   const jam = await postBySlug(slug, preview);
+
   const url = cloudinary.url('mediajams/MediaJams-og-blog-2', {
     transformation: [
       {

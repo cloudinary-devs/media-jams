@@ -36,7 +36,7 @@ function JamAuthorBanner({ author }) {
               </Heading>
               <Text fontSize="xs">{author?.jobTitle}</Text>
               <ButtonGroup alignSelf="start" color="gray.600" variant="ghost">
-                <SocialGroup />
+                {author?.socialHandles && <SocialGroup {...author.socialHandles} />}
               </ButtonGroup>
             </VStack>
           </HStack>
@@ -70,7 +70,7 @@ function JamAuthorBanner({ author }) {
                   color="gray.600"
                   variant="ghost"
                 >
-                  <SocialGroup />
+                  {author?.socialHandles && <SocialGroup {...author.socialHandles} />}
                 </ButtonGroup>
               </Flex>
               <Box color="grey.900" my={2} maxWidth="90%">
