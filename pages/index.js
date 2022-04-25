@@ -70,6 +70,12 @@ export default function Dashboard() {
 
   const standardJams = allJams?.jams.filter((j) => !j.postMetadata || !j.postMetadata.featured);
 
+  if ( allJams?.jams ) {
+    console.log('<<<')
+    console.log(allJams?.jams.map(({ title }) => title));
+    console.log('>>>')
+  }
+
   const sortedJams =
     standardJams &&
     sortArrayByKey(standardJams, 'publishedAt', { sortOrder: 'desc' });
