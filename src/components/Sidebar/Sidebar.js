@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Box,
   Button,
   VStack,
   HStack,
@@ -249,6 +250,7 @@ const Sidebar = () => {
       {isOpen && (
         <SidebarContent onClose={onClose} isOpen={isOpen} onToggle={onToggle} />
       )}
+      <Box srOnly>{ Date.now() }</Box>
     </motion.div>
   ) : (
     <MobileDrawer
@@ -262,6 +264,7 @@ const Sidebar = () => {
         <SideStrip onClose={onClose} onToggle={onToggle} />
         <SidebarContent onClose={onClose} isOpen={isOpen} onToggle={onToggle} />
       </MobileDrawerContent>
+      <Box srOnly>{ Date.now() }</Box>
     </MobileDrawer>
   );
 };
