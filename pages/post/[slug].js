@@ -182,50 +182,66 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
 
   const jam = await postBySlug(slug, preview);
 
-  const url = cloudinary.url('mediajams/MediaJams-og-blog-2', {
-    transformation: [
-      {
-        // Author image overlay
-        overlay: {
-          url: jam?.author.image?.asset.url,
-        },
-        height: 90,
-        width: 90,
-        crop: 'scale',
-        gravity: 'south_west',
-        y: 72,
-        x: 57,
-        radius: 90,
+  const ogTransformations = [];
+
+  if ( jam?.author.image?.asset.url ) {
+    ogTransformations.push({
+      // Author image overlay
+      overlay: {
+        url: jam.author.image.asset.url
       },
-      {
-        // Author name overlay
-        overlay: {
-          text: `${jam?.author.name || ''} - ${format(
-            new Date(jam.updatedAt),
-            'dd MMMM yyy',
-          )}`,
-          font_family: 'DMSans.ttf',
-          font_size: 28,
-        },
-        gravity: 'south_west',
-        y: 105,
-        x: 160,
+      height: 90,
+      width: 90,
+      crop: 'scale',
+      gravity: 'south_west',
+      y: 72,
+      x: 57,
+      radius: 90,
+    });
+  }
+
+  let authorTextNodes = [];
+
+  if ( jam?.author.name ) {
+    authorTextNodes.push(jam.author.name);
+  }
+
+  if ( jam?.updatedAt ) {
+    authorTextNodes.push(format(new Date(jam.updatedAt),'dd MMMM yyy'));
+  }
+
+  if ( authorTextNodes.length > 0 ) {
+    ogTransformations.push({
+      // Author name overlay
+      overlay: {
+        text: authorTextNodes.join(' - '),
+        font_family: 'DMSans.ttf',
+        font_size: 28,
       },
-      // Jam Title
-      {
-        overlay: {
-          text: jam.title,
-          font_family: 'DMSans.ttf',
-          font_size: 60,
-        },
-        gravity: 'west',
-        x: 50,
-        y: -70,
-        width: 488,
-        crop: 'fit',
-      },
-    ],
+      gravity: 'south_west',
+      y: 105,
+      x: jam?.author.image?.asset.url ? 160 : 57,
+    });
+  }
+
+  ogTransformations.push({
+    // Jam Title
+    overlay: {
+      text: jam.title,
+      font_family: 'DMSans.ttf',
+      font_size: 60,
+    },
+    gravity: 'west',
+    x: 50,
+    y: -70,
+    width: 488,
+    crop: 'fit',
   });
+
+  const url = cloudinary.url('mediajams/MediaJams-og-blog-3', {
+    transformation: ogTransformations,
+  });
+
   try {
     // Then serialize to mdx formated string for hydration in components.
     const mdx = await serialize(jam.body);
