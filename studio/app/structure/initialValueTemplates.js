@@ -6,7 +6,8 @@ import T from '@sanity/base/initial-value-template-builder';
 import userStore from 'part:@sanity/base/user';
 
 const postByAuthor = {
-  title: 'Post by author',
+  title: 'Post by Author',
+  id: 'post-by-author',
   description: 'Post by a specific author',
   schemaType: 'post',
   name: 'post-by-author',
@@ -27,9 +28,5 @@ const postByAuthor = {
   },
 };
 
-export default [
-  T.template({
-    id: 'post-by-author',
-    ...postByAuthor,
-  }),
-];
+const defaults = T.defaults();
+export default [T.template(postByAuthor), ...defaults];

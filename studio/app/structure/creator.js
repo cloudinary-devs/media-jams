@@ -30,6 +30,9 @@ export const creatorListItems = [
         .title('Jams')
         .filter(AUTHOR_QUERY)
         .params({ type: 'post', authorId: self })
+        .initialValueTemplates([
+          S.initialValueTemplateItem('post-by-author', { authorId: self }),
+        ])
         .child((documentId) => jamView(documentId));
     },
   }),
