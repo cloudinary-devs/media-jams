@@ -28,5 +28,4 @@ const postByAuthor = {
   },
 };
 
-const defaults = T.defaults();
-export default [T.template(postByAuthor), ...defaults];
+export default [T.template(postByAuthor), ...T.defaults()];
