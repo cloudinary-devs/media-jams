@@ -41,6 +41,9 @@ export const useJamQueryBy = (ids) => {
  */
 export function useRelatedJams(tags, options) {
   if (tags === undefined) return { data: null };
+
+  tags = tags.filter(tag => !!tag);
+
   return useQuery(
     ['jamTag', tags[0].title],
     async () => {

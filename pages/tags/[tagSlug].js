@@ -33,7 +33,7 @@ export default function Tag({ tagSlug }) {
 
   const { data } = useJamTag(tagSlug);
   const { jams, tag } = data || {};
-  const icon = tag.icon;
+  const icon = tag?.icon;
 
   const sortedJams =
     jams && sortArrayByKey(jams, 'publishedAt', { sortOrder: 'desc' });

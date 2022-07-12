@@ -51,8 +51,9 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
 
   const [images, setImages] = useState();
 
-  const firstTags = jam.tags.slice(0, DEFAULT_TAGS_TO_SHOW);
-  const remainingTags = jam.tags.slice(DEFAULT_TAGS_TO_SHOW);
+  const tags = jam.tags.filter(tag => !!tag);
+  const firstTags = tags?.slice(0, DEFAULT_TAGS_TO_SHOW);
+  const remainingTags = tags?.slice(DEFAULT_TAGS_TO_SHOW);
 
   const size = jamCardSizes[sizeKey];
 
@@ -238,11 +239,13 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
                     md: 3,
                   }}
                 >
-                  <ReactIcon
-                    {...(jam.tags[0].icon || { name: 'FaTag', provider: 'fa' })}
-                    mr="1"
-                  />
-                  {jam.tags[0].title}
+                  {jam.tags[0]?.icon && (
+                    <ReactIcon
+                      {...(jam.tags[0].icon || { name: 'FaTag', provider: 'fa' })}
+                      mr="1"
+                    />
+                  )}
+                  {jam.tags[0]?.title}
                 </Badge>
               </ListItem>
             </List>
