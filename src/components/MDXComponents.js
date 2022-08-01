@@ -118,14 +118,22 @@ const MDXComponents = {
   table: Table,
   th: THead,
   td: TData,
-  a: (props) => (
-    <chakra.a
-      apply="mdx.a"
-      rel="noreferrer noopener"
-      target="_blank"
-      {...props}
-    />
-  ),
+  a: (props) => {
+    let rel = 'noopener';
+
+    if ( !props.href.includes('cloudinary.com') ) {
+      rel = `${rel} noreferrer`;
+    }
+
+    return (
+      <chakra.a
+        apply="mdx.a"
+        rel={rel}
+        target="_blank"
+        {...props}
+      />
+    )
+  },
   img: Image,
   p: (props) => <chakra.p apply="mdx.p" {...props} />,
   ul: (props) => <chakra.ul apply="mdx.ul" {...props} />,
