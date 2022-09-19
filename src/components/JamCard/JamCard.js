@@ -51,7 +51,7 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
 
   const [images, setImages] = useState();
 
-  const tags = jam.tags.filter(tag => !!tag);
+  const tags = jam.tags?.filter(tag => !!tag);
   const firstTags = tags?.slice(0, DEFAULT_TAGS_TO_SHOW);
   const remainingTags = tags?.slice(DEFAULT_TAGS_TO_SHOW);
 

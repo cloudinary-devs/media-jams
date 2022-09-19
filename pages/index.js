@@ -68,7 +68,9 @@ export default function Dashboard() {
   const featuredTags = tags?.filter(({ featured }) => featured) || [];
   const tagsByPopularity = tags; // TODO figure out how to sort
 
-  const standardJams = allJams?.jams.filter((j) => !j.postMetadata || !j.postMetadata.featured);
+  const standardJams = allJams?.jams
+    .filter(j => !j.postMetadata || !j.postMetadata.featured)
+    .filter(j => !!j?.slug?.current);
 
   const sortedJams =
     standardJams &&
