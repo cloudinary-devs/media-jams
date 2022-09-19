@@ -35,8 +35,9 @@ export default function Tag({ tagSlug }) {
   const { jams, tag } = data || {};
   const icon = tag?.icon;
 
-  const sortedJams =
-    jams && sortArrayByKey(jams, 'publishedAt', { sortOrder: 'desc' });
+  const standardJams = jams && jams.filter(j => !!j?.slug?.current);
+
+  const sortedJams = standardJams && sortArrayByKey(standardJams, 'publishedAt', { sortOrder: 'desc' });
 
   return (
     <Layout>
