@@ -142,7 +142,7 @@ export function SearchProvider({ children }) {
 
   useEffect(() => {
     if (!routerTags || !Array.isArray(allTags) || allTags.length === 0) {
-      return null;
+      return undefined;
     }
     const tagGroup = routerTags
       .split(',')
