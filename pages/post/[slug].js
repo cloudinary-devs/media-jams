@@ -227,7 +227,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
   ogTransformations.push({
     // Jam Title
     overlay: {
-      text: jam.title,
+      text: jam?.title,
       font_family: 'DMSans.ttf',
       font_size: 60,
     },
