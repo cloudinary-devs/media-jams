@@ -41,7 +41,7 @@ export function useTags() {
   const { data: dataJams } = useJamsQuery();
 
   React.useEffect(() => {
-    if (!dataTags || !dataJams) return null;
+    if (!dataTags || !dataJams) return undefined;
     const { tags } = dataTags;
     const { jams } = dataJams;
     setTags();

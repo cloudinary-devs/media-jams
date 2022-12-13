@@ -73,12 +73,11 @@ const TagCard = ({ tag, onClick, ...rest }) => {
     return <TagCardContent tag={tag} onClick={onClick} {...rest} />;
   }
 
+
   return (
-    <NextLink href={`/tags/${tag.slug?.current}`} passHref>
-      <Link display="block">
-        <TagCardContent tag={tag} {...rest} />
-      </Link>
-    </NextLink>
+    <Link as={NextLink} href={`/tags/${tag.slug?.current}`} passHref display="block">
+      <TagCardContent tag={tag} {...rest} />
+    </Link>
   );
 };
 

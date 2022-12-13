@@ -68,31 +68,29 @@ export default function JamCard({ jam }) {
         m="24px 0px 24px 24px"
       >
         <Flex align="center" justify="space-between" w="100%">
-          <NextLink href={`/author/${author.slug?.current}`} passHref>
-            <Link>
-              <Flex
-                align="center"
-                justify="space-evenly"
-                sx={{ gap: '8px' }}
-                mb="12px"
-              >
-                <Avatar
-                  size="sm"
-                  name={author.name}
-                  src={imageFetch(author.image?.asset.url, { w: 64, h: 64 })}
-                />
-                <Text variant="B100" color="grey.800" fontWeight="500">
-                  {author.name}
-                </Text>
+          <Link as={NextLink} href={`/author/${author.slug?.current}`} passHref>
+            <Flex
+              align="center"
+              justify="space-evenly"
+              sx={{ gap: '8px' }}
+              mb="12px"
+            >
+              <Avatar
+                size="sm"
+                name={author.name}
+                src={imageFetch(author.image?.asset.url, { w: 64, h: 64 })}
+              />
+              <Text variant="B100" color="grey.800" fontWeight="500">
+                {author.name}
+              </Text>
 
-                <Text variant="B100" color="grey.600">
-                  <time dateTime={jam.publishedAt}>
-                    {format(new Date(jam.publishedAt), 'dd MMMM yyyy')}
-                  </time>
-                </Text>
-              </Flex>
-            </Link>
-          </NextLink>
+              <Text variant="B100" color="grey.600">
+                <time dateTime={jam.publishedAt}>
+                  {format(new Date(jam.publishedAt), 'dd MMMM yyyy')}
+                </time>
+              </Text>
+            </Flex>
+          </Link>
           <IconButton
             position="relative"
             zIndex="1"

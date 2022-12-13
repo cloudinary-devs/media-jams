@@ -72,11 +72,9 @@ const AuthorButton = ({ author, isActive, onClick }) => {
   }
 
   return (
-    <NextLink href={`/author/${author.slug?.current}`} passHref>
-      <Link display="block">
-        <AuthorButtonContent isActive={isActive} author={author} />
-      </Link>
-    </NextLink>
+    <Link as={NextLink} href={`/author/${author.slug?.current}`} passHref display="block">
+      <AuthorButtonContent isActive={isActive} author={author} />
+    </Link>
   );
 };
 

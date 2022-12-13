@@ -147,82 +147,46 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
           disabled={bookmarksIsLoading}
         />
       </Box>
-      <NextLink href={`/post/${jam.slug.current}`} passHref>
-        <Link
-          display="block"
+      <Link as={NextLink} href={`/post/${jam.slug.current}`} passHref display="block"
+        position="absolute"
+        top="0"
+        left="0"
+        width="100%"
+        height="100%"
+        backgroundImage={
+          images?.background &&
+          imageFetch(images.background, { w: size.width, h: size.height })
+        }
+        backgroundSize="cover"
+        backgroundPosition="center center">
+
+        <Flex
+          direction="column"
+          justifyContent="space-between"
           position="absolute"
           top="0"
           left="0"
+          zIndex="1"
           width="100%"
           height="100%"
-          backgroundImage={
-            images?.background &&
-            imageFetch(images.background, { w: size.width, h: size.height })
-          }
-          backgroundSize="cover"
-          backgroundPosition="center center"
+          bgGradient="linear(to-tr, rgba(27, 20, 100, .9) 25%, rgba(27, 20, 100, 0))"
+          p={{
+            base: 4,
+            md: 6,
+          }}
         >
-          <Flex
-            direction="column"
-            justifyContent="space-between"
-            position="absolute"
-            top="0"
-            left="0"
-            zIndex="1"
-            width="100%"
-            height="100%"
-            bgGradient="linear(to-tr, rgba(27, 20, 100, .9) 25%, rgba(27, 20, 100, 0))"
-            p={{
-              base: 4,
-              md: 6,
-            }}
-          >
-            <List>
-              {isFeatured && (
-                <ListItem
-                  display="inline-block"
-                  mx="2"
-                  _first={{ marginLeft: 0 }}
-                  _last={{ marginRight: 0 }}
-                >
-                  <Badge
-                    display="flex"
-                    alignItems="center"
-                    color="#4E380B"
-                    fontSize={{
-                      base: 10,
-                      md: 12,
-                    }}
-                    fontWeight="bold"
-                    lineHeight={{
-                      base: 5,
-                      md: 7,
-                    }}
-                    textTransform="none"
-                    backgroundColor="#ECC503"
-                    px={{
-                      base: 2,
-                      md: 3,
-                    }}
-                  >
-                    <Icon as={FaStar} mr="1" />
-                    Featured Jam
-                  </Badge>
-                </ListItem>
-              )}
+          <List>
+            {isFeatured && (
               <ListItem
                 display="inline-block"
-                mx={{
-                  sm: 1,
-                  md: 2,
-                }}
+                mx="2"
                 _first={{ marginLeft: 0 }}
                 _last={{ marginRight: 0 }}
               >
                 <Badge
                   display="flex"
                   alignItems="center"
-                  color="white"
+                  color="#4E380B"
                   fontSize={{
                     base: 10,
                     md: 12,
@@ -233,69 +197,85 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
                     md: 7,
                   }}
                   textTransform="none"
-                  backgroundColor="#3169E1"
+                  backgroundColor="#ECC503"
                   px={{
                     base: 2,
                     md: 3,
                   }}
                 >
-                  {jam.tags[0]?.icon && (
-                    <ReactIcon
-                      {...(jam.tags[0].icon || { name: 'FaTag', provider: 'fa' })}
-                      mr="1"
-                    />
-                  )}
-                  {jam.tags[0]?.title}
+                  <Icon as={FaStar} mr="1" />
+                  Featured Jam
                 </Badge>
               </ListItem>
-            </List>
-            <Box>
-              <Text
+            )}
+            <ListItem
+              display="inline-block"
+              mx={{
+                sm: 1,
+                md: 2,
+              }}
+              _first={{ marginLeft: 0 }}
+              _last={{ marginRight: 0 }}
+            >
+              <Badge
+                display="flex"
+                alignItems="center"
                 color="white"
                 fontSize={{
-                  base: 20,
-                  md: 24,
+                  base: 10,
+                  md: 12,
                 }}
                 fontWeight="bold"
-                mb={{
-                  base: 0.5,
-                  md: 1,
-                }}
-              >
-                {jam.title}
-              </Text>
-              <List
                 lineHeight={{
-                  base: 4,
-                  md: 8,
+                  base: 5,
+                  md: 7,
                 }}
-                mb={{
+                textTransform="none"
+                backgroundColor="#3169E1"
+                px={{
                   base: 2,
-                  md: 4,
+                  md: 3,
                 }}
               >
-                {firstTags.map((tag) => {
-                  return (
-                    <ListItem
-                      key={tag._id}
-                      display="inline-block"
-                      color="#D2CEFF"
-                      fontSize={{
-                        base: 10,
-                        md: 14,
-                      }}
-                      fontWeight="semibold"
-                      lineHeight="inherit"
-                      mx="2"
-                      _first={{ marginLeft: 0 }}
-                      _last={{ marginRight: 0 }}
-                    >
-                      #{tag.title}
-                    </ListItem>
-                  );
-                })}
-                {remainingTags.length > 0 && (
+                {jam.tags[0]?.icon && (
+                  <ReactIcon
+                    {...(jam.tags[0].icon || { name: 'FaTag', provider: 'fa' })}
+                    mr="1"
+                  />
+                )}
+                {jam.tags[0]?.title}
+              </Badge>
+            </ListItem>
+          </List>
+          <Box>
+            <Text
+              color="white"
+              fontSize={{
+                base: 20,
+                md: 24,
+              }}
+              fontWeight="bold"
+              mb={{
+                base: 0.5,
+                md: 1,
+              }}
+            >
+              {jam.title}
+            </Text>
+            <List
+              lineHeight={{
+                base: 4,
+                md: 8,
+              }}
+              mb={{
+                base: 2,
+                md: 4,
+              }}
+            >
+              {firstTags.map((tag) => {
+                return (
                   <ListItem
+                    key={tag._id}
                     display="inline-block"
                     color="#D2CEFF"
                     fontSize={{
@@ -304,39 +284,56 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
                     }}
                     fontWeight="semibold"
                     lineHeight="inherit"
-                    ml="2"
+                    mx="2"
+                    _first={{ marginLeft: 0 }}
+                    _last={{ marginRight: 0 }}
                   >
-                    + {remainingTags.length} more
+                    #{tag.title}
                   </ListItem>
-                )}
-              </List>
-              <Flex>
-                <Avatar
-                  size="md"
-                  name={author.name}
-                  src={
-                    images?.author &&
-                    imageFetch(images.author, {
-                      w: authorAvatarSize.width,
-                      h: authorAvatarSize.height,
-                    })
-                  }
-                  mr="4"
-                />
-                <Flex direction="column" justifyContent="center">
-                  <Text color="white" fontSize="16" fontWeight="bold" mb="1">
-                    {author.name}
-                  </Text>
-                  <Text color="#D2CEFF" fontSize="11" fontWeight="semibold">
-                    {format(new Date(jam.publishedAt), 'MMMM d, yyyy')}
-                  </Text>
-                </Flex>
+                );
+              })}
+              {remainingTags.length > 0 && (
+                <ListItem
+                  display="inline-block"
+                  color="#D2CEFF"
+                  fontSize={{
+                    base: 10,
+                    md: 14,
+                  }}
+                  fontWeight="semibold"
+                  lineHeight="inherit"
+                  ml="2"
+                >
+                  + {remainingTags.length} more
+                </ListItem>
+              )}
+            </List>
+            <Flex>
+              <Avatar
+                size="md"
+                name={author.name}
+                src={
+                  images?.author &&
+                  imageFetch(images.author, {
+                    w: authorAvatarSize.width,
+                    h: authorAvatarSize.height,
+                  })
+                }
+                mr="4"
+              />
+              <Flex direction="column" justifyContent="center">
+                <Text color="white" fontSize="16" fontWeight="bold" mb="1">
+                  {author.name}
+                </Text>
+                <Text color="#D2CEFF" fontSize="11" fontWeight="semibold">
+                  {format(new Date(jam.publishedAt), 'MMMM d, yyyy')}
+                </Text>
               </Flex>
-            </Box>
-          </Flex>
-        </Link>
-      </NextLink>
-    </Box>
+            </Flex>
+          </Box>
+        </Flex>
+      </Link>
+    </Box >
   );
 };
 

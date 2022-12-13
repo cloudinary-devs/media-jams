@@ -87,20 +87,16 @@ const SideStrip = () => {
   const sideNavTabs = [AUTHORS, BOOKMARKS, NOTES, MORE];
   return (
     <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE" pt="2">
-      <NextLink href="/" passHref>
-        <Link
-          display={displaySideStripLogo ? 'auto' : 'none'}
-          onClick={handleOnLogoClick}
-        >
-          <IconButton
-            size="lg"
-            variant="unstyled"
-            aria-label="Media Jams Logo"
-            icon={<MJ />}
-            display={{ base: 'none', md: 'inline-flex' }}
-          />
-        </Link>
-      </NextLink>
+      <Link as={NextLink} href="/" passHref display={displaySideStripLogo ? 'auto' : 'none'}
+        onClick={handleOnLogoClick}>
+        <IconButton
+          size="lg"
+          variant="unstyled"
+          aria-label="Media Jams Logo"
+          icon={<MJ />}
+          display={{ base: 'none', md: 'inline-flex' }}
+        />
+      </Link>
       <VStack
         justifyContent="flex-start"
         spacing={{ base: '24px', md: 6 }}
@@ -250,7 +246,7 @@ const Sidebar = () => {
       {isOpen && (
         <SidebarContent onClose={onClose} isOpen={isOpen} onToggle={onToggle} />
       )}
-      <Box srOnly>{ Date.now() }</Box>
+      <Box srOnly>{Date.now()}</Box>
     </motion.div>
   ) : (
     <MobileDrawer
@@ -264,7 +260,7 @@ const Sidebar = () => {
         <SideStrip onClose={onClose} onToggle={onToggle} />
         <SidebarContent onClose={onClose} isOpen={isOpen} onToggle={onToggle} />
       </MobileDrawerContent>
-      <Box srOnly>{ Date.now() }</Box>
+      <Box srOnly>{Date.now()}</Box>
     </MobileDrawer>
   );
 };

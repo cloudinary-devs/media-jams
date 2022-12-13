@@ -29,7 +29,7 @@ export default function NoteModal({ action, isOpen, onClose, note }) {
   const [currentNote, setNote] = React.useState(note);
 
   const queryClient = useQueryClient();
-  const toast = createStandaloneToast();
+  const { toast } = createStandaloneToast();
 
   const renderNoteActionButton = () => {
     switch (action) {

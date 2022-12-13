@@ -18,7 +18,6 @@ export const LinkGroup = ({ data }) => {
           <Box as="li" key={idx}>
             <NextLink href={link.href} passHref>
               <Box
-                as="a"
                 ref={anchorLink}
                 color="grey.700"
                 _hover={{ textDecoration: 'underline' }}

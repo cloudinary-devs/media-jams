@@ -118,7 +118,7 @@ function EmailFieldGroup({ verifiedEmail, email, register }) {
 }
 
 function PasswordFieldGroup({ email }) {
-  const toast = createStandaloneToast();
+  const { toast } = createStandaloneToast();
   async function initiateChangePasswordFlow() {
     const res = await fetch('/api/user/change-password', {
       method: 'POST',
@@ -181,7 +181,7 @@ function PictureFieldGroup({ checkSession, user }) {
   const [fileToUpload, setFileToUpload] = React.useState(null);
   const [cloudinaryFile, setCloudinaryFile] = React.useState(null);
   const [uploadStatus, setStatus] = React.useState('idle');
-  const toast = createStandaloneToast();
+  const { toast } = createStandaloneToast();
 
   async function submitFormValues(url) {
     const res = await fetch('/api/user/update-user-picture', {
@@ -259,7 +259,6 @@ function PictureFieldGroup({ checkSession, user }) {
               text={uploadStatus == 'uploading' ? 'Processing...' : 'Upload'}
               tone="primary"
               disabled={!fileToUpload}
-              onClick={handleOnClick}
               leftIcon={
                 uploadStatus == 'uploading' ? <Spinner /> : <HiCloudUpload />
               }
@@ -290,7 +289,7 @@ function PictureFieldGroup({ checkSession, user }) {
 
 export default function AccountSettingsForm() {
   const { user, isLoading: loadingUser, checkSession } = useUser();
-  const toast = createStandaloneToast();
+  const { toast } = createStandaloneToast();
 
   const {
     register,

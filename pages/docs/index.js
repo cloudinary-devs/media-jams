@@ -8,7 +8,7 @@ export default function AllDocs({ allMdx }) {
       {allMdx?.map((data) => (
         <div key={data.slug}>
           <Link href={`/docs/${data.slug}`}>
-            <a>{data.title}</a>
+            {data.title}
           </Link>
           <p>{data.description}</p>
 

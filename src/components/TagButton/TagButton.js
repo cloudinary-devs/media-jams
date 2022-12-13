@@ -61,11 +61,9 @@ const TagButton = ({ tag, isActive, onClick }) => {
   }
 
   return (
-    <NextLink href={`/tags/${tag.slug?.current}`} passHref>
-      <Link display="block">
-        <TagButtonContent isActive={isActive} tag={tag} />
-      </Link>
-    </NextLink>
+    <Link as={NextLink} href={`/tags/${tag.slug?.current}`} passHref display="block">
+      <TagButtonContent isActive={isActive} tag={tag} />
+    </Link>
   );
 };
 
