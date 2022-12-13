@@ -100,7 +100,7 @@ const EmptyBookmarks = ({ user }) => (
 );
 
 export const BookmarkJamCard = ({ jam, ...props }) => {
-  const toast = createStandaloneToast();
+  const { toast } = createStandaloneToast();
   const removeBookmark = useRemoveBookmarkMutation({
     onSuccess: () => {
       // toast message
@@ -136,13 +136,11 @@ export const BookmarkJamCard = ({ jam, ...props }) => {
             name={author.name}
             src={imageFetch(author.image?.asset.url, { w: 64, h: 64 })}
           />
-          <NextLink href={`/author/${author.slug?.current}`} passHref>
-            <Link>
-              <Text fontSize="md" variant="B500" color="gray.800">
-                {author.name}
-              </Text>
-            </Link>
-          </NextLink>
+          <Link as={NextLink} href={`/author/${author.slug?.current}`} passHref>
+            <Text fontSize="md" variant="B500" color="gray.800">
+              {author.name}
+            </Text>
+          </Link>
           <Text fontSize="md" color="gray.600">
             <time dateTime={publishedAt}>
               &middot; {format(new Date(publishedAt), 'dd MMMM yyy')}

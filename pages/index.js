@@ -274,11 +274,11 @@ export default function Dashboard() {
           />
 
           <Text>
-            <NextLink href="/posts">
-              <Button as={Link} variant="link" fontSize="18">
+            <Link as={NextLink} href="/posts">
+              <Button variant="link" fontSize="18">
                 View All Jams
               </Button>
-            </NextLink>
+            </Link>
           </Text>
         </Flex>
       </Flex>

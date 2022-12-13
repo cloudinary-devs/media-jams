@@ -53,7 +53,7 @@ export default function Post({ post, preview, error, og }) {
    */
   React.useEffect(() => {
     const handleRouteChange = async (err, url) => {
-      if (err.cancelled) return null;
+      if (err.cancelled) return undefined;
       heroContentRef.current.scrollIntoView({ behavior: 'auto' });
     };
     //When the component is mounted, subscribe to router changes
@@ -184,7 +184,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
 
   const ogTransformations = [];
 
-  if ( jam?.author.image?.asset.url ) {
+  if (jam?.author.image?.asset.url) {
     ogTransformations.push({
       // Author image overlay
       overlay: {
@@ -202,15 +202,15 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
 
   let authorTextNodes = [];
 
-  if ( jam?.author.name ) {
+  if (jam?.author.name) {
     authorTextNodes.push(jam.author.name);
   }
 
-  if ( jam?.updatedAt ) {
-    authorTextNodes.push(format(new Date(jam.updatedAt),'dd MMMM yyy'));
+  if (jam?.updatedAt) {
+    authorTextNodes.push(format(new Date(jam.updatedAt), 'dd MMMM yyy'));
   }
 
-  if ( authorTextNodes.length > 0 ) {
+  if (authorTextNodes.length > 0) {
     ogTransformations.push({
       // Author name overlay
       overlay: {

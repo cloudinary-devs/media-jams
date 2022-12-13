@@ -13,9 +13,9 @@ export function useElementInteration({ elementRef, onInteraction }) {
   );
   React.useEffect(() => {
     const element = elementRef.current;
-    if (!element) return null;
+    if (!element) return undefined;
     function captureEvent(e) {
-      if (!elementMouseOver) return null;
+      if (!elementMouseOver) return undefined;
       onInteraction();
     }
     window.addEventListener('blur', captureEvent);
