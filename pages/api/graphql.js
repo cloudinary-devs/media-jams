@@ -1,6 +1,6 @@
 import auth0 from '@lib/auth0';
 import { GraphQLClient } from 'graphql-request';
-const endpoint = process.env.HASURA_GRAPHQL_URL;
+const endpoint = process.env.SANITY_GRAPHQL_URL;
 
 /**
  * Check req for auth token from session.
