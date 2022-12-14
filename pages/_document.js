@@ -48,7 +48,7 @@ class MyDocument extends Document {
           <meta name="theme-color" content="#ffffff" />
         </Head>
         <body>
-          <ColorModeScript defaultMode="system" />
+          <ColorModeScript storageKey='my-key' defaultMode="system" />
           <Main />
           <NextScript />
         </body>

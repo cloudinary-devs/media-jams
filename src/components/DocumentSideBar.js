@@ -81,7 +81,7 @@ function SidebarCategory(props) {
         justifyContent="space-between"
         userSelect="none"
         color={useColorModeValue('gray.500', 'inherit')}
-        // onClick={onClick}
+      // onClick={onClick}
       >
         {title}
       </chakra.p>

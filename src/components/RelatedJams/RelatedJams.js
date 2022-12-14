@@ -43,7 +43,6 @@ const RelatedJams = ({ jams = [], title }) => {
               _last={{ marginBottom: 0 }}
             >
               <Link href={`/post/${jam.slug.current}`}>
-                <a>
                   <Image
                     cloudName="mediadevs"
                     publicId={asset?.url || '/placeholder.png'}
@@ -64,7 +63,6 @@ const RelatedJams = ({ jams = [], title }) => {
                   <Text as="p" fontSize="md">
                     By {author.name}
                   </Text>
-                </a>
               </Link>
             </ListItem>
           );

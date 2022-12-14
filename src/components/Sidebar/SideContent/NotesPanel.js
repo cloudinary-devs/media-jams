@@ -84,7 +84,7 @@ const EmptyNotes = ({ user }) => {
 };
 
 export const NoteCard = ({ note, ...props }) => {
-  const toast = createStandaloneToast();
+  const { toast } = createStandaloneToast();
   const { isOpen, onOpen, onClose: onCloseModal } = useDisclosure();
   const queryClient = useQueryClient();
 

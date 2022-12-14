@@ -28,7 +28,7 @@ const App = ({ Component, pageProps, err }) => {
   // trigger pageView analytics on router events
   React.useEffect(() => {
     const handleRouteChange = async (err, url) => {
-      if (err.cancelled) return null;
+      if (err.cancelled) return undefined;
     };
     //When the component is mounted, subscribe to router changes
     //and log those page views
