@@ -3,18 +3,9 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ChakraProvider } from '@chakra-ui/react';
-import { UserProvider, useUser } from '@auth0/nextjs-auth0';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import theme from '../theme';
-const user = {
-  email: 'foo@example.com',
-  email_verified: true,
-  name: 'foo',
-  nickname: 'foo',
-  picture: 'foo.jpg',
-  sub: '1',
-  updated_at: null,
-};
+
 
 const queryClient = new QueryClient();
 const AllTheProviders = ({ children }) => {
@@ -22,7 +13,6 @@ const AllTheProviders = ({ children }) => {
     <ChakraProvider resetCSS theme={theme}>
       <RouterContext.Provider value={{ ...mockRouter }}>
         <QueryClientProvider client={queryClient}>
-          <UserProvider user={user}>{children}</UserProvider>
         </QueryClientProvider>
       </RouterContext.Provider>
     </ChakraProvider>

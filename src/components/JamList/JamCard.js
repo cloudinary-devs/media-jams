@@ -21,11 +21,9 @@ import {
   useAddBookmarkMutation,
   useRemoveBookmarkMutation,
 } from '@hooks/useBookmarks';
-import { useUser } from '@auth0/nextjs-auth0';
 
 export default function JamCard({ jam }) {
   const { author } = jam;
-  const { user } = useUser();
   const [isBookmarked, setBookmark] = React.useState(false);
   const gapVariant = useBreakpointValue({ base: '4px', lg: '12px' });
 
@@ -39,7 +37,7 @@ export default function JamCard({ jam }) {
   });
 
   React.useEffect(() => {
-    if (user && dataBookmarks) {
+    if (dataBookmarks) {
       const postIds = dataBookmarks?.bookmarks?.map(
         ({ content_id }) => content_id,
       );

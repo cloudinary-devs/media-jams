@@ -21,10 +21,8 @@ import {
   useAddBookmarkMutation,
   useRemoveBookmarkMutation,
 } from '@hooks/useBookmarks';
-import { useUser } from '@auth0/nextjs-auth0';
 
 export default function FeaturedJamCard({ jam }) {
-  const { user } = useUser();
   const [isBookmarked, setBookmark] = React.useState(false);
 
   const { data: bookmarks, isLoading } = useBookmarksQuery();
@@ -37,7 +35,7 @@ export default function FeaturedJamCard({ jam }) {
   });
 
   React.useEffect(() => {
-    if (user && bookmarks) {
+    if (bookmarks) {
       const postIds = bookmarks?.bookmarks?.map(({ content_id }) => content_id);
       setBookmark(postIds.includes(jam._id));
     }

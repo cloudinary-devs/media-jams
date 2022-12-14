@@ -23,10 +23,8 @@ import {
   useAddBookmarkMutation,
   useRemoveBookmarkMutation,
 } from '@hooks/useBookmarks';
-import { useUser } from '@auth0/nextjs-auth0';
 
 function JamListCard({ jam }) {
-  const { user } = useUser();
   const [isBookmarked, setBookmark] = React.useState(false);
 
   const { data: dataBookmarks, isLoading } = useBookmarksQuery();
@@ -40,7 +38,7 @@ function JamListCard({ jam }) {
   });
 
   React.useEffect(() => {
-    if (user && dataBookmarks) {
+    if (dataBookmarks) {
       const postIds = dataBookmarks?.bookmarks?.map(
         ({ content_id }) => content_id,
       );

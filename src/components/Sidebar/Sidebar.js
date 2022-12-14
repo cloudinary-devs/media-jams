@@ -26,7 +26,6 @@ import MJ from '@components/MJ';
 
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
 import { useSearch } from '@components/SearchProvider';
-import { useUser } from '@auth0/nextjs-auth0';
 
 import { FiLogOut } from 'react-icons/fi';
 
@@ -73,7 +72,6 @@ const SideNavButtonIcon = ({
 const SideStrip = () => {
   const mobileIconMargin = useBreakpointValue({ base: '32px', md: '66px' });
   const displaySideStripLogo = useBreakpointValue({ base: false, md: true });
-  const { user, isLoading: loadingUser } = useUser();
   const { onToggle, setActiveTab, activeTab } = useSidePanel();
   const { clearSearch } = useSearch();
   // onClick set nav.ActiveTab to name
@@ -119,25 +117,6 @@ const SideStrip = () => {
         ))}
       </VStack>
       <Stack justifyContent="flex-end" spacing={8} my={4} flexGrow="1">
-        {!loadingUser && user && (
-          <>
-            <Avatar
-              as={Link}
-              href="/account"
-              name={user?.name}
-              src={user?.picture}
-            />
-            <a href="/api/auth/logout">
-              <IconButton
-                size="lg"
-                color="grey.700"
-                colorScheme="ghost"
-                aria-label="Logout"
-                icon={<FiLogOut />}
-              />
-            </a>
-          </>
-        )}
         <IconButton
           as={Link}
           href="https://discord.gg/invite/a26Mcgr"
@@ -153,7 +132,6 @@ const SideStrip = () => {
 };
 
 const SideTopBar = ({ activeTab, onClose, onToggle }) => {
-  const { user, isLoading: loadingUser } = useUser();
   const { isOpen, onOpen, onClose: onCloseModal } = useDisclosure();
 
   const isNotesTab = activeTab === TABS.NOTES.value;
@@ -171,53 +149,16 @@ const SideTopBar = ({ activeTab, onClose, onToggle }) => {
         />
       </HStack>
       <Spacer />
-      {!loadingUser && (
-        <HStack spacing={3} px={4} minH="64px">
-          {user && isNotesTab && (
-            <Button
-              onClick={onOpen}
-              leftIcon={<Plus />}
-              variant="link"
-              color="gray.900"
-            >
-              New Note
-            </Button>
-          )}
-          {!user && (
-            <>
-              <Button
-                as="a"
-                href="/api/auth/login"
-                size="md"
-                variant="ghost"
-                color="primary.500"
-              >
-                Login
-              </Button>
-              <Button
-                as="a"
-                href="/api/auth/signup"
-                size="md"
-                colorScheme="primary"
-              >
-                Sign Up
-              </Button>
-            </>
-          )}
-        </HStack>
-      )}
     </Flex>
   );
 };
 
 const SidebarContent = () => {
-  const { user, isLoading: loadingUser } = useUser();
   const { onClose, activeTab } = useSidePanel();
   const { Content } = TABS[activeTab];
   return (
     <Flex direction="column" h="100vh" w={{ base: '430px' }}>
       <SideTopBar activeTab={activeTab} onClose={onClose} />
-      <Content user={user} />
     </Flex>
   );
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useUser } from '@auth0/nextjs-auth0';
 
 import {
   Flex,
@@ -20,17 +19,13 @@ import {
 } from '@components/Icons';
 import Feature from './Feature';
 import FeatureBlock from './FeatureBlock';
-import SignupButton from './SignupButton';
 
 export default function Banner() {
   const [show, setShow] = React.useState(true);
-  const { user } = useUser();
 
-  React.useEffect(() => {
-    if (user || window.localStorage.getItem('keep-hero-closed')) {
-      setShow(false);
-    }
-  }, [user]);
+  if (window.localStorage.getItem('keep-hero-closed')) {
+    setShow(false);
+  }
 
   return show ? (
     <Flex
@@ -70,7 +65,6 @@ export default function Banner() {
           <Feature mb="14px">Bookmark your favorite jams</Feature>
           <Feature>Return to your recent jams</Feature>
           <Flex mt="25px">
-            <SignupButton />
             <Button
               onClick={() => {
                 window.localStorage.setItem('keep-hero-closed', 'true');
