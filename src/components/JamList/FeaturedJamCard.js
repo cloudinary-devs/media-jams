@@ -6,7 +6,6 @@ import {
   Heading,
   Text,
   Avatar,
-  IconButton,
   useToken,
   Link,
 } from '@chakra-ui/react';
@@ -15,37 +14,7 @@ import format from 'date-fns/format';
 import Image from '@components/Image';
 import imageFetch from '@utils/image-fetch';
 
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
-import {
-  useBookmarksQuery,
-  useAddBookmarkMutation,
-  useRemoveBookmarkMutation,
-} from '@hooks/useBookmarks';
-
 export default function FeaturedJamCard({ jam }) {
-  const [isBookmarked, setBookmark] = React.useState(false);
-
-  const { data: bookmarks, isLoading } = useBookmarksQuery();
-
-  const addBookmark = useAddBookmarkMutation({
-    onMutate: () => setBookmark(true),
-  });
-  const removeBookmark = useRemoveBookmarkMutation({
-    onMutate: () => setBookmark(false),
-  });
-
-  React.useEffect(() => {
-    if (bookmarks) {
-      const postIds = bookmarks?.bookmarks?.map(({ content_id }) => content_id);
-      setBookmark(postIds.includes(jam._id));
-    }
-  }, [bookmarks, isLoading]);
-
-  const handleBookmarkOnClick = () => {
-    const toggleBookmark = isBookmarked ? removeBookmark : addBookmark;
-    toggleBookmark.mutate(jam);
-  };
-
   return (
     <LinkBox
       display="flex"
@@ -98,28 +67,6 @@ export default function FeaturedJamCard({ jam }) {
               </time>
             </Text>
           </Flex>
-          <IconButton
-            position="relative"
-            zIndex="1"
-            size="md"
-            outline="none"
-            bg="none"
-            h="0"
-            w="0"
-            paddingLeft="0"
-            paddingRight="0"
-            paddingTop="0"
-            paddingBottom="0"
-            _focus={{
-              boxShadow: 'none',
-            }}
-            _hover={{
-              bg: 'none',
-            }}
-            aria-label="bookmark jam"
-            icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
-            onClick={handleBookmarkOnClick}
-          />
         </Flex>
         <LinkOverlay href={`/post/${jam.slug.current}`}>
           <Heading letterSpacing="-0.01em" size="H300" w="100%">

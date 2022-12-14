@@ -10,6 +10,7 @@ import { DefaultSeo } from 'next-seo';
 import SEO from '@utils/next-seo.config';
 import { SidePanelProvider } from '@components/SidePanelProvider';
 import { SearchProvider } from '@components/SearchProvider';
+import { UserProvider } from '@auth0/nextjs-auth0';
 
 // Fonts Import
 import '@fontsource/dm-sans/700.css';
@@ -51,12 +52,14 @@ const App = ({ Component, pageProps, err }) => {
       <ChakraProvider resetCSS theme={theme}>
         <QueryClientProvider client={queryClientRef.current}>
           <Hydrate state={pageProps.dehydratedState}>
-            <SidePanelProvider nav={nav}>
-              <SearchProvider>
-                {getLayout(<Component {...pageProps} err={err} />)}
-                <ReactQueryDevtools initialIsOpen={false} />
-              </SearchProvider>
-            </SidePanelProvider>
+            <UserProvider user={user}>
+              <SidePanelProvider nav={nav}>
+                <SearchProvider>
+                  {getLayout(<Component {...pageProps} err={err} />)}
+                  <ReactQueryDevtools initialIsOpen={false} />
+                </SearchProvider>
+              </SidePanelProvider>
+            </UserProvider>
           </Hydrate>
         </QueryClientProvider>
       </ChakraProvider>

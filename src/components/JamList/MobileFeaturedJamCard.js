@@ -1,56 +1,23 @@
 import React from 'react';
 import {
-  Box,
   LinkBox,
   LinkOverlay,
   Flex,
   Heading,
   Text,
   Avatar,
-  IconButton,
   useToken,
   Link,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import format from 'date-fns/format';
-import Image from '@components/Image';
 import imageFetch from '@utils/image-fetch';
-
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
-import {
-  useBookmarksQuery,
-  useAddBookmarkMutation,
-  useRemoveBookmarkMutation,
-} from '@hooks/useBookmarks';
 
 export default function MobileFeaturedJamCard({ jam }) {
   const { author } = jam;
-  const [isBookmarked, setBookmark] = React.useState(false);
   const gapVariant = useBreakpointValue({ base: '0px 8px', lg: '12px' });
 
-  const { data: dataBookmarks, isLoading } = useBookmarksQuery();
-
-  const addBookmark = useAddBookmarkMutation({
-    onMutate: () => setBookmark(true),
-  });
-  const removeBookmark = useRemoveBookmarkMutation({
-    onMutate: () => setBookmark(false),
-  });
-
-  React.useEffect(() => {
-    if (dataBookmarks) {
-      const postIds = dataBookmarks?.bookmarks?.map(
-        ({ content_id }) => content_id,
-      );
-      setBookmark(postIds?.includes(jam._id));
-    }
-  }, [dataBookmarks, isLoading]);
-
-  const handleBookmarkOnClick = () => {
-    const toggleBookmark = isBookmarked ? removeBookmark : addBookmark;
-    toggleBookmark.mutate(jam);
-  };
   return (
     <LinkBox
       href={`/author/${jam?.author.slug?.current}`}
@@ -102,29 +69,6 @@ export default function MobileFeaturedJamCard({ jam }) {
               </time>
             </Text>
           </Flex>
-          <IconButton
-            position="relative"
-            zIndex="1"
-            size="md"
-            outline="none"
-            bg="none"
-            h="0"
-            w="0"
-            mr={8}
-            paddingLeft="0"
-            paddingRight="0"
-            paddingTop="0"
-            paddingBottom="0"
-            _focus={{
-              boxShadow: 'none',
-            }}
-            _hover={{
-              bg: 'none',
-            }}
-            aria-label="bookmark jam"
-            icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
-            onClick={handleBookmarkOnClick}
-          />
         </Flex>
         <Flex mt={1} w="100%">
           <LinkOverlay href={`/post/${jam.slug.current}`}>

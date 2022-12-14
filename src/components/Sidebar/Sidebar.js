@@ -17,15 +17,11 @@ import {
 import { motion } from 'framer-motion';
 import NextLink from 'next/link';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
-import NoteModal from '@components/NoteModal';
-import { NOTE_ACTIONS } from '@utils/constants';
-const { CREATE_NOTE } = NOTE_ACTIONS;
-
 import { SideToggle, JoinDiscord, Plus } from '@components/Icons';
 import MJ from '@components/MJ';
-
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
 import { useSearch } from '@components/SearchProvider';
+import { useUser } from '@auth0/nextjs-auth0';
 
 import { FiLogOut } from 'react-icons/fi';
 
@@ -81,8 +77,8 @@ const SideStrip = () => {
   const handleOnLogoClick = (e) => {
     clearSearch();
   };
-  const { AUTHORS, MORE, BOOKMARKS, NOTES } = TABS;
-  const sideNavTabs = [AUTHORS, BOOKMARKS, NOTES, MORE];
+  const { AUTHORS } = TABS;
+  const sideNavTabs = [AUTHORS];
   return (
     <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE" pt="2">
       <Link as={NextLink} href="/" passHref display={displaySideStripLogo ? 'auto' : 'none'}
@@ -134,11 +130,8 @@ const SideStrip = () => {
 const SideTopBar = ({ activeTab, onClose, onToggle }) => {
   const { isOpen, onOpen, onClose: onCloseModal } = useDisclosure();
 
-  const isNotesTab = activeTab === TABS.NOTES.value;
-
   return (
     <Flex w="100%" h="64px">
-      <NoteModal isOpen={isOpen} onClose={onCloseModal} action={CREATE_NOTE} />
       <HStack display={{ base: 'none', md: 'flex' }} spacing={3}>
         <IconButton
           onClick={onClose}
@@ -154,11 +147,17 @@ const SideTopBar = ({ activeTab, onClose, onToggle }) => {
 };
 
 const SidebarContent = () => {
+  const { user } = useUser();
   const { onClose, activeTab } = useSidePanel();
+  console.log('TABS[activeTab]', TABS[activeTab])
   const { Content } = TABS[activeTab];
+  console.log('useUser', useUser())
+  console.log('user', user)
   return (
     <Flex direction="column" h="100vh" w={{ base: '430px' }}>
       <SideTopBar activeTab={activeTab} onClose={onClose} />
+      <Content user={user} />
+      {/* <Content /> */}
     </Flex>
   );
 };

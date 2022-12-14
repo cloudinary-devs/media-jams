@@ -1,10 +1,7 @@
 import React from 'react';
 import { AuthorsIcon, BookmarkIcon, MoreTab, Note } from '@components/Icons';
 import {
-  MoreContentPanel,
   AuthorsPanel,
-  BookmarksPanel,
-  NotesPanel,
 } from '@components/Sidebar/SideContent';
 import { useDisclosure, useBreakpointValue } from '@chakra-ui/react';
 
@@ -14,24 +11,6 @@ export const TABS = {
     displayName: 'Authors',
     Icon: AuthorsIcon,
     Content: AuthorsPanel,
-  },
-  MORE: {
-    value: 'MORE',
-    displayName: 'More Info',
-    Icon: MoreTab,
-    Content: MoreContentPanel,
-  },
-  BOOKMARKS: {
-    value: 'BOOKMARKS',
-    displayName: 'Bookmarks',
-    Icon: BookmarkIcon,
-    Content: BookmarksPanel,
-  },
-  NOTES: {
-    value: 'NOTES',
-    displayName: 'Notes',
-    Icon: Note,
-    Content: NotesPanel,
   },
 };
 
