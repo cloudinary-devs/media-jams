@@ -7,12 +7,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const {
   NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
-  SENTRY_ORG,
-  SENTRY_PROJECT,
-  SENTRY_AUTH_TOKEN,
-  NODE_ENV,
   VERCEL_GITHUB_COMMIT_SHA,
-  HASURA_GRAPHQL_URL,
   SANITY_GRAPHQL_URL,
 } = process.env;
 
@@ -32,7 +27,6 @@ const defaultConfig = {
     CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
     CLOUD_NAME: process.env.CLOUD_NAME,
-    HASURA_GRAPHQL_URL: HASURA_GRAPHQL_URL,
     SANITY_GRAPHQL_URL: SANITY_GRAPHQL_URL,
   },
   images: {
