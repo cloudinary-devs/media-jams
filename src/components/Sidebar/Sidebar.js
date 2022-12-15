@@ -21,8 +21,6 @@ import { SideToggle, JoinDiscord, Plus } from '@components/Icons';
 import MJ from '@components/MJ';
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
 import { useSearch } from '@components/SearchProvider';
-import { useUser } from '@auth0/nextjs-auth0';
-
 import { FiLogOut } from 'react-icons/fi';
 
 // Tooltip currently disabled
@@ -147,17 +145,13 @@ const SideTopBar = ({ activeTab, onClose, onToggle }) => {
 };
 
 const SidebarContent = () => {
-  const { user } = useUser();
   const { onClose, activeTab } = useSidePanel();
   console.log('TABS[activeTab]', TABS[activeTab])
   const { Content } = TABS[activeTab];
-  console.log('useUser', useUser())
-  console.log('user', user)
   return (
     <Flex direction="column" h="100vh" w={{ base: '430px' }}>
       <SideTopBar activeTab={activeTab} onClose={onClose} />
-      <Content user={user} />
-      {/* <Content /> */}
+      <Content />
     </Flex>
   );
 };
