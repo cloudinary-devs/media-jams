@@ -3,7 +3,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ChakraProvider } from '@chakra-ui/react';
-import { RouterContext } from 'next/dist/shared/lib/router-context';
 import theme from '../theme';
 
 
@@ -11,10 +10,9 @@ const queryClient = new QueryClient();
 const AllTheProviders = ({ children }) => {
   return (
     <ChakraProvider resetCSS theme={theme}>
-      <RouterContext.Provider value={{ ...mockRouter }}>
-        <QueryClientProvider client={queryClient}>
-        </QueryClientProvider>
-      </RouterContext.Provider>
+      <QueryClientProvider client={queryClient}>
+        {children}
+      </QueryClientProvider>
     </ChakraProvider>
   );
 };
