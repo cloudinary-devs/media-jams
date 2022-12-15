@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthorsIcon, BookmarkIcon, MoreTab, Note } from '@components/Icons';
+import { AuthorsIcon } from '@components/Icons';
 import {
   AuthorsPanel,
 } from '@components/Sidebar/SideContent';
