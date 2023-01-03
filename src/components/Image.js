@@ -37,7 +37,6 @@ export default function Image({
     imageProps,
     cldOptions,
   });
-  console.log('Resulting URL>>>', result);
   return (
     result && (
       <Box pos="relative">

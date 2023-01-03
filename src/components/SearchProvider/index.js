@@ -218,12 +218,8 @@ export function useSearch() {
   // const [allTagsTags] = useTags();
 
   const [fetchAuthors, authorQueryData] = useAuthorsQueryLazy();
-  console.log('fetchAuthors', fetchAuthors)
-  console.log('authorQueryData', authorQueryData)
-  const {
-    data: allAuthors = {},
-    isLoading: isLoadingAuthors,
-  } = authorQueryData;
+  const { data: allAuthors = {}, isLoading: isLoadingAuthors } =
+    authorQueryData;
   const { authors = [] } = allAuthors;
 
   let activeJams = [];
