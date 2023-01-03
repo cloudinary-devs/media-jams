@@ -131,8 +131,6 @@ export default function Post({ post, preview, error, og }) {
         </main>
         <JamAuthorBanner author={author}></JamAuthorBanner>
 
-        <EmailSubscription />
-
         {Array.isArray(relatedJams) && relatedJams.length > 0 && (
           <RelatedJams jams={relatedJams} title={tag.title} />
         )}

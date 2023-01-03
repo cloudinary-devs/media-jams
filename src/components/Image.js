@@ -49,7 +49,6 @@ export default function Image({
           width={width}
           height={height}
           placeholder="blur"
-          blurDataURL={result}
           alt={alt}
           {...rest}
         />
