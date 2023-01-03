@@ -1,16 +1,10 @@
 import {
   Box,
-  BoxProps,
   Button,
-  ButtonProps,
-  chakra,
   useClipboard,
 } from '@chakra-ui/react';
-import theme from 'prism-react-renderer/themes/nightOwl';
 import React, { useState } from 'react';
-import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live';
 import Highlight from './highlight';
-import scope from './react-live-scope';
 
 /**
  * Heavily inspired by https://github.com/chakra-ui/chakra-ui/tree/main/website/src/components/codeblock
@@ -25,16 +19,6 @@ export const liveErrorStyle = {
   color: 'white',
   backgroundColor: 'red',
 };
-
-const LiveCodePreview = chakra(LivePreview, {
-  baseStyle: {
-    fontFamily: 'body',
-    mt: 5,
-    p: 3,
-    borderWidth: 1,
-    borderRadius: '12px',
-  },
-});
 
 const CopyButton = (props) => (
   <Button
@@ -51,7 +35,6 @@ const CopyButton = (props) => (
   />
 );
 
-const propList = ['copy', 'bash-symbol', 'terminal', 'no-lines'];
 function CodeBlock(props) {
   const {
     className,

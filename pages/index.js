@@ -9,37 +9,19 @@ import {
   Text,
   Button,
   Link,
-  List,
-  ListItem,
-  ListIcon,
-  SimpleGrid,
   useBreakpointValue,
-  Image,
   VisuallyHidden,
 } from '@chakra-ui/react';
 
 import Layout from '@components/Layout';
 import JamCardList from '@components/JamCardList';
 import JamCardCollage from '@components/JamCardCollage';
-import Banner from '@components/Banner';
 import SearchInput from '@components/SearchInput';
-import {
-  GreenCheck,
-  Author,
-  Close,
-  Stack,
-  Code,
-  Mashups,
-  Video,
-  Pencil,
-} from '@components/Icons';
 import MediaJams from '@components/MediaJams';
-import MediaJar from '@components/MediaJar';
-import ReactIcon from '@components/ReactIcon';
 import TagCardList from '@components/TagCardList';
 import TagButtonList from '@components/TagButtonList';
 
-import { QueryClient, useQuery } from 'react-query';
+import { QueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { useJamsQuery, useFeaturedJamsQuery } from '@hooks/useJams';
 import { useTagsQuery } from '@hooks/useTags';
@@ -203,76 +185,13 @@ export default function Dashboard() {
               </>
             )}
           </Box>
-
-          <Flex
-            flexDirection={{
-              base: 'column',
-              lg: 'row',
-            }}
-            alignItems="center"
-            mt="8"
-          >
-            <Box
-              flexGrow="1"
-              textAlign={{
-                base: 'center',
-                lg: 'left',
-              }}
-              pr={{
-                md: '2em',
-              }}
-              mb={{
-                base: 10,
-                lg: 0,
-              }}
-            >
-              <Heading as="h2" fontSize="24" mb="4" color="blue.800">
-                Set up an account to unlock more learning resources!
-              </Heading>
-              <Text>
-                <Button colorScheme="blue" px="6">
-                  Sign Up
-                </Button>
-              </Text>
-            </Box>
-            <Box>
-              <List spacing="4">
-                <ListItem fontSize="20" whiteSpace="nowrap">
-                  <ListIcon as={GreenCheck} color="green.500" />
-                  Create notes right in the app
-                </ListItem>
-                <ListItem fontSize="20" whiteSpace="nowrap">
-                  <ListIcon as={GreenCheck} color="green.500" />
-                  Bookmark your favorite jams
-                </ListItem>
-                <ListItem fontSize="20" whiteSpace="nowrap">
-                  <ListIcon as={GreenCheck} color="green.500" />
-                  Return to your recent jams
-                </ListItem>
-              </List>
-            </Box>
-            <Box
-              pl={{
-                md: '3em',
-              }}
-              mt={{
-                base: 10,
-                lg: 0,
-              }}
-            >
-              <MediaJar width="32" height="auto" />
-            </Box>
-          </Flex>
-
           <Heading as="h2" fontSize="42" color="blue.800" mt="8">
             Latest Jams
           </Heading>
-
           <JamCardList
             jams={sortedJams.slice(0, JAMS_TO_SHOW)}
             columns={jamListColumns}
           />
-
           <Text>
             <Link as={NextLink} href="/posts">
               <Button variant="link" fontSize="18">

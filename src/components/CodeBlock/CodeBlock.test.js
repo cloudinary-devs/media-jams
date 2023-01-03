@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { render, screen, act, waitFor } from '@utils/test-utils';
+import { render, screen } from '@utils/test-utils';
 import CodeBlock from '@components/CodeBlock';
 
 // prettier-ignore
@@ -57,7 +57,7 @@ this.image = resource
 `;
 
 test("renders 'hello world'", () => {
-  render(<CodeBlock>{helloWorld}</CodeBlock>);
+  const { debug } = render(<CodeBlock>{helloWorld}</CodeBlock>);
   expect(screen.getByText(/hello world/)).toBeInTheDocument();
 });
 

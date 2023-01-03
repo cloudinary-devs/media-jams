@@ -6,7 +6,6 @@ import {
   Avatar,
   LinkBox,
   LinkOverlay,
-  IconButton,
   useToken,
   Link,
   HStack,
@@ -17,41 +16,8 @@ import Image from '@components/Image';
 import imageFetch from '@utils/image-fetch';
 import { Star } from '@components/Icons';
 
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
-import {
-  useBookmarksQuery,
-  useAddBookmarkMutation,
-  useRemoveBookmarkMutation,
-} from '@hooks/useBookmarks';
-import { useUser } from '@auth0/nextjs-auth0';
-
 function JamListCard({ jam }) {
-  const { user } = useUser();
-  const [isBookmarked, setBookmark] = React.useState(false);
-
-  const { data: dataBookmarks, isLoading } = useBookmarksQuery();
   const grey = useToken('colors', 'grey.300');
-
-  const addBookmark = useAddBookmarkMutation({
-    onMutate: () => setBookmark(true),
-  });
-  const removeBookmark = useRemoveBookmarkMutation({
-    onMutate: () => setBookmark(false),
-  });
-
-  React.useEffect(() => {
-    if (user && dataBookmarks) {
-      const postIds = dataBookmarks?.bookmarks?.map(
-        ({ content_id }) => content_id,
-      );
-      setBookmark(postIds?.includes(jam._id));
-    }
-  }, [dataBookmarks, isLoading]);
-
-  const handleBookmarkOnClick = () => {
-    const toggleBookmark = isBookmarked ? removeBookmark : addBookmark;
-    toggleBookmark.mutate(jam);
-  };
 
   return (
     <LinkBox
@@ -115,31 +81,6 @@ function JamListCard({ jam }) {
             {jam.title}
           </Heading>
         </LinkOverlay>
-        <IconButton
-          position="relative"
-          zIndex="1"
-          as="a"
-          mt={4}
-          size="md"
-          outline="none"
-          bg="none"
-          h="0"
-          w="0"
-          paddingLeft="0"
-          paddingRight="0"
-          paddingTop="0"
-          paddingBottom="0"
-          _focus={{
-            boxShadow: 'none',
-          }}
-          _hover={{
-            bg: 'none',
-            cursor: 'pointer',
-          }}
-          aria-label="bookmark jam"
-          icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
-          onClick={handleBookmarkOnClick}
-        />
       </Flex>
     </LinkBox>
   );
