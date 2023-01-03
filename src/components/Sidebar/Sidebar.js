@@ -146,7 +146,6 @@ const SideTopBar = ({ activeTab, onClose, onToggle }) => {
 
 const SidebarContent = () => {
   const { onClose, activeTab } = useSidePanel();
-  console.log('TABS[activeTab]', TABS[activeTab])
   const { Content } = TABS[activeTab];
   return (
     <Flex direction="column" h="100vh" w={{ base: '430px' }}>
