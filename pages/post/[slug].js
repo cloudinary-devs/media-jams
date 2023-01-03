@@ -188,7 +188,7 @@ export const getStaticProps = async ({ params: { slug }, preview = false }) => {
     ogTransformations.push({
       // Author image overlay
       overlay: {
-        url: jam.author.image.asset.url
+        url: jam.author.image.asset.url,
       },
       height: 90,
       width: 90,

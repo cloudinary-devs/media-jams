@@ -2090,6 +2090,20 @@
   dependencies:
     snake-case "^3.0.4"
 
+"@cloudinary/transformation-builder-sdk@^1.0.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@cloudinary/transformation-builder-sdk/-/transformation-builder-sdk-1.1.0.tgz#57913951fd110a10904a2ef573784a6afd8a89a9"
+  integrity sha512-BqhTqIwPTyQ4hE0NjKXf/bF7VAjwe2ZHNuypdG6oQ6bDoiLTOSzdAZsg0jFndureQiVPavBKOzQTjHImp45z/g==
+  dependencies:
+    "@cloudinary/url-gen" "^1.7.0"
+
+"@cloudinary/url-gen@^1.7.0", "@cloudinary/url-gen@^1.8.6":
+  version "1.8.7"
+  resolved "https://registry.yarnpkg.com/@cloudinary/url-gen/-/url-gen-1.8.7.tgz#4399db1960655f40a2ed6fc2ee55366306d3c44a"
+  integrity sha512-07Hqy3weuuRm8ZCwn/HejrfiC8MiC/dK13IWm01FslhWek55jUTsKqR5xMwYQPX8+MWpLXd/EI/FiwqWaB5dDA==
+  dependencies:
+    "@cloudinary/transformation-builder-sdk" "^1.0.0"
+
 "@corex/deepmerge@^2.6.148":
   version "2.6.148"
   resolved "https://registry.yarnpkg.com/@corex/deepmerge/-/deepmerge-2.6.148.tgz#8fa825d53ffd1cbcafce1b6a830eefd3dcc09dd5"
@@ -9302,6 +9316,13 @@ next-auth@^4.18.6:
     preact "^10.6.3"
     preact-render-to-string "^5.1.19"
     uuid "^8.3.2"
+
+next-cloudinary@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/next-cloudinary/-/next-cloudinary-1.6.0.tgz#2c895e648cbf0eba8caf3d315eebc421ade82ba6"
+  integrity sha512-6o4CScTC0yDBTuOUoKyYp0RBy//aglk8rFbyzaFV0KF0n9fTn7tafOrk3KrkE5pGAe6AYcVpB1VcRl6JxTpyig==
+  dependencies:
+    "@cloudinary/url-gen" "^1.8.6"
 
 next-compose-plugins@^2.2.1:
   version "2.2.1"

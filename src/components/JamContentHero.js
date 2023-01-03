@@ -42,7 +42,6 @@ const JamContentHero = forwardRef(
           transformations={[
             {
               width: 400,
-              height: 200,
               crop: 'pad',
             },
             { radius: 20 },
