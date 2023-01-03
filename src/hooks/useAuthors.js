@@ -7,6 +7,8 @@ export function useAuthorsQuery() {
 }
 
 export function useAuthorsQueryLazy(select, options) {
+  console.log('select', select)
+  console.log('options', options)
   return useLazyQuery('allAuthors', queryAuthors.get, {
     staleTime: Infinity,
     select,
