@@ -42,7 +42,7 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
   const { author, cover } = jam;
   const isFeatured = jam.postMetadata?.featured;
   const [images, setImages] = useState();
-  const tags = jam.tags?.filter(tag => !!tag);
+  const tags = jam.tags?.filter((tag) => !!tag);
   const firstTags = tags?.slice(0, DEFAULT_TAGS_TO_SHOW);
   const remainingTags = tags?.slice(DEFAULT_TAGS_TO_SHOW);
   const size = jamCardSizes[sizeKey];
@@ -60,8 +60,6 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
     });
   }, [inView]);
 
-
-
   return (
     <Box
       ref={jamCardRef}
@@ -73,7 +71,11 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
       borderRadius="4"
       backgroundColor="#6347e2"
     >
-      <Link as={NextLink} href={`/post/${jam.slug.current}`} passHref display="block"
+      <Link
+        as={NextLink}
+        href={`/post/${jam.slug.current}`}
+        passHref
+        display="block"
         position="absolute"
         top="0"
         left="0"
@@ -84,8 +86,8 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
           imageFetch(images.background, { w: size.width, h: size.height })
         }
         backgroundSize="cover"
-        backgroundPosition="center center">
-
+        backgroundPosition="center center"
+      >
         <Flex
           direction="column"
           justifyContent="space-between"
@@ -259,7 +261,7 @@ const JamCard = ({ jam, size: sizeKey = 'small' }) => {
           </Box>
         </Flex>
       </Link>
-    </Box >
+    </Box>
   );
 };
 
