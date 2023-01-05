@@ -75,6 +75,7 @@
     "multer": "^1.4.4",
     "next": "^13.0.6",
     "next-auth": "^4.18.6",
+    "next-cloudinary": "^1.8.1",
     "next-mdx-remote": "^3.0.2",
     "next-sanity": "^0.5.2",
     "next-seo": "^5.15.0",
@@ -98,7 +99,6 @@
     "slate-react": "0.75.0",
     "streamifier": "^0.1.1",
     "styled-components": "^5.3.6",
-    "use-cloudinary": "^4.1.1",
     "webpack": "^5.75.0"
   },
   "devDependencies": {

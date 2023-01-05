@@ -13,7 +13,6 @@ import { routes as queryRoutes } from '@lib/queries/routes';
 import { SocialLink } from './SocialLink';
 import { links, socialLinks } from './_data';
 import { LinkGroup } from './LinkGroup';
-import Image from '@components/Image';
 import { SubscribeForm } from './SubscribeForm';
 
 function Footer() {

@@ -71,7 +71,7 @@ export default function AuthorBanner({ author }) {
               lineHeight="148%"
               color="grey.800"
             >
-              <BlockContent blocks={author?.bioRaw} />
+              {author?.bioRaw && <BlockContent blocks={author.bioRaw} />}
             </Box>
           </Flex>
         </Flex>

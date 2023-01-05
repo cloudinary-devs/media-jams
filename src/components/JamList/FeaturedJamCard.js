@@ -55,7 +55,11 @@ export default function FeaturedJamCard({ jam }) {
               name={jam?.author.name}
               src={imageFetch(jam?.author.image?.asset.url, { w: 64, h: 64 })}
             />
-            <Link as={NextLink} href={`/author/${jam?.author.slug?.current}`} passHref>
+            <Link
+              as={NextLink}
+              href={`/author/${jam?.author.slug?.current}`}
+              passHref
+            >
               <Text variant="B100" color="grey.800" fontWeight="500">
                 {jam?.author.name}
               </Text>
@@ -83,20 +87,10 @@ export default function FeaturedJamCard({ jam }) {
       </Flex>
       <Flex flex="1" align="center" justify="center" mt={2}>
         <Image
-          cloudName="mediadevs"
           publicId={jam.cover?.asset.url || '/placeholder.png'}
           width={400}
           height={294}
-          transformations={[
-            {
-              width: 400,
-              height: 294,
-              crop: 'pad',
-              dpr: '2.0',
-              flags: 'lossy',
-              radius: 8,
-            },
-          ]}
+          crop="pad"
           borderRadius="8px!important"
           alt="feature banner of jam"
         />

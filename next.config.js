@@ -18,7 +18,6 @@ const basePath = '';
 
 const defaultConfig = {
   productionBrowserSourceMaps: true,
-  // webpack5: true,
   env: {
     NEXT_PUBLIC_COMMIT_SHA: COMMIT_SHA,
     SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -26,6 +25,7 @@ const defaultConfig = {
     SANITY_STUDIO_PREVIEW_SECRET: process.env.SANITY_STUDIO_PREVIEW_SECRET,
     CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: process.env.CLOUD_NAME,
     CLOUD_NAME: process.env.CLOUD_NAME,
     SANITY_GRAPHQL_URL: SANITY_GRAPHQL_URL,
   },
