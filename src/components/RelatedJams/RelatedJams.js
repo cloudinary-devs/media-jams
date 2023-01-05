@@ -43,26 +43,18 @@ const RelatedJams = ({ jams = [], title }) => {
               _last={{ marginBottom: 0 }}
             >
               <Link href={`/post/${jam.slug.current}`}>
-                  <Image
-                    cloudName="mediadevs"
-                    publicId={asset?.url || '/placeholder.png'}
-                    width={400}
-                    height={200}
-                    transformations={[
-                      {
-                        width: 400,
-                        height: 200,
-                        crop: 'pad',
-                      },
-                    ]}
-                    alt=""
-                  />
-                  <Text as="p" fontSize="lg" fontWeight="bold" mb="2">
-                    {title}
-                  </Text>
-                  <Text as="p" fontSize="md">
-                    By {author.name}
-                  </Text>
+                <Image
+                  publicId={asset?.url || '/placeholder.png'}
+                  width={400}
+                  height={200}
+                  alt=""
+                />
+                <Text as="p" fontSize="lg" fontWeight="bold" mb="2">
+                  {title}
+                </Text>
+                <Text as="p" fontSize="md">
+                  By {author.name}
+                </Text>
               </Link>
             </ListItem>
           );

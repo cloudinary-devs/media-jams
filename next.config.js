@@ -7,13 +7,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const {
   NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
-  SENTRY_ORG,
-  SENTRY_PROJECT,
-  SENTRY_AUTH_TOKEN,
-  NODE_ENV,
   VERCEL_GITHUB_COMMIT_SHA,
-  AUTH0_MANAGEMENT_CLIENT_ID,
-  AUTH0_MANAGMENT_CLIENT_SECRET,
   SANITY_GRAPHQL_URL,
 } = process.env;
 
@@ -24,7 +18,6 @@ const basePath = '';
 
 const defaultConfig = {
   productionBrowserSourceMaps: true,
-  // webpack5: true,
   env: {
     NEXT_PUBLIC_COMMIT_SHA: COMMIT_SHA,
     SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -32,13 +25,9 @@ const defaultConfig = {
     SANITY_STUDIO_PREVIEW_SECRET: process.env.SANITY_STUDIO_PREVIEW_SECRET,
     CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: process.env.CLOUD_NAME,
     CLOUD_NAME: process.env.CLOUD_NAME,
-    AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
-    AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
-    AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
     SANITY_GRAPHQL_URL: SANITY_GRAPHQL_URL,
-    AUTH0_MANAGEMENT_CLIENT_ID: AUTH0_MANAGEMENT_CLIENT_ID,
-    AUTH0_MANAGMENT_CLIENT_SECRET: AUTH0_MANAGMENT_CLIENT_SECRET,
   },
   images: {
     domains: ['res.cloudinary.com', 'cdn.sanity.io'],

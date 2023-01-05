@@ -17,17 +17,10 @@ import {
 import { motion } from 'framer-motion';
 import NextLink from 'next/link';
 import { MobileDrawer, MobileDrawerContent } from './MobileDrawer';
-import NoteModal from '@components/NoteModal';
-import { NOTE_ACTIONS } from '@utils/constants';
-const { CREATE_NOTE } = NOTE_ACTIONS;
-
 import { SideToggle, JoinDiscord, Plus } from '@components/Icons';
 import MJ from '@components/MJ';
-
 import { useSidePanel, TABS } from '@components/SidePanelProvider';
 import { useSearch } from '@components/SearchProvider';
-import { useUser } from '@auth0/nextjs-auth0';
-
 import { FiLogOut } from 'react-icons/fi';
 
 // Tooltip currently disabled
@@ -73,7 +66,6 @@ const SideNavButtonIcon = ({
 const SideStrip = () => {
   const mobileIconMargin = useBreakpointValue({ base: '32px', md: '66px' });
   const displaySideStripLogo = useBreakpointValue({ base: false, md: true });
-  const { user, isLoading: loadingUser } = useUser();
   const { onToggle, setActiveTab, activeTab } = useSidePanel();
   const { clearSearch } = useSearch();
   // onClick set nav.ActiveTab to name
@@ -83,8 +75,8 @@ const SideStrip = () => {
   const handleOnLogoClick = (e) => {
     clearSearch();
   };
-  const { AUTHORS, MORE, BOOKMARKS, NOTES } = TABS;
-  const sideNavTabs = [AUTHORS, BOOKMARKS, NOTES, MORE];
+  const { AUTHORS } = TABS;
+  const sideNavTabs = [AUTHORS];
   return (
     <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE" pt="2">
       <Link as={NextLink} href="/" passHref display={displaySideStripLogo ? 'auto' : 'none'}
@@ -119,25 +111,6 @@ const SideStrip = () => {
         ))}
       </VStack>
       <Stack justifyContent="flex-end" spacing={8} my={4} flexGrow="1">
-        {!loadingUser && user && (
-          <>
-            <Avatar
-              as={Link}
-              href="/account"
-              name={user?.name}
-              src={user?.picture}
-            />
-            <a href="/api/auth/logout">
-              <IconButton
-                size="lg"
-                color="grey.700"
-                colorScheme="ghost"
-                aria-label="Logout"
-                icon={<FiLogOut />}
-              />
-            </a>
-          </>
-        )}
         <IconButton
           as={Link}
           href="https://discord.gg/invite/a26Mcgr"
@@ -153,14 +126,10 @@ const SideStrip = () => {
 };
 
 const SideTopBar = ({ activeTab, onClose, onToggle }) => {
-  const { user, isLoading: loadingUser } = useUser();
   const { isOpen, onOpen, onClose: onCloseModal } = useDisclosure();
-
-  const isNotesTab = activeTab === TABS.NOTES.value;
 
   return (
     <Flex w="100%" h="64px">
-      <NoteModal isOpen={isOpen} onClose={onCloseModal} action={CREATE_NOTE} />
       <HStack display={{ base: 'none', md: 'flex' }} spacing={3}>
         <IconButton
           onClick={onClose}
@@ -171,53 +140,18 @@ const SideTopBar = ({ activeTab, onClose, onToggle }) => {
         />
       </HStack>
       <Spacer />
-      {!loadingUser && (
-        <HStack spacing={3} px={4} minH="64px">
-          {user && isNotesTab && (
-            <Button
-              onClick={onOpen}
-              leftIcon={<Plus />}
-              variant="link"
-              color="gray.900"
-            >
-              New Note
-            </Button>
-          )}
-          {!user && (
-            <>
-              <Button
-                as="a"
-                href="/api/auth/login"
-                size="md"
-                variant="ghost"
-                color="primary.500"
-              >
-                Login
-              </Button>
-              <Button
-                as="a"
-                href="/api/auth/signup"
-                size="md"
-                colorScheme="primary"
-              >
-                Sign Up
-              </Button>
-            </>
-          )}
-        </HStack>
-      )}
     </Flex>
   );
 };
 
 const SidebarContent = () => {
-  const { user, isLoading: loadingUser } = useUser();
   const { onClose, activeTab } = useSidePanel();
+  console.log('TABS[activeTab]', TABS[activeTab])
   const { Content } = TABS[activeTab];
   return (
     <Flex direction="column" h="100vh" w={{ base: '430px' }}>
       <SideTopBar activeTab={activeTab} onClose={onClose} />
-      <Content user={user} />
+      <Content />
     </Flex>
   );
 };

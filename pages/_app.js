@@ -8,7 +8,6 @@ import { Hydrate } from 'react-query/hydration';
 import theme from '@theme';
 import { DefaultSeo } from 'next-seo';
 import SEO from '@utils/next-seo.config';
-import { UserProvider } from '@auth0/nextjs-auth0';
 import { SidePanelProvider } from '@components/SidePanelProvider';
 import { SearchProvider } from '@components/SearchProvider';
 
@@ -43,7 +42,7 @@ const App = ({ Component, pageProps, err }) => {
 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout || ((page) => page);
-  const { user, nav } = pageProps;
+  const { nav } = pageProps;
 
   return (
     <>
@@ -52,14 +51,12 @@ const App = ({ Component, pageProps, err }) => {
       <ChakraProvider resetCSS theme={theme}>
         <QueryClientProvider client={queryClientRef.current}>
           <Hydrate state={pageProps.dehydratedState}>
-            <UserProvider user={user}>
-              <SidePanelProvider nav={nav}>
-                <SearchProvider>
-                  {getLayout(<Component {...pageProps} err={err} />)}
-                  <ReactQueryDevtools initialIsOpen={false} />
-                </SearchProvider>
-              </SidePanelProvider>
-            </UserProvider>
+            <SidePanelProvider nav={nav}>
+              <SearchProvider>
+                {getLayout(<Component {...pageProps} err={err} />)}
+                <ReactQueryDevtools initialIsOpen={false} />
+              </SearchProvider>
+            </SidePanelProvider>
           </Hydrate>
         </QueryClientProvider>
       </ChakraProvider>
