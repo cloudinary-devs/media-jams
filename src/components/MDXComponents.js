@@ -14,7 +14,7 @@ import {
   Image as ChakraImage,
 } from '@chakra-ui/react';
 import React from 'react';
-import { useImage } from 'use-cloudinary';
+import { constructCloudinaryUrl } from 'next-cloudinary';
 import CodeBlock from './CodeBlock/index';
 import CodeSandbox from './CodeSandbox';
 import EmbeddedIframe from './EmbeddedIframe';
@@ -78,23 +78,22 @@ const InlineCode = (props) => (
   />
 );
 
-const Image = (props) => {
-  const { generateImageUrl } = useImage('mediadevs');
-
-  const cloudinaryUrl = generateImageUrl({
-    delivery: {
-      publicId: props.src,
-      storageType: 'fetch',
+const Image = ({ src, alt, title, ...props }) => {
+  const width = 800;
+  const height = 600;
+  const cdlUrl = constructCloudinaryUrl({
+    options: {
+      src,
+      deliveryType: 'fetch',
+      crop: 'fit',
+      width,
+      height,
     },
-    transformation: [
-      {
-        format: 'auto',
-        quality: 'auto',
-      },
-    ],
   });
 
-  return <ChakraImage src={cloudinaryUrl} borderRadius="8px" margin="0 auto" />;
+  return (
+    <ChakraImage src={cdlUrl} alt={alt} borderRadius="8px" margin="0 auto" />
+  );
 };
 
 const MDXComponents = {
@@ -121,18 +120,11 @@ const MDXComponents = {
   a: (props) => {
     let rel = 'noopener';
 
-    if ( !props.href.includes('cloudinary.com') ) {
+    if (!props.href.includes('cloudinary.com')) {
       rel = `${rel} noreferrer`;
     }
 
-    return (
-      <chakra.a
-        apply="mdx.a"
-        rel={rel}
-        target="_blank"
-        {...props}
-      />
-    )
+    return <chakra.a apply="mdx.a" rel={rel} target="_blank" {...props} />;
   },
   img: Image,
   p: (props) => <chakra.p apply="mdx.p" {...props} />,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { cloudinaryLoader } from 'next-cloudinary';
+import { cloudinaryLoader, CldImage } from 'next-cloudinary';
 import { Box, Image as ChakraImage } from '@chakra-ui/react';
 
 export default function Image({
@@ -18,41 +18,21 @@ export default function Image({
   // Everything else
   ...rest
 }) {
-  const imageProps = {
-    width,
-    src: publicId,
-    deliveryType: 'fetch',
-  };
-
-  const loaderOptions = {
-    width,
-    src: publicId,
-    overlays: [...transformations],
-  };
-
-  const cldOptions = {};
-
-  const result = cloudinaryLoader({
-    loaderOptions,
-    imageProps,
-    cldOptions,
-  });
   return (
-    result && (
-      <Box pos="relative">
-        <ChakraImage
-          quality={rest.quality ? rest.quality : 100}
-          objectFit="cover"
-          src={result}
-          w="auto"
-          h="auto"
-          width={width}
-          height={height}
-          placeholder="blur"
-          alt={alt}
-          {...rest}
-        />
-      </Box>
-    )
+    <Box pos="relative">
+      <CldImage
+        quality={rest.quality ? rest.quality : 100}
+        objectFit="cover"
+        deliveryType="fetch"
+        src={publicId}
+        w="auto"
+        h="auto"
+        width={width}
+        height={height}
+        placeholder="blur"
+        alt={alt}
+        {...rest}
+      />
+    </Box>
   );
 }

@@ -1,20 +1,10 @@
-import { useImage } from 'use-cloudinary';
+import { constructCloudinaryUrl } from 'next-cloudinary';
 
 function ImageFetch(src, options = {}) {
-  const { generateImageUrl } = useImage('mediadevs');
-
   const { w, h } = options;
 
-  const transformation = [
-    {
-      format: 'auto',
-      quality: 'auto',
-    },
-  ];
-
+  const size = {};
   if (w || h) {
-    const size = {};
-
     if (w) {
       size.width = w;
     }
@@ -22,21 +12,17 @@ function ImageFetch(src, options = {}) {
     if (h) {
       size.height = h;
     }
-
-    transformation.push({
-      crop: 'fill',
-      ...size,
-    });
   }
 
   return !src
     ? undefined
-    : generateImageUrl({
-        delivery: {
-          publicId: src,
-          storageType: 'fetch',
+    : constructCloudinaryUrl({
+        options: {
+          src,
+          deliveryType: 'fetch',
+          crop: 'fill',
+          ...size,
         },
-        transformation,
       });
 }
 
