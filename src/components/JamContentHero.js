@@ -35,17 +35,11 @@ const JamContentHero = forwardRef(
       </Heading>
       <Flex align="center" justify="center">
         <Image
-          cloudName="mediadevs"
           publicId={imageUrl || '/placeholder.png'}
           width={400}
           height={200}
-          transformations={[
-            {
-              width: 400,
-              crop: 'pad',
-            },
-            { radius: 20 },
-          ]}
+          crop="pad"
+          transform
           alt="Banner for a MediaJam post"
           borderRadius="8px!important"
         />

@@ -81,15 +81,19 @@ const InlineCode = (props) => (
 const Image = ({ src, alt, title, ...props }) => {
   const width = 800;
   const height = 600;
-  const cdlUrl = constructCloudinaryUrl({
-    options: {
-      src,
-      deliveryType: 'fetch',
-      crop: 'fit',
-      width,
-      height,
-    },
-  });
+  console.log(src);
+  const cdlUrl = src.includes('res.cloudinary.com')
+    ? src
+    : constructCloudinaryUrl({
+        options: {
+          src,
+          deliveryType: 'fetch',
+          crop: 'fit',
+          width,
+          height,
+        },
+      });
+  console.log(cdlUrl);
 
   return (
     <ChakraImage src={cdlUrl} alt={alt} borderRadius="8px" margin="0 auto" />
