@@ -80,20 +80,10 @@ export default function JamCard({ jam }) {
 
       <Flex flex="1" align="center" justify="center" mt={2}>
         <Image
-          cloudName="mediadevs"
           publicId={jam.cover?.asset.url || '/placeholder.png'}
           width={300}
           height={180}
-          transformations={[
-            {
-              width: 300,
-              height: 180,
-              crop: 'pad',
-              dpr: '2.0',
-              flags: 'lossy',
-              radius: 8,
-            },
-          ]}
+          crop="pad"
           borderRadius="8px!important"
           alt="feature banner of jam"
         />

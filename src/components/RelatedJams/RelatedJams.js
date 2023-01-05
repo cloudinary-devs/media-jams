@@ -47,13 +47,6 @@ const RelatedJams = ({ jams = [], title }) => {
                   publicId={asset?.url || '/placeholder.png'}
                   width={400}
                   height={200}
-                  transformations={[
-                    {
-                      width: 400,
-                      height: 200,
-                      crop: 'pad',
-                    },
-                  ]}
                   alt=""
                 />
                 <Text as="p" fontSize="lg" fontWeight="bold" mb="2">

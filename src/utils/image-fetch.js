@@ -1,8 +1,8 @@
 import { constructCloudinaryUrl } from 'next-cloudinary';
 
-function ImageFetch(src, options = {}) {
-  const { w, h } = options;
-
+function imageFetch(src, options = {}, ...props) {
+  const { w, h, crop } = options;
+  const { cld } = props;
   const size = {};
   if (w || h) {
     if (w) {
@@ -20,10 +20,12 @@ function ImageFetch(src, options = {}) {
         options: {
           src,
           deliveryType: 'fetch',
-          crop: 'fill',
-          ...size,
+          crop: crop || 'fit',
+          width: size.width,
+          height: size.height,
+          ...cld,
         },
       });
 }
 
-export default ImageFetch;
+export default imageFetch;

@@ -1,32 +1,27 @@
 import React from 'react';
-import { cloudinaryLoader, CldImage } from 'next-cloudinary';
 import { Box, Image as ChakraImage } from '@chakra-ui/react';
+
+import imageFetch from '@utils/image-fetch';
 
 export default function Image({
   // Cloudinary Props
   publicId,
-  transformations = [],
-  cloudName,
-  storageType,
+  width,
+  height,
 
   // Next Image props
   src,
-  width,
-  height,
   alt,
-
+  crop,
   // Everything else
   ...rest
 }) {
+  const cldUrl = imageFetch(publicId, { w: width, h: height, crop, ...rest });
   return (
     <Box pos="relative">
-      <CldImage
+      <ChakraImage
         quality={rest.quality ? rest.quality : 100}
-        objectFit="cover"
-        deliveryType="fetch"
-        src={publicId}
-        w="auto"
-        h="auto"
+        src={cldUrl}
         width={width}
         height={height}
         placeholder="blur"
