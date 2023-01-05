@@ -9317,10 +9317,10 @@ next-auth@^4.18.6:
     preact-render-to-string "^5.1.19"
     uuid "^8.3.2"
 
-next-cloudinary@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/next-cloudinary/-/next-cloudinary-1.6.0.tgz#2c895e648cbf0eba8caf3d315eebc421ade82ba6"
-  integrity sha512-6o4CScTC0yDBTuOUoKyYp0RBy//aglk8rFbyzaFV0KF0n9fTn7tafOrk3KrkE5pGAe6AYcVpB1VcRl6JxTpyig==
+next-cloudinary@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/next-cloudinary/-/next-cloudinary-1.8.1.tgz#715ec0a408df154b3f86ef8603faba328f92a598"
+  integrity sha512-ZsULMzNl7WfIs1ZDmuz2UDwHmpHOfCV7HnVslTseTj+qSIvpPFefS+74InjoYNlfcz9l8yIv27C0SBnFtufKwQ==
   dependencies:
     "@cloudinary/url-gen" "^1.8.6"
 
@@ -12045,11 +12045,6 @@ use-callback-ref@^1.3.0:
   integrity sha512-3FT9PRuRdbB9HfXhEq35u4oZkvpJ5kuYbpqhCfmiZyReuRgpnhDlbr2ZEnnuS0RrJAPn6l23xjFg9kpDM+Ms7w==
   dependencies:
     tslib "^2.0.0"
-
-use-cloudinary@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/use-cloudinary/-/use-cloudinary-4.1.1.tgz#c94b9d737a30cba97a13d196650d58c1bf980f3b"
-  integrity sha512-RziEB/YxIOfAVBjn6/pgglfwfTAdAY2RN9zR2E2K9pUKz9su6BLHak6xrL/tOFhjTf7ZMBKMSNXTFskRF6gXvg==
 
 use-sidecar@^1.1.2:
   version "1.1.2"
