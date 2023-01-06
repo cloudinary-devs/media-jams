@@ -1,11 +1,4 @@
-import {
-  chakra,
-  forwardRef,
-  SystemStyleObject,
-  useStyles,
-  useTheme,
-  HTMLChakraProps,
-} from '@chakra-ui/system';
+import { chakra, useTheme } from '@chakra-ui/system';
 import { Slide, SlideOptions } from '@chakra-ui/transition';
 import { cx, __DEV__ } from '@chakra-ui/utils';
 import { createContext } from '@chakra-ui/react-utils';
@@ -50,14 +43,11 @@ export const MobileDrawerContent = (props, ref) => {
 
   const _className = cx('chakra-modal__content', className);
 
-  const styles = useStyles();
-
   const dialogStyles = {
     display: 'flex',
     position: 'relative',
     width: '100%',
     outline: 0,
-    ...styles.dialog,
   };
 
   const dialogContainerStyles = {
@@ -66,7 +56,6 @@ export const MobileDrawerContent = (props, ref) => {
     height: '100vh',
     left: 0,
     top: 0,
-    ...styles.dialogContainer,
   };
 
   const { placement } = useDrawerContext();
