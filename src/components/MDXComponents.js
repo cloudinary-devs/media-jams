@@ -93,7 +93,6 @@ const Image = ({ src, alt, title, ...props }) => {
           height,
         },
       });
-  console.log(cdlUrl);
 
   return (
     <ChakraImage src={cdlUrl} alt={alt} borderRadius="8px" margin="0 auto" />
