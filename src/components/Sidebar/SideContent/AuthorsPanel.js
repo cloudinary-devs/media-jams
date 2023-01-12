@@ -90,7 +90,6 @@ const AuthorsPanel = () => {
   const [filteredAuthors, setFilteredAuthors] = React.useState([]);
   const { data, isLoading } = useAuthorsQuery();
   const { data: allJamData } = useJamsQuery();
-  console.log('data', data)
   React.useEffect(() => {
     if (!data?.authors) return;
     if (!searchValue) {
