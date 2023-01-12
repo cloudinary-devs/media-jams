@@ -31,6 +31,7 @@ const defaultConfig = {
   },
   images: {
     domains: ['res.cloudinary.com', 'cdn.sanity.io'],
+    unoptimized: true,
   },
   publicRuntimeConfig: {
     // Will be available on both server and client

@@ -81,7 +81,6 @@ const InlineCode = (props) => (
 const Image = ({ src, alt, title, ...props }) => {
   const width = 800;
   const height = 600;
-  console.log(src);
   const cdlUrl = src.includes('res.cloudinary.com')
     ? src
     : constructCloudinaryUrl({

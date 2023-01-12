@@ -79,8 +79,13 @@ const SideStrip = () => {
   const sideNavTabs = [AUTHORS];
   return (
     <VStack w="80px" h={{ base: '100%', md: '100vh' }} bg="#E2E2FE" pt="2">
-      <Link as={NextLink} href="/" passHref display={displaySideStripLogo ? 'auto' : 'none'}
-        onClick={handleOnLogoClick}>
+      <Link
+        as={NextLink}
+        href="/"
+        passHref
+        display={displaySideStripLogo ? 'auto' : 'none'}
+        onClick={handleOnLogoClick}
+      >
         <IconButton
           size="lg"
           variant="unstyled"
@@ -146,7 +151,6 @@ const SideTopBar = ({ activeTab, onClose, onToggle }) => {
 
 const SidebarContent = () => {
   const { onClose, activeTab } = useSidePanel();
-  console.log('TABS[activeTab]', TABS[activeTab])
   const { Content } = TABS[activeTab];
   return (
     <Flex direction="column" h="100vh" w={{ base: '430px' }}>
