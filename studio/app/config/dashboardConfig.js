@@ -1,5 +1,5 @@
-import { getCurrentUser$ } from '../lib/user';
-const { id } = getCurrentUser$();
+// import { getCurrentUser$ } from '../lib/user';
+// const { id } = getCurrentUser$();
 export default {
   widgets: [
     {
