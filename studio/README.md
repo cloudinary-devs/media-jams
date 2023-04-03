@@ -46,3 +46,18 @@ General workflow is from 'jam creation' -> 'in review' -> 'approved' -> 'publish
 
 - From 'Published' an author can and hofully will makes changes and updates to their jams. Once a published jam has been changed, it's versioned automatticly and that draft version continues through the process of 'Request for Changes' <-> 'Updated Review' until it's approved, and published.
 - During this process the version of the jam that was 'Published' remains live and out to the world, unchanged, until it is updated by a newly published version of itself.
+
+## Export data
+
+Exporting data can be achieved with the following guidelines.
+
+1. Install the Sanity CLI
+1. Login to the Sanity CLI
+1. execute `sh ./scripts jsonPostOutpush.sh`
+1. A `.json` and `.csv` will not be in the studio directory. This includes all published posts and meta data for each format.
+1. If a copy of the raw markdown is needed again. The json output can be run through the `wpConvertData.js` and it will transform the body of each post into a separate markdown file.
+
+## Redirects.
+
+1. The project and prod .env's are hosted on Vercel
+1. Any redirects from posts to another URL should be done in the Nextjs Config and then deployed.
