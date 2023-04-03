@@ -1,13 +1,4 @@
 {
-  "providers": {
-    "mode": "replace",
-    "redirectOnSingle": true,
-    "entries": [
-      {
-        "name": "media-jams-login",
-        "title": "Media Jams Login",
-        "url": "https://mediajams.dev/api/auth/login"
-      }
-    ]
-  }
+  "authToken": "yyyy",
+  "authType": "normal"
 }

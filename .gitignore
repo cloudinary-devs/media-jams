@@ -2,6 +2,7 @@
 
 # Ignore next-mdx-enhanced cache directory
 .mdx-data
+_markdown
 
 # dependencies
 /node_modules

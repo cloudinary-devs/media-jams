@@ -25,13 +25,9 @@
     "dashboard-tags",
     "dashboard-jams-count",
     "icon-picker",
-    "markdown-full"
+    "markdown-full",
+    "@sanity/vision"
   ],
-  "env": {
-    "development": {
-      "plugins": ["@sanity/vision"]
-    }
-  },
   "parts": [
     {
       "name": "part:@sanity/desk-tool/structure",
