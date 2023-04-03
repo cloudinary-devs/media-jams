@@ -3,7 +3,6 @@
 /* eslint-disable no-console */
 'use strict';
 
-const fs = require('fs');
 const { readFile, writeFile } = require('fs').promises;
 
 const { program } = require('commander');
@@ -29,6 +28,7 @@ async function parseJSONFile(fileName) {
     process.exit(1);
   }
 }
+// export file by running jsonPostOutput.sh first
 const file = 'posts_2023.01.24-12.50.18.json';
 
 async function run() {
