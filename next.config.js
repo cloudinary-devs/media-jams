@@ -61,24 +61,24 @@ const defaultConfig = {
   },
   async redirects() {
     return [
-      // {
-      //   source: '/post/:path*',
-      //   destination: 'https://cloudinary.com/blog/guest_post/:path*',
-      //   permanent: false,
-      // },
-      // {
-      //   source: '/',
-      //   destination: 'https://cloudinary.com/blog',
-      //   permanent: true,
-      // },
-      // {
-      //   source: '/author/:path*',
-      //   destination: 'https://cloudinary.com/blog/author/:path*',
-      //   permanent: true,
-      // },
+      {
+        source: '/post/:path*',
+        destination: 'https://cloudinary.com/blog/guest_post/:path*',
+        permanent: false,
+      },
+      {
+        source: '/author/:path*',
+        destination: 'https://cloudinary.com/blog/author/:path*',
+        permanent: true,
+      },
       {
         source: '/docs',
         destination: '/docs/getting-started/installation',
+        permanent: true,
+      },
+      {
+        source: '/',
+        destination: 'https://cloudinary.com/blog',
         permanent: true,
       },
     ];
