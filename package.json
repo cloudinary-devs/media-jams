@@ -98,7 +98,7 @@
     "slate-react": "0.75.0",
     "streamifier": "^0.1.1",
     "styled-components": "^5.3.6",
-    "webpack": "^5.75.0"
+    "webpack": "^5.76.0"
   },
   "devDependencies": {
     "@babel/helper-validator-option": "^7.18.6",
