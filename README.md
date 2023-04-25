@@ -56,3 +56,14 @@
    - Using a Custom MDX component in the Jam Content it's rendered as an iFrame with specific attributes.
      - Including using MirrorCode and 'click to load' to help reduce the time to interact
      - Options include having a specific file and | or preview panel open.
+
+## Redirects
+
+Redirects are managed via the [Next.js Config Redirects feature](https://nextjs.org/docs/api-reference/next.config.js/redirects).
+
+- `/post/:slug` paths are directed to `https://cloudinary.com/blog/guest_post/:slug`
+  - Special identified routes are remapped as needed, i.e. `.` is replaced with `-` on a special set of slugs
+  - The redirect is temporary for now because the eventual target URI will be `https://cloudinary.com/blog/:slug`
+- `/author/:path` paths are directed to `https://cloudinary.com/blog/author/:path` using a permanent redirect
+- `/` is redirected to `https://cloudinary.com/blog`
+- All doc routes are redirected to `https://cloudinary.com`

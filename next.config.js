@@ -60,7 +60,20 @@ const defaultConfig = {
     ];
   },
   async redirects() {
+    const customPeriodRewrites = [
+      '/post/create-a-restaurant-qr-code-menu-in-next.js',
+      '/post/blur-faces-in-images-in-next.js',
+      "/post/create-a-youtube-like-'click-to-unmute'-feature-in-nuxt.js",
+      '/post/create-a-contact-card-barcode-generator-in-next.js',
+      '/post/create-custom-video-ads-with-text-and-image-in-next.js',
+    ];
+
     return [
+      ...customPeriodRewrites.map((path) => ({
+        source: `${path}(.*)`,
+        destination: path.replace(/\./g, '-'),
+        permanent: false,
+      })),
       {
         source: '/post/:path*',
         destination: 'https://cloudinary.com/blog/guest_post/:path*',
@@ -72,13 +85,13 @@ const defaultConfig = {
         permanent: true,
       },
       {
-        source: '/docs',
-        destination: '/docs/getting-started/installation',
+        source: '/',
+        destination: 'https://cloudinary.com/blog',
         permanent: true,
       },
       {
-        source: '/',
-        destination: 'https://cloudinary.com/blog',
+        source: '/docs/:path*',
+        destination: 'https://cloudinary.com',
         permanent: true,
       },
     ];
