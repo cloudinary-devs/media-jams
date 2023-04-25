@@ -51,8 +51,23 @@ General workflow is from 'jam creation' -> 'in review' -> 'approved' -> 'publish
 
 Exporting data can be achieved with the following guidelines.
 
-1. Install the Sanity CLI
-1. Login to the Sanity CLI
+### Pre-requisites
+
+- Sanity CLI
+
+```
+npm install -g @sanity/cli
+sanity login
+```
+
+- jq
+
+```
+brew install jq
+```
+
+### Steps
+
 1. execute `sh ./scripts jsonPostOutpush.sh`
 1. A `.json` and `.csv` will not be in the studio directory. This includes all published posts and meta data for each format.
 1. If a copy of the raw markdown is needed again. The json output can be run through the `wpConvertData.js` and it will transform the body of each post into a separate markdown file.
